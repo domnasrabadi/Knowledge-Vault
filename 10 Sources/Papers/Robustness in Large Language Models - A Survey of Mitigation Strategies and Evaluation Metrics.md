@@ -1,0 +1,143 @@
+---
+type: paper
+status: structured
+quality: 1
+topics: [llm-risks, adversarial-testing, evaluation-metrics]
+source: ""
+created: 2025-07-21
+published:
+author: ""
+flashcards: none
+updated: 2025-12-28
+---
+# 1 Metadata
+- Author: Pankaj Kumar; Subhankar Mishra
+- Category: pdf
+- Document Tags: very good 
+- URL: https://arxiv.org/pdf/2505.18658
+# 2 Highlights
+- robustness in llms = model capacity to maintain consistent performance, reliability, and adherence to intended behaviour despite variations in inputs, contexts, or data distributions
+    - formal framing = output $f(x)$ stays correct when input $x$ is perturbed by $\delta$ or sampled from $D_{\text{test}} \neq D_{\text{train}}$
+    - stability under disruption = predictable behaviour under unseen scenarios, attacks, or noisy inputs
+    - performance maintenance under distribution shifts = ood generalisation when deployment data differ from training data
+    - resilience to input variations = consistent outputs under morphological changes, typos, paraphrases, or malformed prompts
+    - consistency and reliability of outputs = minimise hallucinations, errors, and harmful biases across diverse cases
+    - adherence to intended behaviour = follow legitimate instructions while resisting malicious manipulations (e.g., prompt injection, jailbreaks)
+- key dimensions of robustness
+    - resilience to adversarial attacks = withstand intentionally crafted input perturbations aimed at specific failures
+    - ood generalisation = sustain performance on distributions distinct from training data
+    - sensitivity to prompt variations = output stability when the same intent is rephrased or slightly altered
+    - handling noisy or corrupted input = tolerate natural user mistakes and data flaws
+    - consistency and reliability of outputs
+        - stable generations for similar inputs
+        - avoid self-contradiction and factual inaccuracy
+    - fairness under stress = preserve equity and avoid amplified societal bias even under adversarial contexts
+    - task-specific robustness = meet specialised demands (e.g., logical coherence in reasoning, secure code generation)
+- sources of non-robustness = broad origins of failures that undermine llm stability, grouped into four main categories
+    - data-related sources
+        - spurious correlations = shortcut patterns the model exploits instead of true reasoning
+            - lexical bias = trigger words like “never” predict contradiction in nli
+            - overlap bias = excessive premise–hypothesis token overlap drives nli labels
+            - positional bias = answer location (e.g., $k$-th sentence) cues prediction in qa
+            - style bias = writing style correlates with labels
+            - heuristic reasoning = memorised numeric tricks replace algorithmic calculation
+        - dataset biases + anomalies = gender, race, culture, religion stereotypes mirrored and amplified
+            - benchmark construction bias = models overfit test-set quirks rather than task semantics
+        - data poisoning / backdoors = adversaries inject malicious examples that embed hidden triggers
+        - sensitivity to input variations
+            - prompt sensitivity = small wording or punctuation changes flip answers
+            - instruction sensitivity = phrasing of directions alters performance
+            - noise sensitivity = typos, ocr/asr errors degrade outputs
+    - model-related sources
+        - architectural vulnerabilities = transformer attention patterns exploitable for attacks
+        - parameter modifications = quantisation or pruning can disrupt information flow
+    - training / learning-related sources
+        - erm objective = minimising average loss encourages shortcut learning and bias retention
+        - alignment tax = rlHF or alignment shifts representations, may reduce robustness or introduce reward hacking
+        - fine-tuning limitations = overfitting to narrow data, amplified noise, reduced ood generalisation
+    - inference-related sources
+        - decoding strategy = sampling vs beam choices trade stability against diversity
+        - rag issues = reliability tied to retriever quality and integration of noisy context
+- root causes summary
+    - data collection / annotation flaws → shallow statistical cues dominate
+    - mirrored societal biases + lack of diversity → unfair outputs
+    - adversarial intent in data → hidden vulnerabilities
+    - optimisation misalignment → robustness–capability trade-offs
+    - efficiency tweaks → robustness degradation through altered weight dynamics
+- mitigation strategies = four-stage defences applied before, during, or after llm training/inference
+    - pre-processing = actions on data prior to training/fine-tuning
+    - in-processing = modifications to the training pipeline itself
+    - intra-processing = adjustments at inference time without retraining
+    - post-processing = checks or edits after generation before user delivery
+- pre-processing strategies
+    - data augmentation = expands dataset diversity to improve generalisation
+        - lexical ops = synonym replacement, random insertion, swap, deletion
+        - ada (adversarial data augmentation) = crafts hard examples with adversarial loss to toughen models against shifts
+        - acl (adversarial contrastive learning) = enforces feature consistency between clean and adversarial views
+        - a3 (adversarial augmentation approach) = paraphrase generator + discriminator create reusable adversarial paraphrases tailored to task
+        - salad = structure-aware tagging + llm-generated counterfactuals for triplet loss optimisation
+        - harmaug = trains small guard models using llm-generated jailbreak prompts to detect harmful queries
+    - data filtering = removes or down-weights harmful, biased, or low-quality samples
+        - rule-based heuristic filtering = blocklists or classifiers strip pii/toxic content
+        - llm-as-cleaner = llm fixes simple errors, but struggles with dataset-wide bias
+        - contrastive pairs = biased vs debiased examples teach model to ignore bias
+        - challenge = balance quality removal with diversity retention
+    - adversarial training = inject adversarial examples during training to learn robust features
+        - issue = discrete text makes gradient perturbations tricky while preserving semantics
+    - regularisation = add losses or constraints to discourage overfitting and promote robustness
+        - sft = supervised fine-tuning on curated data
+        - rlhf = reinforcement learning from human feedback shapes helpful and safe behaviour
+- in-processing strategies
+    - robust optimisation = alternate objectives to minimise worst-case loss rather than average loss
+    - alignment techniques = joint training that preserves capability while enforcing safety constraints
+- intra-processing strategies
+    - robust prompting & instruction defence
+        - instruction design = embed explicit safety rules like “ignore harmful instructions”
+        - self-denoising = llm iteratively rewrites corrupted instructions
+        - referenced instruction tracking = model cites followed prompt segment to filter malicious injections
+    - weight redistribution = adjust attention weights post-hoc to reduce bias without retraining
+        - adaptive reweighting = sample-specific weights focus on error-prone or minority groups
+    - modified decoding & search
+        - uncertainty-aware decoding = suppress low-confidence outputs in high-stake tasks
+        - ensemble decoding = mix outputs from multiple prompts/models to dilute adversarial impact
+        - constrained decoding = enforce safety or schema rules during generation
+    - inference-time adaptation = on-the-fly transformations or context edits to steer outputs
+- post-processing techniques
+    - output filtering & validation
+        - safety classifiers = small models or rules flag toxic or biased text
+        - perplexity filtering = high perplexity signals nonsensical or adversarial output
+        - format validation = code compilers or json schema checks enforce structure
+    - llm-as-a-judge = second model evaluates outputs for bias, safety, factuality
+        - autonomous judge llms = generate adversarial prompts, test target model, score reliability
+
+![[Screenshot 2025-07-21 at 5.01.53 pm.png| center | 600]]
+- metrics & benchmarks = complementary measures combined to evaluate llm robustness comprehensively
+    - key insight = no single metric suffices
+- performance degradation metrics = quantify drop when moving from clean iid data to challenging data
+    - accuracy / f1 drop = difference between clean and adversarial or noisy set
+    - attack success rate (ASR) = percentage of adversarial inputs causing intended failure
+    - compliance ratio = share of malicious prompts that model obeys
+    - refusal rate = share of prompts model refuses
+        - high refusal on harmful prompts desirable
+        - high refusal on benign prompts indicates over-defensiveness
+- out-of-distribution (OOD) performance metrics
+    - OOD accuracy / F1 = standard scores on designated OOD benchmarks
+    - ID-OOD performance gap = |score_ID − score_OOD| captures generalisation loss
+    - OOD detection = ability to flag OOD inputs
+        - AUROC = area under ROC for confidence-based rejection
+        - FPR@TPR = false-positive rate at fixed true-positive rate
+- consistency metrics = measure output stability under prompt perturbations
+    - semantic consistency = meaning preserved across paraphrased prompts
+    - consistency rate (CR) = average pairwise agreement across multiple prompts and random seeds
+    - response consistency (RC) = frequency of most common factual claim across paraphrases
+    - llm-based consistency score = judge llm assesses contradiction vs support across response pairs
+- calibration metrics = alignment between confidence and correctness
+    - expected calibration error (ECE)
+        - partition predictions into bins of confidence
+        - ECE=∑m=1MnmN∣acc(m)−conf(m)∣\text{ECE}=\sum_{m=1}^{M}\frac{n_m}{N}\bigl|\text{acc}(m)-\text{conf}(m)\bigr|
+        - lower values ⇒ better calibration
+        - ECE under distribution shift = compute on OOD data
+    - brier score = mean squared error between predicted probabilities and actual outcomes
+        - weighted brier score = variant emphasising rare classes
+    - AUROC (correct vs incorrect) = discriminative power of confidence thresholds
+- fairness metrics under stress = evaluate bias when model subjected to adversarial or stressful prompts

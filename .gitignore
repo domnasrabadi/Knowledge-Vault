@@ -1,0 +1,15 @@
+# Obsidian config & plugin data (contains tokens, workspace state)
+.obsidian/
+.claudian/
+.claude/
+.DS_Store
+
+# Agent/meta docs — local only
+CLAUDE.md
+AGENTS.md
+
+# Work & system content — keep the folders, ignore the contents
+30 Projects/*
+!30 Projects/.gitkeep
+40 System/*
+!40 System/.gitkeep
