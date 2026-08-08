@@ -1,8 +1,8 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 2
-topics: []
+topics: [ai-tooling, learning-science]
 source: https://x.com/hi_mrinal/status/2083858648598724917/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-08-02
