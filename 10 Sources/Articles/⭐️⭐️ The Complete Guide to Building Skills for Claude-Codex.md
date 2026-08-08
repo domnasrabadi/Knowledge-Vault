@@ -1,8 +1,8 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 2
-topics: []
+topics: [ai-coding, ai-tooling, context-engineering]
 source: https://x.com/rohit4verse/status/2021622526112358663/?rw_tt_thread=True
 created: 2026-08-08
 published: 2026-02-11
@@ -11,7 +11,7 @@ flashcards: none
 updated: 2026-08-08
 ---
 
-# the complete guide to building skills for claude/codex
+# The Complete Guide to Building Skills for Claude/Codex
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/2005314466255360000/XtVoqVdV.jpg" width="220" />
@@ -20,7 +20,20 @@ updated: 2026-08-08
 
 ### agent skills breakdown:
 
-- a skill is deceptively simple in structure: your-skill-name/├── SKILL.md # Required - main skill file├── scripts/ # Optional - executable code│ ├── process_data.py│ └── validate.sh├── references/ # Optional - documentation│ ├── api-guide.md│ └── examples/└── assets/ # Optional - templates, fonts, icons └── report-template.md
+- a skill is deceptively simple in structure:
+
+```
+your-skill-name/
+├── SKILL.md              # Required - main skill file
+├── scripts/               # Optional - executable code
+│   ├── process_data.py
+│   └── validate.sh
+├── references/             # Optional - documentation
+│   ├── api-guide.md
+│   └── examples/
+└── assets/                # Optional - templates, fonts, icons
+    └── report-template.md
+```
 - the heart of every skill is the [skill.md](http://skill.md) file, which contains yaml frontmatter for metadata and Markdown content for instructions:
 
 ### how skills actually work:
@@ -38,9 +51,9 @@ updated: 2026-08-08
 
 - step 1: identify your use case
 - before writing any code, identify 2-3 concrete scenarios your skill should handle. the most common categories are:
-- category 1: document & asset creation
-- category 2: workflow automation
-- category 3: mcp enhancement
+    - category 1: document & asset creation
+    - category 2: workflow automation
+    - category 3: mcp enhancement
 - step 2: define success criteria
 - how will you know your skill works? set measurable targets:
     - **triggering accuracy:** skill should load on 90% of relevant queries
@@ -48,7 +61,17 @@ updated: 2026-08-08
     - **error rate:** zero failed api calls per workflow
     - **consistency:** same task yields similar outputs across sessions
 - step 3: write effective descriptions
-- the description field is crucial, it's what claude uses to decide when to load your skill. use this structure: [What it does] + [When to use it] + [Key capabilities]Good Example:description: Analyzes Figma design files and generates developer handoff documentation. Use when user uploads .fig files, asks for "design specs", "component documentation", or "design-to-code handoff".Bad Example:description: Helps with projects.
+- the description field is crucial, it's what claude uses to decide when to load your skill. use this structure: [What it does] + [When to use it] + [Key capabilities]
+
+    **Good example:**
+    ```
+    description: Analyzes Figma design files and generates developer handoff documentation. Use when user uploads .fig files, asks for "design specs", "component documentation", or "design-to-code handoff".
+    ```
+
+    **Bad example:**
+    ```
+    description: Helps with projects.
+    ```
 - include trigger phrases users would actually say, mention relevant file types, and clearly state what problem the skill solves.
 - step 4: structure your instructions
 - step 5: test iteratively
@@ -58,18 +81,82 @@ updated: 2026-08-08
     - **performance:** is it better than the baseline (no skill)?
 - the [SKILLS.sh](http://SKILLS.sh) CLI
 - in early 2026, vercel released [skills.sh](http://skills.sh) a command-line tool that has become the npm for ai agents. this cli helps install, and manage skills across different ai platforms.
-- basic installation: # Install a skill from GitHubnpx skills add vercel-labs/agent-skills# Install a specific skill from a reponpx skills add vercel-labs/agent-skills@vercel-react-best-practices# Install from a direct pathnpx skills add https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines# List installed skillsnpx skills list# Check for updatesnpx skills check# Update all skillsnpx skills update
+- basic installation:
+
+```bash
+# Install a skill from GitHub
+npx skills add vercel-labs/agent-skills
+
+# Install a specific skill from a repo
+npx skills add vercel-labs/agent-skills@vercel-react-best-practices
+
+# Install from a direct path
+npx skills add https://github.com/vercel-labs/agent-skills/tree/main/skills/web-design-guidelines
+
+# List installed skills
+npx skills list
+
+# Check for updates
+npx skills check
+
+# Update all skills
+npx skills update
+```
 - the [skills.sh](http://skills.sh) cli automatically detects which ai coding agents you have installed and configures skills appropriately. It currently supports 35+ agents including claude code, cursor, codex, open code, windsurf and many more.
 
 ### advanced Patterns and best practices
 
 - pattern 1: context-aware tool selection
-- smart skills adapt based on context. for file storage: Decision Tree:1. Check file type and size2. Determine best storage: - Large files (>10MB): Cloud storage MCP - Collaborative docs: Notion/Docs MCP - Code files: GitHub MCP - Temporary files: Local storage3. Execute with appropriate tool4. Explain choice to user
+- smart skills adapt based on context. for file storage:
+
+```
+Decision Tree:
+1. Check file type and size
+2. Determine best storage:
+   - Large files (>10MB): Cloud storage MCP
+   - Collaborative docs: Notion/Docs MCP
+   - Code files: GitHub MCP
+   - Temporary files: Local storage
+3. Execute with appropriate tool
+4. Explain choice to user
+```
 - pattern 2: domain-specific intelligence
 - skills can embed specialized knowledge
-- Before Processing (Compliance Check): 1. Fetch transaction details via MCP 2. Apply compliance rules: - Check sanctions lists - Verify jurisdiction allowances - Assess risk level 3. Document compliance decision Processing: IF compliance passed: - Process transaction - Apply fraud checks ELSE: - Flag for review - Create compliance case
+```
+Before Processing (Compliance Check):
+1. Fetch transaction details via MCP
+2. Apply compliance rules:
+   - Check sanctions lists
+   - Verify jurisdiction allowances
+   - Assess risk level
+3. Document compliance decision
+
+Processing:
+IF compliance passed:
+   - Process transaction
+   - Apply fraud checks
+ELSE:
+   - Flag for review
+   - Create compliance case
+```
 - pattern 3: iterative refinement
-- for quality-critical outputs: Initial Draft:- Generate first version- Save to temporary fileQuality Check:- Run validation script- Identify issuesRefinement Loop:- Address each issue- Regenerate affected sections- Re-validate- Repeat until quality threshold met
+- for quality-critical outputs:
+
+```
+Initial Draft:
+- Generate first version
+- Save to temporary file
+
+Quality Check:
+- Run validation script
+- Identify issues
+
+Refinement Loop:
+- Address each issue
+- Regenerate affected sections
+- Re-validate
+- Repeat until quality threshold met
+```
 
 ### the future of agent skills
 

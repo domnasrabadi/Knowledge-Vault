@@ -1,8 +1,8 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 1
-topics: []
+topics: [llm-evaluation, llm-judges, evaluation-metrics, error-analysis]
 source: https://medium.com/airbnb-engineering/eval-driven-development-lessons-from-evaluating-genai-at-scale-e817e5ae5788
 created: 2026-08-08
 published: 2026-07-28
