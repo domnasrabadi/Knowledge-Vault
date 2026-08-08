@@ -1,7 +1,6 @@
 # Obsidian config & plugin data (contains tokens, workspace state)
 .obsidian/
 .claudian/
-.claude/
 .DS_Store
 
 # Agent/meta docs — local only
