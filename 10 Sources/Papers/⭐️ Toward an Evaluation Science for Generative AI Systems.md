@@ -1,12 +1,12 @@
 ---
 type: paper
 status: raw
-quality:
+quality: 1
 topics: [llm-evaluation, evaluation-metrics]
-source: "https://arxiv.org/pdf/2503.05336"
+source: https://arxiv.org/abs/2503.05336
 created: 2025-07-05
-published:
-author: ""
+published: 2025-03-07
+author: Laura Weidinger et al.
 flashcards: none
 updated: 2025-12-28
 ---

@@ -6,7 +6,7 @@ topics: [llm-risks, human-in-the-loop, model-monitoring]
 source: ""
 created: 2025-07-21
 published:
-author: ""
+author: Patrick Hall
 flashcards: none
 updated: 2025-12-28
 ---

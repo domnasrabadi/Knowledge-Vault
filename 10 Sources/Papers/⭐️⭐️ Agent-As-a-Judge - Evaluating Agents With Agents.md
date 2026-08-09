@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality:
+quality: 2
 topics: [agent-evaluation, llm-judges, llm-evaluation]
-source: ""
+source: https://arxiv.org/abs/2410.10934
 created: 2025-07-13
-published:
-author: ""
+published: 2024-10-14
+author: Mingchen Zhuge et al.
 flashcards: none
 updated: 2025-12-28
 ---

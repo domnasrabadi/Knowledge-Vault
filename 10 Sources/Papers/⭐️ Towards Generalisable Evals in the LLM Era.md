@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality:
+quality: 1
 topics: [llm-evaluation, llm-judges, synthetic-data]
-source: ""
+source: https://arxiv.org/abs/2504.18838
 created: 2025-07-05
-published:
-author: ""
+published: 2025-04-26
+author: Yixin Cao et al.
 flashcards: none
 updated: 2025-12-28
 ---

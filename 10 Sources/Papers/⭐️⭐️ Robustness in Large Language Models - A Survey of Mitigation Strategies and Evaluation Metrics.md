@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality: 1
+quality: 2
 topics: [llm-risks, adversarial-testing, evaluation-metrics]
-source: ""
+source: https://arxiv.org/abs/2505.18658
 created: 2025-07-21
-published:
-author: ""
+published: 2025-05-24
+author: Pankaj Kumar, Subhankar Mishra
 flashcards: none
 updated: 2025-12-28
 ---

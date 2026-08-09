@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality: 1
+quality: 2
 topics: [multi-agent-systems, llm-risks, agent-evaluation]
-source: ""
+source: https://arxiv.org/abs/2503.13657
 created: 2025-07-05
-published:
-author: ""
+published: 2025-03-17
+author: Mert Cemri et al.
 flashcards: none
 updated: 2025-12-28
 ---

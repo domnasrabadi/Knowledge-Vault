@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality:
+quality: 1
 topics: [llm-risks, human-in-the-loop, llm-evaluation]
-source: ""
+source: https://arxiv.org/abs/2310.11986
 created: 2025-07-21
-published:
-author: ""
+published: 2023-10-18
+author: Laura Weidinger et al.
 flashcards: none
 updated: 2025-12-28
 ---

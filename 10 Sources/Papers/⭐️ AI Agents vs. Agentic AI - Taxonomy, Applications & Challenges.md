@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality:
+quality: 1
 topics: [ai-agents, multi-agent-systems]
-source: ""
+source: https://arxiv.org/abs/2505.10468
 created: 2025-08-10
-published:
-author: ""
+published: 2025-05-15
+author: Ranjan Sapkota, Konstantinos I. Roumeliotis, Manoj Karkee
 flashcards: none
 updated: 2025-12-28
 ---

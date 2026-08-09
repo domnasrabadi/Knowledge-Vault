@@ -3,10 +3,10 @@ type: paper
 status: structured
 quality: 1
 topics: [llm-evaluation, evaluation-metrics, human-in-the-loop]
-source: ""
+source: https://eugeneyan.com/writing/evals/
 created: 2025-07-19
-published:
-author: ""
+published: 2024-03-31
+author: Eugene Yan
 flashcards: none
 updated: 2025-12-28
 ---

@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality: 1
+quality: 2
 topics: [llm-evaluation, llm-judges, evaluation-metrics]
-source: ""
+source: https://eugeneyan.com/writing/llm-evaluators/
 created: 2025-07-19
-published:
-author: ""
+published: 2024-08-18
+author: Eugene Yan
 flashcards: none
 updated: 2025-12-28
 ---

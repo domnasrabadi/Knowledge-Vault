@@ -1,12 +1,12 @@
 ---
 type: paper
 status: raw
-quality:
-topics: [llm-evaluation, llm-risks]
-source: "https://arxiv.org/pdf/2410.12974"
+quality: 1
+topics: [llm-evaluation, llm-risks, model-risk-validation, evaluation-metrics]
+source: https://arxiv.org/abs/2410.12974
 created: 2025-07-05
-published:
-author: ""
+published: 2024-10-16
+author: Anna Sokol et al.
 flashcards: none
 updated: 2025-12-28
 ---

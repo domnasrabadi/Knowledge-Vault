@@ -1,12 +1,12 @@
 ---
 type: paper
 status: structured
-quality: 1
+quality: 2
 topics: [llm-evaluation, evaluation-metrics]
-source: ""
+source: https://arxiv.org/abs/2506.13023
 created: 2025-07-05
-published:
-author: ""
+published: 2025-06-16
+author: Ethan M. Rudd, Christopher Andrews, Philip Tully
 flashcards: none
 updated: 2025-12-28
 ---
