@@ -2,7 +2,11 @@
 type: article
 status: structured
 quality:
-topics: [evaluation-metrics, model-monitoring, llm-risks]
+topics:
+  - evaluation-metrics
+  - model-monitoring
+  - llm-risks
+  - model-risk-validation
 source: ""
 created: 2025-06-21
 published:
@@ -15,7 +19,6 @@ From his slides pack
 # 1 Poor measurement and other malpractice
 - "evals are surprisingly often all you need" - Greg Brockman 2023
 - however big difference between evals + scientific measurement 
-
 
 | Evals                                                         | Scientific Measurement                                          |
 | ------------------------------------------------------------- | --------------------------------------------------------------- |
