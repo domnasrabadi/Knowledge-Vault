@@ -22,7 +22,7 @@ Source: https://research.trychroma.com/context-rot
 Exported at: `2026-01-11T01:21:15Z`
 
 
-![](https://research.trychroma.com/img/context_rot/hero_plot.png)
+![99](https://research.trychroma.com/img/context_rot/hero_plot.png)
 
 - Because these models achieve near-perfect scores on widely adopted benchmarks like Needle in a Haystack (NIAH) [[1](https://research.trychroma.com/context-rot#niah)], it’s often assumed that their performance is uniform across long-context tasks.
 - While scalable, this benchmark typically assesses direct lexical matching, which may not be representative of flexible, semantically oriented tasks.
