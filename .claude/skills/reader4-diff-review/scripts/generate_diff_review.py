@@ -198,14 +198,15 @@ def manifest_entry(path: Path | None, doc_id: str) -> dict[str, object]:
 
 def timeline(status: str, after_exists: bool) -> str:
     stages = [
-        ("Captured", True),
-        ("Applied", after_exists),
-        ("Filed", status in {"filed", "archived"}),
-        ("Archived", status == "archived"),
+        ("Captured", "Untouched Inbox snapshot", True),
+        ("Applied", "Reviewed result present", after_exists),
+        ("Filed", "Manifest path updated", status in {"filed", "archived"}),
+        ("Archived", "Removed from Shortlist", status == "archived"),
     ]
     return "".join(
-        f'<li class="{"done" if done else "pending"}"><span>{"✓" if done else "·"}</span>{esc(label)}</li>'
-        for label, done in stages
+        f'<li class="{"done" if done else "pending"}"><b>{number:02d} · {esc(label)}</b>'
+        f'<span>{esc(description)}</span></li>'
+        for number, (label, description, done) in enumerate(stages, start=1)
     )
 
 
@@ -232,6 +233,16 @@ def build_html(
     generated_at = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
     path_changed = str(Path(old_path)) != str(after_path)
     pipeline_class = "good" if status == "archived" else "risk"
+    fidelity_passed = similarity >= 0.99 and status == "archived"
+    fidelity_class = "passed" if fidelity_passed else "review"
+    fidelity_icon = "✓" if fidelity_passed else "!"
+    fidelity_title = "Fidelity gate passed" if fidelity_passed else "Fidelity review required"
+    fidelity_copy = (
+        "The pipeline is archived and the formatting-insensitive prose signal is at least 99%. "
+        "Use the ordered evidence below to confirm the changes are expected."
+        if fidelity_passed
+        else "The pipeline is incomplete or the prose signal is below 99%. Inspect every body hunk before accepting this review."
+    )
     source_url = safe_link(manifest.get("source_url", after_fields.get("source", "")))
     source_html = f'<a href="{esc(source_url)}">Open source</a>' if source_url else "No source URL"
 
@@ -242,95 +253,55 @@ def build_html(
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Reader4 Review · {esc(title)}</title>
 <style>
-:root {{ color-scheme: dark; --bg:#0b1020; --panel:#121a2e; --panel2:#172139; --text:#e8edf7; --muted:#9eabc2; --line:#2b3855; --green:#57d39b; --red:#ff7d8b; --amber:#f7c76b; --blue:#77a9ff; }}
-* {{ box-sizing:border-box; }}
-body {{ margin:0; background:linear-gradient(145deg,#0b1020,#11172a 55%,#0b1020); color:var(--text); font:14px/1.5 ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }}
-main {{ max-width:1440px; margin:0 auto; padding:34px 28px 70px; }}
-h1 {{ margin:0 0 8px; font-size:clamp(25px,3vw,40px); line-height:1.15; letter-spacing:-.025em; }}
-h2 {{ margin:0 0 14px; font-size:18px; }}
-h3 {{ margin:0; font-size:13px; color:var(--muted); font-weight:600; }}
-h3 span {{ float:right; font-weight:500; }}
-a {{ color:#9ec1ff; }}
-.eyebrow {{ color:var(--blue); font-weight:750; letter-spacing:.1em; text-transform:uppercase; font-size:12px; }}
-.subtitle {{ color:var(--muted); max-width:900px; }}
-.meta-line {{ display:flex; flex-wrap:wrap; gap:10px 18px; color:var(--muted); margin-top:14px; }}
-.cards {{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin:26px 0; }}
-.card,.panel,.hunk {{ background:rgba(18,26,46,.93); border:1px solid var(--line); border-radius:14px; box-shadow:0 14px 34px rgba(0,0,0,.18); }}
-.card {{ padding:15px 17px; }}
-.card b {{ display:block; font-size:23px; margin-top:3px; }}
-.label {{ color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }}
-.good b,.good strong {{ color:var(--green); }} .warn b {{ color:var(--amber); }} .risk b,.risk strong {{ color:var(--red); }}
-.panel {{ padding:20px; margin:14px 0; }}
-.timeline {{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px; list-style:none; padding:0; margin:0; }}
-.timeline li {{ display:flex; align-items:center; gap:8px; color:var(--muted); border-top:2px solid var(--line); padding-top:10px; }}
-.timeline li span {{ display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--panel2); }}
-.timeline .done {{ color:var(--text); border-color:var(--green); }} .timeline .done span {{ background:#173b35; color:var(--green); }}
-.path-grid {{ display:grid; grid-template-columns:1fr 28px 1fr; gap:12px; align-items:center; }}
-.path {{ background:#0c1325; border:1px solid var(--line); border-radius:10px; padding:12px; overflow-wrap:anywhere; font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }}
-.arrow {{ color:var(--muted); text-align:center; font-size:20px; }}
-.table-scroll,.diff-scroll {{ overflow-x:auto; }}
-table {{ width:100%; border-collapse:collapse; }}
-th,td {{ border-bottom:1px solid var(--line); padding:9px 10px; text-align:left; vertical-align:top; }}
-th {{ color:var(--muted); font-size:12px; }}
-.frontmatter th:first-child {{ width:130px; color:var(--text); }}
-.frontmatter tr.changed td {{ background:rgba(119,169,255,.08); }} .frontmatter tr.unchanged {{ opacity:.55; }}
-.empty {{ color:var(--muted); font-style:italic; }}
-.hunk {{ margin:12px 0; overflow:hidden; }} .hunk h3 {{ padding:11px 14px; background:var(--panel2); }}
-.diff-table {{ table-layout:fixed; min-width:900px; }}
-.diff-table th {{ width:50%; }} .diff-table .ln {{ width:48px; color:#7584a0; text-align:right; user-select:none; background:#0c1325; }}
-.diff-table td {{ padding:5px 8px; }} .diff-table code {{ white-space:pre-wrap; overflow-wrap:anywhere; font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace; }}
-.diff-table tr.delete td:nth-child(-n+2) {{ background:rgba(255,125,139,.14); }}
-.diff-table tr.insert td:nth-child(n+3) {{ background:rgba(87,211,155,.13); }}
-.diff-table tr.replace td:nth-child(-n+2) {{ background:rgba(255,125,139,.14); }}
-.diff-table tr.replace td:nth-child(n+3) {{ background:rgba(87,211,155,.13); }}
-.diff-table tr.context {{ opacity:.68; }}
-.no-change {{ color:var(--muted); padding:18px; border:1px dashed var(--line); border-radius:12px; }}
-details {{ margin-top:12px; }} summary {{ cursor:pointer; color:var(--blue); }}
-.raw-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px; }}
-pre {{ margin:0; padding:14px; max-height:520px; overflow:auto; background:#0c1325; border:1px solid var(--line); border-radius:10px; white-space:pre-wrap; font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace; }}
-.footnote {{ color:var(--muted); font-size:12px; margin-top:18px; }}
-@media (max-width:850px) {{ main {{ padding:22px 14px 50px; }} .cards {{ grid-template-columns:1fr 1fr; }} .timeline {{ grid-template-columns:1fr 1fr; }} .path-grid {{ grid-template-columns:1fr; }} .arrow {{ transform:rotate(90deg); }} .raw-grid {{ grid-template-columns:1fr; }} }}
+:root{{--ink:#152033;--muted:#64748b;--paper:#f8fafc;--card:#fff;--line:#dbe3ee;--blue:#2563eb;--green:#16805c;--red:#c2414b;--amber:#a16207;--greenbg:#edf9f4;--redbg:#fff2f3}}
+*{{box-sizing:border-box}}html{{scroll-behavior:smooth}}body{{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
+.topbar{{height:6px;background:linear-gradient(90deg,#2563eb,#60a5fa 48%,#22c55e)}}main{{max-width:1460px;margin:auto;padding:28px}}
+h1{{font-size:clamp(29px,3.2vw,42px);line-height:1.1;letter-spacing:-.035em;margin:14px 0 6px}}h2{{font-size:17px;margin:0 0 14px}}a{{color:var(--blue)}}
+.receipt-label{{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}}
+.subtitle{{color:var(--muted);max-width:790px;margin:0}}.meta-line{{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);margin-top:12px;font-size:12px}}
+.shell{{display:grid;grid-template-columns:265px minmax(0,1fr);gap:22px;margin-top:26px}}aside{{position:sticky;top:18px;align-self:start}}.box{{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 22px rgba(30,41,59,.05)}}
+.receipt{{padding:18px}}.receipt .id{{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);overflow-wrap:anywhere}}.status{{display:flex;align-items:center;gap:9px;margin:15px 0;font-size:20px;font-weight:800}}.status.good{{color:var(--green)}}.status.risk{{color:var(--red)}}
+.status i{{width:29px;height:29px;display:grid;place-items:center;border-radius:50%;font-style:normal;background:var(--greenbg)}}.status.risk i{{background:var(--redbg)}}.metric{{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:10px 0;gap:8px}}.metric span{{color:var(--muted)}}.metric b{{font-variant-numeric:tabular-nums;text-align:right}}.metric .good{{color:var(--green)}}.metric .warn{{color:var(--amber)}}.metric .risk{{color:var(--red)}}
+nav{{padding:12px;margin-top:12px}}nav a{{display:block;color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:7px}}nav a:hover{{background:#f1f5f9;color:var(--blue)}}
+.content{{min-width:0}}.panel{{padding:20px;margin-bottom:16px}}.kicker{{color:var(--blue);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}}
+.timeline{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;list-style:none;padding:0;margin:0}}.timeline li{{border-top:3px solid var(--line);padding-top:10px;color:var(--muted)}}.timeline li b{{display:block;color:inherit}}.timeline li span{{display:block;font-size:11px}}.timeline .done{{border-color:var(--green);color:var(--ink)}}
+.path-grid{{display:grid;grid-template-columns:1fr 34px 1fr;gap:10px;align-items:center}}.path{{display:block;background:#f1f5f9;padding:12px;border-radius:8px;border:1px solid var(--line);overflow-wrap:anywhere;font:12px ui-monospace,SFMono-Regular,Menlo,monospace}}.arrow{{text-align:center;color:var(--blue);font-size:22px}}
+.table-scroll,.diff-scroll{{overflow-x:auto}}table{{width:100%;border-collapse:collapse}}th,td{{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}}th{{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}}.frontmatter th:first-child,.frontmatter td:first-child{{font-weight:750;width:120px;color:var(--ink)}}.frontmatter .changed td{{background:#f7faff}}.frontmatter .unchanged{{color:#94a3b8}}.empty{{color:var(--muted);font-style:italic}}
+.hunk{{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:12px 0;background:var(--card)}}.hunk h3{{display:flex;justify-content:space-between;gap:15px;background:#f1f5f9;padding:9px 12px;margin:0;font-size:12px;font-weight:750}}.hunk h3 span{{color:var(--muted);font-weight:600}}
+.diff-table{{table-layout:fixed;min-width:760px}}.diff-table thead th{{width:50%;padding:7px 11px;font-size:10px;font-weight:800}}.diff-table thead th:first-child{{color:var(--red);background:var(--redbg)}}.diff-table thead th:last-child{{color:var(--green);background:var(--greenbg)}}.diff-table .ln{{width:42px;color:#94a3b8;text-align:right;user-select:none;background:#f8fafc}}.diff-table td{{padding:5px 8px}}.diff-table td:nth-child(2){{border-right:1px solid var(--line)}}.diff-table code{{white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}}.diff-table tr.delete td:nth-child(-n+2),.diff-table tr.replace td:nth-child(-n+2){{background:var(--redbg);color:#8f2732}}.diff-table tr.insert td:nth-child(n+3),.diff-table tr.replace td:nth-child(n+3){{background:var(--greenbg);color:#0d6547}}.diff-table tr.context{{color:#64748b}}
+.no-change{{color:var(--muted);padding:18px;border:1px dashed var(--line);border-radius:10px}}.gate{{display:flex;gap:14px;align-items:center;border-left:4px solid var(--green)}}.gate.review{{border-left-color:var(--red)}}.gate-icon{{font-size:28px;color:var(--green)}}.gate.review .gate-icon{{color:var(--red)}}.gate strong{{font-size:17px}}.gate p{{margin:2px 0;color:var(--muted)}}
+details summary{{cursor:pointer;color:var(--blue);font-weight:700}}.raw-grid{{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}}pre{{margin:0;padding:14px;max-height:520px;overflow:auto;background:#f8fafc;border:1px solid var(--line);border-radius:8px;white-space:pre-wrap;overflow-wrap:anywhere;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace}}.footnote{{color:var(--muted);font-size:12px;margin:14px 0 0}}
+@media(max-width:900px){{main{{padding:18px}}.shell{{grid-template-columns:1fr}}aside{{position:static}}.timeline{{grid-template-columns:1fr 1fr}}.path-grid{{grid-template-columns:1fr}}.arrow{{transform:rotate(90deg)}}.raw-grid{{grid-template-columns:1fr}}}}
 </style>
 </head>
 <body>
-<main>
-  <div class="eyebrow">Reader4 review receipt</div>
+<div class="topbar"></div><main>
+  <span class="receipt-label">Reader4 · Audit Ledger</span>
   <h1>{esc(title)}</h1>
-  <div class="subtitle">A deterministic comparison of the captured Inbox note and the filed result.</div>
+  <p class="subtitle">A precise, document-first comparison of the captured Inbox note and the filed result.</p>
   <div class="meta-line"><span>Doc ID: <code>{esc(doc_id)}</code></span><span>Generated: {esc(generated_at)}</span><span>{source_html}</span></div>
-
-  <section class="cards" data-testid="summary">
-    <div class="card {pipeline_class}"><span class="label">Pipeline</span><b>{esc(status.title())}</b></div>
-    <div class="card"><span class="label">Metadata fields changed</span><b>{metadata_changed}</b></div>
-    <div class="card"><span class="label">Ordered body hunks</span><b>{hunk_count}</b><small>+{lines_added} / −{lines_deleted} lines</small></div>
-    <div class="card {similarity_class}"><span class="label">Prose similarity</span><b>{similarity:.1%}</b><small>formatting-insensitive signal</small></div>
-  </section>
-
-  <section class="panel">
-    <h2>Pipeline order</h2>
-    <ol class="timeline">{timeline(status, after_path.exists())}</ol>
-  </section>
-
-  <section class="panel">
-    <h2>Path {"changed" if path_changed else "unchanged"}</h2>
-    <div class="path-grid"><div class="path">{esc(old_path)}</div><div class="arrow">→</div><div class="path">{esc(after_path)}</div></div>
-  </section>
-
-  <section class="panel" data-testid="frontmatter-table">
-    <h2>Frontmatter</h2>
-    <div class="table-scroll"><table class="frontmatter"><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>{frontmatter_rows}</tbody></table></div>
-  </section>
-
-  <section data-testid="diff-hunks">
-    <h2>Body changes, in source order</h2>
-    {hunks_html}
-  </section>
-
-  <section class="panel">
-    <h2>Full source check</h2>
-    <details><summary>Show complete before and after Markdown</summary><div class="raw-grid"><pre>{esc(before_text)}</pre><pre>{esc(after_text)}</pre></div></details>
-    <p class="footnote">Prose similarity ignores Markdown punctuation, HTML tags, capitalization, and whitespace. It is a triage signal—not a guarantee that meaning was preserved.</p>
-  </section>
+  <div class="shell">
+    <aside>
+      <section class="box receipt" data-testid="summary">
+        <div class="kicker">Reader4 receipt</div>
+        <div class="status {pipeline_class}"><i>{"✓" if status == "archived" else "!"}</i>{esc(status.title())}</div>
+        <div class="id">{esc(doc_id)}</div>
+        <div class="metric"><span>Metadata changes</span><b>{metadata_changed}</b></div>
+        <div class="metric"><span>Body hunks</span><b>{hunk_count}</b></div>
+        <div class="metric"><span>Line delta</span><b>+{lines_added} / −{lines_deleted}</b></div>
+        <div class="metric"><span>Prose similarity</span><b class="{similarity_class}">{similarity:.1%}</b></div>
+      </section>
+      <nav class="box"><a href="#pipeline">Pipeline</a><a href="#path">Path</a><a href="#metadata">Frontmatter</a><a href="#body">Body changes</a><a href="#fidelity">Fidelity gate</a><a href="#raw">Full source</a></nav>
+    </aside>
+    <div class="content">
+      <section class="box panel" id="pipeline"><h2>Pipeline order</h2><ol class="timeline">{timeline(status, after_path.exists())}</ol></section>
+      <section class="box panel" id="path"><div class="kicker">Location change</div><h2>Path {"changed" if path_changed else "unchanged"}</h2><div class="path-grid"><code class="path">{esc(old_path)}</code><div class="arrow">→</div><code class="path">{esc(after_path)}</code></div></section>
+      <section class="box panel" id="metadata" data-testid="frontmatter-table"><div class="kicker">Canonical schema</div><h2>Frontmatter comparison</h2><div class="table-scroll"><table class="frontmatter"><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>{frontmatter_rows}</tbody></table></div></section>
+      <section class="box panel" id="body" data-testid="diff-hunks"><div class="kicker">Ordered evidence</div><h2>Body changes, in source order</h2>{hunks_html}</section>
+      <section class="box panel gate {fidelity_class}" id="fidelity"><div class="gate-icon">{fidelity_icon}</div><div><strong>{fidelity_title}</strong><p>{fidelity_copy}</p></div></section>
+      <section class="box panel" id="raw"><details><summary>Show complete before and after Markdown</summary><div class="raw-grid"><pre>{esc(before_text)}</pre><pre>{esc(after_text)}</pre></div></details><p class="footnote">Prose similarity ignores Markdown punctuation, HTML tags, capitalization, and whitespace. It is a triage signal—not a guarantee that meaning was preserved.</p></section>
+    </div>
+  </div>
 </main>
 </body>
 </html>'''

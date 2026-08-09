@@ -5,7 +5,7 @@ description: Generate a self-contained HTML audit report for one Reader4-reviewe
 
 # reader4-diff-review — visual before/after receipt
 
-Use `scripts/generate_diff_review.py` as the deterministic audit layer around `reader4-review`. The script only reads notes and the Reader4 manifest; it never edits vault notes or pipeline state.
+Use `scripts/generate_diff_review.py` as the deterministic audit layer around `reader4-review`. The script only reads notes and the Reader4 manifest; it never edits vault notes or pipeline state. Its standard presentation is the **Audit Ledger**: a light, document-first layout with a sticky receipt/navigation rail, ordered pipeline and path evidence, a ledger-style frontmatter comparison, side-by-side body hunks, a fidelity gate, and collapsible full source.
 
 ## Workflow
 
@@ -32,7 +32,7 @@ Use `scripts/generate_diff_review.py` as the deterministic audit layer around `r
 
    By default the report is written to the platform temp directory under `reader4-diff-review/<doc_id>/review.html`. Pass `--output "<path>.html"` only when the user wants a persistent report; vault-persistent HTML belongs under `90 Attachments/Reader4 Reviews/`.
 
-4. **Open and hand off.** If a local browser capability is available, open the generated `file://` URL and visually verify the summary, pipeline timeline, frontmatter table, and at least the first and last diff hunk. Otherwise provide the clickable HTML path. Keep the report available until the user moves to the next note.
+4. **Open and hand off.** If a local browser capability is available, open the generated `file://` URL and visually verify the Audit Ledger receipt rail, pipeline timeline, path card, frontmatter table, fidelity gate, and at least the first and last diff hunk. Confirm the desktop two-column layout collapses cleanly on narrow screens when responsive inspection is available. Otherwise provide the clickable HTML path. Keep the report available until the user moves to the next note.
 
 ## Report interpretation
 
