@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 2
-topics: []
+status: raw
+quality: 1
+topics: [knowledge-management, ai-tooling]
 source: https://x.com/arscontexta/status/2013045749580259680/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-01-19
 author: Heinrich
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-09
 ---
 
 # obsidian + claude code 101
@@ -31,16 +31,23 @@ updated: 2026-08-08
 - a work vault might emphasize:
     - capture first, structure later
     - project folders with meetings and outputs
-    - client context for ai consumption a research vault might emphasize:
+    - client context for ai consumption
+- a research vault might emphasize:
     - source tracking and citations
     - literature notes
-    - claim verification a creative vault might emphasize:
+    - claim verification
+- a creative vault might emphasize:
     - idea capture and incubation
     - draft progression
     - reference organization
-- these are the rules that work for my thinking vault. other vault types might need different ones: 1. can this note be linked from elsewhere and still make sense? if linking to it forces you to explain three other things first, split it up. thats composability 2. i stopped naming notes like topics and started naming them like claims. instead of "thoughts on ai slop" you write "quality is the hard part". when you link to it, the title becomes part of your sentence naturally (this also forces claude to think differently when building sentences, which i believe is beneficial because it requires understanding) 3. insight that individual notes matter less than their relationships. a note with many incoming links is more valuable than an isolated note because every link creates a new reading path. the network is the knowledge
+- these are the rules that work for my thinking vault. other vault types might need different ones:
+    1. can this note be linked from elsewhere and still make sense? if linking to it forces you to explain three other things first, split it up. thats composability
+    2. i stopped naming notes like topics and started naming them like claims. instead of "thoughts on ai slop" you write "quality is the hard part". when you link to it, the title becomes part of your sentence naturally (this also forces claude to think differently when building sentences, which i believe is beneficial because it requires understanding)
+    3. insight that individual notes matter less than their relationships. a note with many incoming links is more valuable than an isolated note because every link creates a new reading path. the network is the knowledge
 
 ### how to start
 
-- • create a folder with subfolders that match your purpose. think about what you actually need to organize • write a claude md that explains your system. start simple and evolve it as you learn what works • let claude operate. capture something and ask claude to find connections. let it navigate and discover relationships and suggest where things belong
+- create a folder with subfolders that match your purpose. think about what you actually need to organize
+- write a claude md that explains your system. start simple and evolve it as you learn what works
+- let claude operate. capture something and ask claude to find connections. let it navigate and discover relationships and suggest where things belong
 - ALWAYS review what it produces and edit for quality

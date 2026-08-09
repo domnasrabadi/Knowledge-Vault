@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality: 
+topics: [psychology, career-development, productivity]
 source: https://usefulfictions.substack.com/p/how-to-be-more-agentic
 created: 2026-08-08
 published: 2024-01-10
 author: Cate Hall
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-09
 ---
 
 # How to be More Agentic

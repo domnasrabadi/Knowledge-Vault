@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 3
-topics: []
+status: raw
+quality: 2
+topics: [llm-evaluation, error-analysis, llm-judges, human-in-the-loop]
 source: https://openai.com/index/evals-drive-next-chapter-of-ai/
 created: 2026-08-08
 published: 2025-11-19
 author: openai.com
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-09
 ---
 
 # How evals drive the next chapter in AI for businesses | OpenAI
@@ -22,10 +22,11 @@ updated: 2026-08-08
 
 ### How evals work: Specify → Measure → Improve
 
-
 ![](https://images.ctfassets.net/kftzwdyauwt9/5NnfoyNbQcCkWHbaqG8bMS/d0a168d37e76d73168878675a4d20b1e/Eval_Blog_Diagram_Desktop_Light.svg?w=3840&q=90)
 
-- 1. Specify: Define what “great” means Start with a small, empowered team that can write down the purpose of your AI system in plain terms, for example: “Convert qualified inbound emails into scheduled demos while staying on brand.”
+##### 1. Specify: Define what “great” means
+
+- Start with a small, empowered team that can write down the purpose of your AI system in plain terms, for example: “Convert qualified inbound emails into scheduled demos while staying on brand.”
 - This team should be a mix of individuals with technical and domain expertise
 - They should be able to state the most important outcomes to measure, outline the workflow end-to-end, and identify each important decision point your AI system will encounter. For every step in that workflow, the team should define what success looks like and what to avoid. This process will create a mapping of dozens of example inputs (e.g. inbound emails) to the outputs they want the system to produce. The resulting **golden set** of examples should be a living, authoritative reference of your most skilled experts’ judgement and taste for what “great” looks like.
 - The process is iterative and messy. Early prototyping can help immensely. Reviewing 50 to 100 outputs from an early version of the system will uncover how and when your system is failing. This “error analysis” will result in a taxonomy of different errors (and their frequencies) to track as your system improves.

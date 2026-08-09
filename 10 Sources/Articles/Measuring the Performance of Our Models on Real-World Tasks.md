@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality: 
+topics: [llm-evaluation, llm-judges]
 source: https://openai.com/index/gdpval/
 created: 2026-08-08
 published: 2025-09-25
 author: openai.com
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-09
 ---
 
 # Measuring the performance of our models on real-world tasks | OpenAI

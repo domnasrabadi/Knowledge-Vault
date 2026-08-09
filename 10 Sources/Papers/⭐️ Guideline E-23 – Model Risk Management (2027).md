@@ -1,14 +1,14 @@
 ---
 type: paper
-status: inbox
-quality: 2
-topics: []
+status: raw
+quality: 1
+topics: [model-risk-validation, banking-ai]
 source: https://readwise.io/reader/document_raw_content/370308897
 created: 2026-08-08
 published: 2025-10-01
 author: Office of the Superintendent of Financial Institutions
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-09
 ---
 
 # Guideline E-23 – Model Risk Management (2027)
