@@ -23,7 +23,24 @@ updated: 2026-08-09
 - Traces show how tools behave in practice such as their arguments, results, and errors. These observed contracts help the skill reproduce relevant production behavior in a controlled environment.
 - Crawling the repo and traces gives the agent knowledge of a which abilities are important for the agent as it proposes eval tasks. We found that **interviewing the user,** leads to much better eval acceptance than one-shot generation. The user chooses from the proposed eval directions, and gives guidance on questions such as which tools & dependencies should run live or need to be simulated. For example, tool calls that incur costs or require writes to production can be simulated instead of being run on every eval invocation.
 
-![](https://pbs.twimg.com/media/HNztw2oWUAAsqbP.png)
+
+```mermaid
+flowchart LR
+	A["① Map agent definition<br/>and behavior from<br/>repository + traces"]
+	B["② Propose eval<br/>directions to user"]
+	C["③ Build Harbor tasks"]
+	D["④ Run agent<br/>and verifier"]
+	E["⑤ Revise or<br/>accept eval"]
+	
+	A --> B --> C --> D --> E
+	E -- "Next eval" --> B
+	
+	classDef step fill:#dbe8ff,stroke:#4f8df7,color:#163b73
+	classDef final fill:#2f65e8,stroke:#1d4ed8,color:#ffffff
+	class A,B,C,D step
+	class E final
+```
+
 
 ## Eval Design Is Iterative
 
