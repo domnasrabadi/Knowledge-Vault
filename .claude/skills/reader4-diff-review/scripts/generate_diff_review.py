@@ -14,6 +14,7 @@ import sys
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.parse import urlparse
 
 
 CANONICAL_FIELDS = [
@@ -100,6 +101,12 @@ def extract_title(body: list[str], fallback: str) -> str:
 
 def esc(value: object) -> str:
     return html.escape("" if value is None else str(value), quote=True)
+
+
+def safe_link(value: object) -> str:
+    url = str(value or "")
+    parsed = urlparse(url)
+    return url if parsed.scheme in {"http", "https"} and parsed.netloc else ""
 
 
 def render_frontmatter(before: dict[str, str], after: dict[str, str]) -> tuple[str, int]:
@@ -225,7 +232,7 @@ def build_html(
     generated_at = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
     path_changed = str(Path(old_path)) != str(after_path)
     pipeline_class = "good" if status == "archived" else "risk"
-    source_url = str(manifest.get("source_url", after_fields.get("source", "")))
+    source_url = safe_link(manifest.get("source_url", after_fields.get("source", "")))
     source_html = f'<a href="{esc(source_url)}">Open source</a>' if source_url else "No source URL"
 
     return f'''<!doctype html>

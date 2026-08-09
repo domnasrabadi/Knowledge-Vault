@@ -30,7 +30,7 @@ Use `scripts/generate_diff_review.py` as the deterministic audit layer around `r
      --manifest "/Users/domnasrabadi/Downloads/reader4/state/manifest.json"
    ```
 
-   By default the report is written to the platform temp directory under `reader4-diff-review/<doc_id>/review.html`. Pass `--output "<path>.html"` only when the user wants a persistent report, normally under `40 System/Reader4 Reviews/`.
+   By default the report is written to the platform temp directory under `reader4-diff-review/<doc_id>/review.html`. Pass `--output "<path>.html"` only when the user wants a persistent report; vault-persistent HTML belongs under `90 Attachments/Reader4 Reviews/`.
 
 4. **Open and hand off.** If a local browser capability is available, open the generated `file://` URL and visually verify the summary, pipeline timeline, frontmatter table, and at least the first and last diff hunk. Otherwise provide the clickable HTML path. Keep the report available until the user moves to the next note.
 
