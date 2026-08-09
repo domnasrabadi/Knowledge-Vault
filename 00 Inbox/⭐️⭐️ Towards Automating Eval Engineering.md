@@ -25,7 +25,6 @@ updated: 2026-08-08
 
 ![](https://pbs.twimg.com/media/HNztw2oWUAAsqbP.png)
 
-
 ### Eval Design is iterative
 
 - We found that while agents are sometimes able to one-shot evals, the best evals came from users providing feedback and specifying which capabilities were worth measuring in agents

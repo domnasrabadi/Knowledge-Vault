@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reader4 Diff Review"
+  short_description: "Review Reader4 changes in a compact HTML diff"
+  default_prompt: "Use $reader4-diff-review to generate and open a visual before-and-after report for this Reader4 note."

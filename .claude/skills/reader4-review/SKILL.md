@@ -1,6 +1,6 @@
 ---
 name: reader4-review
-description: Review, fix, file, and archive notes exported by the reader4 pipeline into 00 Inbox — fidelity check, formatting recovery, title polish, then filing via file-note rules, then reader4 mark-filed + archive. Use when reader4 export has put new notes in the Inbox.
+description: Review, fix, file, archive, and visually audit notes exported by the reader4 pipeline into 00 Inbox — fidelity check, formatting recovery, title polish, filing via file-note rules, reader4 mark-filed + archive, then a before/after HTML receipt. Use when reader4 export has put new notes in the Inbox.
 ---
 
 # reader4-review — the one-confirmation-tap filing loop
@@ -10,6 +10,10 @@ Wraps the general `file-note` skill with reader4-pipeline-specific stages. **Sco
 Process notes one at a time, oldest first, unless the user picks one. All CLI calls run from `/Users/domnasrabadi/Downloads/reader4` via `uv run reader4 ...`.
 
 ## Per note
+
+### 0. Snapshot — preserve the actual before state
+
+Before changing the selected note, use the `reader4-diff-review` skill to snapshot it by absolute path and Reader4 `doc_id`. If snapshot creation fails, stop before editing. This snapshot is the evidence source for the final visual receipt; never reconstruct it later from memory or Git.
 
 ### 1. Pre-step — fidelity + formatting recovery (reader4-specific)
 
@@ -41,6 +45,10 @@ uv run reader4 archive "<title or doc_id>"
 
 If either command errors, report it and stop — don't leave manifest state half-updated silently.
 
-### 4. Wrap-up (after the batch)
+### 4. Visual receipt — render the real before/after
+
+After the pipeline commands—or after a failure that left a partial state—use `reader4-diff-review` to generate a self-contained HTML report from the snapshot and filed note. Open it in the local browser when available and verify the summary, pipeline order, frontmatter changes, and ordered body diff. Give the user the clickable report path; do not substitute a prose summary for the artifact.
+
+### 5. Wrap-up (after the batch)
 
 Summarize: notes filed (old → new path), fixes applied, docs archived. `uv run reader4 log --limit 20` output can serve as the receipt.
