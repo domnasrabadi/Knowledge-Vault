@@ -1,7 +1,7 @@
 ---
 type: article
 status: structured
-quality:
+quality: 1
 topics: [prompting, ai-coding]
 source: ""
 created: 2025-04-25

@@ -1,12 +1,12 @@
 ---
 type: article
 status: structured
-quality:
-topics: [prompting, rag, llm-evaluation, model-monitoring]
-source: ""
+quality: 1
+topics: [ai-engineering, prompting, rag, llm-evaluation, model-monitoring]
+source: https://applied-llms.org/
 created: 2025-07-21
-published:
-author: ""
+published: 2024-06-08
+author: Eugene Yan, Bryan Bischof, Charles Frye, Hamel Husain, Jason Liu, Shreya Shankar
 flashcards: none
 updated: 2025-12-28
 ---
@@ -286,7 +286,7 @@ updated: 2025-12-28
 ---
 # 7 Strategic considerations (brief)
 ## 7.1 Data
-- what is a completely infeasible floor demo or research paper today will become a premium feature in a few years and then a commodity shortly after. We should build our systems, and our organizations, with this in1 mind
+- what is a completely infeasible floor demo or research paper today will become a premium feature in a few years and then a commodity shortly after. We should build our systems, and our organizations, with this in mind
 - **training from scratch almost never makes sense**
 	- BloombergGPT trained specifically for financial tasks, done by 18 full time staff for labelling. AI engineering and product research - GPT3.5 turbo and GPT4 outperformed it within the year
 	- teams better off finetuning strongest OS model available for their needs

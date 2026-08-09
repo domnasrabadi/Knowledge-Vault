@@ -3,7 +3,7 @@ type: article
 status: raw
 quality: 1
 topics: [context-engineering]
-source: ""
+source: https://research.trychroma.com/context-rot
 created: 2026-01-10
 published: 2025-07-14
 author: trychroma.com
@@ -14,7 +14,7 @@ updated: 2026-01-11
 # Context Rot: How Increasing Input Tokens Impacts LLM Performance
 
 <div align="center">
-  <img src="http://research.trychroma.com/img/context_rot/card.png?v1" width="220" />
+  <img src="https://www.trychroma.com/img/context_rot/card.png" width="220" />
 </div>
 
 Source: https://research.trychroma.com/context-rot
@@ -22,7 +22,7 @@ Source: https://research.trychroma.com/context-rot
 Exported at: `2026-01-11T01:21:15Z`
 
 
-![99](https://research.trychroma.com/img/context_rot/hero_plot.png)
+![99](https://www.trychroma.com/img/context_rot/hero_plot.png)
 
 - Because these models achieve near-perfect scores on widely adopted benchmarks like Needle in a Haystack (NIAH) [[1](https://research.trychroma.com/context-rot#niah)], it’s often assumed that their performance is uniform across long-context tasks.
 - While scalable, this benchmark typically assesses direct lexical matching, which may not be representative of flexible, semantically oriented tasks.
@@ -36,7 +36,7 @@ Exported at: `2026-01-11T01:21:15Z`
 - This highlights how the type of 'irrelevant content' matters, as some may introduce increasing complexity with input length.
 - • Distractors are topically related to the needle, but do not quite answer the question • Irrelevant content is unrelated to the needle and question
 
-![](https://research.trychroma.com/img/context_rot/niah/distractor_irrelevance.png)
+![](https://www.trychroma.com/img/context_rot/niah/distractor_irrelevance.png)
 
 - We design four controlled experiments to investigate the influence of these factors:
 - Taking a high-similarity needle-question pair, we write four distractors. We have the following setups:
@@ -55,11 +55,11 @@ Exported at: `2026-01-11T01:21:15Z`
 - The observed performance degradation at longer input lengths is not due to the intrinsic difficulty of the needle-question pairing. By holding the needle-question pair fixed and varying only the amount of irrelevant content, we isolate input size as the primary factor in performance decline.
 - Our experiments reveal that the impact of distractors and their non-uniformity amplifies as input length grows across models, including the latest state-of-the-art models. We also observe distinct behaviors across model families in how they deal with ambiguity.
 
-![](https://research.trychroma.com/img/context_rot/niah/distractors_ind.png)
+![](https://www.trychroma.com/img/context_rot/niah/distractors_ind.png)
 
 - These failures also reveal model-specific differences in handling ambiguity. Claude models consistently exhibit the lowest hallucination rates. Specifically, Claude Sonnet 4 and Opus 4 are particularly conservative and tend to abstain when uncertain, explicitly stating that no answer can be found. In contrast, GPT models show the highest rates of hallucination, often generating confident but incorrect responses when distractors are present.
 
-![](https://research.trychroma.com/img/context_rot/niah/hallucinations.png)
+![](https://www.trychroma.com/img/context_rot/niah/hallucinations.png)
 
 - However, a natural question arises: does the needle-haystack similarity influence task difficulty at all? Intuitively, if the needle blends in with the content of the haystack, the model may have greater difficulty in extracting the needle.
 - On each haystack, we test semantically similar needles against unrelated needles

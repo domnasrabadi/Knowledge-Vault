@@ -1,12 +1,12 @@
 ---
 type: article
 status: structured
-quality:
+quality: 1
 topics: [llm-evaluation, rag, evaluation-metrics]
 source: ""
 created: 2025-06-29
 published:
-author: ""
+author: Eugene Yan
 flashcards: none
 updated: 2025-12-28
 ---

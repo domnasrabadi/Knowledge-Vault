@@ -1,16 +1,15 @@
 ---
 type: article
 status: structured
-quality:
+quality: 1
 topics: [human-in-the-loop, error-analysis]
-source: ""
+source: https://lilianweng.github.io/posts/2024-02-05-human-data-quality/
 created: 2025-06-29
-published:
-author: ""
+published: 2024-02-05
+author: Lillian Weng
 flashcards: none
 updated: 2025-12-28
 ---
-https://lilianweng.github.io/posts/2024-02-05-human-data-quality/
 
 # 1 Human Raters ↔ Data Quality
 - high-quality data is the fuel for modern data deep learning model training

@@ -1,12 +1,12 @@
 ---
 type: article
 status: structured
-quality: 2
-topics: [llm-judges, llm-evaluation, prompting]
-source: ""
+quality: 1
+topics: [llm-judges, llm-evaluation, prompting, human-in-the-loop]
+source: https://x.com/manthanguptaa/article/2006222014265393316
 created: 2026-01-01
 published:
-author: "https://x.com/manthanguptaa/article/2006222014265393316"
+author: Manthan Gupta
 flashcards: none
 updated: 2026-01-01
 ---

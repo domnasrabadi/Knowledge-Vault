@@ -1,7 +1,7 @@
 ---
 type: article
 status: structured
-quality:
+quality: 1
 topics:
   - evaluation-metrics
   - model-monitoring
@@ -10,7 +10,7 @@ topics:
 source: ""
 created: 2025-06-21
 published:
-author: ""
+author: Patrick Hall
 flashcards: none
 updated: 2025-12-28
 ---

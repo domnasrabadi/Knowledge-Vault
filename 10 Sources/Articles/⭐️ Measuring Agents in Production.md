@@ -1,8 +1,8 @@
 ---
 type: article
 status: raw
-quality:
-topics: [agent-evaluation, model-monitoring]
+quality: 1
+topics: [ai-agents, agent-evaluation, mlops]
 source: ""
 created: 2025-12-08
 published:

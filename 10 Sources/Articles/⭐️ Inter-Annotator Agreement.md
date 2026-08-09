@@ -1,7 +1,7 @@
 ---
 type: article
 status: structured
-quality:
+quality: 1
 topics: [human-in-the-loop, evaluation-metrics, error-analysis]
 source: ""
 created: 2025-12-07

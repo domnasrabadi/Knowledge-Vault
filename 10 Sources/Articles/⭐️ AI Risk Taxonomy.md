@@ -1,7 +1,7 @@
 ---
 type: article
 status: structured
-quality:
+quality: 1
 topics: [llm-risks]
 source: ""
 created: 2025-06-01
