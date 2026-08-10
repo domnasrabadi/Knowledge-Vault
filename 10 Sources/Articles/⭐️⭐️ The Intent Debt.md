@@ -1,8 +1,10 @@
 ---
 type: article
 status: raw
-quality: 3
-topics: [ai-coding, context-engineering]
+quality: 2
+topics:
+  - ai-coding
+  - context-engineering
 source: https://addyosmani.com/blog/intent-debt/
 created: 2026-08-08
 published: 2026-06-05
