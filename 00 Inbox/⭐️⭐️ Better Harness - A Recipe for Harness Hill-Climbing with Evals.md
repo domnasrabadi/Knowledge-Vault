@@ -50,8 +50,6 @@ updated: 2026-08-08
 
 ![](https://pbs.twimg.com/media/HFWuqdyXYAAaEnx.jpg)
 
-- • ![](https://pbs.twimg.com/media/HFWuqdyXYAAaEnx.jpg)
-
 ### Examples of harness changes
 
 - **Prompt and instruction updates.** The most common change. The agent keeps misinterpreting a tool's output format, or it's too aggressive about calling a tool when it should ask a clarifying question first. The fix is a targeted instruction update addition like "when querying multiple files that have dependent information, offload information to the filesystem and re-aggregate before giving a final answer."

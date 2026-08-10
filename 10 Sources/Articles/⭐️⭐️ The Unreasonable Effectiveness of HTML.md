@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 2
-topics: []
+topics: [ai-coding, ai-tooling, mental-models]
 source: https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html
 created: 2026-08-09
 published: 2026-05-20
 author: Claude
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-11
 ---
 
-# https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html
+# The Unreasonable Effectiveness of HTML
 
 <div align="center">
   <img src="https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a0cce59a622f528451f4830_og_using-claude-code-the-unreasonable-effectiveness-of-html.jpg" width="220" />

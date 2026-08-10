@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 2
-topics: []
+status: raw
+quality: 1
+topics: [prompting, mental-models]
 source: https://www.seangoedecke.com/llms-reward-expertise/
 created: 2026-08-09
 published: 2026-07-24
 author: seangoedecke.com
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-11
 ---
 
 # LLMs reward expertise
