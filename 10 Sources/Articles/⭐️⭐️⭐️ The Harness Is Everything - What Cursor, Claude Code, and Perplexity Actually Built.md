@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 3
-topics: []
+topics: [ai-coding, context-engineering, ai-agents]
 source: https://x.com/rohit4verse/status/2033945654377283643/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-03-17
 author: Rohit
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-10
 ---
 
 # The Harness Is Everything: What Cursor, Claude Code, and Perplexity Actually Built
@@ -34,17 +34,17 @@ updated: 2026-08-08
 ### What an Agent-Computer Interface Actually Is
 
 - Search and Navigation
-- The search component replaced standard grep and find commands with purpose-built tools: find_file, search_file, and search_dir. The key difference was not syntax. The key difference was output management. Results were capped at 50. If a query exceeded that limit, the tool returned a message explaining that there were too many results and prompting the agent to refine its search
-- The reason it matters is that agents, like humans under cognitive load, tend to keep doing what they are doing when they feel uncertain. When a human is lost in a large codebase, they search more and more broadly, generating more and more noise. The capped search tool interrupted this pattern by creating a forcing function. You cannot proceed by being vague. You must be specific. This pushed the agent toward more deliberate, targeted behavior.
+    - The search component replaced standard grep and find commands with purpose-built tools: find_file, search_file, and search_dir. The key difference was not syntax. The key difference was output management. Results were capped at 50. If a query exceeded that limit, the tool returned a message explaining that there were too many results and prompting the agent to refine its search
+    - The reason it matters is that agents, like humans under cognitive load, tend to keep doing what they are doing when they feel uncertain. When a human is lost in a large codebase, they search more and more broadly, generating more and more noise. The capped search tool interrupted this pattern by creating a forcing function. You cannot proceed by being vague. You must be specific. This pushed the agent toward more deliberate, targeted behavior.
 - The File Viewer
-- The file viewer is where the paper's insights about cognitive architecture get most concrete. The researchers tested multiple viewer configurations and found that showing 100 lines at a time was a Goldilocks number. Fewer lines (they tested 30) caused agents to lose context about the surrounding code and make editing mistakes. More lines (or the full file) caused agents to lose track of where they were and miss important details.
-- The viewer was stateful. It maintained a position in the file across interactions. And critically, it prepended explicit line numbers to every visible line. This last detail sounds cosmetic. It was not. When an agent needs to issue an edit command targeting lines 47 through 52, it needs to be able to read those numbers directly from the view rather than counting them or performing arithmetic.
+    - The file viewer is where the paper's insights about cognitive architecture get most concrete. The researchers tested multiple viewer configurations and found that showing 100 lines at a time was a Goldilocks number. Fewer lines (they tested 30) caused agents to lose context about the surrounding code and make editing mistakes. More lines (or the full file) caused agents to lose track of where they were and miss important details.
+    - The viewer was stateful. It maintained a position in the file across interactions. And critically, it prepended explicit line numbers to every visible line. This last detail sounds cosmetic. It was not. When an agent needs to issue an edit command targeting lines 47 through 52, it needs to be able to read those numbers directly from the view rather than counting them or performing arithmetic.
 - The File Editor With Linting
-- The file editor's key innovation was immediate feedback with guardrails. The edit command accepted a start line, end line, and replacement text as a single operation. After every edit, the tool automatically ran a linter on the modified file and reported the result. If the edit introduced a syntax error, the edit was rejected before it was applied, and the agent received a clear error message showing both the original code and the failed edit.
+    - The file editor's key innovation was immediate feedback with guardrails. The edit command accepted a start line, end line, and replacement text as a single operation. After every edit, the tool automatically ran a linter on the modified file and reported the result. If the edit introduced a syntax error, the edit was rejected before it was applied, and the agent received a clear error message showing both the original code and the failed edit.
 - **Context Management**
-- The fourth component addressed a problem that compounds over long sessions: the accumulation of stale context. As an agent works through a task, its history fills up with old observations, intermediate states, and exploratory steps that no longer reflect the current state of the environment. All of that history takes up space in the context window and can actively mislead the agent by providing outdated information.
-- The ACI's context management system collapsed older observations, those beyond the last five turns, into single-line summaries
-- The researchers also ran ablation studies, removing one component at a time to isolate the contribution of each design decision. The linter integration was consistently among the highest-leverage components. The capped search was critical for preventing context flooding. The stateful file viewer with line numbers meaningfully outperformed both the raw cat command and simpler viewer designs.
+    - The fourth component addressed a problem that compounds over long sessions: the accumulation of stale context. As an agent works through a task, its history fills up with old observations, intermediate states, and exploratory steps that no longer reflect the current state of the environment. All of that history takes up space in the context window and can actively mislead the agent by providing outdated information.
+    - The ACI's context management system collapsed older observations, those beyond the last five turns, into single-line summaries
+    - The researchers also ran ablation studies, removing one component at a time to isolate the contribution of each design decision. The linter integration was consistently among the highest-leverage components. The capped search was critical for preventing context flooding. The stateful file viewer with line numbers meaningfully outperformed both the raw cat command and simpler viewer designs.
 
 ### Why the Context Window Boundary Is the Hard Problem
 
@@ -110,21 +110,21 @@ updated: 2026-08-08
 
 - the ability of AI to write code is effectively a commodity. Foundation models can produce functional code. That is no longer the differentiating capability. The differentiating capability is coordination and environment design.
 - Layer 1: Human Oversight
-- At the top is the human oversight layer, where humans approve proposals, review pull requests, and set priorities.
-- The key design principle here is that engineers should be designing environments and reviewing outcomes, not writing code directly. Their leverage comes from steering, not from executing.
+    - At the top is the human oversight layer, where humans approve proposals, review pull requests, and set priorities.
+    - The key design principle here is that engineers should be designing environments and reviewing outcomes, not writing code directly. Their leverage comes from steering, not from executing.
 - Layer 2: Planning and Requirements (Spec Tools)
-- This layer translates human ideas into structured specifications and task DAGs (Directed Acyclic Graphs) that agents can consume reliably
-- Spec tools force precision at the requirements stage, before any code is written.
+    - This layer translates human ideas into structured specifications and task DAGs (Directed Acyclic Graphs) that agents can consume reliably
+    - Spec tools force precision at the requirements stage, before any code is written.
 - Layer 3: Full Lifecycle Platforms
-- These tools manage the end-to-end process from initial requirements to delivery, integrating AI proposals with human verification gates and sub-agent orchestration
+    - These tools manage the end-to-end process from initial requirements to delivery, integrating AI proposals with human verification gates and sub-agent orchestration
 - Layer 4: Task Runners
-- Task runners bridge the gap between issue trackers (GitHub Issues, Linear) and coding agents. The flow is: a human or PM agent creates an issue, the task runner spawns a workspace, the agent delivers a pull request, and the human reviews
+    - Task runners bridge the gap between issue trackers (GitHub Issues, Linear) and coding agents. The flow is: a human or PM agent creates an issue, the task runner spawns a workspace, the agent delivers a pull request, and the human reviews
 - Layer 5: Agent Orchestrators
-- Orchestrators solve the throughput problem by enabling parallel execution of multiple agents while isolating their work in separate git worktrees
+    - Orchestrators solve the throughput problem by enabling parallel execution of multiple agents while isolating their work in separate git worktrees
 - Layer 6: Agent Harness Frameworks and Runtimes
-- Frameworks provide composable primitives for building custom environments: progressive disclosure mechanisms, sub-agent spawning, structured context delivery. Runtimes provide persistent infrastructure: long-running memory, scheduled execution, multi-channel communication between sessions.
+    - Frameworks provide composable primitives for building custom environments: progressive disclosure mechanisms, sub-agent spawning, structured context delivery. Runtimes provide persistent infrastructure: long-running memory, scheduled execution, multi-channel communication between sessions.
 - Layer 7: Coding Agents
-- At the bottom is the execution layer: Claude Code, Codex, and similar systems that write, test, and debug code
+    - At the bottom is the execution layer: Claude Code, Codex, and similar systems that write, test, and debug code
 
 ## Part Six: The Design Patterns That Repeat
 

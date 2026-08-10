@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 3
-topics: []
+topics: [ai-coding, context-engineering]
 source: https://addyosmani.com/blog/intent-debt/
 created: 2026-08-08
 published: 2026-06-05
 author: Addy Osmani
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-10
 ---
 
 # The Intent Debt
@@ -23,7 +23,7 @@ updated: 2026-08-08
 - **Intent debt lives in artifacts.** It’s the absence or erosion of the *externalized* rationale, goals, and constraints that explain why the system is the way it is. The key word is externalized. The rationale has to be written down where a teammate, a future you, or an agent can read it, not held in your head. When intent debt runs high, the system drifts from what you meant it to do, and nobody can say when it diverged or why.
 - These three are independent, which took me a while to internalize. You can have low technical debt and high intent debt. You can understand a system completely yourself (no cognitive debt for you) while its intent exists nowhere outside your skull (enormous intent debt for everyone else).
 - AI generates code faster than ever, which makes technical debt cheaper to take on and cheaper to pay down. Point an agent at a tangled module and it’ll refactor it.
-- Cognitive debt recovers too, more easily than most engineers expect. When you don’t understand a chunk of the system, you ask the agent to explain i
+- Cognitive debt recovers too, more easily than most engineers expect. When you don’t understand a chunk of the system, you ask the agent to explain it.
 - Intent is different. **An agent can’t generate intent, because intent is the one input that has to come from you.** A model can infer a plausible rationale from the code, the same way you can guess why a previous engineer did something
 
 ### Agents make the un-written cost compound much faster

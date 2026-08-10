@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 3
-topics: []
+topics: [mental-models, career-development]
 source: https://x.com/itsreallyvivek/status/2064328408264523985/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-06-09
 author: Vivek
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-10
 ---
 
 # taste in the age of infinite information

@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 3
-topics: []
+topics: [ai-coding, context-engineering, ai-tooling]
 source: https://eugeneyan.com/writing/working-with-ai/
 created: 2026-08-08
 published: 2026-05-03
 author: Eugene Yan
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-10
 ---
 
 # How to Work and Compound with AI
