@@ -1,8 +1,11 @@
 ---
 type: article
 status: raw
-quality: 3
-topics: [ai-coding, context-engineering, ai-agents]
+quality: 2
+topics:
+  - ai-coding
+  - context-engineering
+  - ai-agents
 source: https://x.com/rohit4verse/status/2033945654377283643/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-03-17

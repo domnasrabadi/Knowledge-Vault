@@ -1,8 +1,12 @@
 ---
 type: article
 status: raw
-quality: 3
-topics: [agent-evaluation, error-analysis, llm-judges, evaluation-metrics]
+quality: 2
+topics:
+  - agent-evaluation
+  - error-analysis
+  - llm-judges
+  - evaluation-metrics
 source: https://blog.langchain.com/agent-evaluation-readiness-checklist/
 created: 2026-08-08
 published: 2026-03-27

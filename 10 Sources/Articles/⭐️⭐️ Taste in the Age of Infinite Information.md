@@ -1,8 +1,10 @@
 ---
 type: article
 status: raw
-quality: 3
-topics: [mental-models, career-development]
+quality: 2
+topics:
+  - mental-models
+  - career-development
 source: https://x.com/itsreallyvivek/status/2064328408264523985/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-06-09

@@ -1,8 +1,11 @@
 ---
 type: article
 status: raw
-quality: 3
-topics: [ai-coding, context-engineering, ai-tooling]
+quality: 2
+topics:
+  - ai-coding
+  - context-engineering
+  - ai-tooling
 source: https://eugeneyan.com/writing/working-with-ai/
 created: 2026-08-08
 published: 2026-05-03
