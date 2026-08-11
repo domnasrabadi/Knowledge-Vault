@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 1
-topics: []
+topics: [llm-evaluation, llm-judges, ai-product, software-engineering, agent-evaluation, model-monitoring]
 source: https://x.com/braintrust/status/2039356267949445230/?rw_tt_thread=True
 created: 2026-08-08
 published: 2026-04-01
 author: Braintrust
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
 # Evals are the new PRD
@@ -42,6 +42,6 @@ updated: 2026-08-08
 ### Three types of eval judges
 
 - Different eval criteria call for different measurement approaches. There are three types of judges, and knowing when to use each one matters.
-- **Algorithmic judges** handle quantitative, deterministic checks like string matching, format validation, and length constraints. These are fast, cheap, and perfectly reliable.
-- **AI judges** handle fuzzy quality assessments where you have clear golden examples, evaluating subjective dimensions like tone, helpfulness, and coherence. They scale instantly but require calibration against human judgment to be trustworthy.
-- **AI judges with human alignment** handle deeply subjective evaluations where human review provides the ground truth and the AI judge learns to approximate it. These are deceptively hard to get right, but they're the only way to handle complex quality dimensions where reasonable people might disagree.
+	- **Algorithmic judges** handle quantitative, deterministic checks like string matching, format validation, and length constraints. These are fast, cheap, and perfectly reliable.
+	- **AI judges** handle fuzzy quality assessments where you have clear golden examples, evaluating subjective dimensions like tone, helpfulness, and coherence. They scale instantly but require calibration against human judgment to be trustworthy.
+	- **AI judges with human alignment** handle deeply subjective evaluations where human review provides the ground truth and the AI judge learns to approximate it. These are deceptively hard to get right, but they're the only way to handle complex quality dimensions where reasonable people might disagree.

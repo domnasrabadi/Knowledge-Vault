@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 1
-topics: []
+topics: [ai-coding, software-engineering]
 source: https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
 created: 2026-08-08
 published: 2025-10-15
 author: Birgitta Böckeler
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
 # Understanding Spec-Driven-Development: Kiro, spec-kit, and Tessl
@@ -23,7 +23,9 @@ updated: 2026-08-08
 - Spec-driven development means writing a “spec” before writing code with AI (“documentation first”). The spec becomes the source of truth for the human and the AI.
 - [GitHub](https://github.com/github/spec-kit/blob/main/spec-driven.md): “In this new world, *maintaining software means evolving specifications*. […] The lingua franca of development moves to a higher level, and code is the last-mile approach.” [Tessl](https://docs.tessl.io/introduction-to-tessl/concepts): “A development approach where *specs — not code — are the primary artifact*. Specs describe intent in structured, testable language, and agents generate code to match them.”
 - in reality, there are multiple implementation levels to it:
-- • **Spec-first**: A well thought-out spec is written first, and then used in the AI-assisted development workflow for the task at hand. • **Spec-anchored**: The spec is kept even after the task is complete, to continue using it for evolution and maintenance of the respective feature. • **Spec-as-source**: The spec is the main source file over time, and only the spec is edited by the human, the human never touches the code.
+    - **Spec-first**: A well thought-out spec is written first, and then used in the AI-assisted development workflow for the task at hand.
+    - **Spec-anchored**: The spec is kept even after the task is complete, to continue using it for evolution and maintenance of the respective feature.
+    - **Spec-as-source**: The spec is the main source file over time, and only the spec is edited by the human, the human never touches the code.
 
 ### What is a spec?
 

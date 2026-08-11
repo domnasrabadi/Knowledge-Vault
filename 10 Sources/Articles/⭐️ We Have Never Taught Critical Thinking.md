@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 1
-topics: []
+topics: [learning-science]
 source: https://www.insidehighered.com/opinion/views/2026/06/23/we-have-never-taught-critical-thinking-opinion
 created: 2026-08-08
 published: 2026-06-23
 author: Priten Soundar-Shah, Aidan Kestigian
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
 # We Have Never Taught Critical Thinking

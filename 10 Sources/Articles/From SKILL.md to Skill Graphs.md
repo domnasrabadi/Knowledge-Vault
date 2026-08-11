@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [knowledge-management, ai-tooling, context-engineering]
 source: https://x.com/arscontexta/status/2023957499183829467/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-02-18
 author: Heinrich
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
-# Skill Graphs > SKILL.md
+# From SKILL.md to Skill Graphs
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/2012958446891536384/neq1Tu46.jpg" width="220" />
@@ -23,7 +23,9 @@ updated: 2026-08-08
 
 ### the primitives
 
-- • **wikilinks** that read as prose in sentences, so they carry meaning not just references • **yaml frontmatter** with descriptions so the agent can scan without reading full files • **MOCs (maps of content)** that organize clusters of related skills into navigable sub-topics
+- **wikilinks** that read as prose in sentences, so they carry meaning not just references
+- **yaml frontmatter** with descriptions so the agent can scan without reading full files
+- **MOCs (maps of content)** that organize clusters of related skills into navigable sub-topics
 
 ### how to build one
 

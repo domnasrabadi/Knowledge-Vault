@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [psychology, learning-science]
 source: https://x.com/jaynitx/status/2045486658938888598/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-04-18
 author: Jaynit
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
-# the neuroscience of visualization: why it works (but not how you think)
+# The Neuroscience of Visualization: Why It Works
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/1871881199372914688/FKDqACyE.jpg" width="220" />

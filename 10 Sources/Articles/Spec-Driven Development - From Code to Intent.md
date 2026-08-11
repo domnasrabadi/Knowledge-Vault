@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [ai-coding, software-engineering]
 source: https://freedium-mirror.cfd/https://levelup.gitconnected.com/the-best-developer-is-no-longer-the-one-who-writes-the-best-code-996e8ed0869b
 created: 2026-08-08
 published: 2026-06-24
 author: freedium-mirror.cfd
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
-# The Best Developer Is No Longer the One Who Writes the Best Code
+# Spec-Driven Development: From Code to Intent
 
 <div align="center">
   <img src="https://freedium-mirror.cfd/img/medium/700/1*zkGAnAa0WdpxCKXCbq_Wdw.png" width="220" />

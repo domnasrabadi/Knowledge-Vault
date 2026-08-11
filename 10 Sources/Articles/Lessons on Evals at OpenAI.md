@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [llm-evaluation, agent-evaluation, ai-engineering]
 source: https://x.com/akashbajwa96/status/2048656640639996142/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-04-27
 author: Akash Bajwa
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
-# Evals with Alec Barber, OpenAI
+# Lessons on Evals at OpenAI
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/1924416428519657472/jF95W4af.jpg" width="220" />
@@ -31,4 +31,11 @@ updated: 2026-08-08
     - **Regression set.** Stable, broad coverage. Every change is tested against this.
     - **Iteration set.** Small, focused on a current failure mode.
 - Fixes migrate from iteration into regression. Critically, **prune the regression set over time**
-- **Practical recommendations for founders** 1. **Design your AI harness for testability from day one.** Decomposable, unit-testable, each component inspectable. Don’t build a blob and retrofit evals. 2. **Build your eval harness yourself using Codex or Claude Code.** The coupling to your AI harness is too tight to delegate to a generic platform. 3. **Use observability and dashboards off the shelf.** Langfuse, Grafana — don’t reinvent these. 4. **Find good eval-writing skills online** (he named Hamel Husain) and feed them to the agent as context. 5. **Invest in the domain-expert UX.** Build bespoke interfaces that mirror how experts already work, so you can extract their tacit judgment without training them on eval frameworks. 6. **Maintain the regression/iteration split** and prune stale tests over time. 7. **Use entropy diagnostics** to identify test cases where your grader is ambiguous.
+- **Practical recommendations for founders:**
+    1. **Design your AI harness for testability from day one.** Decomposable, unit-testable, each component inspectable. Don’t build a blob and retrofit evals.
+    2. **Build your eval harness yourself using Codex or Claude Code.** The coupling to your AI harness is too tight to delegate to a generic platform.
+    3. **Use observability and dashboards off the shelf.** Langfuse, Grafana — don’t reinvent these.
+    4. **Find good eval-writing skills online** (he named Hamel Husain) and feed them to the agent as context.
+    5. **Invest in the domain-expert UX.** Build bespoke interfaces that mirror how experts already work, so you can extract their tacit judgment without training them on eval frameworks.
+    6. **Maintain the regression/iteration split** and prune stale tests over time.
+    7. **Use entropy diagnostics** to identify test cases where your grader is ambiguous.

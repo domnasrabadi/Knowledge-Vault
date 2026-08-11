@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [llm-judges, agent-evaluation, error-analysis, ai-engineering]
 source: https://x.com/vtrivedy10/status/2066571435871551655/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-06-15
 author: Viv
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
 # Building a 100x Cheaper Trace Judge with Fireworks
@@ -39,5 +39,10 @@ updated: 2026-08-08
 
 ### Experiments & results
 
-- We organized experiments around three questions: 1. Does fine-tuning improve baseline judge quality up to frontier model performance? 2. Does a learned judge transfer across datasets? 3. Is serving a fine-tuned model cost-effective? **Fine-tuning open models can exceed or match frontier models**
+- We organized experiments around three questions:
+    1. Does fine-tuning improve baseline judge quality up to frontier model performance?
+    2. Does a learned judge transfer across datasets?
+    3. Is serving a fine-tuned model cost-effective?
+
+    **Fine-tuning open models can exceed or match frontier models**
 - A fine-tuned judge transfers well to unseen data

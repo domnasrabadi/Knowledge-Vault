@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 1
-topics: []
+topics: [ai-agents, agent-evaluation, llm-risks, model-risk-validation]
 source: https://agussudjianto.substack.com/p/six-ways-agentic-ai-fails
 created: 2026-08-08
 published: 2026-04-23
 author: Agus Sudjianto
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
 # Six Ways Agentic AI Fails
@@ -23,10 +23,17 @@ updated: 2026-08-08
 
 ### Two Kinds of Failure: Execution and Reasoning
 
-- **Execution failures** occur in the agent’s interaction with the external world — the tools it calls, the policies it follows and the state it maintains across turns. These failures may produce plausible-sounding output. The text reads well. The actions behind it are wrong.
-- **Reasoning failures** occur in the agent’s internal inference — the facts it asserts, the chains of logic it constructs and the confidence it assigns to its conclusions. These failures produce output that is wrong in substance, even when the execution pathway was correct. The agent called the right tools, followed the right workflow and then drew the wrong conclusion from the data it retrieved.
-- The two categories are not always separable in practice. A tool misuse (execution) can cause a hallucination (reasoning) when the wrong data is retrieved and then presented as fact. A reasoning error can cascade into an execution failure when flawed analysis leads the agent to call an inappropriate tool.
-- Execution failures require trace-level inspection — what did the agent *do*? Reasoning failures require output-level verification — what did the agent *claim*?
+- **Execution failures** occur in the agent’s interaction with the external world — the tools it calls, the policies it follows and the state it maintains across turns.
+	- These failures may produce plausible-sounding output.
+	- The text reads well. The actions behind it are wrong.
+- **Reasoning failures** occur in the agent’s internal inference — the facts it asserts, the chains of logic it constructs and the confidence it assigns to its conclusions.
+	- These failures produce output that is wrong in substance, even when the execution pathway was correct.
+	- The agent called the right tools, followed the right workflow and then drew the wrong conclusion from the data it retrieved.
+- The two categories are not always separable in practice.
+	- A tool misuse (execution) can cause a hallucination (reasoning) when the wrong data is retrieved and then presented as fact.
+	- A reasoning error can cascade into an execution failure when flawed analysis leads the agent to call an inappropriate tool.
+- Execution failures require trace-level inspection — what did the agent *do*?
+	- Reasoning failures require output-level verification — what did the agent *claim*?
 
 ![](https://substackcdn.com/image/fetch/$s_!XODT!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F7219ab5d-89f3-46f9-bf4f-7a6753004cac_1267x454.png)
 
@@ -64,6 +71,3 @@ updated: 2026-08-08
 - **Why it matters in practice:** Agentic workflows are inherently multi-turn. A model validation agent that interviews a model developer collects information across many turns before synthesizing a finding. If facts asserted in turn 3 are forgotten by turn 15, the synthesis is built on incomplete information. Unlike a factual hallucination, where the agent asserts something wrong, state corruption causes the agent to *omit* something it once knew — a failure of absence rather than a failure of assertion.
 - State corruption also enables *cross-turn contradiction*
 - **What makes it hard to detect:** Single-turn testing cannot reveal state corruption. The agent may answer every individual question correctly in isolation. The failure emerges only in multi-turn sequences where earlier information must persist. Testing requires a *teach-delay-recall* protocol: introduce a fact, interpose distractor turns and then probe for recall. The delay length, the nature of the distractors and the similarity between taught and probed terms all affect whether the failure manifests.
-
-### The Evaluation Trilemma
-

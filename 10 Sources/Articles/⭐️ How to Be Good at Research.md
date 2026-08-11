@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 1
-topics: []
+topics: [career-development, error-analysis, learning-science]
 source: https://x.com/itsreallyvivek/status/2064686372737454155/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-06-10
 author: Vivek
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
 # how to be good at research
@@ -49,7 +49,7 @@ updated: 2026-08-08
 
 ### wander on purpose
 
-- omewhere in this field is a corner where your specific weirdness is an unfair advantage, and the only way to locate it is to pay tuition in several places. nobody waives the tuition.
+- somewhere in this field is a corner where your specific weirdness is an unfair advantage, and the only way to locate it is to pay tuition in several places. nobody waives the tuition.
 
 ### find your people
 

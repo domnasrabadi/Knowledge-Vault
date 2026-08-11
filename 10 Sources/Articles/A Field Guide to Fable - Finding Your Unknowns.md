@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [ai-coding, prompting]
 source: https://x.com/trq212/status/2073100352921215386/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-07-03
 author: Thariq
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-11
 ---
 
 # A Field Guide to Fable: Finding Your Unknowns
