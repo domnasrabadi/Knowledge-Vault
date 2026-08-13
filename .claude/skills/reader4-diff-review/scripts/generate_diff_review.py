@@ -239,99 +239,54 @@ def build_html(
 ) -> str:
     before_text = before_path.read_text(encoding="utf-8")
     after_text = after_path.read_text(encoding="utf-8")
-    before_fields_list, before_body = split_document(before_text)
+    _, before_body = split_document(before_text)
     after_fields_list, after_body = split_document(after_text)
-    before_fields = fields_dict(before_fields_list)
     after_fields = fields_dict(after_fields_list)
-    frontmatter_rows, metadata_changed = render_frontmatter(before_fields, after_fields)
     before_lines = before_text.splitlines()
     after_lines = after_text.splitlines()
     before_document, after_document, change_groups, lines_added, lines_deleted = full_document_diff(
         before_lines, after_lines
     )
     similarity = token_similarity(before_body, after_body)
-    similarity_class = "good" if similarity >= 0.99 else "warn" if similarity >= 0.95 else "risk"
-    status = str(manifest.get("status", "unknown"))
     title = extract_title(after_body, str(manifest.get("title", after_path.stem)))
-    generated_at = datetime.now(timezone.utc).astimezone().isoformat(timespec="seconds")
-    path_changed = str(Path(old_path)) != str(after_path)
-    pipeline_class = "good" if status == "archived" else "risk"
-    fidelity_passed = similarity >= 0.99 and status == "archived"
-    fidelity_class = "passed" if fidelity_passed else "review"
-    fidelity_icon = "✓" if fidelity_passed else "!"
-    fidelity_title = "Fidelity gate passed" if fidelity_passed else "Fidelity review required"
-    fidelity_copy = (
-        "The pipeline is archived and the formatting-insensitive prose signal is at least 99%. "
-        "Use the ordered evidence below to confirm the changes are expected."
-        if fidelity_passed
-        else "The pipeline is incomplete or the prose signal is below 99%. Inspect every change group before accepting this review."
-    )
-    source_url = safe_link(manifest.get("source_url", after_fields.get("source", "")))
-    source_html = f'<a href="{esc(source_url)}">Open source</a>' if source_url else "No source URL"
+    before_head = esc(Path(old_path).name or before_path.name)
+    after_head = esc(after_path.name)
 
     return f'''<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Reader4 Review · {esc(title)}</title>
+<title>Reader4 Full Document Diff · {esc(title)}</title>
 <style>
-:root{{--ink:#152033;--muted:#64748b;--paper:#f8fafc;--card:#fff;--line:#dbe3ee;--blue:#2563eb;--green:#16805c;--red:#c2414b;--amber:#a16207;--greenbg:#e7f7ef;--redbg:#fdecef;--gutter:#f1f5f9;--row:25px}}
-*{{box-sizing:border-box}}html{{scroll-behavior:smooth}}body{{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
-.topbar{{height:6px;background:linear-gradient(90deg,#2563eb,#60a5fa 48%,#22c55e)}}main{{max-width:1460px;margin:auto;padding:28px}}
-h1{{font-size:clamp(29px,3.2vw,42px);line-height:1.1;letter-spacing:-.035em;margin:14px 0 6px}}h2{{font-size:17px;margin:0 0 14px}}a{{color:var(--blue)}}
-.receipt-label{{display:inline-flex;gap:8px;align-items:center;padding:6px 10px;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}}
-.subtitle{{color:var(--muted);max-width:790px;margin:0}}.meta-line{{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);margin-top:12px;font-size:12px}}
-.shell{{display:grid;grid-template-columns:265px minmax(0,1fr);gap:22px;margin-top:26px}}aside{{position:sticky;top:18px;align-self:start}}.box{{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 22px rgba(30,41,59,.05)}}
-.receipt{{padding:18px}}.receipt .id{{font:11px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);overflow-wrap:anywhere}}.status{{display:flex;align-items:center;gap:9px;margin:15px 0;font-size:20px;font-weight:800}}.status.good{{color:var(--green)}}.status.risk{{color:var(--red)}}
-.status i{{width:29px;height:29px;display:grid;place-items:center;border-radius:50%;font-style:normal;background:var(--greenbg)}}.status.risk i{{background:var(--redbg)}}.metric{{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding:10px 0;gap:8px}}.metric span{{color:var(--muted)}}.metric b{{font-variant-numeric:tabular-nums;text-align:right}}.metric .good{{color:var(--green)}}.metric .warn{{color:var(--amber)}}.metric .risk{{color:var(--red)}}
-nav{{padding:12px;margin-top:12px}}nav a{{display:block;color:var(--muted);text-decoration:none;padding:8px 10px;border-radius:7px}}nav a:hover{{background:#f1f5f9;color:var(--blue)}}
-.content{{min-width:0}}.panel{{padding:20px;margin-bottom:16px}}.kicker{{color:var(--blue);font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.08em}}
-.timeline{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;list-style:none;padding:0;margin:0}}.timeline li{{border-top:3px solid var(--line);padding-top:10px;color:var(--muted)}}.timeline li b{{display:block;color:inherit}}.timeline li span{{display:block;font-size:11px}}.timeline .done{{border-color:var(--green);color:var(--ink)}}
-.path-grid{{display:grid;grid-template-columns:1fr 34px 1fr;gap:10px;align-items:center}}.path{{display:block;background:#f1f5f9;padding:12px;border-radius:8px;border:1px solid var(--line);overflow-wrap:anywhere;font:12px ui-monospace,SFMono-Regular,Menlo,monospace}}.arrow{{text-align:center;color:var(--blue);font-size:22px}}
-.table-scroll{{overflow-x:auto}}table{{width:100%;border-collapse:collapse}}th,td{{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}}th{{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}}.frontmatter th:first-child,.frontmatter td:first-child{{font-weight:750;width:120px;color:var(--ink)}}.frontmatter .changed td{{background:#f7faff}}.frontmatter .unchanged{{color:#94a3b8}}.empty{{color:var(--muted);font-style:italic}}
-.viewer{{border:1px solid var(--line);border-radius:10px;overflow:hidden}}.viewer-toolbar{{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-bottom:1px solid var(--line);background:#fff;flex-wrap:wrap}}.legend,.controls{{display:flex;align-items:center;gap:10px;flex-wrap:wrap}}.key{{display:flex;align-items:center;gap:5px;color:var(--muted);font-size:11px}}.swatch{{width:12px;height:12px;border-radius:3px}}.swatch.old{{background:var(--redbg);border:1px solid #efb8c0}}.swatch.new{{background:var(--greenbg);border:1px solid #a9dcc6}}.swatch.inline{{background:#ef9aa7}}
-button{{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:7px;padding:6px 9px;font-weight:700;cursor:pointer}}button:hover{{border-color:#93b4ee;background:#eff6ff}}label{{color:var(--muted);font-size:11px;display:flex;align-items:center;gap:5px}}
-.heads,.panes{{display:grid;grid-template-columns:1fr 1fr}}.head{{display:flex;justify-content:space-between;gap:10px;padding:8px 11px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;overflow:hidden}}.head.before{{color:var(--red);background:#fff7f8;border-right:1px solid var(--line)}}.head.after{{color:var(--green);background:#f4fbf8}}.head span{{font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
-.pane{{height:min(72vh,820px);overflow:auto;scrollbar-gutter:stable;background:#fff}}.pane.before{{border-right:1px solid var(--line)}}.line{{display:flex;min-width:max-content;height:var(--row);line-height:var(--row);border-bottom:1px solid #f1f5f9;font:12px/25px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}}.gutter{{position:sticky;left:0;z-index:1;width:52px;min-width:52px;padding-right:10px;text-align:right;color:#94a3b8;background:var(--gutter);border-right:1px solid var(--line);user-select:none}}.line code{{padding:0 9px;white-space:pre}}.pane.before .line.delete,.pane.before .line.replace{{background:var(--redbg)}}.pane.after .line.insert,.pane.after .line.replace{{background:var(--greenbg)}}.line.ghost{{background:#f8fafc}}.line.ghost code{{opacity:0}}.line[data-change] .gutter::before{{content:'●';float:left;margin-left:7px;font-size:8px;color:var(--blue)}}mark{{color:inherit;border-radius:2px;padding:1px 0}}.char-del{{background:#ef9aa7;color:#6f1520;text-decoration:line-through;text-decoration-thickness:1px}}.char-add{{background:#8ed5b7;color:#084f38}}
-.viewer-footer{{display:flex;justify-content:space-between;gap:14px;padding:9px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:11px}}.sync-state{{color:var(--green);font-weight:700}}.gate{{display:flex;gap:14px;align-items:center;border-left:4px solid var(--green)}}.gate.review{{border-left-color:var(--red)}}.gate-icon{{font-size:28px;color:var(--green)}}.gate.review .gate-icon{{color:var(--red)}}.gate strong{{font-size:17px}}.gate p{{margin:2px 0;color:var(--muted)}}
-@media(max-width:900px){{main{{padding:18px}}.shell{{grid-template-columns:1fr}}aside{{position:static}}.timeline{{grid-template-columns:1fr 1fr}}.path-grid{{grid-template-columns:1fr}}.arrow{{transform:rotate(90deg)}}.heads,.panes{{grid-template-columns:1fr}}.pane{{height:48vh}}.pane.before,.head.before{{border-right:0;border-bottom:1px solid var(--line)}}}}
+:root{{--ink:#152033;--muted:#64748b;--paper:#f8fafc;--card:#fff;--line:#dbe3ee;--blue:#2563eb;--green:#16805c;--red:#c2414b;--greenbg:#e7f7ef;--redbg:#fdecef;--gutter:#f1f5f9;--row:25px}}
+*{{box-sizing:border-box}}html,body{{height:100%}}body{{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}}
+.topbar{{height:6px;background:linear-gradient(90deg,#2563eb,#60a5fa 48%,#22c55e)}}main{{max-width:1800px;margin:auto;padding:24px}}
+.badge{{display:inline-flex;padding:6px 10px;border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:999px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}}h1{{font-size:clamp(27px,3vw,40px);line-height:1.1;letter-spacing:-.035em;margin:13px 0 6px}}.sub{{color:var(--muted);margin:0;max-width:900px}}
+.summary{{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}}.pill{{background:var(--card);border:1px solid var(--line);border-radius:9px;padding:8px 11px;color:var(--muted)}}.pill b{{color:var(--ink);margin-left:7px;font-variant-numeric:tabular-nums}}.pill.add b{{color:var(--green)}}.pill.del b{{color:var(--red)}}
+.viewer{{background:var(--card);border:1px solid var(--line);border-radius:13px;box-shadow:0 10px 30px rgba(30,41,59,.08);overflow:hidden}}.toolbar{{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 14px;border-bottom:1px solid var(--line);background:#fff;flex-wrap:wrap}}.legend,.controls{{display:flex;align-items:center;gap:12px;flex-wrap:wrap}}.key{{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12px}}.swatch{{width:13px;height:13px;border-radius:3px}}.swatch.line-old{{background:var(--redbg);border:1px solid #efb8c0}}.swatch.line-new{{background:var(--greenbg);border:1px solid #a9dcc6}}.swatch.inline{{background:#ef9aa7}}
+button{{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:7px;padding:7px 10px;font-weight:700;cursor:pointer}}button:hover{{border-color:#93b4ee;background:#eff6ff}}label{{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:6px}}
+.heads,.panes{{display:grid;grid-template-columns:1fr 1fr}}.head{{display:flex;justify-content:space-between;padding:9px 13px;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.06em}}.head.before{{color:var(--red);background:#fff7f8;border-right:1px solid var(--line)}}.head.after{{color:var(--green);background:#f4fbf8}}.head span{{font-weight:600;color:var(--muted);text-transform:none;letter-spacing:0}}
+.pane{{height:min(72vh,820px);overflow:auto;scrollbar-gutter:stable;background:#fff}}.pane.before{{border-right:1px solid var(--line)}}.line{{display:flex;min-width:max-content;height:var(--row);line-height:var(--row);border-bottom:1px solid #f1f5f9;font:12px/25px ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}}.gutter{{position:sticky;left:0;z-index:1;width:54px;min-width:54px;padding-right:11px;text-align:right;color:#94a3b8;background:var(--gutter);border-right:1px solid var(--line);user-select:none}}.line code{{padding:0 10px;white-space:pre}}
+.line.delete,.line.replace{{background:var(--redbg)}}.line.insert{{background:var(--greenbg)}}.line.ghost{{background:#f8fafc}}.line.ghost code{{opacity:0}}.line[data-change] .gutter::before{{content:'●';float:left;margin-left:7px;font-size:8px;color:var(--blue)}}mark{{color:inherit;border-radius:2px;padding:1px 0}}.char-del{{background:#ef9aa7;color:#6f1520;text-decoration:line-through;text-decoration-thickness:1px}}.char-add{{background:#8ed5b7;color:#084f38}}
+.footer{{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}}.sync-state{{color:var(--green);font-weight:700}}
+@media(max-width:900px){{main{{padding:14px}}.heads,.panes{{grid-template-columns:1fr}}.pane{{height:48vh}}.pane.before,.head.before{{border-right:0;border-bottom:1px solid var(--line)}}.toolbar{{align-items:flex-start}}}}
 </style>
 </head>
-<body>
-<div class="topbar"></div><main>
-  <span class="receipt-label">Reader4 · Audit Ledger</span>
-  <h1>{esc(title)}</h1>
-  <p class="subtitle">A precise, document-first comparison of the captured Inbox note and the filed result.</p>
-  <div class="meta-line"><span>Doc ID: <code>{esc(doc_id)}</code></span><span>Generated: {esc(generated_at)}</span><span>{source_html}</span></div>
-  <div class="shell">
-    <aside>
-      <section class="box receipt" data-testid="summary">
-        <div class="kicker">Reader4 receipt</div>
-        <div class="status {pipeline_class}"><i>{"✓" if status == "archived" else "!"}</i>{esc(status.title())}</div>
-        <div class="id">{esc(doc_id)}</div>
-        <div class="metric"><span>Metadata changes</span><b>{metadata_changed}</b></div>
-        <div class="metric"><span>Change groups</span><b>{change_groups}</b></div>
-        <div class="metric"><span>Line delta</span><b>+{lines_added} / −{lines_deleted}</b></div>
-        <div class="metric"><span>Prose similarity</span><b class="{similarity_class}">{similarity:.1%}</b></div>
-      </section>
-      <nav class="box"><a href="#pipeline">Pipeline</a><a href="#path">Path</a><a href="#metadata">Frontmatter</a><a href="#document">Full document diff</a><a href="#fidelity">Fidelity gate</a></nav>
-    </aside>
-    <div class="content">
-      <section class="box panel" id="pipeline"><h2>Pipeline order</h2><ol class="timeline">{timeline(status, after_path.exists())}</ol></section>
-      <section class="box panel" id="path"><div class="kicker">Location change</div><h2>Path {"changed" if path_changed else "unchanged"}</h2><div class="path-grid"><code class="path">{esc(old_path)}</code><div class="arrow">→</div><code class="path">{esc(after_path)}</code></div></section>
-      <section class="box panel" id="metadata" data-testid="frontmatter-table"><div class="kicker">Canonical schema</div><h2>Frontmatter comparison</h2><div class="table-scroll"><table class="frontmatter"><thead><tr><th>Field</th><th>Before</th><th>After</th></tr></thead><tbody>{frontmatter_rows}</tbody></table></div></section>
-      <section class="box panel" id="document" data-testid="full-document-diff"><div class="kicker">Complete ordered evidence</div><h2>Full document comparison</h2>
-        <div class="viewer">
-          <div class="viewer-toolbar"><div class="legend"><span class="key"><i class="swatch old"></i>Removed/old line</span><span class="key"><i class="swatch new"></i>Added/new line</span><span class="key"><i class="swatch inline"></i>Exact character change</span></div><div class="controls"><button id="previous" type="button">← Previous</button><span id="position">Change 1 of {change_groups}</span><button id="next" type="button">Next →</button><label><input id="sync" type="checkbox" checked> Sync scroll</label></div></div>
-          <div class="heads"><div class="head before">Before <span>{esc(Path(old_path).name or before_path.name)}</span></div><div class="head after">After <span>{esc(after_path.name)}</span></div></div>
-          <div class="panes"><div class="pane before" id="before-pane" tabindex="0">{before_document}</div><div class="pane after" id="after-pane" tabindex="0">{after_document}</div></div>
-          <div class="viewer-footer"><span>Every row slot corresponds across both panes; blank rows preserve insertion/deletion alignment.</span><span class="sync-state" id="sync-state">Scroll linked</span></div>
-        </div>
-      </section>
-      <section class="box panel gate {fidelity_class}" id="fidelity"><div class="gate-icon">{fidelity_icon}</div><div><strong>{fidelity_title}</strong><p>{fidelity_copy}</p></div></section>
-    </div>
+<body><div class="topbar"></div><main>
+<span class="badge">Reader4 · Full Document Diff</span>
+<h1>{esc(title)}</h1>
+<p class="sub">The complete before and after Markdown, line-aligned in two synchronized panes. Soft red/green marks changed lines; stronger inline marks isolate the exact changed characters.</p>
+<div class="summary"><div class="pill">Change groups <b>{change_groups}</b></div><div class="pill add">Lines added <b>+{lines_added}</b></div><div class="pill del">Lines removed <b>−{lines_deleted}</b></div><div class="pill">Before <b>{len(before_lines)} lines</b></div><div class="pill">After <b>{len(after_lines)} lines</b></div><div class="pill">Raw similarity <b>{similarity:.1%}</b></div></div>
+<section class="viewer" data-testid="full-document-diff">
+  <div class="toolbar">
+    <div class="legend"><span class="key"><i class="swatch line-old"></i>Removed/old line</span><span class="key"><i class="swatch line-new"></i>Added/new line</span><span class="key"><i class="swatch inline"></i>Exact character change</span></div>
+    <div class="controls"><button id="previous" type="button">← Previous change</button><span id="position">Change 1 of {change_groups}</span><button id="next" type="button">Next change →</button><label><input id="sync" type="checkbox" checked> Sync vertical scroll</label></div>
   </div>
+  <div class="heads"><div class="head before">Before <span>{before_head}</span></div><div class="head after">After <span>{after_head}</span></div></div>
+  <div class="panes"><div class="pane before" id="before-pane" tabindex="0">{before_document}</div><div class="pane after" id="after-pane" tabindex="0">{after_document}</div></div>
+  <div class="footer"><span><b>Reading model:</b> every row slot corresponds across both panes; blank rows preserve insertion/deletion alignment.</span><span class="sync-state" id="sync-state">Scroll linked</span></div>
+</section>
 </main>
 <script>
 const beforePane=document.getElementById('before-pane');
@@ -348,9 +303,7 @@ function go(change){{if(!total)return;current=((change-1+total)%total)+1;const l
 document.getElementById('previous').addEventListener('click',()=>go(current-1));
 document.getElementById('next').addEventListener('click',()=>go(current+1));
 if(!total){{document.getElementById('previous').disabled=true;document.getElementById('next').disabled=true;position.textContent='No changes'}}
-</script>
-</body>
-</html>'''
+</script></body></html>'''
 
 
 def snapshot(args: argparse.Namespace) -> int:
