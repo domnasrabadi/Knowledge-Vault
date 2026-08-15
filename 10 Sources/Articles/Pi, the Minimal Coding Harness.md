@@ -1,23 +1,26 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [ai-coding, context-engineering]
 source: https://earendil.com/posts/pi-autoresearch-and-databricks/
 created: 2026-08-09
 published: 2026-08-04
 author: Earendil
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-13
 ---
 
-# Pi, Minimal and Performant
+# Pi, the Minimal Coding Harness
 
 <div align="center">
   <img src="https://earendil.com/static/og/posts/pi-autoresearch-and-databricks.png" width="220" />
 </div>
 
-- AI has made code cheap, and as a result many companies are building bigger tools in pursuit of better performance. Larger prompts, more orchestration, more layers, more complexity. This also makes these tools intrinsically more expensive to use. Pi takes the opposite approach.
+- AI has made code cheap, and as a result many companies are building bigger tools in pursuit of better performance.
+    - Larger prompts, more orchestration, more layers, more complexity.
+    - This also makes these tools intrinsically more expensive to use.
+    - Pi takes the opposite approach.
 - Pi is the coding harness that chooses minimalism on purpose. It comes out of the box with only 4 tools, and its [system prompt](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/system-prompt.ts#L121-L159) and tool definitions come in below 1,000 tokens. The idea being that most work can be done with the basics, and if you want more, build it.
 
 ### Case Studies
@@ -30,7 +33,9 @@ updated: 2026-08-09
 ##### Minimal harness, measurable effect
 
 - Pi shines because it doesn’t try to wrap the model in a bunch of defaults and instructions that get lost in the [instruction hierarchy](https://openai.com/index/the-instruction-hierarchy/).
-- Extensible beats bloat
+
+#### Extensible Beats Bloat
+
 - David Cortés describes building `pi-autoresearch` directly as a Pi extension, by simply asking “Pi, [to] create an extension for Autoresearch...”. Pi reads its own extension documentation and starts building a new workflow from there.
 - The important point here is that Pi doesn’t ship any of these tools out of the box. Instead, it makes it ridiculously simple for you to build them.
 

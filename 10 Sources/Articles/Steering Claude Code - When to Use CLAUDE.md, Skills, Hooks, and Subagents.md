@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality: 
+topics: [ai-coding, context-engineering, ai-tooling]
 source: https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more
 created: 2026-08-09
 published: 2026-06-18
-author: Claude
+author: Michael Segner
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-13
 ---
 
-# https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more
+# Steering Claude Code: When to Use CLAUDE.md, Skills, Hooks, and Subagents
 
 <div align="center">
   <img src="https://cdn.prod.website-files.com/68a44d4040f98a4adf2207b6/6a340f852d1f938ab8675599_65a737a9.png" width="220" />
@@ -24,7 +24,9 @@ updated: 2026-08-09
 
 #### CLAUDE.md files
 
-- **Always loaded**: The first type is a root CLAUDE.md file, either in a shared repository and/or saved locally for your personal preferences specific to a project. All these files load at session start, and won’t get lost or degraded across long sessions. When Claude Code compacts the conversation, it re-reads these files.
+- **Always loaded**: The first type is a root CLAUDE.md file, either in a shared repository and/or saved locally for your personal preferences specific to a project.
+    - All these files load at session start, and won’t get lost or degraded across long sessions.
+    - When Claude Code compacts the conversation, it re-reads these files.
 - **Tip:** Keep CLAUDE.md under 200 lines, give it an owner, and review changes to it like code.
 - In monorepos, give each team's directory its own subdirectory CLAUDE.md
 
@@ -63,5 +65,7 @@ updated: 2026-08-09
 
 #### Appending the system prompt
 
-- An alternative to modifying output styles is the `append-system-prompt` flag. Whereas modifying output style files can have large, unintended changes to Claude’s behavior, the append flag is only additive to the original system prompt. It doesn’t modify Claude’s role; it just adds instructions to its default role.
+- An alternative to modifying output styles is the `append-system-prompt` flag.
+    - Whereas modifying output style files can have large, unintended changes to Claude’s behavior, the append flag is only additive to the original system prompt.
+    - It doesn’t modify Claude’s role; it just adds instructions to its default role.
 - Appending the system prompt can have a higher context cost compared to other methods of passing instructions. It increases input tokens, though prompt caching reduces this cost after the first request in a session.

@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 1
-topics: []
+topics: [ai-agents, prompting, agent-evaluation]
 source: https://x.com/AlphaSignalAI/status/2069064122218717387/?rw_tt_thread=True
 created: 2026-08-09
 published: 2026-06-22
 author: AlphaSignal AI
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-13
 ---
 
-# How your agents can write and optimize their own skills
+# How Your Agents Can Write and Optimize Their Own Skills
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/2014100845189529600/Ff1Xc28-.jpg" width="220" />
@@ -46,9 +46,7 @@ updated: 2026-08-09
 
 - EvoSkill is a new framework that uses the idea of GEPA to discover and synthesize skills for multi-agent coding workflows. EvoSkill uses the same fundamental idea as SkillOpt: an optimization loop that analyzes execution traces, finds error patterns and proposes fixes.
 - EvoSkill keeps track of multiple skill candidates simultaneously, keeping them on separate Git branches and using a Pareto frontier to select the highest-performing variants.
-
-### EvoSkill evaluates a branch on a held-out dataset. If the pagination accuracy surpasses the baseline, this version replaces the lowest-performing variant on the active Pareto frontier.
-
+- EvoSkill evaluates a branch on a held-out dataset. If the pagination accuracy surpasses the baseline, this version replaces the lowest-performing variant on the active Pareto frontier.
 
 ### Trade-offs, costs, and practical considerations
 

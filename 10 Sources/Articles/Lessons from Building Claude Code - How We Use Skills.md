@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [ai-coding, ai-agents, ai-tooling]
 source: https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills
 created: 2026-08-09
 published: 2026-06-03
 author: Claude
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-13
 ---
 
 # Lessons from building Claude Code: How we use skills
@@ -26,17 +26,19 @@ updated: 2026-08-09
 ### Types of skills
 
 - skills that explain how to correctly use a library, CLI, or SDKs
-- kills that describe how to test or verify that your code is working
+- skills that describe how to test or verify that your code is working
 - Verification skills have had the most measurable impact on Claude’s output quality internally. It can be worth having an engineer spend a week just making your verification skills excellent.
-
-#### 6. Code quality and review
-
-- `adversarial-review` — spawns a fresh-eyes subagent to critique, implements fixes, iterates until findings degrade to nitpicks
-- **7. CI/CD and deployment** These are skills that help you fetch, push, and deploy code inside of your codebase. These skills may reference other skills to collect data. Examples include:
-    - `babysit-pr` — monitors a PR → retries flaky CI → resolves merge conflicts → enables auto-merge
-    - `deploy-<service>` — build → smoke test → gradual traffic rollout with error-rate comparison → auto-rollback on regression
-    - `cherry-pick-prod` — isolated worktree → cherry-pick → conflict resolution → PR with template
-- **8. Runbooks** These are skills that take a symptom (such as a Slack thread, alert, or error signature), walk through a multi-tool investigation, and produce a structured report.
+- Code quality and review
+    - `adversarial-review` — spawns a fresh-eyes subagent to critique, implements fixes, iterates until findings degrade to nitpicks
+- CI/CD and deployment
+    - These are skills that help you fetch, push, and deploy code inside of your codebase.
+        - These skills may reference other skills to collect data.
+        - Examples include:
+            - `babysit-pr` — monitors a PR → retries flaky CI → resolves merge conflicts → enables auto-merge
+            - `deploy-<service>` — build → smoke test → gradual traffic rollout with error-rate comparison → auto-rollback on regression
+            - `cherry-pick-prod` — isolated worktree → cherry-pick → conflict resolution → PR with template
+- Runbooks
+    - These are skills that take a symptom (such as a Slack thread, alert, or error signature), walk through a multi-tool investigation, and produce a structured report.
 
 ### Tips for making skills
 
@@ -44,11 +46,15 @@ updated: 2026-08-09
 
 #### Build a gotchas section
 
-- The highest-signal content in any skill is the Gotchas section. These sections should be built up from common failure points that Claude runs into when using your skill. Ideally, you will update your skill over time to capture these gotchas.
+- The highest-signal content in any skill is the Gotchas section.
+    - These sections should be built up from common failure points that Claude runs into when using your skill.
+    - Ideally, you will update your skill over time to capture these gotchas.
 
 #### Use the file system and progressive disclosure
 
-- Like we said earlier, a skill is a folder, not just a markdown file. You should think of the entire file system as a form of context engineering and progressive disclosure. Tell Claude what files are in your skill, and it will read them at appropriate times.
+- Like we said earlier, a skill is a folder, not just a markdown file.
+    - You should think of the entire file system as a form of context engineering and progressive disclosure.
+    - Tell Claude what files are in your skill, and it will read them at appropriate times.
 - The simplest form of progressive disclosure is to point to other markdown files for Claude to use. For example, you may split detailed function signatures and usage examples into `references/api.md`.
 - Another example: if your end output is a markdown file, you might include a template file for it in `assets/` to copy and use.
 
@@ -67,7 +73,9 @@ updated: 2026-08-09
 
 #### Write descriptions for the model, not for humans
 
-- When Claude Code starts a session, it builds a listing of every available skill with its description. This listing is what Claude scans to decide "is there a skill for this request?" Which means the description field is not a summary, it's a description of when to trigger this skill.
+- When Claude Code starts a session, it builds a listing of every available skill with its description.
+    - This listing is what Claude scans to decide "is there a skill for this request?"
+    - Which means the description field is not a summary, it's a description of when to trigger this skill.
 
 #### Help Claude remember
 
@@ -85,13 +93,18 @@ updated: 2026-08-09
 ### Distributing skills
 
 - two ways you might want to share skills with others:
-- • check your skills into your repo (under `./.claude/skills`) • make a **plugin** and have a Claude Code Plugin marketplace where users can upload and install plugins
+    - check your skills into your repo (under `./.claude/skills`)
+    - make a **plugin** and have a Claude Code Plugin marketplace where users can upload and install plugins
 - As you scale, an internal plugin marketplace allows you to distribute skills and let your team decide which ones to install, as well as include a setup flow.
 
 ### Managing a skills marketplace
 
-- At Anthropic, we don't have a centralized team that decides; instead we try to find the most useful skills organically. If someone has a skill that they want people to try out, they can upload it to a sandbox folder in GitHub and point people to it in Slack or other forums. Once a skill has gotten traction (which is up to the skill owner to decide), they can put in a PR to move it into the marketplace.
+- At Anthropic, we don't have a centralized team that decides; instead we try to find the most useful skills organically.
+    - If someone has a skill that they want people to try out, they can upload it to a sandbox folder in GitHub and point people to it in Slack or other forums.
+    - Once a skill has gotten traction (which is up to the skill owner to decide), they can put in a PR to move it into the marketplace.
 
 ### Composing skills
 
-- You may want to have skills that depend on each other. For example, you may have a file upload skill that uploads a file, and a CSV generation skill that makes a CSV and uploads it. This sort of dependency management is not natively built into marketplaces or skills yet, but you can just reference other skills by name, and the model will invoke them if they are installed.
+- You may want to have skills that depend on each other.
+    - For example, you may have a file upload skill that uploads a file, and a CSV generation skill that makes a CSV and uploads it.
+    - This sort of dependency management is not natively built into marketplaces or skills yet, but you can just reference other skills by name, and the model will invoke them if they are installed.

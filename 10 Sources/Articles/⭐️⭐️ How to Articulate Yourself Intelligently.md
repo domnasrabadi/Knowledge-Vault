@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 2
-topics: []
+topics: [communication]
 source: https://x.com/thedankoe/status/2011827303962329458/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-01-15
 author: DAN KOE
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-13
 ---
 
-# How to articulate yourself intelligently
+# How to Articulate Yourself Intelligently
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/1845856303174037504/Q7ZZqVFa.jpg" width="220" />
@@ -44,15 +44,25 @@ updated: 2026-08-08
 
 - The Pyramid Principle is a communication framework that structures ideas in a hierarchical, logical way to make information more palatable and persuasive.
 - It’s pretty simple.
-    - Start with the main idea (the key conclusion or recommendation)
-    - Support it with key arguments (usually 3-5 key points)
-    - Provide detailed evidence (data, examples, analysis)
+    1. Start with the main idea (the key conclusion or recommendation)
+    2. Support it with key arguments (usually 3-5 key points)
+    3. Provide detailed evidence (data, examples, analysis)
 
 ### Advanced – Cross Domain Synthesis
 
 - Here it is:
     - **Problem and amplify** – your introduction should state a relatable problem and illustrate what happens if that problem is not solved.
-    - **Cross-domain synthesis** – note patterns or concepts from your other interests that help support your argument. If I’m talking about *deep work*, I can use the concept of *entropy* from physics to illustrate how distraction works. This teaches my audience something new, and I can sleep well knowing that all other deep work content out there does not do this.
+    - **Cross-domain synthesis** – note patterns or concepts from your other interests that help support your argument.
+        - If I’m talking about *deep work*, I can use the concept of *entropy* from physics to illustrate how distraction works.
+        - This teaches my audience something new.
+        - and I can sleep well knowing that all other deep work content out there does not do this.
     - **Unique process or solution** – give a list of ideas or steps that best solve the problem you introduced at the beginning, solidifying the transformation. These should come from your own contemplation rather than someone else’s prescription.
-- • **Pain point** – if I don’t know how to start writing or speaking, I start with a relevant pain point, and ideas start to flow from there. • **Example** – once you've started, you can throw an example in anywhere. This grounds what you are saying. • **Personal story** – think of a time in your life that relates to what you are writing about. This can go anywhere. • **Statistic** – research a truthful statistic that adds more authority to your point. • **Metaphor** – explain a complex idea as if you are talking to a child. Alan Watts is incredible at this. • **Quote** – include a quote that justifies what you are saying. Quotes are easy because they are almost always great ideas. • **Reframe** – give people a different perspective on the point you just discussed. • **What, how, or why** – when all else fails, simply ask what, how, or why? Thinking is questioning.
+- **Pain point** – if I don’t know how to start writing or speaking, I start with a relevant pain point, and ideas start to flow from there.
+- **Example** – once you've started, you can throw an example in anywhere. This grounds what you are saying.
+- **Personal story** – think of a time in your life that relates to what you are writing about. This can go anywhere.
+- **Statistic** – research a truthful statistic that adds more authority to your point.
+- **Metaphor** – explain a complex idea as if you are talking to a child. Alan Watts is incredible at this.
+- **Quote** – include a quote that justifies what you are saying. Quotes are easy because they are almost always great ideas.
+- **Reframe** – give people a different perspective on the point you just discussed.
+- **What, how, or why** – when all else fails, simply ask what, how, or why? Thinking is questioning.
 - These are the “legos” that compose most of my outlines. I tend to cycle through all of them in my head. Once you get the hang of it, it becomes second nature, and your thinking process starts to rewire.

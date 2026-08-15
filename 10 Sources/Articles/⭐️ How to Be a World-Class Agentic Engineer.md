@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
-quality: 2
-topics: []
+status: raw
+quality: 1
+topics: [ai-coding, context-engineering, ai-agents]
 source: https://x.com/systematicls/status/2028814227004395561/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-03-03
 author: sysls
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-13
 ---
 
-# How To Be A World-Class Agentic Engineer
+# How to Be a World-Class Agentic Engineer
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/1982988371661336578/b0SV2XPc.jpg" width="220" />
@@ -50,20 +50,22 @@ updated: 2026-08-08
 ### Compaction, Context And Assumptions
 
 - he main difference is whether or not the agent has had to make any assumptions or "fill in the gaps". As of today, they are still atrocious at "connecting the dots", "filling in the gaps" or making assumptions
-- One of the most important rules in [claude.md](http://claude.md) is a rule on how to deal with grabbing context, and instruct your agent to read that rule the first thing whenever it reads [claude.md](http://claude.md) (which is always after compaction). As part of the grabbing context rule, a few simple instructions that go a long way are: re-reading your task plan, and re-reading the relevant files (to the task) before continuing.
+- One of the most important rules in `CLAUDE.md` is a rule on how to deal with grabbing context, and instruct your agent to read that rule the first thing whenever it reads `CLAUDE.md` (which is always after compaction). As part of the grabbing context rule, a few simple instructions that go a long way are: re-reading your task plan, and re-reading the relevant files (to the task) before continuing.
 
 ### Letting Your Agents Know How To End The Task
 
 - Tests are a very very good milestone for agents, because they are deterministic and you can set very clear expectations. Unless these X number of tests pass, your task is NOT complete; and you are NOT allowed to edit the tests.
 - You know what else has recently become a viable end-point for a task? Screenshots + verification
 
-### Agents That Run Forever
-
-
 ### Rules
 
-- If you don't want your agent to do something, write it as a rule. Then let your agent know about this rule in your [CLAUDE.md](http://CLAUDE.md). Something like: before you code, read "[coding-rules.MD](http://coding-rules.MD)". Rules can be nested, and rules can be conditional! If you are coding, read "[coding-rules.MD](http://coding-rules.MD)", and if you are writing tests, read "[coding-test-rules.MD](http://coding-test-rules.MD)". If your tests are failing, read "[coding-test-failing-rules.MD](http://coding-test-failing-rules.MD)". You can create arbitrary logic branches of rules to follow, and claude (and codex) will happily follow along, provided this is clearly specified in the [CLAUDE.md](http://CLAUDE.md).
-- In fact, this is the FIRST practical advice I'm giving: treat your [CLAUDE.md](http://CLAUDE.md) as a logical, nested directory of where to find context given a scenario and an outcome. It should be as barebones as possible, and only contain the IF-ELSE of where to go to seek the context.
+- If you don't want your agent to do something, write it as a rule.
+    - Then let your agent know about this rule in your `CLAUDE.md`.
+    - Something like: before you code, read "`coding-rules.MD`".
+    - Rules can be nested, and rules can be conditional!
+    - If you are coding, read "`coding-rules.MD`", and if you are writing tests, read "`coding-test-rules.MD`". If your tests are failing, read "`coding-test-failing-rules.MD`".
+    - You can create arbitrary logic branches of rules to follow, and claude (and codex) will happily follow along, provided this is clearly specified in the `CLAUDE.md`.
+- In fact, this is the FIRST practical advice I'm giving: treat your `CLAUDE.md` as a logical, nested directory of where to find context given a scenario and an outcome. It should be as barebones as possible, and only contain the IF-ELSE of where to go to seek the context.
 - If you see your agent doing something and you disapprove, add it as a rule, and tell the agent to read the rule before it does THAT THING again, and it will most definitely not do it anymore.
 
 ### Skills

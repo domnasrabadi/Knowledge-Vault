@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [llm-evaluation, error-analysis]
 source: https://x.com/annabellschfr/status/2085381643687047434/?s=12&rw_tt_thread=True
 created: 2026-08-09
 published: 2026-08-06
 author: Annabell
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-13
 ---
 
 # Scoping and curating eval datasets
@@ -19,7 +19,9 @@ updated: 2026-08-09
 
 - An eval dataset is a repeatable set of examples that represent the scope of your application, and that you use to measure and improve your system
 - This guide focuses on the design work that happens before and while you create datasets and dataset items
-- Dataset design is iterative. A good starting point is a minimally complete dataset: about 15-30 rows that can run through your application, cover the most important input slices, and have an evaluator or review rubric. Run that version early, fix the schema and evaluator, then expand into the gaps you see from those runs or from production input.
+- Dataset design is iterative.
+    - A good starting point is a minimally complete dataset: about 15-30 rows that can run through your application, cover the most important input slices, and have an evaluator or review rubric.
+    - Run that version early, fix the schema and evaluator, then expand into the gaps you see from those runs or from production input.
 - Your application will very likely have more than one evaluation dataset. Datasets are often scoped to a specific part of the system or to one sub-step the agent takes.
 
 ### 1. Start with the goal of the dataset
@@ -70,13 +72,10 @@ updated: 2026-08-09
     - known failures or regressions you want to prevent
     - synthetic gap fills only where production traces or existing assets do not cover the distribution
 
-### 7. Run the first experiment and expand deliberately
-
-
 ### How datasets evolve over time
 
 - By [monitoring production](https://langfuse.com/academy/monitoring) and frequently reviewing data through structured [error analysis](https://langfuse.com/academy/monitoring/error-analysis), your datasets can evolve over time to represent the production scope of your system
 - There are three useful expansion patterns:
-- **Production-mirroring**: add interesting cases from production no matter if good or bad, to expand the coverage of your dataset over time.
-- **Bad-trace expansion:** add a reviewed dataset item whenever you find a serious production failure. This works well once the system is live and you can continuously mine traces.
-- **Purpose-specific datasets:** build separate datasets for stable regression, adversarial inputs, single-step evaluations.
+    - **Production-mirroring**: add interesting cases from production no matter if good or bad, to expand the coverage of your dataset over time.
+    - **Bad-trace expansion:** add a reviewed dataset item whenever you find a serious production failure. This works well once the system is live and you can continuously mine traces.
+    - **Purpose-specific datasets:** build separate datasets for stable regression, adversarial inputs, single-step evaluations.

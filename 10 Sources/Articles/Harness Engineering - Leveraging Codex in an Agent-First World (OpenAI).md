@@ -1,14 +1,14 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality:
+topics: [ai-coding, context-engineering]
 source: https://openai.com/index/harness-engineering/
 created: 2026-08-09
 published: 2026-02-11
 author: openai.com
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-13
 ---
 
 # Harness engineering: leveraging Codex in an agent-first world | OpenAI
@@ -24,7 +24,9 @@ updated: 2026-08-09
 ### We started with an empty git repository
 
 - There was no pre-existing human-written code to anchor the system. From the beginning, the repository was shaped by the agent.
-- Five months later, the repository contains on the order of a million lines of code across application logic, infrastructure, tooling, documentation, and internal developer utilities. Over that period, roughly 1,500 pull requests have been opened and merged with a small team of just three engineers driving Codex. This translates to an average throughput of 3.5 PRs per engineer per day, and surprisingly the throughput has *increased* as the team has grown to now seven engineers.
+- Five months later, the repository contains on the order of a million lines of code across application logic, infrastructure, tooling, documentation, and internal developer utilities.
+    - Over that period, roughly 1,500 pull requests have been opened and merged with a small team of just three engineers driving Codex.
+    - This translates to an average throughput of 3.5 PRs per engineer per day, and surprisingly the throughput has *increased* as the team has grown to now seven engineers.
 
 ### Redefining the role of the engineer
 
@@ -41,8 +43,12 @@ updated: 2026-08-09
 
 - We tried the “one big [`AGENTS.md`⁠](https://agents.md/)” approach. It failed in predictable ways:
     - **Context is a scarce resource.** A giant instruction file crowds out the task, the code, and the relevant docs—so the agent either misses key constraints or starts optimizing for the wrong ones.
-    - **Too much guidance becomes** ***non-guidance*****.** When everything is “important,” nothing is. Agents end up pattern-matching locally instead of navigating intentionally.
-    - **It rots instantly.** A monolithic manual turns into a graveyard of stale rules. Agents can’t tell what’s still true, humans stop maintaining it, and the file quietly becomes an attractive nuisance.
+    - **Too much guidance becomes** ***non-guidance*****.**
+        - When everything is “important,” nothing is.
+        - Agents end up pattern-matching locally instead of navigating intentionally.
+    - **It rots instantly.**
+        - A monolithic manual turns into a graveyard of stale rules.
+        - Agents can’t tell what’s still true, humans stop maintaining it, and the file quietly becomes an attractive nuisance.
     - **It’s hard to verify.** A single blob doesn’t lend itself to mechanical checks (coverage, freshness, ownership, cross-links), so drift is inevitable.
 - So instead of treating `AGENTS.md` as the encyclopedia, we treat it as **the table of contents**.
 - The repository’s knowledge base lives in a structured `docs/` directory treated as the system of record. A short `AGENTS.md` (roughly 100 lines) is injected into context and serves primarily as a map, with pointers to deeper sources of truth elsewhere.
@@ -66,7 +72,9 @@ updated: 2026-08-09
 ### Throughput changes the merge philosophy
 
 - As Codex’s throughput increased, many conventional engineering norms became counterproductive.
-- The repository operates with minimal blocking merge gates. Pull requests are short-lived. Test flakes are often addressed with follow-up runs rather than blocking progress indefinitely.
+- The repository operates with minimal blocking merge gates.
+    - Pull requests are short-lived.
+    - Test flakes are often addressed with follow-up runs rather than blocking progress indefinitely.
 
 ### What “agent-generated” actually means
 
@@ -83,9 +91,16 @@ updated: 2026-08-09
 
 ### Entropy and garbage collection
 
-- **Full agent autonomy also introduces novel problems.** Codex replicates patterns that already exist in the repository—even uneven or suboptimal ones. Over time, this inevitably leads to drift.
-- Initially, humans addressed this manually. Our team used to spend every Friday (20% of the week) cleaning up “AI slop.” Unsurprisingly, that didn’t scale.
+- **Full agent autonomy also introduces novel problems.**
+    - Codex replicates patterns that already exist in the repository—even uneven or suboptimal ones.
+    - Over time, this inevitably leads to drift.
+- Initially, humans addressed this manually.
+    - Our team used to spend every Friday (20% of the week) cleaning up “AI slop.”
+    - Unsurprisingly, that didn’t scale.
 - Instead, we started encoding what we call “golden principles” directly into the repository and built a recurring cleanup process.
 - These principles are opinionated, mechanical rules that keep the codebase legible and consistent for future agent runs.
-- For example: (1) we prefer shared utility packages over hand-rolled helpers to keep invariants centralized, and (2) we don’t probe data “YOLO-style”—we validate boundaries or rely on typed SDKs so the agent can’t accidentally build on guessed shapes. On a regular cadence, we have a set of background Codex tasks that scan for deviations, update quality grades, and open targeted refactoring pull requests.
+- For example:
+    1. we prefer shared utility packages over hand-rolled helpers to keep invariants centralized
+    2. we don’t probe data “YOLO-style”—we validate boundaries or rely on typed SDKs so the agent can’t accidentally build on guessed shapes
+    - On a regular cadence, we have a set of background Codex tasks that scan for deviations, update quality grades, and open targeted refactoring pull requests.
 - Technical debt is like a high-interest loan: it’s almost always better to pay it down continuously in small increments than to let it compound and tackle it in painful bursts. Human taste is captured once, then enforced continuously on every line of code.

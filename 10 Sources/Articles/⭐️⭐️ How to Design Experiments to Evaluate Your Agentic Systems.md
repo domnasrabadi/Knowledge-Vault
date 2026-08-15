@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
+status: raw
 quality: 2
-topics: []
+topics: [agent-evaluation, evaluation-metrics]
 source: https://x.com/neural_avb/status/2031417353666441266/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-03-10
 author: AVB
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-13
 ---
 
-# How to design Experiments to evaluate your Agentic Systems
+# How to Design Experiments to Evaluate Your Agentic Systems
 
 <div align="center">
   <img src="https://pbs.twimg.com/profile_images/2015375309147611136/WKvfQ-oV.jpg" width="220" />
@@ -27,32 +27,41 @@ updated: 2026-08-08
 - Depending on your use-case, you may want to set up a system-level evaluation harness, or a module/unit-level harness.
 - *Your first task is to make a decision -* *what are you evaluating?***
 - Generally you can't evaluate an entire pipeline at once and expect actionable insights. There may be way too many moving variables!
-- suggest you to ask yourself these questions: 1. Where in the pipeline have I made the most egregious assumptions? *( the whole point of an experiment is to validate hypothesis/assumptions, so may as well start here) * 2. What part of my pipeline happens EARLIEST in the the chain? *( the earlier things are in the pipeline, the more impactful they tend to be coz errors propagate downstream! So prioritize these first! ) * 3. What is my goal here - what *vector* am I trying to *optimize*? *( I have an entire section for this one coming up)*
+- suggest you to ask yourself these questions:
+    1. Where in the pipeline have I made the most egregious assumptions? *( the whole point of an experiment is to validate hypothesis/assumptions, so may as well start here) *
+    2. What part of my pipeline happens EARLIEST in the the chain? *( the earlier things are in the pipeline, the more impactful they tend to be coz errors propagate downstream! So prioritize these first! ) *
+    3. What is my goal here - what *vector* am I trying to *optimize*? *( I have an entire section for this one coming up)*
 
 ## Step 2:
 
 - Decide your end goal
 - When we run experiments, we always have a goal in mind. A hypothesis we want to test, or a suspicion we want to rest. What does success look like? What will you do with the information once you have it? It is best to have a clear hypothesis and a threshold for action.
-- Step 3:
+
+## Step 3:
+
 - Isolate the black box and your knobs
 - You picked a module in Step 1 to test. Now it's time to isolate it from the rest of the system. You need a clean function where you shove your inputs in, and it spits the outputs out, without worrying about any internal plumbing.
 - **Independent variables.** This is basically the "knobs" of your experiment. The **hyperparameters** (in a machine learning sense). These are the specific configuration parameters you are controlling from the outside to see how they affect the performance of the black box.
-- Isolate your independent variables from the rest of your program. I will suggest to keep the number of independent variables to like maximum of 2 or 3 so you can study their effects afterwards before adding more variables! Examples: 1. Suppose you just want to test quality of different LLMs. Put your module as a function and make it accept a parameter (the model name) as input. 2. Suppose you want to test different system prompts. Pass the prompts as input. 3. You want to test new tools, hide these tools behind a feature flag that you can toggle on or off.
+- Isolate your independent variables from the rest of your program. I will suggest to keep the number of independent variables to like maximum of 2 or 3 so you can study their effects afterwards before adding more variables! Examples:
+    1. Suppose you just want to test quality of different LLMs. Put your module as a function and make it accept a parameter (the model name) as input.
+    2. Suppose you want to test different system prompts. Pass the prompts as input.
+    3. You want to test new tools, hide these tools behind a feature flag that you can toggle on or off.
 
-### Step 4:
+## Step 4:
 
 - Design your test-cases
 - Your evaluation is only as good as your dataset. If you test on garbage, you'll optimize for garbage.
 - Every test-case has 2 components: the input and the expected output. The most simple experiments can just be some kind of a CSV file containing literally those two columns as inputs.
 - some examples:
-- production logs, that is the best place to begin.
-- should be able to find the exact inputs where your target module was invoked.
+    - production logs, that is the best place to begin.
+    - should be able to find the exact inputs where your target module was invoked.
 - If you don't have production logs, I encourage you to quit experimenting and set up your analytics first.
 - Come back to the experiment later.
 - If none of the above apply to you, your best shot is to either write test-cases yourself, or generate synthetic cases with an LLM. I encourage you to decide which route (or a combination) is best for your use-case.
 - How does quality test-case data look like?
 - important that your test-case have the following properties:
-- • **Deduplicated and diverse:** Since we will be aggregating the performance across these test cases, it is super important for your test cases to be diverse. If you oversample a single subdomain, you stand the risk of biasing your entire experiment. • **Ground truth responses are preferred:** If you are logging the inputs of your production system in the logs, you are probably also logging outputs as well. Having access to this is handy coz in the minimum, it tells you how much your new solution is expected to *drift* from your current solution.
+    - **Deduplicated and diverse:** Since we will be aggregating the performance across these test cases, it is super important for your test cases to be diverse. If you oversample a single subdomain, you stand the risk of biasing your entire experiment.
+    - **Ground truth responses are preferred:** If you are logging the inputs of your production system in the logs, you are probably also logging outputs as well. Having access to this is handy coz in the minimum, it tells you how much your new solution is expected to *drift* from your current solution.
 
 ## Step 5:
 
@@ -69,5 +78,6 @@ updated: 2026-08-08
 
 ![](https://pbs.twimg.com/media/HDEGZf9aMAIb2xV.jpg)
 
-- Step 6
+## Step 6:
+
 - Draw graphs and plots *Visualizations are a window to your experiment's soul.*
