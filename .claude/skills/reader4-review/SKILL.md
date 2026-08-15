@@ -7,7 +7,7 @@ description: Review, fix, file, archive, and visually audit notes exported by th
 
 Wraps the general `file-note` skill with reader4-pipeline-specific stages. **Scope: only notes in `00 Inbox/` that came from the reader4 pipeline** (they appear in `reader4 status` / the manifest at `~/Downloads/reader4/state/manifest.json`; match by note path/title). For any other unfiled note, use plain `file-note` instead.
 
-Process notes one at a time, oldest first, unless the user picks one. All CLI calls run from `/Users/domnasrabadi/Downloads/reader4` via `uv run reader4 ...`.
+Process notes one at a time, oldest first, unless the user picks one — this is the default single-note "one confirmation tap" flow (steps 0–5 below). For reviewing more than a handful of notes at once, use the batch workflow at the bottom of this file instead. All CLI calls run from `/Users/domnasrabadi/Downloads/reader4` via `uv run reader4 ...`.
 
 ## Per note
 
@@ -22,7 +22,14 @@ Open the note and its `source` URL context. Check and, where warranted, **propos
 - **Fidelity spot-check**: reading order sane, no obvious missing/duplicated highlights, images render.
 - **PDF heading promotion**: PDFs export as flat bullets (Reader stores no HTML for them). Bullets that are clearly section titles — outline-numbered (`B.`, `B.1.`, `3.2`) or bare heading words (`Terminology`, `References`) — propose promoting to `##`/`###`.
 - **Code-fence restoration**: Readwise's export API flattens `<pre><code>` blocks into glued plain text. If a bullet reads like squashed code (path trees, `├──`, inline syntax), propose reconstructing a fenced code block (consult the source URL if needed).
+- **Math notation restoration**: LaTeX-style math (`$I_0$`, `$s'$`) is sometimes stripped by the export, breaking sentences — restore it the same way as code fences, consulting the source if needed.
+- **Broken auto-linked filenames**: X/Twitter's export auto-linkifies bare filenames mentioned in text (`SKILL.md`, `CLAUDE.md`) into dead `http://SKILL.md`-style links. Convert these to inline code.
 - **Nesting fixes**: children highlighted individually render top-level. Where the text makes parent/child structure obvious (e.g. "the categories are:" followed by "Category 1/2/3" bullets), propose indenting them.
+- **One idea per bullet**: when a bullet bundles 3+ distinct sentences/ideas, split it into a parent bullet (the first sentence) with the rest as indented children, wording untouched. Leave tight 2-sentence bullets alone where the second sentence is a direct continuation — don't over-split. An enumerated aside inside a bullet ("(1)... and (2)...") becomes an indented *numbered* sub-list, not more flat bullets.
+- **Enumerated/numbered structure**: a full set of same-pattern items (nine dark arts, seven anti-patterns) each getting its own heading should collapse into one heading + one nested bullet list. A partial/broken numbered sequence that survived export (only items 6–7 of an original 1–7) should demote to plain bullets under the nearest natural heading — don't preserve it as orphaned numbered headings that read as arbitrary out of context.
+- **Sequential vs. parallel lists**: a flat sequence of imperative steps ("Edit the training code" → "Run an experiment" → ... → "Repeat") becomes a numbered list nested under its intro line. A set of parallel thematic bullets (lessons, principles, stages) not already labeled as such gets grouped under one new parent bullet with explicit enumeration prefixes ("Lesson 1: ...").
+- **Dangling empty sections**: a heading with zero content beneath it (export ended mid-article) should be proposed for removal rather than left dangling.
+- **Obsidian-breaking markdown**: numbered lists must start cleanly at "1." with no stray bullet/dash before it, or Obsidian won't auto-render the numbering.
 
 Show proposed fixes as a short list; apply only what the user accepts. Semantic content is never rewritten — structure only.
 
