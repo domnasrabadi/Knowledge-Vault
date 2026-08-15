@@ -59,3 +59,14 @@ After the pipeline commands—or after a failure that left a partial state—use
 ### 5. Wrap-up (after the batch)
 
 Summarize: notes filed (old → new path), fixes applied, docs archived. `uv run reader4 log --limit 20` output can serve as the receipt.
+
+## Batch review workflow (multiple notes)
+
+For anything beyond a handful of notes, don't run the single-note loop N times — use this two-stage pattern instead:
+
+1. **Dry-run pass**: for each note, do step 0 (snapshot) and step 1 (fidelity/formatting proposals) plus the classification part of step 2, but write the proposed result to a scratch file (e.g. `~/Downloads/Reader4 Review Batch <date>/proposed/<doc_id>.md`) instead of touching the real vault note. Render the `reader4-diff-review` receipt with `--after` pointing at the scratch file. Never run `mark-filed`/`archive` in this pass.
+2. **Collect feedback**: give the user the batch folder and a compact summary table (note, proposed type/topics/destination/filename, fixes applied). Wait for written feedback per note.
+3. **Revision pass**: apply only the feedback given, to the scratch files, then re-render each changed receipt in place. When the user gives 2–3 concrete examples of a fix, treat that as a pattern spec, not an exhaustive list — scan the whole note for the same shape of problem and apply it consistently, not just the quoted instances.
+4. **Real filing pass**: once approved, run steps 2–4 for real against each scratch file's final content — write to the vault, delete the superseded Inbox note, `mark-filed` + `archive`, then re-render the receipt against the real filed path.
+
+Parallel subagents (one note per agent, independent scratch files) work well for the dry-run and revision passes. Be careful with the real filing pass: the reader4 CLI's manifest write is a read-modify-write of the whole `state/manifest.json` with no locking, so running `mark-filed`/`archive` concurrently across many notes can silently drop another note's update if two writes overlap. If you do run the final pass in parallel, verify every doc's final manifest status afterward and re-run `mark-filed` + `archive` for any that still show `exported` instead of `archived`.
