@@ -453,6 +453,12 @@ def main() -> None:
                    help="if the paper is already in Reader, delete and re-save it")
     p.add_argument("--force-fetch", action="store_true",
                    help="re-download the source even if cached")
+    p.add_argument("--clean-html", action="store_true",
+                   help="let Reader run its readability cleaner (it deletes "
+                        "reference lists and some sections; off by default)")
+    p.add_argument("--unversioned-url", action="store_true",
+                   help="save under the bare abs URL instead of the versioned one "
+                        "(risks reusing Reader's cached parse of that URL)")
     args = p.parse_args()
 
     print(f"→ fetching {args.paper} …")
@@ -538,10 +544,18 @@ def main() -> None:
         return
 
     token = find_token()
+    # Reader caches its parsed content per URL: re-saving the same URL can serve
+    # the earlier parse instead of this HTML. The versioned URL is both a fresh
+    # cache key and a more honest identifier of what was actually rendered.
+    save_url = abs_url if args.unversioned_url else (
+        f"https://arxiv.org/abs/{meta.get('versioned_id') or meta['id']}"
+    )
     payload = {
-        "url": abs_url,
+        "url": save_url,
         "html": html,
-        "should_clean_html": True,
+        # Our HTML is already clean. Reader's cleaner strips <h1>s, trailing
+        # reference lists, and occasionally whole sections, so leave it off.
+        "should_clean_html": args.clean_html,
         "title": meta["title"],
         "author": ", ".join(meta.get("authors", [])),
         "summary": re.sub(r"\s+", " ", meta.get("abstract", "")).strip()[:2000],
