@@ -49,7 +49,9 @@ DELETE_URL = "https://readwise.io/api/v3/delete/{}/"
 # so sections must arrive as <h2>+. This is why we shift heading levels.
 MAX_IMAGE_BYTES = 900_000       # per embedded figure, after downscaling
 MAX_IMAGE_WIDTH = 1200          # px; wider rasters get downscaled via sips
-MAX_HTML_BYTES = 4_000_000      # total payload guard
+MAX_HTML_BYTES = 8_000_000      # total payload guard (base64 inflates ~33%)
+TABLE_DPI = 200                 # render resolution for table images
+TABLE_MIN_COLS = 8              # at/above this column count a table becomes an image
 
 
 # --------------------------------------------------------------------------
@@ -199,6 +201,169 @@ def sanitize_preamble(tex: str) -> str | None:
             kept.append(f"\\newcommand{{\\{m.group(1)}}}[{m.group(2)}]{{#1}}")
     header = "\\documentclass{article}\n\\usepackage{amsmath}\n\\usepackage{amssymb}\n"
     return header + "\n".join(kept) + "\n" + body
+
+
+# --------------------------------------------------------------------------
+# dense tables -> images
+# --------------------------------------------------------------------------
+
+def _brace_span(text: str, start: int) -> int:
+    """Index just past the {...} group beginning at `start` (which is the '{')."""
+    depth, i = 0, start
+    while i < len(text):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return i + 1
+        i += 1
+    return len(text)
+
+
+def extract_cmd(body: str, cmd: str) -> tuple[str | None, str]:
+    """Pull the first complete \\cmd{...} out of body. Returns (command, rest)."""
+    needle = "\\" + cmd
+    j = body.find(needle)
+    if j == -1:
+        return None, body
+    k = body.find("{", j)
+    if k == -1:
+        return None, body
+    end = _brace_span(body, k)
+    return body[j:end], body[:j] + body[end:]
+
+
+def table_column_count(block: str) -> int:
+    m = re.search(r"\\begin\{tabular\w*\}(?:\[[^\]]*\])?\s*\{([^}]*)\}", block)
+    if not m:
+        return 0
+    return sum(1 for c in m.group(1) if c in "lcrpXm")
+
+
+def build_table_preamble(tex: str, src_dir: Path, texbin: str) -> str:
+    """Preamble for standalone table compiles.
+
+    Venue style files (iclr2025_conference.sty etc.) are dropped: they pull in
+    fonts a minimal TeX install lacks, and contribute nothing to a table. Any
+    \\usepackage naming a package that isn't installed is dropped too, since a
+    missing .sty is fatal to LaTeX even in nonstopmode. Everything else is kept
+    verbatim so the authors' own macros (\\mycolorbox, \\best, …) still resolve.
+    """
+    local_sty = {p.stem for p in src_dir.rglob("*.sty")}
+    local_sty |= {p.stem for p in src_dir.rglob("*.cls")}
+    pre = tex[:tex.find(r"\begin{document}")]
+    env = {"PATH": f"{texbin}:/usr/bin:/bin"}
+    out: list[str] = []
+    for line in pre.split("\n"):
+        s = line.split("%")[0].strip()
+        if s.startswith("\\documentclass"):
+            continue
+        if s.startswith(("\\bibliography", "\\input", "\\include")):
+            continue
+        m = re.match(r"\\usepackage(?:\[[^\]]*\])?\{([^}]*)\}", s)
+        if m:
+            names = [p.strip() for p in m.group(1).split(",") if p.strip()]
+            if any(p in local_sty for p in names):
+                continue
+            avail = [p for p in names if subprocess.run(
+                ["kpsewhich", f"{p}.sty"], capture_output=True, env=env).stdout.strip()]
+            if not avail:
+                continue
+            if len(avail) != len(names):
+                out.append("\\usepackage{" + ",".join(avail) + "}")
+                continue
+        out.append(line)
+    return (
+        "\\documentclass[preview,border=6pt,varwidth=20cm]{standalone}\n"
+        "\\usepackage{booktabs,multirow,array,graphicx,xcolor,colortbl,"
+        "amsmath,amssymb,adjustbox}\n"
+        + "\n".join(out) + "\n"
+        # Tables routinely wrap themselves in \resizebox{\columnwidth}{!}{...};
+        # standalone has no page, so these lengths need real values or LaTeX
+        # aborts with "Dimension too large".
+        "\\setlength{\\textwidth}{20cm}\n"
+        "\\setlength{\\columnwidth}{20cm}\n"
+        "\\setlength{\\linewidth}{20cm}\n"
+    )
+
+
+def render_tables_as_images(
+    tex: str, src_dir: Path, cache_dir: Path, min_cols: int, force_all: bool
+) -> tuple[str, int, int]:
+    """Replace dense table floats with a rendered PNG, keeping their captions.
+
+    Dense numeric grids are unreadable and unhighlightable in Reader's column
+    layout. Rendering them through real LaTeX keeps full fidelity (rules,
+    colour, multirow, math) at the cost of losing selectable text — which for
+    these tables was never usable anyway. Captions stay as HTML text.
+    """
+    texbin = str(Path(shutil.which("pdflatex")).parent)
+    preamble = build_table_preamble(tex, src_dir, texbin)
+    outdir = cache_dir / "tables"
+    outdir.mkdir(parents=True, exist_ok=True)
+
+    blocks = list(re.finditer(r"\\begin\{table\*?\}.*?\\end\{table\*?\}", tex, re.S))
+    rendered = failed = 0
+    replacements: list[tuple[int, int, str]] = []
+
+    for n, m in enumerate(blocks, 1):
+        block = m.group(0)
+        cols = table_column_count(block)
+        if not force_all and cols < min_cols:
+            continue
+
+        body = re.sub(r"\\begin\{table\*?\}(\[[^\]]*\])?", "", block)
+        body = re.sub(r"\\end\{table\*?\}", "", body)
+        caption, body = extract_cmd(body, "caption")
+        label, body = extract_cmd(body, "label")
+        body = body.replace("\\centering", "").strip()
+        if not body:
+            continue
+
+        png = outdir / f"table{n}.png"
+        if not png.exists():
+            work = Path(tempfile.mkdtemp(prefix=f"tbl{n}_"))
+            (work / "t.tex").write_text(
+                preamble + "\\begin{document}\n" + body + "\n\\end{document}\n"
+            )
+            # No -halt-on-error: leftover calls to the dropped venue style
+            # (\iclrfinalcopy and friends) are undefined but harmless, and
+            # LaTeX still typesets the table after reporting them.
+            subprocess.run(
+                ["pdflatex", "-interaction=nonstopmode", "t.tex"],
+                cwd=work, capture_output=True, text=True,
+                env={"PATH": f"{texbin}:/usr/bin:/bin", "TEXINPUTS": f".:{src_dir}:"},
+            )
+            pdf = work / "t.pdf"
+            made = False
+            if pdf.exists():
+                conv = subprocess.run(
+                    ["pdftocairo", "-png", "-r", str(TABLE_DPI), "-singlefile",
+                     str(pdf), str(work / "t")],
+                    capture_output=True,
+                )
+                if conv.returncode == 0 and (work / "t.png").exists():
+                    shutil.copy(work / "t.png", png)
+                    made = True
+            shutil.rmtree(work, ignore_errors=True)
+            if not made:
+                failed += 1
+                continue
+
+        rendered += 1
+        parts = ["\\begin{table}", "\\centering",
+                 f"\\includegraphics[width=\\textwidth]{{{png}}}"]
+        if caption:
+            parts.append(caption)
+        if label:
+            parts.append(label)
+        parts.append("\\end{table}")
+        replacements.append((m.start(), m.end(), "\n".join(parts)))
+
+    for start, end, repl in reversed(replacements):
+        tex = tex[:start] + repl + tex[end:]
+    return tex, rendered, failed
 
 
 def _run_pandoc(tex_path: Path, resource_dir: Path) -> tuple[str, str, int]:
@@ -358,22 +523,29 @@ def image_to_data_uri(path: Path, tmpdir: Path) -> str | None:
     if suffix in (".pdf", ".eps", ".ps"):
         if not shutil.which("pdftocairo"):
             return None
-        out_base = tmpdir / (path.stem + "_conv")
+        out_base = tmpdir / (path.name.replace(".", "_") + "_conv")
         proc = run(["pdftocairo", "-png", "-r", "150", "-singlefile",
                     str(path), str(out_base)])
-        work = out_base.with_suffix(".png")
+        # NB: not with_suffix() — figure names like "gpt-3.5-turbo.pdf" contain
+        # dots, and with_suffix would strip from the first one and miss the file.
+        work = Path(str(out_base) + ".png")
         if proc.returncode != 0 or not work.exists():
             return None
         suffix = ".png"
     if not work.exists():
         return None
     data = work.read_bytes()
+    # Vector plots rasterise large. Step the width down (always from the
+    # original, so quality doesn't compound) until it fits, rather than
+    # dropping the figure outright.
     if len(data) > MAX_IMAGE_BYTES and shutil.which("sips"):
-        small = tmpdir / (work.stem + "_small" + suffix)
-        shutil.copy(work, small)
-        run(["sips", "--resampleWidth", str(MAX_IMAGE_WIDTH), str(small)])
-        if small.exists() and small.stat().st_size < len(data):
-            data = small.read_bytes()
+        for width in (MAX_IMAGE_WIDTH, 900, 700, 500):
+            small = tmpdir / f"{work.stem}_{width}{suffix}"
+            shutil.copy(work, small)
+            run(["sips", "--resampleWidth", str(width), str(small)])
+            if small.exists() and small.stat().st_size <= MAX_IMAGE_BYTES:
+                data = small.read_bytes()
+                break
     if len(data) > MAX_IMAGE_BYTES:
         return None
     mime = {".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
@@ -456,6 +628,12 @@ def main() -> None:
     p.add_argument("--clean-html", action="store_true",
                    help="let Reader run its readability cleaner (it deletes "
                         "reference lists and some sections; off by default)")
+    p.add_argument("--tables", choices=["dense", "all", "none"], default="dense",
+                   help="render tables as images: dense (default, wide grids "
+                        "only), all, or none")
+    p.add_argument("--table-min-cols", type=int, default=TABLE_MIN_COLS,
+                   help=f"column count at which a table becomes an image "
+                        f"(default {TABLE_MIN_COLS})")
     p.add_argument("--unversioned-url", action="store_true",
                    help="save under the bare abs URL instead of the versioned one "
                         "(risks reusing Reader's cached parse of that URL)")
@@ -501,6 +679,22 @@ def main() -> None:
     src_dir = Path(manifest.get("source") or tex_path.parent)
     abs_url = f"https://arxiv.org/abs/{meta['id']}"
     print(f"  {meta['versioned_id']} — {meta['title']}")
+
+    if args.tables != "none" and not args.no_images:
+        if not shutil.which("pdflatex"):
+            print("  tables: pdflatex not found — leaving tables as HTML")
+        else:
+            print("→ rendering dense tables as images …")
+            tex_text = tex_path.read_text(errors="replace")
+            new_tex, n_ok, n_bad = render_tables_as_images(
+                tex_text, src_dir, cache_dir, args.table_min_cols,
+                force_all=(args.tables == "all"),
+            )
+            print(f"  tables rendered: {n_ok}, failed: {n_bad}")
+            if n_ok:
+                staged = cache_dir / "with_table_images.tex"
+                staged.write_text(new_tex)
+                tex_path = staged
 
     print("→ converting LaTeX → HTML …")
     html = latex_to_html(tex_path, src_dir)
