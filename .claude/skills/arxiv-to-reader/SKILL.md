@@ -20,7 +20,7 @@ Default behaviour: saves to **Later**, tagged `arxiv`. That is the intended path
 
 - **Required**: an arXiv ID or URL in any form — `2606.00093`, `arxiv.org/abs/2606.00093v1`, `/pdf/` links, ar5iv/alphaxiv links, old-style `math.GT/0309136`, or a `10.48550/...` DOI. The underlying `arxiv-skill` normalises all of these.
 - **Auth**: `READWISE_TOKEN` from the environment, else `~/Downloads/reader4/.env`. Token from <https://readwise.io/access_token>.
-- **Dependencies**: `pandoc` (`brew install pandoc`), plus the `arxiv` skill vendored alongside this one at `.claude/skills/arxiv/` — the script finds it automatically (override with `ARXIV_SKILL_DIR`, and it still falls back to `~/Downloads/arxiv-skill`). `pdftocairo` and `sips` are optional — used only for PDF-format figures and downscaling.
+- **Dependencies**: `pandoc` (`brew install pandoc`); `pdflatex` for the dense-table rendering (TeX Live 2024 **basic** at `/usr/local/texlive/2024basic` is what's installed and is sufficient — the compile preamble is filtered to whatever packages exist); plus the `arxiv` skill vendored alongside this one at `.claude/skills/arxiv/` — the script finds it automatically (override with `ARXIV_SKILL_DIR`, and it still falls back to `~/Downloads/arxiv-skill`). `pdftocairo` and `sips` are optional — used only for PDF-format figures and downscaling.
 
 ### Flags
 
@@ -36,6 +36,8 @@ Default behaviour: saves to **Later**, tagged `arxiv`. That is the intended path
 | `--force-fetch` | Re-download the source, ignoring the cache |
 | `--clean-html` | Let Reader run its readability cleaner (off by default — it deletes content) |
 | `--unversioned-url` | Save under the bare abs URL instead of the versioned one |
+| `--tables dense\|all\|none` | Render tables as images: wide grids only (default), every table, or none |
+| `--table-min-cols N` | Column count at which a table becomes an image (default 8) |
 
 ## How it works
 
@@ -43,6 +45,15 @@ Default behaviour: saves to **Later**, tagged `arxiv`. That is the intended path
 
    *Why normalise first:* handed a full URL, `fetch.py` caches under an **unversioned** directory and never writes `meta.json`, so metadata lookup fails. Handed a bare ID it pins the version and writes complete metadata. Don't pass raw URLs through to it.
 2. **Convert** — `pandoc -f latex -t html --mathjax --wrap=none --shift-heading-level-by=1`.
+
+   *Dense tables become images (step 2a, before pandoc).* A 21-column results grid is unreadable and unhighlightable in Reader's narrow column, and HTML can't rescue it. Each table float with **≥ 8 columns** (`--table-min-cols`) is compiled by real `pdflatex` into a standalone PDF, rasterised at 200 dpi, and swapped into the LaTeX as `\includegraphics` — so it flows through the normal figure path and ends up inlined as a data URI. Fidelity is exact: booktabs rules, cell shading, `multirow`, and maths in headers all survive, because it is the paper's own LaTeX rendering it. Narrow tables (4–5 columns) stay as real HTML tables and remain highlightable, which is the right trade — you lose selectable text only where it was never usable. **Captions stay as HTML text** outside the image, so they are still searchable and highlightable. Images are cached in `~/.cache/arxiv-skill/<versioned-id>/tables/`, so re-runs are cheap.
+
+   Details that matter if you touch this code:
+   - The float is re-emitted as a `figure`, **not** a `table`. Pandoc attaches a `\caption` inside a `table` environment to the tabular it builds; with the tabular replaced by an image there is nothing to attach to and the caption is silently dropped.
+   - The compile preamble is the paper's own, minus the venue style file (`iclr2025_conference.sty` and friends — they pull in fonts a minimal TeX lacks and contribute nothing to a table) and minus any `\usepackage` whose `.sty` isn't installed (a missing package is fatal to LaTeX even in `nonstopmode`). Everything else is kept verbatim so the authors' macros still resolve.
+   - `\textwidth`/`\columnwidth`/`\linewidth` are given explicit values; tables routinely wrap themselves in `\resizebox{\columnwidth}{!}{…}` and `standalone` has no page, so without this LaTeX aborts with `Dimension too large`.
+   - No `-halt-on-error`: leftover calls to the dropped venue style (`\iclrfinalcopy`) are undefined but harmless, and LaTeX still typesets the table after reporting them.
+   - Requires `pdflatex`. Without it the step is skipped with a warning and tables stay as HTML — nothing breaks.
 
    *Automatic preamble recovery:* papers that style themselves with `tikz`/`soul`/`pgf` define `@`-internal macros that abort pandoc's parse with `unexpected end of input`, even though the body is fine. On failure the script retries with a **sanitised preamble** — a minimal `\documentclass` plus only the author's simple one-line macros. Macros whose bodies are unparseable but that the text still *calls* (e.g. `\MET` → `\verdicttoken{…}`) get a passthrough stub `\newcommand{\name}[n]{#1}`, so the token renders as text instead of leaving a dangling command that MathJax paints red.
 3. **Post-process** — the part that makes Reader render it well:
@@ -67,7 +78,12 @@ These were established by direct experiment against the live API; they are not i
 
 A Reader document in the chosen queue (Later by default), printed as a `read.readwise.io/read/<id>` URL, with headings, nested lists, tables, code blocks and figures rendered natively, and maths carried as literal `$…$` / `$$…$$` source (see above — this is deliberate, for Obsidian). Its URL is the versioned `arxiv.org/abs/<id>v<n>`, so highlights flow into Readwise normally and the document records exactly which version was rendered.
 
-Reference point from the validated run on `2606.00093v2`: 13,377 words, 12 `<h2>` sections, 8 tables, 66 references, figures embedded — all confirmed present in Reader's stored copy.
+Reference points from validated runs, all confirmed against Reader's stored copy:
+
+| Paper | Result |
+| --- | --- |
+| `2606.00093v2` | 13,377 words, 12 `<h2>` sections, 8 HTML tables, 66 references |
+| `2410.03775v3` | 13,099 words, 7 dense tables rendered as images, 31 figures embedded (0 dropped), 6 narrow tables left as HTML, 3.9 MB stored |
 
 Report back to the user: the paper title, the Reader URL, the verified word count, and the citation/figure counts from the run.
 
@@ -78,6 +94,8 @@ Report back to the user: the paper title, the Reader URL, the verified word coun
 - **A new version invalidates an old save.** `fetch.py` resolves the *latest* version, so a paper saved months ago may now render as `v2` with different sections. Say which version was rendered; don't assume it matches an earlier save.
 - **Interrupted fetches poison the cache.** `arxiv-skill` writes `flattened.tex` non-atomically, so a killed run leaves a truncated file that later runs happily reuse (pandoc then reports `unexpected end of input`). The script detects a missing `\end{document}` and re-fetches automatically; `--force-fetch` is the manual escape hatch.
 - **PDF-only papers.** Older or unusual submissions have no LaTeX source; the script exits with a clear message. Don't fake it — tell the user the paper must be read as a PDF in Reader.
+- **Watch the dropped-figure count.** `figures embedded: N, dropped: 0` is the healthy signal. Non-zero drops mean unresolved paths or oversized rasters — worth investigating rather than shipping quietly. Two path traps were fixed here and are easy to reintroduce: `Path.with_suffix()` truncates figure names containing dots (`gpt-3.5-turbo.pdf`), and image refs must be resolved on the **full** src path, since rendered table images live outside the source tree and are referenced absolutely.
+- **Payload size.** Table images and inlined figures push papers into the megabytes (3.9 MB for `2410.03775`); the guard is 8 MB. If a paper trips it, `--no-images` or `--tables none` are the escape hatches.
 - **Pandoc warnings are normal.** Custom macros from a venue's `.sty` often warn without harming output. Only investigate if the final HTML is unexpectedly small or a section is missing.
 - **Verifying a render.** To check what Reader really stored (as opposed to what was uploaded), fetch `GET /api/v3/list/?id=<id>&withHtmlContent=true` and grep for section titles. Reader's cleaner is the ground truth, not the local HTML.
 - **After reading.** Highlights from these documents export through the normal reader4 pipeline into `00 Inbox/`; file them with the `reader4-review` skill. Papers belong in `10 Sources/Papers/`. Because the maths travels as `$…$` source, highlighted equations arrive in Obsidian already renderable — `reader4-review`'s "math notation restoration" step should have little to do on these notes, and headings/code blocks come through structured rather than as flat bullets.

@@ -166,6 +166,43 @@ SAFE_DEF = re.compile(
 )
 
 
+def repair_body(body: str) -> str:
+    """Fix body-level LaTeX that pandoc rejects but real LaTeX tolerates.
+
+    Two cases seen in the wild:
+      * \\newcolumntype defined *after* \\begin{document} — legal, but pandoc
+        chokes on the #1 parameter. It is pure table-layout, meaningless in HTML.
+      * an unclosed group ("{\\small" before a bibliography, never closed).
+        TeX closes it implicitly at \\end{document}; pandoc reports
+        "unexpected \\end" instead.
+    """
+    lines = body.split("\n")
+    lines = [l for l in lines if not l.lstrip().startswith("\\newcolumntype")]
+
+    depth, verbatim = 0, False
+    for line in lines:
+        code = []
+        for i, ch in enumerate(line):
+            if ch == "%" and (i == 0 or line[i - 1] != "\\"):
+                break
+            code.append(ch)
+        text = "".join(code)
+        if re.search(r"\\begin\{(verbatim|lstlisting|minted)\}", text):
+            verbatim = True
+        if re.search(r"\\end\{(verbatim|lstlisting|minted)\}", text):
+            verbatim = False
+            continue
+        if verbatim:
+            continue
+        text = re.sub(r"\\[{}]", "", text)      # escaped braces are literals
+        depth += text.count("{") - text.count("}")
+
+    out = "\n".join(lines)
+    if depth > 0:
+        out = out.replace("\\end{document}", "}" * depth + "\n\\end{document}", 1)
+    return out
+
+
 def sanitize_preamble(tex: str) -> str | None:
     """Rebuild the document with a minimal preamble, keeping only simple macros.
 
@@ -200,7 +237,7 @@ def sanitize_preamble(tex: str) -> str | None:
         if m and int(m.group(2)) >= 1:
             kept.append(f"\\newcommand{{\\{m.group(1)}}}[{m.group(2)}]{{#1}}")
     header = "\\documentclass{article}\n\\usepackage{amsmath}\n\\usepackage{amssymb}\n"
-    return header + "\n".join(kept) + "\n" + body
+    return header + "\n".join(kept) + "\n" + repair_body(body)
 
 
 # --------------------------------------------------------------------------
@@ -352,13 +389,17 @@ def render_tables_as_images(
                 continue
 
         rendered += 1
-        parts = ["\\begin{table}", "\\centering",
+        # A figure float, not a table float: pandoc attaches \caption inside a
+        # table environment to the tabular it builds, and with the tabular now
+        # replaced by an image there is nothing to attach to, so the caption is
+        # silently dropped. In a figure float it becomes a <figcaption>.
+        parts = ["\\begin{figure}", "\\centering",
                  f"\\includegraphics[width=\\textwidth]{{{png}}}"]
         if caption:
             parts.append(caption)
         if label:
             parts.append(label)
-        parts.append("\\end{table}")
+        parts.append("\\end{figure}")
         replacements.append((m.start(), m.end(), "\n".join(parts)))
 
     for start, end, repl in reversed(replacements):
@@ -473,6 +514,69 @@ def parse_bibliography(src_dir: Path) -> dict[str, dict]:
                 ym = re.search(r"\b(19|20)\d{2}\b", body)
                 label = f"{key}" if not ym else f"{key}, {ym.group(0)}"
             entries[key] = {"label": label, "text": latex_to_text(body)}
+    if not entries:
+        entries = parse_bibtex(src_dir)
+    return entries
+
+
+def _bib_surnames(author_field: str) -> list[str]:
+    names = re.split(r"\s+and\s+", author_field.strip())
+    out = []
+    for n in names:
+        n = latex_to_text(n).strip()
+        if not n:
+            continue
+        out.append(n.split(",")[0].strip() if "," in n else n.split()[-1])
+    return out
+
+
+def parse_bibtex(src_dir: Path) -> dict[str, dict]:
+    """Fallback for papers that ship .bib instead of a generated .bbl.
+
+    Without this the prose loses every inline citation and the References
+    section comes out empty, because pandoc cannot resolve \\cite on its own.
+    """
+    entries: dict[str, dict] = {}
+    for bib in src_dir.rglob("*.bib"):
+        text = bib.read_text(errors="replace")
+        for m in re.finditer(r"@(\w+)\s*\{\s*([^,\s]+)\s*,", text):
+            if m.group(1).lower() in ("comment", "preamble", "string"):
+                continue
+            key, start = m.group(2), m.end()
+            depth, i = 1, m.start()
+            i = text.find("{", m.start())
+            depth, j = 1, i + 1
+            while j < len(text) and depth:
+                if text[j] == "{":
+                    depth += 1
+                elif text[j] == "}":
+                    depth -= 1
+                j += 1
+            body = text[start:j - 1]
+
+            def field(name: str) -> str:
+                fm = re.search(
+                    rf"\b{name}\s*=\s*(\{{(?:[^{{}}]|\{{[^{{}}]*\}})*\}}|\"[^\"]*\"|[^,\s]+)",
+                    body, re.I | re.S,
+                )
+                return re.sub(r"\s+", " ", fm.group(1).strip("{}\" ")).strip() if fm else ""
+
+            authors = _bib_surnames(field("author"))
+            year = field("year")[:4]
+            if len(authors) == 1:
+                who = authors[0]
+            elif len(authors) == 2:
+                who = f"{authors[0]} and {authors[1]}"
+            elif authors:
+                who = f"{authors[0]} et al"
+            else:
+                who = key
+            label = f"{who}, {year}" if year else who
+            venue = field("booktitle") or field("journal") or field("publisher")
+            parts = [p for p in (", ".join(authors), year,
+                                 latex_to_text(field("title")),
+                                 latex_to_text(venue)) if p]
+            entries[key] = {"label": label, "text": ". ".join(parts)}
     return entries
 
 
@@ -565,16 +669,22 @@ def embed_images(html: str, src_dir: Path) -> tuple[str, int, int]:
         cand = (src_dir / ref)
         if cand.exists():
             return cand
-        # LaTeX often omits the extension
+        # LaTeX often omits the extension. Append rather than with_suffix() so
+        # names containing dots aren't truncated at the first one.
         for ext in (".png", ".jpg", ".jpeg", ".pdf", ".eps", ".gif", ".svg"):
-            if cand.with_suffix(ext).exists():
+            if Path(str(cand) + ext).exists():
+                return Path(str(cand) + ext)
+            if cand.suffix and cand.with_suffix(ext).exists():
                 return cand.with_suffix(ext)
         matches = list(src_dir.rglob(Path(ref).name + "*"))
         return matches[0] if matches else None
 
     def repl(m: re.Match) -> str:
         nonlocal embedded, dropped
-        tag, ref = m.group(0), m.group(2)
+        # group(1) is the full src; group(2) is only the basename. Resolve on
+        # the full path — rendered table images live outside the source tree
+        # and are referenced absolutely, so a basename lookup never finds them.
+        tag, ref = m.group(0), m.group(1)
         if ref.startswith(("http://", "https://", "data:")):
             return tag
         path = resolve(ref)
