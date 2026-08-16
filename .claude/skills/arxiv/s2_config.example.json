@@ -1,0 +1,4 @@
+{
+  "_comment": "Optional Semantic Scholar API key. Copy this file to s2_config.json (same directory) and paste your key. Get one free at https://www.semanticscholar.org/product/api. Alternatively set the S2_API_KEY environment variable, which takes precedence. Without a key, Semantic Scholar features still work on the shared public pool but are heavily rate-limited, and search.py --cite-counts is skipped.",
+  "api_key": "PASTE-YOUR-KEY-HERE"
+}
