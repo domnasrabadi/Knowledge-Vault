@@ -271,11 +271,85 @@ def extract_cmd(body: str, cmd: str) -> tuple[str | None, str]:
     return body[j:end], body[:j] + body[end:]
 
 
+def unwrap_scale_boxes(tex: str) -> tuple[str, int]:
+    """Strip \\scalebox/\\resizebox/\\adjustbox wrappers, keeping their content.
+
+    Authors routinely shrink wide tables with \\scalebox{0.75}{\\begin{tabular}…}.
+    Pandoc does not understand these commands and silently discards the whole
+    group — so every table inside one vanishes from the output. Unwrapping them
+    costs only the scale factor (meaningless in HTML) and saves the table.
+    """
+    specs = {"scalebox": 1, "resizebox": 2, "adjustbox": 1, "makebox": 1}
+    count = 0
+    for name, nargs in specs.items():
+        pattern = re.compile(r"\\" + name + r"\s*(?=[{\[])")
+        while True:
+            m = pattern.search(tex)
+            if not m:
+                break
+            i = m.end()
+            ok = True
+            for _ in range(nargs):           # consume the sizing arguments
+                while i < len(tex) and tex[i] in " \t\n":
+                    i += 1
+                if i < len(tex) and tex[i] == "[":      # optional [..] arg
+                    close = tex.find("]", i)
+                    if close == -1:
+                        ok = False
+                        break
+                    i = close + 1
+                    while i < len(tex) and tex[i] in " \t\n":
+                        i += 1
+                if i >= len(tex) or tex[i] != "{":
+                    ok = False
+                    break
+                i = _brace_span(tex, i)
+            while ok and i < len(tex) and tex[i] in " \t\n":
+                i += 1
+            if not ok or i >= len(tex) or tex[i] != "{":
+                # Can't parse this one; neutralise the command name so the
+                # loop terminates, leaving the surrounding text untouched.
+                tex = tex[:m.start()] + "\\relax" + tex[m.end():]
+                continue
+            end = _brace_span(tex, i)
+            tex = tex[:m.start()] + tex[i + 1:end - 1] + tex[end:]
+            count += 1
+    return tex.replace("\\relax", ""), count
+
+
 def table_column_count(block: str) -> int:
-    m = re.search(r"\\begin\{tabular\w*\}(?:\[[^\]]*\])?\s*\{([^}]*)\}", block)
+    """Count columns in a tabular preamble.
+
+    The spec must be brace-matched, not read with [^}]*: the booktabs idiom
+    `{@{}cccc@{}}` ends the naive match inside `@{}` and reports zero columns,
+    which silently excluded most real tables from dense-table handling.
+    """
+    m = re.search(
+        r"\\begin\{(tabular[x*]?|longtable)\}(?:\[[^\]]*\])?\s*", block)
     if not m:
         return 0
-    return sum(1 for c in m.group(1) if c in "lcrpXm")
+    i = m.end()
+    # tabular* and tabularx take a width argument before the column spec.
+    for _ in range(2 if m.group(1) in ("tabular*", "tabularx") else 1):
+        while i < len(block) and block[i] in " \t\n":
+            i += 1
+        if i >= len(block) or block[i] != "{":
+            return 0
+        start, i = i, _brace_span(block, i)
+    spec = block[start + 1:i - 1]
+    # Drop inter-column material, which declares no column of its own.
+    spec = re.sub(r"[@>!<]\s*\{(?:[^{}]|\{[^{}]*\})*\}", "", spec)
+    count, j = 0, 0
+    while j < len(spec):
+        ch = spec[j]
+        if ch in "pmbw" and j + 1 < len(spec) and spec[j + 1] == "{":
+            count += 1
+            j = _brace_span(spec, j + 1)
+            continue
+        if ch in "lcrXY":
+            count += 1
+        j += 1
+    return count
 
 
 def build_table_preamble(tex: str, src_dir: Path, texbin: str) -> str:
@@ -789,6 +863,13 @@ def main() -> None:
     src_dir = Path(manifest.get("source") or tex_path.parent)
     abs_url = f"https://arxiv.org/abs/{meta['id']}"
     print(f"  {meta['versioned_id']} — {meta['title']}")
+
+    unwrapped, n_boxes = unwrap_scale_boxes(tex_path.read_text(errors="replace"))
+    if n_boxes:
+        print(f"  unwrapped {n_boxes} scale/resize box(es) so their tables survive")
+        staged = cache_dir / "unwrapped.tex"
+        staged.write_text(unwrapped)
+        tex_path = staged
 
     if args.tables != "none" and not args.no_images:
         if not shutil.which("pdflatex"):
