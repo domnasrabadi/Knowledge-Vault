@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 1
-topics: [ai-coding, software-engineering]
+topics: [ai-coding, software-engineering, agent-harnesses]
 source: https://martinfowler.com/articles/exploring-gen-ai/sdd-3-tools.html
 created: 2026-08-08
 published: 2025-10-15
 author: Birgitta Böckeler
 flashcards: none
-updated: 2026-08-11
+updated: 2026-08-17
 ---
 
 # Understanding Spec-Driven-Development: Kiro, spec-kit, and Tessl

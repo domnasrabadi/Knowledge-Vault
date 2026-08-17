@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-coding, context-engineering]
+topics: [context-engineering, agent-harnesses]
 source: https://earendil.com/posts/pi-autoresearch-and-databricks/
 created: 2026-08-09
 published: 2026-08-04
 author: Earendil
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # Pi, the Minimal Coding Harness

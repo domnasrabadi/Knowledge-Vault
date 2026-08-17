@@ -2,7 +2,7 @@
 type: article
 status: raw
 quality: 1
-topics: [ai-coding, context-engineering, prompting]
+topics: [ai-coding, prompting, agent-harnesses]
 source: https://www.aihero.dev/a-complete-guide-to-agents-md
 created: 2026-08-16
 published: 2026-01-18

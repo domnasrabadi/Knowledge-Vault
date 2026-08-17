@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-agents, ai-coding, context-engineering]
+topics: [ai-agents, ai-coding, agent-harnesses]
 source: ""
 created: 2025-12-12
 published: 2025-11-26
 author: anthropic.com
 flashcards: none
-updated: 2026-01-01
+updated: 2026-08-17
 ---
 
 # Effective harnesses for long-running agents

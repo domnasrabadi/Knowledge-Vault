@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 2
-topics: [ai-coding, ai-tooling, context-engineering]
+topics: [ai-tooling, agent-harnesses]
 source: https://x.com/rohit4verse/status/2021622526112358663/?rw_tt_thread=True
 created: 2026-08-08
 published: 2026-02-11
 author: Rohit
 flashcards: none
-updated: 2026-08-08
+updated: 2026-08-17
 ---
 
 # The Complete Guide to Building Skills for Claude/Codex

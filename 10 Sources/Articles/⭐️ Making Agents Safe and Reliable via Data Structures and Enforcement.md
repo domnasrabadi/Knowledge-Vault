@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 1
-topics: [ai-agents, model-risk-validation, ai-engineering, context-engineering]
+topics: [ai-agents, model-risk-validation, ai-engineering, agent-harnesses]
 source: https://medium.com/@CommBankTechnology/making-agents-safe-and-reliable-via-data-structures-and-enforcement-205722a4c91d
 created: 2026-08-08
 published: 2026-07-16
 author: CommBank Technology Blog
 flashcards: none
-updated: 2026-08-11
+updated: 2026-08-17
 ---
 
 # Making Agents Safe and Reliable via Data Structures and Enforcement

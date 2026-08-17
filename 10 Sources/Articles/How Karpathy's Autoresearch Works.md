@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-agents, ai-coding, ai-engineering]
+topics: [ai-agents, ai-coding, ai-engineering, agent-harnesses]
 source: https://x.com/manthanguptaa/status/2032464949952598152/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-03-13
 author: Manthan Gupta
 flashcards: none
-updated: 2026-08-11
+updated: 2026-08-17
 ---
 
 # How Karpathy's Autoresearch Works

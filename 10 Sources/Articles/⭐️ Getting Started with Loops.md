@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 1
-topics: [ai-agents, ai-coding]
+topics: [ai-agents, agent-harnesses]
 source: https://x.com/claudedevs/status/2074208949205881033/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-07-06
 author: ClaudeDevs
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # Getting Started with Loops

@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-agents, context-engineering, agent-evaluation, error-analysis, ai-coding]
+topics: [ai-agents, agent-evaluation, error-analysis, agent-harnesses]
 source: https://x.com/AlphaSignalAI/article/2067347896497000515/?rw_tt_thread=True
 created: 2026-08-09
 published: 2026-06-17
 author: AlphaSignal AI
 flashcards: none
-updated: 2026-08-15
+updated: 2026-08-17
 ---
 
 # Let a Fixed Model Rewrite Its Own Harness

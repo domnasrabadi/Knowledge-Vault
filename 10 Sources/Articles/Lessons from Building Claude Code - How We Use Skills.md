@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-coding, ai-agents, ai-tooling]
+topics: [ai-coding, ai-agents, ai-tooling, agent-harnesses]
 source: https://claude.com/blog/lessons-from-building-claude-code-how-we-use-skills
 created: 2026-08-09
 published: 2026-06-03
 author: Claude
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # Lessons from building Claude Code: How we use skills

@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 2
-topics: [context-engineering, ai-agents]
+topics: [ai-agents, agent-harnesses]
 source: https://lilianweng.github.io/posts/2026-07-04-harness/
 created: 2026-08-09
 published: 2026-07-04
 author: Lilian Weng
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # Harness Engineering for Self-Improvement

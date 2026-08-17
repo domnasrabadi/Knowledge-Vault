@@ -3,15 +3,14 @@ type: article
 status: raw
 quality: 2
 topics:
-  - ai-coding
-  - context-engineering
   - ai-agents
+  - agent-harnesses
 source: https://x.com/rohit4verse/status/2033945654377283643/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-03-17
 author: Rohit
 flashcards: none
-updated: 2026-08-10
+updated: 2026-08-17
 ---
 
 # The Harness Is Everything: What Cursor, Claude Code, and Perplexity Actually Built

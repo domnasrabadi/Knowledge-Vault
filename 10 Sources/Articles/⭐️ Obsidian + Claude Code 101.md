@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 1
-topics: [knowledge-management, ai-tooling]
+topics: [knowledge-management, ai-tooling, agent-harnesses]
 source: https://x.com/arscontexta/status/2013045749580259680/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-01-19
 author: Heinrich
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-17
 ---
 
 # obsidian + claude code 101

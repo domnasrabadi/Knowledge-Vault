@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 
-topics: [ai-coding, context-engineering, ai-tooling]
+topics: [ai-tooling, agent-harnesses]
 source: https://claude.com/blog/steering-claude-code-skills-hooks-rules-subagents-and-more
 created: 2026-08-09
 published: 2026-06-18
 author: Michael Segner
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # Steering Claude Code: When to Use CLAUDE.md, Skills, Hooks, and Subagents

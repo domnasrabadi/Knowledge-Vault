@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-agents, context-engineering, agent-evaluation]
+topics: [ai-agents, agent-evaluation, agent-harnesses]
 source: https://x.com/vtrivedy10/status/2083686751919329718/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-08-01
 author: Viv
 flashcards: none
-updated: 2026-08-09
+updated: 2026-08-17
 ---
 
 # Some Truths of Agent Development

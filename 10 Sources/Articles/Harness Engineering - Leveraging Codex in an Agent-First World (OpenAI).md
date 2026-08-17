@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-coding, context-engineering]
+topics: [ai-coding, context-engineering, agent-harnesses]
 source: https://openai.com/index/harness-engineering/
 created: 2026-08-09
 published: 2026-02-11
 author: openai.com
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # Harness engineering: leveraging Codex in an agent-first world | OpenAI

@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-tooling, ai-agents]
+topics: [ai-tooling, ai-agents, agent-harnesses]
 source: https://theoryvc.com/blog-posts/getting-over-your-skills-issues
 created: 2026-08-08
 published: 2026-06-17
 author: Bryan Bischof
 flashcards: none
-updated: 2026-08-11
+updated: 2026-08-17
 ---
 
 # Getting Over Your Skills Issues

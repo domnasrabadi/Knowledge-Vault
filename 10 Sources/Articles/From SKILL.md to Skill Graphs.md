@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [knowledge-management, ai-tooling, context-engineering]
+topics: [knowledge-management, ai-tooling, agent-harnesses]
 source: https://x.com/arscontexta/status/2023957499183829467/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-02-18
 author: Heinrich
 flashcards: none
-updated: 2026-08-11
+updated: 2026-08-17
 ---
 
 # From SKILL.md to Skill Graphs

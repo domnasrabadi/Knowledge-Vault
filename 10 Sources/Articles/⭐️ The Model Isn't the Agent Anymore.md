@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 1
-topics: [ai-agents, context-engineering, agent-evaluation]
+topics: [ai-agents, agent-evaluation, agent-harnesses]
 source: https://x.com/AlphaSignalAI/article/2060028227285135594/?rw_tt_thread=True
 created: 2026-08-09
 published: 2026-05-28
 author: AlphaSignal AI
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # The Model Isn't the Agent Anymore

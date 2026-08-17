@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 2
-topics: [ai-agents, context-engineering, multi-agent-systems, agent-evaluation, ai-engineering]
+topics: [ai-agents, context-engineering, multi-agent-systems, agent-evaluation, agent-harnesses]
 source: https://x.com/rohit4verse/status/2049548305408131349/?rw_tt_thread=True
 created: 2026-08-09
 published: 2026-04-29
 author: Rohit
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # What to Learn, Build, and Skip in AI Agents (2026)

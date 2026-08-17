@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 1
-topics: [ai-coding, context-engineering, ai-agents]
+topics: [ai-coding, ai-agents, agent-harnesses]
 source: https://x.com/systematicls/status/2028814227004395561/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-03-03
 author: sysls
 flashcards: none
-updated: 2026-08-13
+updated: 2026-08-17
 ---
 
 # How to Be a World-Class Agentic Engineer

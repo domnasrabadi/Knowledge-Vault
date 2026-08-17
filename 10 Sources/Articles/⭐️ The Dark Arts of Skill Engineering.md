@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality: 1
-topics: [ai-tooling, ai-agents, ai-coding]
+topics: [ai-tooling, ai-agents, agent-harnesses]
 source: https://x.com/pbakaus/status/2077114326985687525/?s=12&rw_tt_thread=True
 created: 2026-08-08
 published: 2026-07-14
 author: Paul Bakaus
 flashcards: none
-updated: 2026-08-11
+updated: 2026-08-17
 ---
 
 # The Dark Arts of Skill Engineering

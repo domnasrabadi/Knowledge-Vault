@@ -2,13 +2,13 @@
 type: article
 status: raw
 quality:
-topics: [ai-coding, software-engineering]
+topics: [ai-coding, software-engineering, agent-harnesses]
 source: https://freedium-mirror.cfd/https://levelup.gitconnected.com/the-best-developer-is-no-longer-the-one-who-writes-the-best-code-996e8ed0869b
 created: 2026-08-08
 published: 2026-06-24
 author: freedium-mirror.cfd
 flashcards: none
-updated: 2026-08-11
+updated: 2026-08-17
 ---
 
 # Spec-Driven Development: From Code to Intent
