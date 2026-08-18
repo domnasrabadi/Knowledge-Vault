@@ -1,17 +1,17 @@
 ---
 type: article
-status: inbox
-quality: 1
-topics: []
+status: raw
+quality: 
+topics: [ai-engineering, ai-agents, agent-evaluation, human-in-the-loop]
 source: https://www.langchain.com/blog/human-judgment-in-the-agent-improvement-loop
 created: 2026-08-17
 published: 2026-04-09
 author: Rahul Verma
 flashcards: none
-updated: 2026-08-17
+updated: 2026-08-18
 ---
 
-# Incorporating human judgment into the agent improvement loop
+# Incorporating Human Judgment Into the Agent Improvement Loop
 
 <div align="center">
   <img src="https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/69dce8a01c18c14b60cd4372_76.webp" width="220" />
@@ -38,7 +38,7 @@ updated: 2026-08-17
 #### Tool Design
 
 - Developers must implement the tools the agent can use and configure the names, parameters, and descriptions that the LLM relies on to decide when to invoke them.
-- A key tradeoff is flexibility vs. control for LLM-generated queries: a general execute_sql step allows for flexible queries but increases risk; parameterized query tools are safer but less capable.
+- A key tradeoff is flexibility vs. control for LLM-generated queries: a general `execute_sql` step allows for flexible queries but increases risk; parameterized query tools are safer but less capable.
 - review of your business constraints might give you a sense of which option is right for you
 - you’ll need to run evaluations to determine the performance and risk characteristics of your tool design and ship only when all stakeholders are comfortable with the results.
 
@@ -54,19 +54,19 @@ updated: 2026-08-17
 ![](https://cdn.prod.website-files.com/65c81e88c254bb0f97633a71/69dce8f18d5f7e336d258f2c_agent-improvement-loop.png)
 
 
-#### The key to high return on human time invested: automated evaluations, aligned with human judgment
+### The key to high return on human time invested: automated evaluations, aligned with human judgment
 
 - We’ve observed that **teams get more leverage when humans help design and calibrate automated evaluators, rather than manually reviewing large volumes of agent outputs**.
 - The scalable approach is to translate expert judgment into [automated evaluations](https://www.langchain.com/resources/llm-evals) that let you test broadly and continuously.
 
-#### Development: Curate test suites and evaluators
+### Development: Curate test suites and evaluators
 
 - Before development starts, **engineers should have at least a small set of use case scenarios and expected behavior as part of the project requirements**.
 - initial tests help confirm that the agent performs the core tasks correctly.
 - As the agent approaches production readiness, engineers should work with product managers and subject matter experts to build a more comprehensive test suite that evaluates both overall behavior and key subcomponents.
 - We can create a mini-flywheel during this phase by augmenting our initial datasets with examples inspired by interesting cases we encounter during manual testing.
 
-#### After deployment: Use automated evaluations and monitoring to direct human attention to where it’s most needed
+### After deployment: Use automated evaluations and monitoring to direct human attention to where it’s most needed
 
 - Automated evaluations running on production data can help monitor the agent and surface situations that warrant human attention.
 - Unstructured explorations of live behavior inspire some of the most valuable improvements for AI agents.
@@ -83,4 +83,6 @@ updated: 2026-08-17
 ### Conclusion
 
 - Effective agent development combines human judgment with the scalability of automated evaluations. Human expertise helps define what “good” looks like by shaping workflows, tools, context, and evaluation criteria.
-- Human feedback improves evaluators, test suites, and the agent itself, the improved agent we deploy gets us more data that tells us how to improve it, and these insights drive the next development iteration.
+- Human feedback improves evaluators, test suites, and the agent itself
+	- the improved agent we deploy gets us more data that tells us how to improve it
+	- these insights drive the next development iteration.
