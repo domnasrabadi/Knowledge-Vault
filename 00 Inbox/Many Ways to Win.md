@@ -1,7 +1,7 @@
 ---
 type: article
 status: inbox
-quality: 1
+quality: 
 topics: []
 source: https://x.com/kepano/status/2089785345240129576/?s=12&rw_tt_thread=True
 created: 2026-08-22
