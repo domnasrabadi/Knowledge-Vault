@@ -759,15 +759,28 @@ def embed_images(html: str, src_dir: Path) -> tuple[str, int, int]:
         # the full path — rendered table images live outside the source tree
         # and are referenced absolutely, so a basename lookup never finds them.
         tag, ref = m.group(0), m.group(1)
+
+        def as_img(src: str) -> str:
+            # Always emit <img>, never <embed>: Reader strips <embed> out of the
+            # stored document, so the figure vanished while its <figcaption>
+            # stayed — a caption under nothing. Pandoc emits <embed> for any
+            # graphic whose LaTeX ref lacks a raster extension, i.e. most of them.
+            keep = "".join(
+                f' {a}="{v}"'
+                for a, v in re.findall(
+                    r'\b(alt|title|style|width|height)="([^"]*)"', tag)
+            )
+            return f'<img src="{src}"{keep} />'
+
         if ref.startswith(("http://", "https://", "data:")):
-            return tag
+            return as_img(ref)
         path = resolve(ref)
         uri = image_to_data_uri(path, tmpdir) if path else None
         if not uri:
             dropped += 1
             return ""
         embedded += 1
-        return tag.replace(m.group(1), uri, 1)
+        return as_img(uri)
 
     # pandoc emits both <img src> and <embed src> for graphics
     html = re.sub(r'<(?:img|embed)[^>]*src="([^"]*?([^"/]+))"[^>]*/?>', repl, html)
