@@ -271,6 +271,23 @@ def extract_cmd(body: str, cmd: str) -> tuple[str | None, str]:
     return body[j:end], body[:j] + body[end:]
 
 
+_NEUTRALISED = "\\@arxivtoreadernoop"
+
+
+def _is_commented(tex: str, pos: int) -> bool:
+    """True if `pos` sits after an unescaped % on its own line."""
+    start = tex.rfind("\n", 0, pos) + 1
+    i = start
+    while i < pos:
+        if tex[i] == "\\":          # skip the escaped char that follows
+            i += 2
+            continue
+        if tex[i] == "%":
+            return True
+        i += 1
+    return False
+
+
 def unwrap_scale_boxes(tex: str) -> tuple[str, int]:
     """Strip \\scalebox/\\resizebox/\\adjustbox wrappers, keeping their content.
 
@@ -283,10 +300,19 @@ def unwrap_scale_boxes(tex: str) -> tuple[str, int]:
     count = 0
     for name, nargs in specs.items():
         pattern = re.compile(r"\\" + name + r"\s*(?=[{\[])")
+        search_from = 0
         while True:
-            m = pattern.search(tex)
+            m = pattern.search(tex, search_from)
             if not m:
                 break
+            # Commented-out wrappers must be left alone. `% \resizebox{..}{!}{%`
+            # is dead text, but brace-matching it runs on into *live* code and
+            # splices out a real closing brace, structurally breaking the
+            # document (2606.27226: three dead \resizebox lines, and pandoc then
+            # ran to EOF looking for \end{document}).
+            if _is_commented(tex, m.start()):
+                search_from = m.end()
+                continue
             i = m.end()
             ok = True
             for _ in range(nargs):           # consume the sizing arguments
@@ -309,12 +335,15 @@ def unwrap_scale_boxes(tex: str) -> tuple[str, int]:
             if not ok or i >= len(tex) or tex[i] != "{":
                 # Can't parse this one; neutralise the command name so the
                 # loop terminates, leaving the surrounding text untouched.
-                tex = tex[:m.start()] + "\\relax" + tex[m.end():]
+                tex = tex[:m.start()] + _NEUTRALISED + tex[m.end():]
+                search_from = m.start() + len(_NEUTRALISED)
                 continue
             end = _brace_span(tex, i)
             tex = tex[:m.start()] + tex[i + 1:end - 1] + tex[end:]
             count += 1
-    return tex.replace("\\relax", ""), count
+            # Content now starts at m.start() and may itself be wrapped.
+            search_from = m.start()
+    return tex.replace(_NEUTRALISED, ""), count
 
 
 def table_column_count(block: str) -> int:
