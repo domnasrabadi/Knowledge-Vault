@@ -1,0 +1,46 @@
+/* Reader-friendly stylesheet. Neutral, serif body, generous measure.
+   Kept deliberately plain: Readwise Reader applies its own typography,
+   so this mainly matters for the HTML fallback and for structural clarity. */
+body{max-width:44em;margin:0 auto;padding:2em 1.2em;font-family:Georgia,'Iowan Old Style',serif;font-size:19px;line-height:1.62;color:#1a1a1a;background:#fff}
+h1,h2,h3,h4{font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;line-height:1.25;margin:1.8em 0 .5em}
+h1{font-size:1.9em;margin-top:0}h2{font-size:1.45em}h3{font-size:1.18em}h4{font-size:1.02em}
+p,li{margin:0 0 1em}
+a{color:#1e3050}
+
+figure{margin:1.8em 0}
+img{max-width:100%;height:auto}
+figcaption{font-size:.85em;color:#555;margin-top:.5em}
+figcaption p{margin:0}
+
+table{border-collapse:collapse;width:100%;font-size:.86em;margin:1.5em 0;display:block;overflow-x:auto}
+th,td{border:1px solid #ddd;padding:.45em .6em;text-align:left;vertical-align:top}
+th{background:#f4f4f4}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+
+pre{background:#f6f6f6;border:1px solid #e2e2e2;border-radius:4px;padding:.9em;overflow-x:auto;font-size:.78em;line-height:1.45;white-space:pre-wrap;word-wrap:break-word}
+code{font-family:ui-monospace,Menlo,monospace;font-size:.88em}
+pre code{font-size:1em;background:none;padding:0}
+
+blockquote{border-left:3px solid #ccc;margin:1.5em 0;padding-left:1em;color:#444}
+blockquote.aside-note{border-left:3px solid #bab8b0;background:#f6f3ee;margin:1.4em 0;padding:.8em 1.1em;font-size:.92em;color:#3a4868}
+blockquote.aside-note p{margin:0}
+
+/* recovered card/example components (see references/web-recipes.md) */
+blockquote.card{background:#faf8f4;border-left:3px solid #1e3050;margin:1.1em 0;padding:.9em 1.1em;border-radius:0 4px 4px 0}
+blockquote.card p{margin:0 0 .4em}
+blockquote.card p:last-child{margin-bottom:0}
+p.card-note{font-size:.85em;color:#c84828;font-style:italic}
+p.card-label{margin:.3em 0;font-size:.95em}
+div.comparison{border:1px solid #d8d6ce;border-radius:5px;padding:1em 1.1em;margin:1.5em 0}
+p.comparison-label{margin:0 0 .6em;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:.8em;text-transform:uppercase;letter-spacing:.07em;color:#7a8098}
+p.comparison-tag{margin:.8em 0 .2em;font-size:.85em;color:#3a4868}
+p.chart-note{font-size:.82em;color:#7a8098;text-align:center;margin-top:.4em}
+
+.abstract{background:#f7f7f9;border-left:3px solid #999;padding:1em 1.2em;margin:2em 0;font-size:.95em}
+.abstract h2{margin-top:0;font-size:1.05em;text-transform:uppercase;letter-spacing:.06em;color:#555}
+.source-note{font-size:.85em;color:#555;border-bottom:1px solid #eee;padding-bottom:1em;margin-bottom:2em}
+.authors{font-size:.95em;color:#444;margin-bottom:1.4em}
+.subtitle{font-size:1.1em;color:#444;font-style:italic;margin:-.3em 0 1em}
+#toc ul{list-style:none;padding-left:0}
+#toc li{margin:0 0 .35em;font-family:-apple-system,'Segoe UI',Helvetica,Arial,sans-serif;font-size:.92em}
+.references p,#refs p{font-size:.88em;margin-bottom:.7em}
