@@ -100,13 +100,46 @@ def resolve_css_vars(art, path):
                 el[a] = sub(el[a])
 
 
+def dollar_math(soup, art):
+    """KaTeX / MathJax -> literal $...$ text, recovered from the TeX source.
+
+    Done here with a real parser because KaTeX nests dozens of spans per formula
+    and no regex unpicks that reliably. The $...$ form is the vault-wide policy:
+    Reader shows it as source, Obsidian renders it once highlights arrive.
+    Returns (converted, unrecoverable)."""
+    done = lost = 0
+    for el in art.select('.katex-display, .katex'):
+        if el.parent is None or el.find_parent(class_='katex'):
+            continue
+        ann = el.find('annotation', attrs={'encoding': 'application/x-tex'})
+        if not ann:
+            lost += 1
+            continue
+        tex = ann.get_text().strip()
+        block = 'katex-display' in el.get('class', []) or el.find_parent(class_='katex-display')
+        el.replace_with(soup.new_string(f'$${tex}$$' if block else f'${tex}$'))
+        done += 1
+    # MathJax v2 keeps TeX in script tags; v3 renders <mjx-container> with
+    # assistive MathML, which html_for_api.py recovers when it has an annotation.
+    for sc in art.find_all('script', attrs={'type': re.compile(r'^math/tex')}):
+        tex = sc.get_text().strip()
+        sc.replace_with(soup.new_string(f'$${tex}$$' if 'display' in sc['type'] else f'${tex}$'))
+        done += 1
+    for mj in art.select('.MathJax, .MathJax_Preview, .MathJax_Display'):
+        mj.decompose()
+    return done, lost
+
+
 def body(path, out):
     soup = load(path)
     art = article_of(soup)
+    maths, lost = dollar_math(soup, art)   # before BOILERPLATE: it removes <script>
     for sel in BOILERPLATE:
         for el in art.select(sel):
             el.decompose()
     resolve_css_vars(art, path)
+    if maths or lost:
+        print(f"  maths: {maths} formulas -> $...$" + (f", {lost} with no TeX source (check by hand)" if lost else ""))
 
     rescued = 0
     for el in art.find_all(['div', 'span']):

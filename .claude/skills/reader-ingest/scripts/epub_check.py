@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """Audit any EPUB — yours or a publisher's — against the gold-standard profile.
 
-    inspect.py book.epub [--json] [--images] [--spine]
-    inspect.py compare a.epub b.epub        # two copies of the same title
+    epub_check.py book.epub [--json] [--images] [--spine]
+    epub_check.py compare a.epub b.epub        # two copies of the same title
 
 Stdlib only. Read-only: never writes to the file it is given.
 
 This is the AUDIT verb. `verify.py` checks a book you just built and knows what
-you meant to put in it; `inspect.py` knows nothing about the source and asks
+you meant to put in it; `epub_check.py` knows nothing about the source and asks
 only "is this file sound, and is it good in Reader?". Three sessions rebuilt
 this by hand before it existed — every check below came from a real finding.
 
@@ -195,7 +195,7 @@ def check_nav(z, manifest, rep):
             f'{ncx_n} navPoints, depth {ncx_depth}' if ncx else 'absent (older readers lose the TOC)')
     if nav and nav_n <= 1:
         rep.add('FAIL', 'navigation usable', f'only {nav_n} entry — the TOC is flat or empty')
-    # NCX deeper than nav is a normal house pattern; see gold-standard.md.
+    # NCX deeper than nav is a normal house pattern; see references/route-epub-check.md.
     return nav, ncx
 
 
@@ -328,7 +328,22 @@ def check_images(z, manifest, rep, verbose=False):
             rep.add('WARN', 'inline-sized image plates',
                     f'{len(inline)}/{len(sized)} images are inline-sized (median {med[0]}×{med[1]}px)'
                     + (f', {opaque} sampled as opaque RGB' if opaque else '')
-                    + ' — likely equation PNGs; see gold-standard.md for the #7D7D7D remedy')
+                    + ' — likely equation PNGs; see references/route-epub-check.md for the #7D7D7D remedy')
+
+    # Stylesheets reference images too (title-page footers, backgrounds). Counting
+    # only <img> tags reported O'Reilly's css_assets/ footer as an orphan, and a
+    # fix pass that trusted that would delete an image the CSS still needs.
+    for css in (n for n in files if n.endswith('.css')):
+        base = posixpath.dirname(css)
+        for ref in re.findall(r'url\(\s*[\'"]?([^\'")]+)[\'"]?\s*\)', _text(z, css)):
+            if not ref.startswith(('data:', 'http:', 'https:')):
+                referenced.add(posixpath.normpath(posixpath.join(base, ref)))
+    # SVG <image> and <object> references count as well.
+    for d in docs:
+        base = posixpath.dirname(d)
+        for ref in re.findall(r'(?:xlink:href|data)="([^"#][^"]*)"', _text(z, d)):
+            if not ref.startswith(('data:', 'http:', 'https:')):
+                referenced.add(posixpath.normpath(posixpath.join(base, ref)))
 
     orphans = sorted(imgs_on_disk - referenced)
     if orphans:
@@ -390,6 +405,42 @@ def check_spine(z, manifest, spine, rep, verbose=False):
     return rows
 
 
+WATERMARK_MIN_FILES = 5
+
+
+def find_watermarks(z, meta):
+    """Yield (label, value, n_files, grade) for every watermark candidate.
+
+    Shared with epub_fix.py, which strips exactly what this grades PII — so the
+    two can never disagree about what counts as a watermark.
+
+    A per-buyer stamp repeats: one "Licensed to <email>" footer per page (316 of
+    them in one title). An author's contact address appears once or twice. The
+    licence phrasings are always PII; a bare email is PII only when it recurs
+    across WATERMARK_MIN_FILES documents or sits in the OPF metadata. Stripping
+    runs automatically, so a sparse email is graded NOTE and never touched.
+    """
+    per_file = collections.defaultdict(set)
+    docs = [n for n in z.namelist() if n.endswith(('.xhtml', '.html', '.opf', '.ncx'))]
+    for n in docs:
+        body = _text(z, n)
+        for pat, label in PII_PATTERNS:
+            for m in pat.findall(body):
+                v = (m if isinstance(m, str) else m[0]).strip()
+                if not v or 'example.com' in v:
+                    continue
+                if label == 'email address' and (ROLE_ADDRESS.match(v) or PUBLISHER_DOMAIN.search(v)):
+                    continue
+                per_file[(label, v)].add(n)
+
+    for (label, v), files in sorted(per_file.items(), key=lambda kv: -len(kv[1])):
+        in_metadata = any(f.endswith('.opf') for f in files)
+        # "Licensed to" has no innocent reading. "prepared by <Name>" can be a
+        # genuine acknowledgement, so it must recur like any other stamp.
+        pii = label == 'licence footer' or in_metadata or len(files) >= WATERMARK_MIN_FILES
+        yield label, v, len(files), 'PII' if pii else 'NOTE'
+
+
 def check_provenance(z, meta, rep):
     """Watermarks, Calibre residue, template placeholders."""
     names = z.namelist()
@@ -399,27 +450,15 @@ def check_provenance(z, meta, rep):
             grade = 'WARN' if 'calibre_bookmarks' in needle else 'NOTE'
             rep.add(grade, 'provenance', f'{note} ({hit[0]})')
 
-    # Scan metadata and body text for per-buyer watermarks.
-    blob = json.dumps(meta) + ' '.join(
-        _text(z, n) for n in names if n.endswith(('.xhtml', '.html', '.opf'))
-    )[:4_000_000]
-    for pat, label in PII_PATTERNS:
-        found = collections.Counter(
-            m if isinstance(m, str) else m[0] for m in pat.findall(blob))
-        real = {k: v for k, v in found.items()
-                if k and 'example.com' not in k
-                and not (label == 'email address'
-                         and (ROLE_ADDRESS.match(k) or PUBLISHER_DOMAIN.search(k)))}
-        if real:
-            top = list(real.items())[:2]
-            rep.add('PII', f'watermark: {label}',
-                    '; '.join(f'"{k[:48]}" ×{v}' for k, v in top)
-                    + (f' (+{len(real) - len(top)} more)' if len(real) > len(top) else ''))
+    for label, value, n_files, grade in find_watermarks(z, meta):
+        rep.add(grade, f'watermark: {label}' if grade == 'PII' else f'contact {label}',
+                f'"{value[:48]}" in {n_files} file(s)'
+                + ('' if grade == 'PII' else ' — too sparse for a per-buyer stamp; left alone'))
 
     title = meta.get('title', '')
     if re.search(r'\(for\s*\.\s*\.\)|title_title', title):
         rep.add('NOTE', 'template placeholder in dc:title',
-                f'{title!r} — benign publisher residue, see gold-standard.md')
+                f'{title!r} — benign publisher residue, see references/route-epub-check.md')
 
 
 def audit(path, as_json=False, images=False, spine=False):
