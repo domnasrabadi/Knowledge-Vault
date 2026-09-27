@@ -1,3 +1,75 @@
+# Route: web pages
+
+Websites go into Reader through the API as clean HTML, after the user confirms.
+If the page is really a long multi-part document (a web book, a report split over
+many pages), take `route-epub-build.md` instead.
+
+## The flow
+
+```bash
+S="/Users/domnasrabadi/Knowledge Vault/.claude/skills/reader-ingest/scripts"
+cd "$BUILD"
+curl -sL -A "Mozilla/5.0 (Macintosh)" -o page.html "<url>"
+curl -sL -A "Mozilla/5.0 (Macintosh)" -o site.css "<main stylesheet url>"   # for chart colours
+uv run --with beautifulsoup4 --with lxml python "$S/web_extract.py" audit page.html
+uv run --with beautifulsoup4 --with lxml python "$S/web_extract.py" body page.html body.html
+#   (purpose-written transforms for what the audit flagged: recipes below)
+#   (inline SVG charts:  rasterize.py svgs page.html charts/  then swap to <img>)
+python3 "$S/html_for_api.py" body.html meta.json page-api.html
+python3 "$S/reader_api.py" check "<url>"
+#   AskUserQuestion — then:
+python3 "$S/reader_api.py" save page-api.html meta.json [--fresh-url]
+```
+
+Why each step exists:
+
+- **`curl`, not WebFetch.** WebFetch returns prose, not markup, and times out on
+  large pages. You need the DOM.
+- **`audit` lists text with no `<p>` around it.** That is exactly what readability-style
+  parsers strip as furniture. We upload with Reader's cleaner **off**, so the
+  API route is less exposed than a Reader scrape was, but the audit is still the
+  map of components that need real structure: cards, callouts, comparisons,
+  tooltips. Read it; substantial entries need a transform from the recipes below.
+- **`body` converts KaTeX / MathJax to `$…$`** using the TeX source, since that's
+  the maths policy on every route. It reports formulas with no recoverable
+  source.
+- **Inline `<svg>` charts must become `<img>`**: pandoc drops raw SVG, and
+  `rasterize.py svgs` resolves the site's `var(--x)` colours first, which would
+  otherwise render black on black. Build the alt text from the chart's own labels.
+- **`html_for_api.py`** shifts headings so no `<h1>` is left, turns `<embed>`
+  into `<img>`, embeds local images, turns iframes into links, and prints the
+  stats the user sees before saying yes.
+
+`meta.json`: `title`, `authors` (site name if no person), `date`, `url`
+(the article's real URL, since highlights link back to it), `description`, `tags`.
+
+If Reader already has the article (it usually does, since that's why the user is
+here), `check` will find it. Follow the replace / keep both / cancel flow in
+`reader-api.md`.
+
+## Images: classify before you decide
+
+This is a question for the user (AskUserQuestion), not a judgement call. The right
+handling differs by class, and so does the user's preference. It applies to
+PDFs and long builds too.
+
+1. **Check alt text first.** One article had 27 images and zero `alt` attributes:
+   in Reader that is 27 unlabelled pictures with their content unhighlightable
+   and unsearchable.
+2. **Read every image**, then classify: the author's own diagrams / third-party
+   screenshots they are quoting / memes / title slides. One real split was
+   8 transcribe, 4 cite-and-quote, 12 memes, 3 title slides.
+3. **Transcribe to real markup** (tables, lists, `<pre>`) in visually distinct
+   blocks, so a transcription is never mistaken for the author's prose. Eight
+   diagrams became 2 tables and 54 list items of highlightable text.
+4. **Third-party screenshots** get a short attributed quote plus a description,
+   not a full transcription.
+5. **Account for all N** in the report, and **flag the judgement calls**. One
+   slide filed as a meme carried real content; say so rather than letting it
+   disappear under a rule the user set.
+
+---
+
 # Rescuing custom web components
 
 `web_extract.py audit` tells you *what* is at risk. This is *how* to convert the
@@ -116,7 +188,7 @@ for t in art.select('.tooltip-trigger'):
 
 ## Charts
 
-Inline SVG never reaches the EPUB — pandoc's HTML reader drops it. Rasterise
+Inline SVG never survives conversion; pandoc's HTML reader drops it. Rasterise
 (`rasterize.py svgs`), then swap each `<svg>` for an `<img>` with alt text built
 from the chart's own `<text>` labels, so the data stays searchable:
 

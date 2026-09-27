@@ -1,14 +1,63 @@
-# The gold-standard profile, and what is benign
+# Route: checking and fixing an existing EPUB
 
-What `inspect.py` measures, what a sound EPUB looks like, and — the part that
-actually saves time — the list of findings that *look* like defects and are not.
+For an `.epub` the user already has: a publisher's book, a download, or one of
+our own earlier builds. Output: a repaired `.epub` in `~/Downloads`, **checked and
+ready for the user to drag into Reader**. This route never uploads; the API
+can't take a file.
 
-Derived from three O'Reilly titles and two Manning titles that were audited in
-full, plus the builds we shipped ourselves.
+## The flow
 
-**Read the "benign" section before reporting anything.** Every entry there cost
-a real investigation once. An audit that reports template residue as a defect
-trains the user to ignore the audit.
+```bash
+S="/Users/domnasrabadi/Knowledge Vault/.claude/skills/reader-ingest/scripts"
+python3 "$S/epub_check.py" book.epub [--spine] [--images]      # 1. what's wrong
+uv run --with pillow python "$S/epub_fix.py" book.epub --equations   # 2. fix + re-check
+#   -> ~/Downloads/<name> (fixed).epub
+python3 "$S/epub_check.py" compare a.epub b.epub               # two copies of one title
+```
+
+`--equations` needs Pillow, hence `uv run`. Leave it off when the check found no
+inline equation images, and plain `python3` then works.
+
+**`epub_check.py`** (read-only) grades findings: **FAIL** is structurally broken,
+**WARN** degrades reading in Reader, **PII** is a per-buyer watermark, and
+**NOTE** is measured, not a defect. Read the benign list below before reporting
+anything.
+
+**`epub_fix.py`** never modifies the input. It fixes, counts and re-checks:
+
+| Fix | Why |
+|---|---|
+| Non-XML named entities → numeric | XHTML predefines only five; the rest fail strict parsing |
+| **Watermarks: always stripped** | The user's standing decision. Only what the check grades PII: `Licensed to …`, and emails that recur across 5+ documents or sit in the metadata. A one-off author contact email is left alone. `(for . .)` title residue goes too. |
+| Weak alt text ← adjacent `Figure N …` caption | Reader surfaces alt text; `"figure"` ×900 is the same as none |
+| `--equations`: LaTeX recovered from PNG text chunks → `$…$` | Real text beats any image treatment |
+| `--equations`: inline opaque plates recoloured `#7D7D7D` on transparent | Legible in light and dark **without CSS** (see below) |
+| Repack: `mimetype` first and stored | Readers reject the file otherwise |
+
+It then prints the **word accounting**, where every changed word must be explained:
+`words: 268 -> 254 (-14) = watermarks -21, recovered LaTeX +7, unexplained +0`.
+A non-zero *unexplained* means something was lost; investigate before shipping.
+
+**DRM-protected files can be checked, not fixed.** `epub_fix.py` refuses them.
+
+Anything the fixer doesn't handle (dead anchors, broken references, missing
+manifest entries, empty spine stubs) is fixed by hand. Unpack, edit, then repack
+exactly like this:
+
+```bash
+mkdir out && cd out && unzip -q ../book.epub
+#   … edit …
+zip -qX0 ../fixed.epub mimetype && zip -qXr9D ../fixed.epub . -x mimetype
+```
+
+Re-check after every round; broken-link counts fall in rounds (117 → 26 → 0 on one build).
+
+## Hand-over
+
+Tell the user the fixed file is in `~/Downloads`, **checked and ready to drag into
+Reader**. Give the before/after grades, what each fix changed (counts), the word
+accounting, and anything left as a WARN, with why it's acceptable or what it
+would take to fix.
 
 ---
 
@@ -39,7 +88,8 @@ normal, good result.
 23/23 strict-XML, 0 entities, nav 240 entries / NCX 411 navPoints, 0 broken
 references, 0 dead anchors, 0 empty spine documents, 126,405 words across 20
 documents, 26/26 images with alt. Use it as the reference run when changing
-`inspect.py` — if a change makes this file report a `FAIL`, the change is wrong.
+`epub_check.py` or `epub_fix.py` — if a change makes this file report a `FAIL`, or makes `epub_fix.py` change a
+single word of it, the change is wrong.
 
 ---
 
@@ -57,8 +107,10 @@ documents, 26/26 images with alt. Use it as the reference run when changing
 - **`com.apple.ibooks.display-options.xml`.** Says "was opened in Apple Books",
   not who opened it.
 - **Publisher role addresses** — `support@oreilly.com`, `permissions@…`,
-  `bookquestions@…`. These ship in every copy. `inspect.py` filters them, and
+  `bookquestions@…`. These ship in every copy. `epub_check.py` filters them, and
   the filter is why a real named-purchaser hit is worth acting on.
+- **A one-off personal email** — usually the author's contact address. Graded
+  NOTE ("too sparse for a per-buyer stamp") and never stripped.
 - **No explicit `width`/`height` on images.** The original profile listed this as
   a gold-standard axis, but the verified O'Reilly baseline above has **0 of 26**
   sized inline — they size via CSS. Treat the `WARN` as information about layout
@@ -70,7 +122,8 @@ documents, 26/26 images with alt. Use it as the reference run when changing
 
 - **Per-buyer watermarks with a real name or email.** One audited file carried a
   named person in `dc:title`. This is a privacy issue, and it is also how you
-  answer "are these two files the same copy?". Graded `PII`, never suppressed.
+  answer "are these two files the same copy?". Graded `PII`; `epub_fix.py` strips
+  them. When comparing two copies, run the comparison **before** fixing.
 - **Calibre residue.** `calibre_bookmarks.txt` can hold *someone else's* saved
   reading position. Also Calibre-generated SVG title pages and commented-out XML
   declarations in rewritten files.
@@ -91,7 +144,7 @@ documents, 26/26 images with alt. Use it as the reference run when changing
 
 A maths-heavy Manning title carried **951 equation PNGs, 93% of them
 inline-sized** (median 36×28px) sitting mid-sentence, every one opaque RGB
-white. `inspect.py` flags this as `inline-sized image plates` by sampling PNG
+white. `epub_check.py` flags this as `inline-sized image plates` by sampling PNG
 headers for colour type 0/2 (no alpha channel).
 
 Why it matters: **Reader reflows EPUBs into its own view and discards most
@@ -104,7 +157,8 @@ The obvious fix — transparent background plus `filter: invert()` under
 you get transparent-background black glyphs on a dark page: *invisible*
 equations, which is worse than white boxes.
 
-The right fix, in order:
+The right fix, in order. `epub_fix.py --equations` does steps 1 and 2 for
+inline-sized plates (under 60×400px), and never touches full-size figures:
 
 1. **Check for recoverable LaTeX first.** Manning generates these from LaTeX and
    it sometimes survives in the PNG's `tEXt`/`iTXt` chunks. Real text beats any
@@ -124,7 +178,7 @@ to survive the stylesheet being thrown away.
 
 ## Comparing two copies of the same title
 
-`inspect.py compare a.epub b.epub` does the pass that made this answerable:
+`epub_check.py compare a.epub b.epub` does the pass that made this answerable:
 
 1. Audit both, so blocking/degrading/watermark counts sit side by side.
 2. Diff the file sets — Calibre residue and added title pages show up here.

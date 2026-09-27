@@ -2,7 +2,7 @@
 """Pull the article out of a saved web page and rescue content Reader would drop.
 
     web_extract.py audit  <page.html>              # what will readability strip?
-    web_extract.py body   <page.html> <out.html>   # extract + generic rescue
+    web_extract.py body   <page.html> <out.html> [--base <page url>]   # extract + rescue
 
 Run with: uv run --with beautifulsoup4 --with lxml python web_extract.py ...
 
@@ -23,9 +23,11 @@ before/after, a Q/A card with a critique line, a badge + label pair) need a
 purpose-written transform to keep their meaning. See references/web-recipes.md.
 """
 import re, sys, pathlib
+from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 BOILERPLATE = ['nav', 'script', 'style', 'noscript', 'form', '.site-header', '.site-footer',
+               '.share-buttons', '.social-share', '.sharing', '.post-share',
                '.report-nav-header', '[role=navigation]', '[aria-hidden=true]']
 
 
@@ -100,6 +102,58 @@ def resolve_css_vars(art, path):
                 el[a] = sub(el[a])
 
 
+INLINE = {'a', 'em', 'strong', 'b', 'i', 'u', 's', 'code', 'span', 'sup', 'sub', 'small',
+          'mark', 'abbr', 'cite', 'q', 'kbd', 'var', 'time', 'del', 'ins', 'img'}
+DISPLAY_MATH = re.compile(r'^\s*(\$\$|\\\[|\\begin\{)')
+
+
+def wrap_in_paragraphs(soup, el):
+    """Give a <p>-less component real paragraphs WITHOUT destroying what's in it.
+
+    The old rescue rebuilt text with get_text('\\n'), which (a) shattered every
+    multi-line display equation into one <p> per line — "$$", "\\begin{aligned}",
+    each row, "$$" — so no formula survived, and (b) broke a sentence at every
+    inline tag, so "text <em>word</em> more" became three paragraphs and lost
+    its emphasis. Here the real nodes are MOVED into paragraphs; <br> and block
+    children are the only boundaries, and a display-maths block stays whole.
+    """
+    if DISPLAY_MATH.match(el.get_text()):
+        tex = el.get_text().strip()
+        el.clear()
+        p = soup.new_tag('p')
+        p.string = tex
+        el.append(p)
+        return True
+
+    runs, current = [], []
+    for child in list(el.children):
+        if getattr(child, 'name', None) == 'br':
+            runs.append(current); current = []
+        elif child.name is None or child.name in INLINE:
+            current.append(child)
+        else:                                   # a block child keeps its own shape
+            runs.append(current); runs.append([child]); current = []
+    runs.append(current)
+
+    made = False
+    for run in runs:
+        if not run:
+            continue
+        if len(run) == 1 and run[0].name and run[0].name not in INLINE:
+            continue                            # block child: leave in place
+        if not ''.join(getattr(n, 'text', str(n)) for n in run).strip():
+            for n in run:
+                if n.name is None:
+                    n.extract()                 # stray whitespace between blocks
+            continue
+        p = soup.new_tag('p')
+        run[0].insert_before(p)
+        for n in run:
+            p.append(n.extract())
+        made = True
+    return made
+
+
 def dollar_math(soup, art):
     """KaTeX / MathJax -> literal $...$ text, recovered from the TeX source.
 
@@ -130,14 +184,53 @@ def dollar_math(soup, art):
     return done, lost
 
 
-def body(path, out):
+def page_url(soup, override=None):
+    """Where relative links resolve from: --base, else <base>, canonical, og:url."""
+    if override:
+        return override
+    for sel, attr in (('base[href]', 'href'), ('link[rel=canonical]', 'href'),
+                      ('meta[property="og:url"]', 'content')):
+        el = soup.select_one(sel)
+        if el and el.get(attr, '').startswith('http'):
+            return el[attr]
+    return None
+
+
+def absolutise(art, base):
+    """Relative src/href -> absolute. A saved page has no server behind it, so
+    every relative image would otherwise be 'not found' and dropped — 15 of 15
+    on the first real test. Lazy-loading attributes are promoted to src."""
+    n = 0
+    for img in art.find_all('img'):
+        for lazy in ('data-src', 'data-lazy-src', 'data-original'):
+            if img.get(lazy) and (not img.get('src') or img['src'].startswith('data:image/gif')):
+                img['src'] = img[lazy]
+    for tag, attr in (('img', 'src'), ('a', 'href'), ('source', 'src')):
+        for el in art.find_all(tag):
+            v = el.get(attr)
+            if v and not v.startswith(('http:', 'https:', 'data:', 'mailto:', '#', 'javascript:')):
+                el[attr] = urljoin(base, v)
+                n += 1
+    return n
+
+
+def body(path, out, base=None):
     soup = load(path)
+    base = page_url(soup, base)
     art = article_of(soup)
+    # Icons inside links and buttons (share buttons, theme toggles) carry no
+    # content and would otherwise be counted as charts needing rasterising.
+    for sv in art.select('a svg, button svg'):
+        sv.decompose()
     maths, lost = dollar_math(soup, art)   # before BOILERPLATE: it removes <script>
     for sel in BOILERPLATE:
         for el in art.select(sel):
             el.decompose()
     resolve_css_vars(art, path)
+    if base:
+        print(f"  resolved {absolutise(art, base)} relative links/images against {base}")
+    elif art.find('img', src=re.compile(r'^(?!https?:|data:)')):
+        print("  ! relative image paths and no page URL found — pass --base <url> or they will be dropped")
     if maths or lost:
         print(f"  maths: {maths} formulas -> $...$" + (f", {lost} with no TeX source (check by hand)" if lost else ""))
 
@@ -151,16 +244,11 @@ def body(path, out):
         if any(not c.find('p') and len(c.get_text(strip=True)) > 25
                for c in el.find_all(['div', 'span'], recursive=False)):
             continue
-        lines = [ln.strip() for ln in re.split(r'\n+', el.get_text('\n', strip=True)) if ln.strip()]
-        if not lines or sum(len(l) for l in lines) < 25:
+        if len(el.get_text(strip=True)) < 25:
             continue
-        el.clear()
-        for ln in lines:
-            p = soup.new_tag('p')
-            p.string = ln
-            el.append(p)
-        el.name = 'div'
-        rescued += 1
+        if wrap_in_paragraphs(soup, el):
+            el.name = 'div'
+            rescued += 1
 
     pathlib.Path(out).write_text(str(art))
     print(f"wrote {out} — rescued {rescued} components, "
@@ -174,4 +262,5 @@ if __name__ == '__main__':
     if sys.argv[1] == 'audit':
         audit(sys.argv[2])
     else:
-        body(sys.argv[2], sys.argv[3])
+        base = sys.argv[sys.argv.index('--base') + 1] if '--base' in sys.argv else None
+        body(sys.argv[2], sys.argv[3], base)

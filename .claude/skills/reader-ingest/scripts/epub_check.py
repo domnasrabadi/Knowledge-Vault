@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit any EPUB — yours or a publisher's — against the gold-standard profile.
+"""Audit any EPUB — yours or a publisher's — against the gold-standard profile (references/route-epub-check.md).
 
     epub_check.py book.epub [--json] [--images] [--spine]
     epub_check.py compare a.epub b.epub        # two copies of the same title
@@ -18,7 +18,7 @@ Findings are graded:
   NOTE  measured, not a defect
 
 Calibration for what is benign (O'Reilly template residue, NCX deeper than nav,
-EPUB 2.0) is in references/gold-standard.md. Read it before reporting, or you
+EPUB 2.0) is in references/route-epub-check.md. Read it before reporting, or you
 will file false alarms the catalogue already dismissed.
 """
 import sys, re, json, zipfile, posixpath, collections
