@@ -1,26 +1,27 @@
----
-name: arxiv-to-reader
-description: Render an arXiv paper from its LaTeX source into clean, richly-formatted HTML and save it straight into Readwise Reader's Later queue — fixing the bad parsing (mangled two-column text, lost headings, broken math) you get when Reader scrapes an arXiv page or PDF itself. Use whenever an arXiv link/ID should be read in Reader.
----
+# Route: arXiv papers
 
-# arxiv-to-reader — put a properly rendered paper into Reader
+Reader's own arXiv ingestion scrapes the abs page or parses the PDF. Both go wrong in familiar ways: two-column PDFs interleave into nonsense, section headings flatten, equations become garbage, code and tables lose structure. This route sidesteps all of it by building the document from the paper's **LaTeX source** — where columns, headings, math and tables are explicit markup, not a layout to reverse-engineer — and uploading that HTML to Reader via the API.
 
-Reader's own arXiv ingestion scrapes the abs page or parses the PDF. Both go wrong in familiar ways: two-column PDFs interleave into nonsense, section headings flatten, equations become garbage, code and tables lose structure. This skill sidesteps all of it by building the document from the paper's **LaTeX source** — where columns, headings, math and tables are explicit markup, not a layout to reverse-engineer — and uploading that HTML to Reader via the API.
+## The flow
 
-**One command does the whole job:**
+Build locally, check for an existing copy, **ask**, then upload — the same order as every API route (see `reader-api.md`):
 
 ```bash
-cd "/Users/domnasrabadi/Knowledge Vault/.Codex/skills/arxiv-to-reader/scripts"
-python3 arxiv_to_reader.py <arxiv-id-or-url>
+S="/Users/domnasrabadi/Knowledge Vault/.agents/skills/reader-ingest/scripts"
+cd "$S"
+python3 arxiv_to_reader.py <arxiv-id-or-url> --dry-run --out "$BUILD"/paper.html --meta-out "$BUILD"/paper.json
+python3 reader_api.py check <arxiv-url>            # matches abs/pdf/any version
+# Show the build stats + any existing copy and its highlights; ask in chat and wait for an explicit yes
+python3 reader_api.py save "$BUILD"/paper.html "$BUILD"/paper.json [--fresh-url]
 ```
 
-Default behaviour: saves to **Later**, tagged `arxiv`. That is the intended path — don't hand-roll the steps.
+`save` verifies itself against what Reader stored. Defaults: **Later**, tagged `arxiv`. Never upload with `arxiv_to_reader.py` directly — that path skips the duplicate check and the confirmation.
 
 ## Inputs
 
 - **Required**: an arXiv ID or URL in any form — `2606.00093`, `arxiv.org/abs/2606.00093v1`, `/pdf/` links, ar5iv/alphaxiv links, old-style `math.GT/0309136`, or a `10.48550/...` DOI. The underlying `arxiv-skill` normalises all of these.
 - **Auth**: `READWISE_TOKEN` from the environment, else `~/Downloads/reader4/.env`. Token from <https://readwise.io/access_token>.
-- **Dependencies**: `pandoc` (`brew install pandoc`); `pdflatex` for the dense-table rendering (TeX Live 2024 **basic** at `/usr/local/texlive/2024basic` is what's installed and is sufficient — the compile preamble is filtered to whatever packages exist); plus the `arxiv` skill vendored alongside this one at `.Codex/skills/arxiv/` — the script finds it automatically (override with `ARXIV_SKILL_DIR`, and it still falls back to `~/Downloads/arxiv-skill`). `pdftocairo` and `sips` are optional — used only for PDF-format figures and downscaling.
+- **Dependencies**: `pandoc` (`brew install pandoc`); `pdflatex` for the dense-table rendering (TeX Live 2024 **basic** at `/usr/local/texlive/2024basic` is what's installed and is sufficient — the compile preamble is filtered to whatever packages exist); plus the `arxiv` skill at `.agents/skills/arxiv/` — the script finds it automatically, two folders up from `scripts/` (override with `ARXIV_SKILL_DIR`, and it still falls back to `~/Downloads/arxiv-skill`). `pdftocairo` and `sips` are optional — used only for PDF-format figures and downscaling.
 
 ### Flags
 
@@ -30,7 +31,8 @@ Default behaviour: saves to **Later**, tagged `arxiv`. That is the intended path
 | `--tags a,b` | Reader tags (default `arxiv`) |
 | `--dry-run` | Build the HTML, print stats, upload nothing |
 | `--out PATH` | Also write the final HTML to disk (pairs well with `--dry-run`) |
-| `--replace` | If the paper is already in Reader, delete and re-save it |
+| `--meta-out PATH` | Write the metadata `reader_api.py save` needs (title, authors, versioned URL, abstract, tags) |
+| `--replace` | **Retired** — exits with a pointer to `reader_api.py`. It could not be trusted (see `reader-api.md`) |
 | `--no-images` | Skip figure embedding (use if the payload is too large) |
 | `--no-refs` | Omit the generated References section |
 | `--force-fetch` | Re-download the source, ignoring the cache |
@@ -73,16 +75,11 @@ Default behaviour: saves to **Later**, tagged `arxiv`. That is the intended path
    - **Figures inlined** as base64 data URIs (Reader can't see local files). PDF/EPS figures are rasterised via `pdftocairo`; oversized images are downscaled with `sips`; anything still too big is dropped rather than bloating the payload.
    - **References section** appended from the parsed bibliography.
    - **Title block** prepended: authors, a link back to the abs page, and the abstract as a blockquote (pandoc's body output omits all three).
-4. **Save** — `POST https://readwise.io/api/v3/save/` with `html`, `should_clean_html: false`, and full metadata (title, authors, abstract as `summary`, `published_date`, tags, location), under the **versioned** abs URL.
-5. **Verify** — re-reads the stored document via `/api/v3/list/` and prints the word count and location, confirming what Reader actually kept.
+4. **Save and verify** — handed to `reader_api.py save`: `should_clean_html: false`, full metadata, under the **versioned** abs URL, then a read-back comparing what Reader stored against what was sent.
 
-### Three Reader API behaviours this skill works around
+### Reader API behaviours
 
-These were established by direct experiment against the live API; they are not in the docs, and each one silently costs content if ignored.
-
-1. **`should_clean_html` deletes real content.** With it on, Reader's readability pass strips every `<h1>` in the body *and* drops sections it reads as boilerplate — a controlled probe showed a `Related Work` heading removed, and on the real paper the entire References list vanished (10,035 words stored vs 13,377 with cleaning off). We build clean HTML already, so the cleaner has nothing to gain and plenty to remove. **Caveat:** turning it off makes `title` and `author` mandatory — omit either and the API returns `400 The fields 'author' and 'title' are required when you don't use should_clean_html`.
-2. **Reader caches its parsed content per URL.** Deleting a document and re-saving the *same* URL can serve the earlier parse instead of your new HTML — during development a re-save kept showing the old cleaned content, byte-identical, despite corrected input. Saving under the versioned URL (`/abs/2606.00093v2`) is a fresh cache key and fixed it instantly. This is why the versioned URL is the default; if a `--replace` run appears not to take, this cache is why.
-3. **`<h1>` never survives in the body**, cleaner on or off — Reader treats h1 as the document title, which it stores separately in metadata. Always ship sections as `<h2>`+.
+The three undocumented Reader behaviours this route was built around — the cleaner deleting content, per-URL caching, and `<h1>` never surviving — apply to every API route, so they now live in **`reader-api.md`**. Read it before touching upload code.
 
 ## Output
 
@@ -103,9 +100,10 @@ Report back to the user: the paper title, the Reader URL, the verified word coun
 
 ## Judgement calls for the model
 
+Replacing an existing copy, highlight loss on delete, and verifying a stored render are covered in `reader-api.md` — they apply to every route.
+
+
 - **Report honestly what the script printed.** If figures were dropped or citations came back as `0`, say so — don't imply a clean render.
-- **`--replace` cannot be trusted to replace.** Its delete branch only fires when the save returns **HTTP 200** ("already exists"). Reader does not reliably do that: re-saving `2605.07847v1` — byte-identical URL, document already in Later — returned **201** and created a *second* document at the same URL, so `--replace` deleted nothing and quietly left a duplicate pair in the queue. Never assume a `--replace` run cleaned up: list the queue afterwards and check for two documents sharing a `source_url`. To genuinely replace, look the old document up by `source_url` via `/api/v3/list/` and `DELETE /api/v3/delete/<id>/` it explicitly, **after** verifying the new copy stored correctly.
-- **Deleting a document destroys its Reader highlights.** Before removing an old copy, check for children with `GET /api/v3/list/?category=highlight&parent_id=<id>` — and note the `parent_id` filter is unreliable, so filter the returned page yourself on `x["parent_id"] == id`. A cheaper account-wide sweep is `GET /api/v2/export/`, which lists every book with its highlights and `source_url` in one paginated call and lives in a **separate rate-limit bucket** from v3 — worth knowing, because v3 `list` with `withHtmlContent=true` exhausts its budget in about a dozen calls and then 429s for minutes.
 - **A new version invalidates an old save.** `fetch.py` resolves the *latest* version, so a paper saved months ago may now render as `v2` with different sections. Say which version was rendered; don't assume it matches an earlier save.
 - **Interrupted fetches poison the cache.** `arxiv-skill` writes `flattened.tex` non-atomically, so a killed run leaves a truncated file that later runs happily reuse (pandoc then reports `unexpected end of input`). The script detects a missing `\end{document}` and re-fetches automatically; `--force-fetch` is the manual escape hatch.
 - **PDF-only papers.** Older or unusual submissions have no LaTeX source; the script exits with a clear message. Don't fake it — tell the user the paper must be read as a PDF in Reader.
@@ -113,10 +111,9 @@ Report back to the user: the paper title, the Reader URL, the verified word coun
 - **Watch the dropped-figure count.** `figures embedded: N, dropped: 0` is the healthy signal. Non-zero drops mean unresolved paths or oversized rasters — worth investigating rather than shipping quietly. Two path traps were fixed here and are easy to reintroduce: `Path.with_suffix()` truncates figure names containing dots (`gpt-3.5-turbo.pdf`), and image refs must be resolved on the **full** src path, since rendered table images live outside the source tree and are referenced absolutely.
 - **Payload size.** Table images and inlined figures push papers into the megabytes (3.9 MB for `2410.03775`); the guard is 8 MB. If a paper trips it, `--no-images` or `--tables none` are the escape hatches.
 - **Pandoc warnings are normal.** Custom macros from a venue's `.sty` often warn without harming output. Only investigate if the final HTML is unexpectedly small or a section is missing.
-- **Verifying a render.** To check what Reader really stored (as opposed to what was uploaded), fetch `GET /api/v3/list/?id=<id>&withHtmlContent=true` and grep for section titles. Reader's cleaner is the ground truth, not the local HTML.
 - **After reading.** Highlights from these documents export through the normal reader4 pipeline into `00 Inbox/`; file them with the `reader4-review` skill. Papers belong in `10 Sources/Papers/`. Because the maths travels as `$…$` source, highlighted equations arrive in Obsidian already renderable — `reader4-review`'s "math notation restoration" step should have little to do on these notes, and headings/code blocks come through structured rather than as flat bullets.
 - **Count tables against the source before claiming loss.** `grep -c 'begin{tabular}'` over `flattened.tex` counts **commented-out** environments too — on `2411.13768` three of six were `%`-prefixed, and 3 tables was the correct, complete answer. Strip comments before comparing, or you will chase a phantom bug.
-- **Related skill**: the `arxiv` skill (vendored at `.Codex/skills/arxiv/`) covers everything else about a paper — search, citation graphs, BibTeX, structured note templates. This skill only handles the Reader ingestion path.
+- **Related skill**: the `arxiv` skill (vendored at `.agents/skills/arxiv/`) covers everything else about a paper — search, citation graphs, BibTeX, structured note templates. `reader-ingest` only handles getting the paper into Reader.
 
 ## Known gaps
 

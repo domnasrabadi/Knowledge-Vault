@@ -11,6 +11,8 @@ Writes <out-basename>.html and <out-basename>.epub.
 import re, sys, json, base64, pathlib, subprocess, html as htmllib
 
 HERE = pathlib.Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from html_for_api import to_dollar_math, strip_chrome  # noqa: E402  (shared with the API route)
 CSS = (HERE.parent / 'references' / 'style.css').read_text()
 
 
@@ -47,7 +49,7 @@ def embed_images(body, search_dirs):
     """Inline local images as data URIs so the HTML is self-contained."""
     def sub(m):
         src = m.group(1)
-        if src.startswith('data:'):
+        if src.startswith(('data:', 'http://', 'https://')):
             return m.group(0)
         for d in search_dirs:
             p = pathlib.Path(d) / src
@@ -118,7 +120,11 @@ def main():
     body = pathlib.Path(body_file).read_text()
     if '<body' in body:
         body = body.split('<body', 1)[1].split('>', 1)[1].rsplit('</body>', 1)[0]
-    body = fix_heading_gaps(clean_body(body))
+    # $...$ literal text, same as the API routes: highlights reach Obsidian renderable.
+    # pandoc emits <embed> for most figures it converts from DOCX/LaTeX, and its
+    # HTML reader then DROPS <embed> when building the EPUB: figure gone, no error.
+    body = re.sub(r'<embed\b', '<img', body)
+    body = fix_heading_gaps(clean_body(to_dollar_math(strip_chrome(body))))
     body = embed_images(body, [pathlib.Path(body_file).parent, '.'])
     out_html = pathlib.Path(f'{base}.html')
     out_html.write_text(page(body, meta))

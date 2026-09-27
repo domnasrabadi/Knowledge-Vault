@@ -33,8 +33,8 @@ audits of five commercial EPUBs (O'Reilly ×3, Manning ×2).
   markup, and times out on large pages. You need the DOM.
 - **Look for a better source before settling.** LaTeX > DOCX > HTML > PDF.
   Gov/institutional reports usually link a `.docx` next to the PDF; a
-  publisher-only paper is often on arXiv by title — and an arXiv paper goes to
-  the **`arxiv-to-reader` skill**, not through this pipeline.
+  publisher-only paper is often on arXiv by title — and an arXiv paper takes
+  the **arXiv route** (`route-arxiv.md`), which builds from its LaTeX source.
 - **PDFs exported from a dev server carry dead links.** The field guide PDFs were
   generated from `127.0.0.1:<port>`, so **all 715 internal links were broken**.
   They still parse as links, so nothing complains. Inventory every `href` early
@@ -183,7 +183,7 @@ blaming the writer.
 - **Badges and labels nested inside cards** get dropped by converters that only
   read the obvious child selector. Convert innermost-outward and diff the text.
 - **Tooltip/hover text is real content the reader can never reach.** Inline it.
-- Full recipes: `references/web-recipes.md`.
+- Full recipes: `references/route-web.md`.
 
 ---
 
@@ -195,7 +195,7 @@ blaming the writer.
 - **Read every image before deciding anything.** Classify into: the author's own
   diagrams, third-party screenshots they are quoting, memes, title slides. The
   handling differs per class and the user's preference differs per class — this
-  is an `AskUserQuestion` moment, not a judgement call.
+  requires asking the user and waiting for their choice.
   Actual split: 8 transcribe / 4 cite+quote / 12 memes / 3 title slides.
 - **Transcribe to real markup** — tables, lists, `<pre>` — in visually distinct
   blocks so the transcription is never mistaken for the author's prose. Eight
@@ -230,11 +230,11 @@ blaming the writer.
 
 ## 7. Auditing an existing EPUB
 
-`scripts/inspect.py` now performs this audit, and
-**`references/gold-standard.md` is the maintained version of everything below**
+`scripts/epub_check.py` performs this audit and `scripts/epub_fix.py` the repairs;
+**`references/route-epub-check.md` is the maintained version of everything below**
 — profile, benign findings, and the equation-plate remedy. This section is kept
 as the narrative account of where those calibrations came from; when the two
-disagree, gold-standard.md wins.
+disagree, route-epub-check.md wins.
 
 The reference profile, from three O'Reilly titles that pass everything:
 
@@ -311,9 +311,10 @@ is what makes "which is canonical" answerable in one pass.
   (45 of 46 cases), lift it into `alt`.
 - **`word-break: break-all`** in a publisher stylesheet breaks identifiers
   mid-token at narrow widths. `break-word` + horizontal scroll.
-- **EPUB is the deliverable.** Reader documents PDF, EPUB, Markdown and OPML as
-  upload formats. HTML upload usually works but is undocumented — ship it as the
-  preview/fallback twin, not the primary.
+- **The API cannot take a file.** It saves a URL plus HTML; `category: epub` is a
+  label, not an upload. So single documents go in as HTML through the API
+  (automatic, linked to their source), and anything that must be an EPUB (long
+  sources, repaired publisher files) is dragged in by hand. See `reader-api.md`.
 
 ---
 
@@ -387,6 +388,7 @@ The value is the diagnosis, not the file. Give:
 - **Wrong turns worth knowing about.** The two failed TOC fixes, and that one
   introduced duplicate IDs.
 - **What is still imperfect.** Clipped code lines. Text baked into images is not
-  highlightable. MathML rendering in Reader varies.
+  highlightable. Maths shows in Reader as `$…$` source by design (it renders in
+  Obsidian); say so, so it isn't reported back as a bug.
 - **Upstream bugs you found**, clearly attributed to the source.
 - **The judgement calls**, with an offer to reverse each one.

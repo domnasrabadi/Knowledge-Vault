@@ -38,7 +38,7 @@ Open the note and its `source` URL context. Check and, where warranted, **propos
 - **Inline citations**: `(OpenAI, 2025)`, `(Zheng et al., 2023)` — remove these, including the ones attached to model names. A References section that survived the export stays.
 - **Worked examples**: sample prompts, perturbation sets, and input/output pairs quoted at the end of a paper each go in their own fenced code block instead of running together as prose bullets — they're meant to be read as artifacts, not sentences.
 
-The first two are `arxiv-to-reader` bugs rather than Readwise ones: its converter injects the citation spans and leaves pandoc's anchors in place. Treat these rules as a net for papers that arrived some other way — if a freshly built paper still needs them, the converter regressed.
+The first two are bugs in `reader-ingest`'s arXiv route (`arxiv_to_reader.py`) rather than Readwise ones: its converter injects the citation spans and leaves pandoc's anchors in place. Treat these rules as a net for papers that arrived some other way — if a freshly built paper still needs them, the converter regressed.
 
 Show proposed fixes as a short list; apply only what the user accepts. Semantic content is never rewritten — structure only; export artifacts (dead anchors, injected citations, empty headings) may be removed, as these are not source content.
 

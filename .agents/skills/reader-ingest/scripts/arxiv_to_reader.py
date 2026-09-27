@@ -847,8 +847,12 @@ def main() -> None:
     p.add_argument("--dry-run", action="store_true",
                    help="write HTML locally, do not upload")
     p.add_argument("--out", help="also write the final HTML to this path")
+    p.add_argument("--meta-out",
+                   help="write a meta.json for reader_api.py save (the reader-ingest "
+                        "upload path: duplicate check, confirmation, verification)")
     p.add_argument("--replace", action="store_true",
-                   help="if the paper is already in Reader, delete and re-save it")
+                   help="retired: unreliable (Reader can return 201 and duplicate). "
+                        "Use reader_api.py check / save --fresh-url / delete")
     p.add_argument("--force-fetch", action="store_true",
                    help="re-download the source even if cached")
     p.add_argument("--clean-html", action="store_true",
@@ -966,9 +970,26 @@ def main() -> None:
         out_path.write_text(html)
         print(f"  wrote {out_path}")
 
+    if args.meta_out:
+        versioned = f"https://arxiv.org/abs/{meta.get('versioned_id') or meta['id']}"
+        Path(args.meta_out).write_text(json.dumps({
+            "title": meta["title"],
+            "authors": meta.get("authors", []),
+            "date": str(meta.get("published") or "")[:10],
+            # Versioned URL: a fresh Reader cache key, and an honest record of
+            # exactly which version was rendered.
+            "url": abs_url if args.unversioned_url else versioned,
+            "description": re.sub(r"\s+", " ", meta.get("abstract", "")).strip()[:2000],
+            "tags": [t.strip() for t in args.tags.split(",") if t.strip()],
+        }, indent=2))
+        print(f"  wrote {args.meta_out}")
+
     if args.dry_run:
         print("dry run — nothing uploaded")
         return
+    if args.replace:
+        die("--replace is retired: Reader can answer 201 and silently duplicate. Use "
+            "reader_api.py check, then save --fresh-url, then delete the old copy.")
 
     token = find_token()
     # Reader caches its parsed content per URL: re-saving the same URL can serve
@@ -990,22 +1011,17 @@ def main() -> None:
         "location": args.location,
         "category": "article",
         "tags": [t.strip() for t in args.tags.split(",") if t.strip()],
-        "saved_using": "arxiv-to-reader",
+        "saved_using": "reader-ingest",
     }
 
     print(f"→ saving to Reader ({args.location}) …")
     status, body = api("POST", SAVE_URL, token, payload)
 
-    if status == 200 and args.replace and body.get("id"):
-        print(f"  already in Reader ({body['id']}) — replacing …")
-        api("DELETE", DELETE_URL.format(body["id"]), token)
-        status, body = api("POST", SAVE_URL, token, payload)
-
     if status == 201:
         print(f"✓ created: {body.get('url')}")
     elif status == 200:
         print(f"✓ already existed (content unchanged): {body.get('url')}")
-        print("  use --replace to overwrite it with this render")
+        print("  to replace it: reader_api.py check, then save --fresh-url")
     else:
         die(f"save failed [{status}]: {json.dumps(body)[:500]}")
 
