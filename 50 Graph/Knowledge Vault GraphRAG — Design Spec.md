@@ -88,7 +88,39 @@ The metadata is clean enough to use as weighting signals from day one. Note-to-n
 
 Claims are the core unit. Passages support or contradict claims. Claims are ABOUT concepts and entities. Communities group concepts and entities.
 
-*Diagram: graph model · 7 node types, claim-centred — see the [live doc](https://claude.ai/code/artifact/3021e58d-e2be-4e4b-8c55-94c6ef089dfb).*
+```mermaid
+---
+title: Claims sit at the centre; evidence flows up from sources
+---
+flowchart BT
+    Source["<b>Source</b><br/>article, paper or chapter note"]
+    Book["<b>Book</b><br/>folder of chapter notes"]
+    Passage["<b>Passage</b><br/>up to 400 tokens, with voice"]
+    Claim["<b>Claim</b><br/>one assertion + its qualifiers"]
+    Community["<b>Community</b><br/>LLM-summarised cluster (Leiden)"]
+
+    subgraph Registry["Registry"]
+        direction LR
+        Entity["<b>Entity</b><br/>named thing"]
+        Concept["<b>Concept</b><br/>abstract idea"]
+        Links["Entries link by CO_OCCURS and typed relations"]
+    end
+
+    Source -->|HAS_PASSAGE| Passage
+    Source -->|IN_BOOK| Book
+    Source -->|AUTHORED_BY| Entity
+    Passage -->|SUPPORTS · QUALIFIED_SUPPORT · CONTRADICTS| Claim
+    Passage -->|MENTIONS| Registry
+    Claim -->|ABOUT| Registry
+    Claim -->|REFINES · SUPERSEDES| Claim
+    Entity -->|INSTANCE_OF| Concept
+    Community -->|CONTAINS| Registry
+
+    classDef core fill:#dbe8fb,stroke:#2f6fd6,stroke-width:2px,color:#111
+    classDef note fill:none,stroke:none
+    class Claim core
+    class Links note
+```
 
 Evidence flows upward: Source → Passage → Claim → Concept or Entity → Community. Fields for each node type are in Data schema.
 
@@ -393,7 +425,6 @@ Evaluation runs at the end of phases 2, 4 and 7, and after every prompt, model o
 | 10 | Temporal: how claims changed | "How has advice on eval metrics changed since 2023?" | Temporal | Referenced-time filter, SUPERSEDES |
 | 11 | Reinforcement + evidence distribution | "How well supported is X, and by how many independent sources?" | Local | Support, independence groups |
 | 12 | Global synthesis | "What themes run through everything on agent evaluation?" | Global | Community summaries → top claims |
-| 13 | Own voice vs authors | "What have I concluded about LLM judges, versus the sources?" | Local | Voice filter (mine vs author and highlight) |
 | 14 | Alias and entity robustness | The same question asked with a different name for a concept | Local | resolve\_entity, Registry aliases |
 | 15 | Temporal: reading history | "What did I read about RAG this summer, and what did I revisit?" | Temporal | created / updated metadata |
 | 16 | Filtered discovery + enumeration | "List my ⭐⭐+ papers on evaluation published since 2025." | Local | Metadata filters, enumeration |
