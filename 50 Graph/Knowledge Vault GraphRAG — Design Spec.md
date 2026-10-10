@@ -249,11 +249,13 @@ A claim's strength is the saturated sum of weighted support from independent sou
 
 ### Source weight (per supporting passage)
 
-```latex
-w = q_{\text{quality}} \cdot h_{\text{highlight}} \cdot c_{\text{extract}} \cdot c_{\text{resolve}} \cdot 0.5^{\,\text{age}/T_{1/2}}
-```
 
-w is the product of five factors, one per row below. Voice is not a factor: it is shown in answers, can filter retrieval, and seeds the core worldview layer (see Optional extensions). Initial values are in Config and defaults. A claim with no referenced time and a source with no `published` date gets a decay factor of 1.0 and is flagged in answers.
+$$
+\Large
+w = q_{\text{quality}} \cdot h_{\text{highlight}} \cdot c_{\text{extract}} \cdot c_{\text{resolve}} \cdot 0.5^{\,\text{age}/T_{1/2}}
+$$
+
+$w$ is the product of five factors, one per row below. Voice is not a factor: it is shown in answers, can filter retrieval, and seeds the core worldview layer (see Optional extensions). Initial values are in Config and defaults. A claim with no referenced time and a source with no `published` date gets a decay factor of 1.0 and is flagged in answers.
 
 **When decay is applied:** stored support and opposition leave out the decay factor. Decay is applied at query time, so scores never go stale between sync runs. Contested is also checked at query time. CO\_OCCURS weights use the stored, undecayed support.
 
