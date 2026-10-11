@@ -2,13 +2,15 @@
 type: system
 status: structured
 quality:
-topics: [rag, knowledge-management]
-source: "https://claude.ai/code/artifact/3021e58d-e2be-4e4b-8c55-94c6ef089dfb"
+topics:
+  - rag
+  - knowledge-management
+source: https://claude.ai/code/artifact/3021e58d-e2be-4e4b-8c55-94c6ef089dfb
 created: 2026-10-04
 published:
 author: Dom Nasrabadi
 flashcards: none
-updated: 2026-10-04
+updated: 2026-10-11
 ---
 # Knowledge Vault GraphRAG — Design Spec
 
