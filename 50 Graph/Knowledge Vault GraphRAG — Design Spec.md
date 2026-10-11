@@ -88,38 +88,87 @@ The metadata is clean enough to use as weighting signals from day one. Note-to-n
 
 Claims are the core unit. Passages support or contradict claims. Claims are ABOUT concepts and entities. Communities group concepts and entities.
 
-```mermaid
----
-title: Claims sit at the centre; evidence flows up from sources
----
-flowchart BT
-    Source["<b>Source</b><br/>article, paper or chapter note"]
-    Book["<b>Book</b><br/>folder of chapter notes"]
-    Passage["<b>Passage</b><br/>up to 400 tokens, with voice"]
-    Claim["<b>Claim</b><br/>one assertion + its qualifiers"]
-    Community["<b>Community</b><br/>LLM-summarised cluster (Leiden)"]
-
-    subgraph Registry["Registry"]
-        direction LR
-        Entity["<b>Entity</b><br/>named thing"]
-        Concept["<b>Concept</b><br/>abstract idea"]
-        Links["Entries link by CO_OCCURS and typed relations"]
-    end
-
-    Source -->|HAS_PASSAGE| Passage
-    Source -->|IN_BOOK| Book
-    Source -->|AUTHORED_BY| Entity
-    Passage -->|SUPPORTS · QUALIFIED_SUPPORT · CONTRADICTS| Claim
-    Passage -->|MENTIONS| Registry
-    Claim -->|ABOUT| Registry
-    Claim -->|REFINES · SUPERSEDES| Claim
-    Entity -->|INSTANCE_OF| Concept
-    Community -->|CONTAINS| Registry
-
-    classDef core fill:#dbe8fb,stroke:#2f6fd6,stroke-width:2px,color:#111
-    classDef note fill:none,stroke:none
-    class Claim core
-    class Links note
+```dot
+digraph "graph-model" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=8.3889 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="600" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>Claims sit at the centre; evidence flows up from sources</B></FONT></TD></TR></TABLE>> pos="324.0,579.0!"];
+  b2 [shape=box style="rounded,filled" fillcolor="#efeeea" color="#b4b1a5" penwidth=1.25 width=4.4444 height=2.0000 fixedsize=true label="" pos="300.0,384.0!"];
+  t3 [shape=none margin=0 width=1.2333 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="85" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Registry</B></FONT></TD></TR></TABLE>> pos="198.4,438.3!"];
+  t4 [shape=none margin=0 width=1.3467 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="93" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">INSTANCE_OF</FONT></TD></TR></TABLE>> pos="300.0,353.8!"];
+  t5 [shape=none margin=0 width=4.8222 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="343" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Entries link by CO_OCCURS and typed relations</FONT></TD></TR></TABLE>> pos="300.0,329.8!"];
+  b6 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.3333 height=0.7778 fixedsize=true label="" pos="300.0,524.0!"];
+  b7 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.7222 height=0.7778 fixedsize=true label="" pos="218.0,396.0!"];
+  b8 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.7222 height=0.7778 fixedsize=true label="" pos="382.0,396.0!"];
+  b9 [shape=box style="rounded,filled" fillcolor="#e5eefb" color="#2f6fd6" penwidth=2 width=3.3333 height=0.7778 fixedsize=true label="" pos="300.0,244.0!"];
+  b10 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.3333 height=0.7778 fixedsize=true label="" pos="300.0,148.0!"];
+  b11 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.3333 height=0.7778 fixedsize=true label="" pos="300.0,52.0!"];
+  b12 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.5000 height=0.7778 fixedsize=true label="" pos="590.0,52.0!"];
+  t13 [shape=none margin=0 width=1.3597 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="94" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Community</B></FONT></TD></TR></TABLE>> pos="300.0,532.3!"];
+  t14 [shape=none margin=0 width=3.3911 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="240" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">LLM-summarised cluster (Leiden)</FONT></TD></TR></TABLE>> pos="300.0,515.8!"];
+  t15 [shape=none margin=0 width=0.9806 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="67" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Entity</B></FONT></TD></TR></TABLE>> pos="218.0,404.3!"];
+  t16 [shape=none margin=0 width=1.3467 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="93" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">named thing</FONT></TD></TR></TABLE>> pos="218.0,387.8!"];
+  t17 [shape=none margin=0 width=1.1069 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="76" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Concept</B></FONT></TD></TR></TABLE>> pos="382.0,404.3!"];
+  t18 [shape=none margin=0 width=1.5511 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="108" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">abstract idea</FONT></TD></TR></TABLE>> pos="382.0,387.8!"];
+  t19 [shape=none margin=0 width=0.8542 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="58" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Claim</B></FONT></TD></TR></TABLE>> pos="300.0,252.3!"];
+  t20 [shape=none margin=0 width=3.2889 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="233" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">one assertion + its qualifiers</FONT></TD></TR></TABLE>> pos="300.0,235.8!"];
+  t21 [shape=none margin=0 width=1.1069 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="76" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Passage</B></FONT></TD></TR></TABLE>> pos="300.0,156.3!"];
+  t22 [shape=none margin=0 width=3.0844 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="218" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">up to 400 tokens, with voice</FONT></TD></TR></TABLE>> pos="300.0,139.8!"];
+  t23 [shape=none margin=0 width=0.9806 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="67" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Source</B></FONT></TD></TR></TABLE>> pos="300.0,60.3!"];
+  t24 [shape=none margin=0 width=3.2889 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="233" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">article, paper or chapter note</FONT></TD></TR></TABLE>> pos="300.0,43.8!"];
+  t25 [shape=none margin=0 width=0.7278 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="48" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Book</B></FONT></TD></TR></TABLE>> pos="590.0,60.3!"];
+  t26 [shape=none margin=0 width=2.5733 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="181" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">folder of chapter notes</FONT></TD></TR></TABLE>> pos="590.0,43.8!"];
+  p27 [shape=point width=0.001 height=0.001 style=invis pos="300.0,496.0!"];
+  p28 [shape=point width=0.001 height=0.001 style=invis pos="300.0,456.0!"];
+  p29 [shape=point width=0.001 height=0.001 style=invis pos="300.0,272.0!"];
+  p30 [shape=point width=0.001 height=0.001 style=invis pos="300.0,312.0!"];
+  p31 [shape=point width=0.001 height=0.001 style=invis pos="300.0,176.0!"];
+  p32 [shape=point width=0.001 height=0.001 style=invis pos="300.0,216.0!"];
+  p33 [shape=point width=0.001 height=0.001 style=invis pos="300.0,80.0!"];
+  p34 [shape=point width=0.001 height=0.001 style=invis pos="300.0,120.0!"];
+  p35 [shape=point width=0.001 height=0.001 style=invis pos="420.0,52.0!"];
+  p36 [shape=point width=0.001 height=0.001 style=invis pos="500.0,52.0!"];
+  p37 [shape=point width=0.001 height=0.001 style=invis pos="280.0,382.0!"];
+  p38 [shape=point width=0.001 height=0.001 style=invis pos="320.0,382.0!"];
+  p39 [shape=point width=0.001 height=0.001 style=invis pos="420.0,256.0!"];
+  p40 [shape=point width=0.001 height=0.001 style=invis pos="448.0,256.0!"];
+  p41 [shape=point width=0.001 height=0.001 style=invis pos="448.0,232.0!"];
+  p42 [shape=point width=0.001 height=0.001 style=invis pos="420.0,232.0!"];
+  p43 [shape=point width=0.001 height=0.001 style=invis pos="180.0,148.0!"];
+  p44 [shape=point width=0.001 height=0.001 style=invis pos="120.0,148.0!"];
+  p45 [shape=point width=0.001 height=0.001 style=invis pos="120.0,364.0!"];
+  p46 [shape=point width=0.001 height=0.001 style=invis pos="140.0,364.0!"];
+  p47 [shape=point width=0.001 height=0.001 style=invis pos="180.0,38.0!"];
+  p48 [shape=point width=0.001 height=0.001 style=invis pos="92.0,38.0!"];
+  p49 [shape=point width=0.001 height=0.001 style=invis pos="92.0,404.0!"];
+  p50 [shape=point width=0.001 height=0.001 style=invis pos="156.0,404.0!"];
+  t51 [shape=none margin=0 width=1.0400 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="71" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">CONTAINS</FONT></TD></TR></TABLE>> pos="347.4,475.8!"];
+  t52 [shape=none margin=0 width=0.7333 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="49" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">ABOUT</FONT></TD></TR></TABLE>> pos="336.4,291.8!"];
+  t53 [shape=none margin=0 width=4.5156 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="321" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">SUPPORTS · QUALIFIED_SUPPORT · CONTRADICTS</FONT></TD></TR></TABLE>> pos="472.6,195.8!"];
+  t54 [shape=none margin=0 width=1.3467 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="93" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">HAS_PASSAGE</FONT></TD></TR></TABLE>> pos="358.5,99.8!"];
+  t55 [shape=none margin=0 width=0.9378 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="64" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">IN_BOOK</FONT></TD></TR></TABLE>> pos="460.0,63.8!"];
+  t56 [shape=none margin=0 width=2.2667 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="159" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">REFINES · SUPERSEDES</FONT></TD></TR></TABLE>> pos="535.6,243.8!"];
+  t57 [shape=none margin=0 width=1.0400 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="71" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">MENTIONS</FONT></TD></TR></TABLE>> pos="161.4,187.8!"];
+  t58 [shape=none margin=0 width=1.2222 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="84" HEIGHT="18" ALIGN="RIGHT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">AUTHORED_BY</FONT></TD></TR></TABLE>> pos="44.0,207.8!"];
+  p59 [shape=point width=0.001 height=0.001 style=invis pos="0.0,604.0!"];
+  p60 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+  p27 -> p28 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p29 -> p30 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p31 -> p32 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p33 -> p34 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p35 -> p36 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p37 -> p38 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p39 -> p40 [dir=none color="#b4b1a5" penwidth=1.25];
+  p40 -> p41 [dir=none color="#b4b1a5" penwidth=1.25];
+  p41 -> p42 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p43 -> p44 [dir=none color="#b4b1a5" penwidth=1.25];
+  p44 -> p45 [dir=none color="#b4b1a5" penwidth=1.25];
+  p45 -> p46 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p47 -> p48 [dir=none color="#b4b1a5" penwidth=1.25];
+  p48 -> p49 [dir=none color="#b4b1a5" penwidth=1.25];
+  p49 -> p50 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+}
 ```
 
 Evidence flows upward: Source → Passage → Claim → Concept or Entity → Community. Fields for each node type are in Data schema.
@@ -160,6 +209,61 @@ Evidence flows upward: Source → Passage → Claim → Concept or Entity → Co
 
 Every node and edge has a stable `id` and the lineage fields below. IDs never change once assigned, so edits, renames and re-runs don't break references.
 
+```dot
+digraph "data-schema" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=7.3681 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="526" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>Six node types, each with a stable ID and lineage</B></FONT></TD></TR></TABLE>> pos="287.2,470.9!"];
+  b2 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.2222 height=1.9444 fixedsize=true label="" pos="136.0,370.0!"];
+  t3 [shape=none margin=0 width=0.9806 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="67" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Source</B></FONT></TD></TR></TABLE>> pos="65.3,420.3!"];
+  t4 [shape=none margin=0 width=3.5956 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="255" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">src: + note path (kept on rename)</FONT></TD></TR></TABLE>> pos="159.4,401.8!"];
+  t5 [shape=none margin=0 width=2.9822 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="211" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">path, type, status, quality</FONT></TD></TR></TABLE>> pos="137.4,381.8!"];
+  t6 [shape=none margin=0 width=3.0844 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="218" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">topics, author, URL, book_id</FONT></TD></TR></TABLE>> pos="141.0,365.8!"];
+  t7 [shape=none margin=0 width=2.9822 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="211" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">published, created, updated</FONT></TD></TR></TABLE>> pos="137.4,349.8!"];
+  b8 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.2222 height=1.9444 fixedsize=true label="" pos="380.0,370.0!"];
+  t9 [shape=none margin=0 width=0.7278 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="48" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Book</B></FONT></TD></TR></TABLE>> pos="300.2,420.3!"];
+  t10 [shape=none margin=0 width=2.1644 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="152" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">book: + folder path</FONT></TD></TR></TABLE>> pos="351.9,401.8!"];
+  t11 [shape=none margin=0 width=2.0622 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="144" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">folder path, title</FONT></TD></TR></TABLE>> pos="348.2,381.8!"];
+  t12 [shape=none margin=0 width=1.9600 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="137" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">author, published</FONT></TD></TR></TABLE>> pos="344.6,365.8!"];
+  b13 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.2222 height=1.9444 fixedsize=true label="" pos="624.0,370.0!"];
+  t14 [shape=none margin=0 width=1.1069 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="76" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Passage</B></FONT></TD></TR></TABLE>> pos="557.9,420.3!"];
+  t15 [shape=none margin=0 width=3.0844 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="218" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">psg: + hash(source, text, n)</FONT></TD></TR></TABLE>> pos="629.0,401.8!"];
+  t16 [shape=none margin=0 width=3.2889 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="233" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">source_id, breadcrumb, ordinal</FONT></TD></TR></TABLE>> pos="636.4,381.8!"];
+  t17 [shape=none margin=0 width=3.0844 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="218" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">text, text_hash, token_count</FONT></TD></TR></TABLE>> pos="629.0,365.8!"];
+  t18 [shape=none margin=0 width=2.6756 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="189" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">voice, highlight density</FONT></TD></TR></TABLE>> pos="614.3,349.8!"];
+  t19 [shape=none margin=0 width=1.1422 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="78" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">embedding</FONT></TD></TR></TABLE>> pos="559.1,333.8!"];
+  b20 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.2222 height=1.9444 fixedsize=true label="" pos="136.0,214.0!"];
+  t21 [shape=none margin=0 width=2.2444 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="158" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Concept / Entity</B></FONT></TD></TR></TABLE>> pos="110.8,264.3!"];
+  t22 [shape=none margin=0 width=3.3911 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="240" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">reg:kind:slug (merges redirect)</FONT></TD></TR></TABLE>> pos="152.1,245.8!"];
+  t23 [shape=none margin=0 width=2.5733 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="181" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">canonical_name, aliases</FONT></TD></TR></TABLE>> pos="122.6,225.8!"];
+  t24 [shape=none margin=0 width=3.1867 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="225" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">definition, kind, entity_type</FONT></TD></TR></TABLE>> pos="144.7,209.8!"];
+  t25 [shape=none margin=0 width=2.8800 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="203" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">status: approved, pending,</FONT></TD></TR></TABLE>> pos="133.7,193.8!"];
+  t26 [shape=none margin=0 width=2.2667 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="159" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">rejected · embedding</FONT></TD></TR></TABLE>> pos="111.6,177.8!"];
+  b27 [shape=box style="rounded,filled" fillcolor="#e5eefb" color="#2f6fd6" penwidth=2 width=3.2222 height=1.9444 fixedsize=true label="" pos="380.0,214.0!"];
+  t28 [shape=none margin=0 width=0.8542 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="58" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Claim</B></FONT></TD></TR></TABLE>> pos="304.8,264.3!"];
+  t29 [shape=none margin=0 width=3.1867 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="225" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">clm: + UUID (merges redirect)</FONT></TD></TR></TABLE>> pos="388.7,245.8!"];
+  t30 [shape=none margin=0 width=1.8578 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">text, qualifiers</FONT></TD></TR></TABLE>> pos="340.9,225.8!"];
+  t31 [shape=none margin=0 width=2.9822 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="211" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">relation_phrases, embedding</FONT></TD></TR></TABLE>> pos="381.4,209.8!"];
+  t32 [shape=none margin=0 width=2.9822 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="211" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">referenced_time, volatility</FONT></TD></TR></TABLE>> pos="381.4,193.8!"];
+  t33 [shape=none margin=0 width=1.8578 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">status, valid_to</FONT></TD></TR></TABLE>> pos="340.9,177.8!"];
+  t34 [shape=none margin=0 width=3.2889 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="233" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">support, opposition, contested</FONT></TD></TR></TABLE>> pos="392.4,161.8!"];
+  b35 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.2222 height=1.9444 fixedsize=true label="" pos="624.0,214.0!"];
+  t36 [shape=none margin=0 width=1.3597 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="94" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Community</B></FONT></TD></TR></TABLE>> pos="567.0,264.3!"];
+  t37 [shape=none margin=0 width=1.3467 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="93" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">com: + UUID</FONT></TD></TR></TABLE>> pos="566.5,245.8!"];
+  t38 [shape=none margin=0 width=1.9600 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="137" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">level, member IDs</FONT></TD></TR></TABLE>> pos="588.6,225.8!"];
+  t39 [shape=none margin=0 width=2.8800 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="203" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">summary, summary_embedding</FONT></TD></TR></TABLE>> pos="621.7,209.8!"];
+  t40 [shape=none margin=0 width=1.9600 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="137" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">built_from, stale</FONT></TD></TR></TABLE>> pos="588.6,193.8!"];
+  b41 [shape=box style="rounded,filled" fillcolor="#efeeea" color="#b4b1a5" penwidth=1.25 width=10.0000 height=1.3889 fixedsize=true label="" pos="380.0,70.0!"];
+  t42 [shape=none margin=0 width=4.0139 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="285" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Lineage on every node and edge</B></FONT></TD></TR></TABLE>> pos="178.5,100.3!"];
+  t43 [shape=none margin=0 width=9.0133 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="645" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">source_commit · processed_at · model · prompt (e.g. P3@v2) · review_state · decided_by</FONT></TD></TR></TABLE>> pos="358.5,77.8!"];
+  t44 [shape=none margin=0 width=10.0833 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="722" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Source and Book need only source_commit and processed_at. Edges carry from, to, type, confidence.</FONT></TD></TR></TABLE>> pos="397.0,57.8!"];
+  t45 [shape=none margin=0 width=7.9911 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="571" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Passage → Claim edges add the weight w, its factors, and any qualifier text.</FONT></TD></TR></TABLE>> pos="321.7,39.8!"];
+  p46 [shape=point width=0.001 height=0.001 style=invis pos="0.0,496.0!"];
+  p47 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+}
+```
+
 | Node | Key fields | ID rule |
 | --- | --- | --- |
 | Source | path, type, status, quality, topics, source URL, published, created, updated, author, book\_id | `src:` + note path when first seen. Kept on rename (git rename detection) |
@@ -187,6 +291,83 @@ Source and Book nodes need only `source_commit` and `processed_at`.
 ## Preprocessing
 
 Each source becomes passages of at most 400 tokens that follow the note's own structure. Claims are extracted from every passage.
+
+```dot
+digraph "preprocessing" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=8.3889 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="600" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>Each note becomes passages that follow its own structure</B></FONT></TD></TR></TABLE>> pos="324.0,494.9!"];
+  p2 [shape=point width=0.001 height=0.001 style=invis pos="208.0,400.0!"];
+  p3 [shape=point width=0.001 height=0.001 style=invis pos="736.0,400.0!"];
+  p4 [shape=point width=0.001 height=0.001 style=invis pos="208.0,292.0!"];
+  p5 [shape=point width=0.001 height=0.001 style=invis pos="736.0,292.0!"];
+  p6 [shape=point width=0.001 height=0.001 style=invis pos="208.0,200.0!"];
+  p7 [shape=point width=0.001 height=0.001 style=invis pos="736.0,200.0!"];
+  p8 [shape=point width=0.001 height=0.001 style=invis pos="208.0,120.0!"];
+  p9 [shape=point width=0.001 height=0.001 style=invis pos="736.0,120.0!"];
+  b10 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.0833 height=0.6667 fixedsize=true label="" pos="111.0,440.0!"];
+  b11 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.0833 height=0.6667 fixedsize=true label="" pos="111.0,360.0!"];
+  b12 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.0833 height=0.6667 fixedsize=true label="" pos="111.0,252.0!"];
+  b13 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.0833 height=0.6667 fixedsize=true label="" pos="111.0,160.0!"];
+  b14 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.0833 height=0.6667 fixedsize=true label="" pos="111.0,80.0!"];
+  b15 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=1.3333 height=0.3889 fixedsize=true label="" pos="256.0,360.0!"];
+  b16 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=1.8056 height=0.3889 fixedsize=true label="" pos="393.0,360.0!"];
+  b17 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=1.5556 height=0.3889 fixedsize=true label="" pos="538.0,360.0!"];
+  b18 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=1.3333 height=0.3889 fixedsize=true label="" pos="666.0,360.0!"];
+  b19 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=3.5556 height=0.3889 fixedsize=true label="" pos="336.0,266.0!"];
+  b20 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=3.5556 height=0.3889 fixedsize=true label="" pos="600.0,266.0!"];
+  b21 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=3.5556 height=0.3889 fixedsize=true label="" pos="336.0,230.0!"];
+  b22 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=3.5556 height=0.3889 fixedsize=true label="" pos="600.0,230.0!"];
+  p23 [shape=point width=0.001 height=0.001 style=invis pos="111.0,416.0!"];
+  p24 [shape=point width=0.001 height=0.001 style=invis pos="111.0,384.0!"];
+  p25 [shape=point width=0.001 height=0.001 style=invis pos="111.0,336.0!"];
+  p26 [shape=point width=0.001 height=0.001 style=invis pos="111.0,276.0!"];
+  p27 [shape=point width=0.001 height=0.001 style=invis pos="111.0,228.0!"];
+  p28 [shape=point width=0.001 height=0.001 style=invis pos="111.0,184.0!"];
+  p29 [shape=point width=0.001 height=0.001 style=invis pos="111.0,136.0!"];
+  p30 [shape=point width=0.001 height=0.001 style=invis pos="111.0,104.0!"];
+  p31 [shape=point width=0.001 height=0.001 style=invis pos="304.0,360.0!"];
+  p32 [shape=point width=0.001 height=0.001 style=invis pos="328.0,360.0!"];
+  p33 [shape=point width=0.001 height=0.001 style=invis pos="458.0,360.0!"];
+  p34 [shape=point width=0.001 height=0.001 style=invis pos="482.0,360.0!"];
+  p35 [shape=point width=0.001 height=0.001 style=invis pos="594.0,360.0!"];
+  p36 [shape=point width=0.001 height=0.001 style=invis pos="618.0,360.0!"];
+  t37 [shape=none margin=0 width=1.2333 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="85" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>1  Parse</B></FONT></TD></TR></TABLE>> pos="111.0,440.3!"];
+  t38 [shape=none margin=0 width=7.6944 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="550" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Read the frontmatter. Strip Readwise image URLs and HTML wrappers; keep &lt;mark&gt; tags.</FONT></TD></TR></TABLE>> pos="483.0,439.8!"];
+  t39 [shape=none margin=0 width=1.2333 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="85" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>2  Chunk</B></FONT></TD></TR></TABLE>> pos="111.0,360.3!"];
+  t40 [shape=none margin=0 width=1.0400 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="71" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Headings</FONT></TD></TR></TABLE>> pos="256.0,359.8!"];
+  t41 [shape=none margin=0 width=1.9600 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="137" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Top-level bullets</FONT></TD></TR></TABLE>> pos="393.0,359.8!"];
+  t42 [shape=none margin=0 width=1.5511 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="108" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Child bullets</FONT></TD></TR></TABLE>> pos="538.0,359.8!"];
+  t43 [shape=none margin=0 width=1.1422 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="78" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Sentences</FONT></TD></TR></TABLE>> pos="666.0,359.8!"];
+  t44 [shape=none margin=0 width=7.6944 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="550" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Go a level deeper only while a piece exceeds 400 tokens; bullets keep their children.</FONT></TD></TR></TABLE>> pos="483.0,325.8!"];
+  t45 [shape=none margin=0 width=7.6944 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="550" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Never split a code block or table; an oversized one becomes its own passage.</FONT></TD></TR></TABLE>> pos="483.0,309.8!"];
+  t46 [shape=none margin=0 width=1.6125 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="112" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>3  Annotate</B></FONT></TD></TR></TABLE>> pos="111.0,252.3!"];
+  t47 [shape=none margin=0 width=2.0622 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="144" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Heading breadcrumb</FONT></TD></TR></TABLE>> pos="336.0,265.8!"];
+  t48 [shape=none margin=0 width=2.5733 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="181" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Ordinal and token count</FONT></TD></TR></TABLE>> pos="600.0,265.8!"];
+  t49 [shape=none margin=0 width=3.4933 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="248" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Voice: highlight › mine › author</FONT></TD></TR></TABLE>> pos="336.0,229.8!"];
+  t50 [shape=none margin=0 width=3.6978 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="262" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Highlight density: share in &lt;mark&gt;</FONT></TD></TR></TABLE>> pos="600.0,229.8!"];
+  t51 [shape=none margin=0 width=1.2333 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="85" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>4  Embed</B></FONT></TD></TR></TABLE>> pos="111.0,160.3!"];
+  t52 [shape=none margin=0 width=7.5822 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="542" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">One vector per passage (tokenizer: cl100k_base until phase 0 picks one).</FONT></TD></TR></TABLE>> pos="479.0,159.8!"];
+  t53 [shape=none margin=0 width=2.3708 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="167" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>5  Books, authors</B></FONT></TD></TR></TABLE>> pos="111.0,80.3!"];
+  t54 [shape=none margin=0 width=6.0489 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="432" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Notes in a Book folder get an IN_BOOK edge to their Book.</FONT></TD></TR></TABLE>> pos="423.8,87.8!"];
+  t55 [shape=none margin=0 width=7.3778 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="527" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Each frontmatter author becomes a person Entity (AUTHORED_BY, via P2).</FONT></TD></TR></TABLE>> pos="471.6,71.8!"];
+  t56 [shape=none margin=0 width=9.9333 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="711" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Boilerplate, code, tables and inline commentary are handled by the extraction prompt, not here.</FONT></TD></TR></TABLE>> pos="391.6,23.8!"];
+  p57 [shape=point width=0.001 height=0.001 style=invis pos="0.0,520.0!"];
+  p58 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+  p2 -> p3 [dir=none color="#e3e1da" penwidth=1];
+  p4 -> p5 [dir=none color="#e3e1da" penwidth=1];
+  p6 -> p7 [dir=none color="#e3e1da" penwidth=1];
+  p8 -> p9 [dir=none color="#e3e1da" penwidth=1];
+  p23 -> p24 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p25 -> p26 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p27 -> p28 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p29 -> p30 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p31 -> p32 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p33 -> p34 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p35 -> p36 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+}
+```
 
 1. **Parse:** read the frontmatter. Strip Readwise image URLs and HTML wrappers, but keep `<mark>` tags.
 2. **Chunk:** split on headings. If a section is over 400 tokens, split it on its top-level bullets, keeping each bullet with its children. If one bullet with its children is still over 400 tokens, split on its child bullets, then on sentences. Never split inside a code block or table. A code block or table that is over the cap on its own becomes its own passage.
@@ -219,6 +400,69 @@ For each mention found by P1:
    - `match` at confidence 0.85 or above: link automatically, logged as reversible.
    - `match` between 0.60 and 0.85, or `unsure`: link provisionally and add a Review Queue item.
    - `new`, or below 0.60: create a `pending` Registry entry and add a Review Queue item.
+
+```dot
+digraph "mention-resolution" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=8.8264 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="632" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>Confident matches link automatically; the rest go to review</B></FONT></TD></TR></TABLE>> pos="339.8,274.9!"];
+  b2 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.1667 height=0.7778 fixedsize=true label="" pos="62.0,164.0!"];
+  b3 [shape=diamond style="solid" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.5556 height=1.1111 fixedsize=true label="" pos="184.0,164.0!"];
+  b4 [shape=box style="rounded,filled" fillcolor="#e5eefb" color="#2f6fd6" penwidth=2 width=1.7778 height=0.6111 fixedsize=true label="" pos="184.0,70.0!"];
+  b5 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.0000 height=0.7778 fixedsize=true label="" pos="336.0,164.0!"];
+  b6 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.4444 height=0.7778 fixedsize=true label="" pos="484.0,164.0!"];
+  b7 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.4444 height=0.6667 fixedsize=true label="" pos="648.0,220.0!"];
+  b8 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.4444 height=0.6667 fixedsize=true label="" pos="648.0,164.0!"];
+  b9 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.4444 height=0.6667 fixedsize=true label="" pos="648.0,108.0!"];
+  p10 [shape=point width=0.001 height=0.001 style=invis pos="104.0,164.0!"];
+  p11 [shape=point width=0.001 height=0.001 style=invis pos="128.0,164.0!"];
+  p12 [shape=point width=0.001 height=0.001 style=invis pos="240.0,164.0!"];
+  p13 [shape=point width=0.001 height=0.001 style=invis pos="264.0,164.0!"];
+  p14 [shape=point width=0.001 height=0.001 style=invis pos="408.0,164.0!"];
+  p15 [shape=point width=0.001 height=0.001 style=invis pos="432.0,164.0!"];
+  p16 [shape=point width=0.001 height=0.001 style=invis pos="536.0,164.0!"];
+  p17 [shape=point width=0.001 height=0.001 style=invis pos="548.0,164.0!"];
+  p18 [shape=point width=0.001 height=0.001 style=invis pos="548.0,220.0!"];
+  p19 [shape=point width=0.001 height=0.001 style=invis pos="560.0,220.0!"];
+  p20 [shape=point width=0.001 height=0.001 style=invis pos="548.0,164.0!"];
+  p21 [shape=point width=0.001 height=0.001 style=invis pos="560.0,164.0!"];
+  p22 [shape=point width=0.001 height=0.001 style=invis pos="548.0,164.0!"];
+  p23 [shape=point width=0.001 height=0.001 style=invis pos="548.0,108.0!"];
+  p24 [shape=point width=0.001 height=0.001 style=invis pos="560.0,108.0!"];
+  p25 [shape=point width=0.001 height=0.001 style=invis pos="184.0,124.0!"];
+  p26 [shape=point width=0.001 height=0.001 style=invis pos="184.0,92.0!"];
+  t27 [shape=none margin=0 width=1.1069 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="76" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Mention</B></FONT></TD></TR></TABLE>> pos="62.0,172.3!"];
+  t28 [shape=none margin=0 width=0.9378 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="64" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">from P1</FONT></TD></TR></TABLE>> pos="62.0,153.8!"];
+  t29 [shape=none margin=0 width=1.5022 height=0.3222 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="104" HEIGHT="19" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="12" COLOR="#1f1f1f">Exact match?</FONT></TD></TR></TABLE>> pos="184.0,164.0!"];
+  t30 [shape=none margin=0 width=1.6125 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="112" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Link at 1.0</B></FONT></TD></TR></TABLE>> pos="184.0,70.3!"];
+  t31 [shape=none margin=0 width=2.2444 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="158" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Top 5 candidates</B></FONT></TD></TR></TABLE>> pos="336.0,172.3!"];
+  t32 [shape=none margin=0 width=1.4489 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="100" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">by embedding</FONT></TD></TR></TABLE>> pos="336.0,153.8!"];
+  t33 [shape=none margin=0 width=1.3597 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="94" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>P2 judges</B></FONT></TD></TR></TABLE>> pos="484.0,172.3!"];
+  t34 [shape=none margin=0 width=1.4489 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="100" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">with context</FONT></TD></TR></TABLE>> pos="484.0,153.8!"];
+  t35 [shape=none margin=0 width=1.3597 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="94" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Auto-link</B></FONT></TD></TR></TABLE>> pos="648.0,228.3!"];
+  t36 [shape=none margin=0 width=2.0622 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="144" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">match, conf ≥ 0.85</FONT></TD></TR></TABLE>> pos="648.0,210.8!"];
+  t37 [shape=none margin=0 width=2.7500 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="194" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Provisional + review</B></FONT></TD></TR></TABLE>> pos="648.0,172.3!"];
+  t38 [shape=none margin=0 width=2.2667 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="159" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">0.60–0.85, or unsure</FONT></TD></TR></TABLE>> pos="648.0,154.8!"];
+  t39 [shape=none margin=0 width=2.2444 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="158" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Pending + review</B></FONT></TD></TR></TABLE>> pos="648.0,116.3!"];
+  t40 [shape=none margin=0 width=2.1644 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="152" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">new, or conf &lt; 0.60</FONT></TD></TR></TABLE>> pos="648.0,98.8!"];
+  t41 [shape=none margin=0 width=0.4267 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="27" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">no</FONT></TD></TR></TABLE>> pos="252.0,176.8!"];
+  t42 [shape=none margin=0 width=0.5289 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="34" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">yes</FONT></TD></TR></TABLE>> pos="209.0,106.8!"];
+  t43 [shape=none margin=0 width=10.2500 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="734" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Pending entries are usable at once; Dom approves, merges or rejects them later in the Review Queue.</FONT></TD></TR></TABLE>> pos="391.0,19.8!"];
+  p44 [shape=point width=0.001 height=0.001 style=invis pos="0.0,300.0!"];
+  p45 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+  p10 -> p11 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p12 -> p13 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p14 -> p15 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p16 -> p17 [dir=none color="#b4b1a5" penwidth=1.25];
+  p17 -> p18 [dir=none color="#b4b1a5" penwidth=1.25];
+  p18 -> p19 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p20 -> p21 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p22 -> p23 [dir=none color="#b4b1a5" penwidth=1.25];
+  p23 -> p24 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p25 -> p26 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+}
+```
 
 Pending entries can be used straight away (claims can be ABOUT them). Dom later approves, merges or rejects them.
 
@@ -273,6 +517,65 @@ $w$ is the product of five factors, one per row below. Voice is not a factor: it
 - **Support** = ln(1 + sum of group weights). The 10th group adds less than the 2nd.
 - Sources by the same author stay separate groups. Author independence is not used. Notes in a series (e.g. the AI Evals articles) also stay separate groups, unless config.yaml groups them by hand. A raw note and its distilled sibling are one group, detected automatically from the distill skill's naming and provenance.
 
+```dot
+digraph "support-counting" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=9.1181 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="652" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>Each independent group counts once, and extra groups add less</B></FONT></TD></TR></TABLE>> pos="350.2,374.9!"];
+  b2 [shape=box style="rounded,filled" fillcolor="#efeeea" color="#b4b1a5" penwidth=1.25 width=3.6111 height=1.0556 fixedsize=true label="" pos="154.0,306.0!"];
+  b3 [shape=box style="rounded,filled" fillcolor="#efeeea" color="#b4b1a5" penwidth=1.25 width=3.6111 height=1.0556 fixedsize=true label="" pos="154.0,214.0!"];
+  b4 [shape=box style="rounded,filled" fillcolor="#efeeea" color="#b4b1a5" penwidth=1.25 width=3.6111 height=1.0556 fixedsize=true label="" pos="154.0,122.0!"];
+  b5 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=1.4444 height=0.3889 fixedsize=true label="" pos="92.0,294.0!"];
+  b6 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=1.4444 height=0.3889 fixedsize=true label="" pos="208.0,294.0!"];
+  b7 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=1.4444 height=0.3889 fixedsize=true label="" pos="92.0,202.0!"];
+  b8 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=2.4444 height=0.3889 fixedsize=true label="" pos="128.0,110.0!"];
+  b9 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.5556 height=0.7778 fixedsize=true label="" pos="380.0,214.0!"];
+  b10 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.5556 height=0.7778 fixedsize=true label="" pos="524.0,214.0!"];
+  b11 [shape=box style="rounded,filled" fillcolor="#e5eefb" color="#2f6fd6" penwidth=2 width=1.7222 height=0.7778 fixedsize=true label="" pos="674.0,214.0!"];
+  p12 [shape=point width=0.001 height=0.001 style=invis pos="284.0,306.0!"];
+  p13 [shape=point width=0.001 height=0.001 style=invis pos="304.0,306.0!"];
+  p14 [shape=point width=0.001 height=0.001 style=invis pos="304.0,214.0!"];
+  p15 [shape=point width=0.001 height=0.001 style=invis pos="284.0,122.0!"];
+  p16 [shape=point width=0.001 height=0.001 style=invis pos="304.0,122.0!"];
+  p17 [shape=point width=0.001 height=0.001 style=invis pos="304.0,214.0!"];
+  p18 [shape=point width=0.001 height=0.001 style=invis pos="284.0,214.0!"];
+  p19 [shape=point width=0.001 height=0.001 style=invis pos="324.0,214.0!"];
+  p20 [shape=point width=0.001 height=0.001 style=invis pos="436.0,214.0!"];
+  p21 [shape=point width=0.001 height=0.001 style=invis pos="468.0,214.0!"];
+  p22 [shape=point width=0.001 height=0.001 style=invis pos="580.0,214.0!"];
+  p23 [shape=point width=0.001 height=0.001 style=invis pos="612.0,214.0!"];
+  t24 [shape=none margin=0 width=1.9917 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="139" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Group A · Book</B></FONT></TD></TR></TABLE>> pos="109.7,326.3!"];
+  t25 [shape=none margin=0 width=1.3467 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="93" HEIGHT="18" ALIGN="RIGHT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">max(w₁, w₂)</FONT></TD></TR></TABLE>> pos="221.5,325.8!"];
+  t26 [shape=none margin=0 width=2.3708 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="167" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Group B · article</B></FONT></TD></TR></TABLE>> pos="123.3,234.3!"];
+  t27 [shape=none margin=0 width=0.4267 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="27" HEIGHT="18" ALIGN="RIGHT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">w₃</FONT></TD></TR></TABLE>> pos="254.6,233.8!"];
+  t28 [shape=none margin=0 width=2.1181 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="148" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Group C · paper</B></FONT></TD></TR></TABLE>> pos="114.2,142.3!"];
+  t29 [shape=none margin=0 width=0.8356 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="56" HEIGHT="18" ALIGN="RIGHT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">½ × w₄</FONT></TD></TR></TABLE>> pos="239.9,141.8!"];
+  t30 [shape=none margin=0 width=1.2444 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="86" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">passage w₁</FONT></TD></TR></TABLE>> pos="92.0,293.8!"];
+  t31 [shape=none margin=0 width=1.2444 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="86" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">passage w₂</FONT></TD></TR></TABLE>> pos="208.0,293.8!"];
+  t32 [shape=none margin=0 width=1.2444 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="86" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">passage w₃</FONT></TD></TR></TABLE>> pos="92.0,201.8!"];
+  t33 [shape=none margin=0 width=2.2667 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="159" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">qualified passage w₄</FONT></TD></TR></TABLE>> pos="128.0,109.8!"];
+  t34 [shape=none margin=0 width=0.6014 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="39" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Sum</B></FONT></TD></TR></TABLE>> pos="380.0,222.3!"];
+  t35 [shape=none margin=0 width=1.8578 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">of group weights</FONT></TD></TR></TABLE>> pos="380.0,203.8!"];
+  t36 [shape=none margin=0 width=1.2333 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="85" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Saturate</B></FONT></TD></TR></TABLE>> pos="524.0,222.3!"];
+  t37 [shape=none margin=0 width=1.3467 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="93" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">ln(1 + sum)</FONT></TD></TR></TABLE>> pos="524.0,203.8!"];
+  t38 [shape=none margin=0 width=1.1069 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="76" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Support</B></FONT></TD></TR></TABLE>> pos="674.0,222.3!"];
+  t39 [shape=none margin=0 width=1.8578 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">stored undecayed</FONT></TD></TR></TABLE>> pos="674.0,203.8!"];
+  t40 [shape=none margin=0 width=8.8089 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="630" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">w per passage = quality × highlight × extraction confidence × resolution confidence.</FONT></TD></TR></TABLE>> pos="339.1,59.8!"];
+  t41 [shape=none margin=0 width=8.6044 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="616" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Opposition is counted the same way over CONTRADICTS edges and is never subtracted.</FONT></TD></TR></TABLE>> pos="331.8,41.8!"];
+  t42 [shape=none margin=0 width=6.7644 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="483" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Recency decay and the contested check are applied at query time.</FONT></TD></TR></TABLE>> pos="265.5,23.8!"];
+  p43 [shape=point width=0.001 height=0.001 style=invis pos="0.0,400.0!"];
+  p44 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+  p12 -> p13 [dir=none color="#b4b1a5" penwidth=1.25];
+  p13 -> p14 [dir=none color="#b4b1a5" penwidth=1.25];
+  p15 -> p16 [dir=none color="#b4b1a5" penwidth=1.25];
+  p16 -> p17 [dir=none color="#b4b1a5" penwidth=1.25];
+  p18 -> p19 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p20 -> p21 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p22 -> p23 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+}
+```
+
 ### Disagreement
 
 - **Opposition** is calculated the same way, over CONTRADICTS edges. It is never subtracted from support.
@@ -326,6 +629,84 @@ Communities come purely from graph structure. Topic tags are not used as input; 
 ## Maintenance and lineage
 
 Each sync run processes only the notes that changed since the last indexed commit, and recomputes only what those changes affect.
+
+```dot
+digraph "sync-run" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=9.2639 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="663" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>A sync touches only what changed since the last indexed commit</B></FONT></TD></TR></TABLE>> pos="355.5,426.9!"];
+  b2 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=4.1667 height=0.6111 fixedsize=true label="" pos="380.0,374.0!"];
+  b3 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=4.1667 height=0.6111 fixedsize=true label="" pos="380.0,298.0!"];
+  b4 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.1111 height=1.0556 fixedsize=true label="" pos="132.0,198.0!"];
+  b5 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.1111 height=1.0556 fixedsize=true label="" pos="380.0,198.0!"];
+  b6 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.1111 height=1.0556 fixedsize=true label="" pos="628.0,198.0!"];
+  b7 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.2222 height=0.8333 fixedsize=true label="" pos="104.0,82.0!"];
+  b8 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.2222 height=0.8333 fixedsize=true label="" pos="288.0,82.0!"];
+  b9 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.2222 height=0.8333 fixedsize=true label="" pos="472.0,82.0!"];
+  b10 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.2222 height=0.8333 fixedsize=true label="" pos="656.0,82.0!"];
+  p11 [shape=point width=0.001 height=0.001 style=invis pos="380.0,352.0!"];
+  p12 [shape=point width=0.001 height=0.001 style=invis pos="380.0,320.0!"];
+  p13 [shape=point width=0.001 height=0.001 style=invis pos="380.0,276.0!"];
+  p14 [shape=point width=0.001 height=0.001 style=invis pos="380.0,256.0!"];
+  p15 [shape=point width=0.001 height=0.001 style=invis pos="132.0,256.0!"];
+  p16 [shape=point width=0.001 height=0.001 style=invis pos="628.0,256.0!"];
+  p17 [shape=point width=0.001 height=0.001 style=invis pos="132.0,256.0!"];
+  p18 [shape=point width=0.001 height=0.001 style=invis pos="132.0,236.0!"];
+  p19 [shape=point width=0.001 height=0.001 style=invis pos="380.0,256.0!"];
+  p20 [shape=point width=0.001 height=0.001 style=invis pos="380.0,236.0!"];
+  p21 [shape=point width=0.001 height=0.001 style=invis pos="628.0,256.0!"];
+  p22 [shape=point width=0.001 height=0.001 style=invis pos="628.0,236.0!"];
+  p23 [shape=point width=0.001 height=0.001 style=invis pos="628.0,160.0!"];
+  p24 [shape=point width=0.001 height=0.001 style=invis pos="628.0,136.0!"];
+  p25 [shape=point width=0.001 height=0.001 style=invis pos="132.0,136.0!"];
+  p26 [shape=point width=0.001 height=0.001 style=invis pos="380.0,160.0!"];
+  p27 [shape=point width=0.001 height=0.001 style=invis pos="380.0,136.0!"];
+  p28 [shape=point width=0.001 height=0.001 style=invis pos="132.0,160.0!"];
+  p29 [shape=point width=0.001 height=0.001 style=invis pos="132.0,112.0!"];
+  p30 [shape=point width=0.001 height=0.001 style=invis pos="184.0,82.0!"];
+  p31 [shape=point width=0.001 height=0.001 style=invis pos="208.0,82.0!"];
+  p32 [shape=point width=0.001 height=0.001 style=invis pos="368.0,82.0!"];
+  p33 [shape=point width=0.001 height=0.001 style=invis pos="392.0,82.0!"];
+  p34 [shape=point width=0.001 height=0.001 style=invis pos="552.0,82.0!"];
+  p35 [shape=point width=0.001 height=0.001 style=invis pos="576.0,82.0!"];
+  t36 [shape=none margin=0 width=4.1403 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="294" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>1  Apply Review Queue decisions</B></FONT></TD></TR></TABLE>> pos="380.0,374.3!"];
+  t37 [shape=none margin=0 width=4.5194 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="321" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>2  Diff last indexed commit → HEAD</B></FONT></TD></TR></TABLE>> pos="380.0,298.3!"];
+  t38 [shape=none margin=0 width=2.7500 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="194" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>3  Added or modified</B></FONT></TD></TR></TABLE>> pos="132.0,216.3!"];
+  t39 [shape=none margin=0 width=3.0844 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="218" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Re-chunk; unchanged passages</FONT></TD></TR></TABLE>> pos="132.0,197.8!"];
+  t40 [shape=none margin=0 width=2.8800 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="203" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">keep IDs; new ones → P1–P4</FONT></TD></TR></TABLE>> pos="132.0,181.8!"];
+  t41 [shape=none margin=0 width=1.4861 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="103" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>4  Deleted</B></FONT></TD></TR></TABLE>> pos="380.0,216.3!"];
+  t42 [shape=none margin=0 width=2.1644 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="152" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Remove its passages</FONT></TD></TR></TABLE>> pos="380.0,197.8!"];
+  t43 [shape=none margin=0 width=1.7556 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="122" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">and their edges</FONT></TD></TR></TABLE>> pos="380.0,181.8!"];
+  t44 [shape=none margin=0 width=2.6236 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="185" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>5  Frontmatter only</B></FONT></TD></TR></TABLE>> pos="628.0,216.3!"];
+  t45 [shape=none margin=0 width=2.0622 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="144" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Recompute weights;</FONT></TD></TR></TABLE>> pos="628.0,197.8!"];
+  t46 [shape=none margin=0 width=1.4489 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="100" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">no LLM calls</FONT></TD></TR></TABLE>> pos="628.0,181.8!"];
+  t47 [shape=none margin=0 width=2.1181 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="148" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>6  Orphan check</B></FONT></TD></TR></TABLE>> pos="104.0,92.3!"];
+  t48 [shape=none margin=0 width=2.4711 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="174" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">claims with no support</FONT></TD></TR></TABLE>> pos="104.0,73.8!"];
+  t49 [shape=none margin=0 width=1.4861 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="103" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>7  Rescore</B></FONT></TD></TR></TABLE>> pos="288.0,92.3!"];
+  t50 [shape=none margin=0 width=2.1644 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="152" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">support + CO_OCCURS</FONT></TD></TR></TABLE>> pos="288.0,73.8!"];
+  t51 [shape=none margin=0 width=1.8653 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>8  Regenerate</B></FONT></TD></TR></TABLE>> pos="472.0,92.3!"];
+  t52 [shape=none margin=0 width=2.4711 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="174" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">stale summaries, pages</FONT></TD></TR></TABLE>> pos="472.0,73.8!"];
+  t53 [shape=none margin=0 width=2.4972 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="176" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>9  Write + advance</B></FONT></TD></TR></TABLE>> pos="656.0,92.3!"];
+  t54 [shape=none margin=0 width=2.4711 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="174" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">queue, reports, commit</FONT></TD></TR></TABLE>> pos="656.0,73.8!"];
+  t55 [shape=none margin=0 width=10.2500 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="734" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">A failed LLM call is retried 3 times, then its passage goes on a retry list that the next sync handles first.</FONT></TD></TR></TABLE>> pos="391.0,19.8!"];
+  p56 [shape=point width=0.001 height=0.001 style=invis pos="0.0,452.0!"];
+  p57 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+  p11 -> p12 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p13 -> p14 [dir=none color="#b4b1a5" penwidth=1.25];
+  p15 -> p16 [dir=none color="#b4b1a5" penwidth=1.25];
+  p17 -> p18 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p19 -> p20 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p21 -> p22 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p23 -> p24 [dir=none color="#b4b1a5" penwidth=1.25];
+  p24 -> p25 [dir=none color="#b4b1a5" penwidth=1.25];
+  p26 -> p27 [dir=none color="#b4b1a5" penwidth=1.25];
+  p28 -> p29 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p30 -> p31 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p32 -> p33 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p34 -> p35 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+}
+```
 
 **Sync run steps:**
 
@@ -384,6 +765,46 @@ The graph writes only into `50 Graph/`, which is tracked in git so every review 
 ```
 
 Dom writes `approve`, `reject`, or `edit: <new value>` after `decision::`. Ticking the box with no decision counts as `approve`. At the start of each sync run, decided items are applied, marked `human_reviewed`, and moved to `Review Log.md`. Undecided items stay in the queue, and their provisional links remain in effect.
+
+```dot
+digraph "review-cycle" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=7.3681 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="526" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>Dom decides in markdown; the next sync applies it</B></FONT></TD></TR></TABLE>> pos="287.2,178.9!"];
+  b2 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.1667 height=0.7778 fixedsize=true label="" pos="104.0,104.0!"];
+  b3 [shape=box style="rounded,filled" fillcolor="#e5eefb" color="#2f6fd6" penwidth=2 width=2.1667 height=0.7778 fixedsize=true label="" pos="288.0,104.0!"];
+  b4 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.1667 height=0.7778 fixedsize=true label="" pos="472.0,104.0!"];
+  b5 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=2.1667 height=0.7778 fixedsize=true label="" pos="656.0,104.0!"];
+  p6 [shape=point width=0.001 height=0.001 style=invis pos="182.0,104.0!"];
+  p7 [shape=point width=0.001 height=0.001 style=invis pos="210.0,104.0!"];
+  p8 [shape=point width=0.001 height=0.001 style=invis pos="366.0,104.0!"];
+  p9 [shape=point width=0.001 height=0.001 style=invis pos="394.0,104.0!"];
+  p10 [shape=point width=0.001 height=0.001 style=invis pos="550.0,104.0!"];
+  p11 [shape=point width=0.001 height=0.001 style=invis pos="578.0,104.0!"];
+  p12 [shape=point width=0.001 height=0.001 style=invis pos="472.0,76.0!"];
+  p13 [shape=point width=0.001 height=0.001 style=invis pos="472.0,48.0!"];
+  p14 [shape=point width=0.001 height=0.001 style=invis pos="288.0,48.0!"];
+  p15 [shape=point width=0.001 height=0.001 style=invis pos="288.0,76.0!"];
+  t16 [shape=none margin=0 width=1.8653 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Sync proposes</B></FONT></TD></TR></TABLE>> pos="104.0,112.3!"];
+  t17 [shape=none margin=0 width=2.3689 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="167" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">provisional link live</FONT></TD></TR></TABLE>> pos="104.0,93.8!"];
+  t18 [shape=none margin=0 width=1.6125 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="112" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Dom decides</B></FONT></TD></TR></TABLE>> pos="288.0,112.3!"];
+  t19 [shape=none margin=0 width=1.9600 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="137" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">writes a decision</FONT></TD></TR></TABLE>> pos="288.0,93.8!"];
+  t20 [shape=none margin=0 width=2.3708 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="167" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Next sync applies</B></FONT></TD></TR></TABLE>> pos="472.0,112.3!"];
+  t21 [shape=none margin=0 width=2.2667 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="159" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">marks human_reviewed</FONT></TD></TR></TABLE>> pos="472.0,93.8!"];
+  t22 [shape=none margin=0 width=1.4861 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="103" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Review Log</B></FONT></TD></TR></TABLE>> pos="656.0,112.3!"];
+  t23 [shape=none margin=0 width=2.0622 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="144" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">decided items kept</FONT></TD></TR></TABLE>> pos="656.0,93.8!"];
+  t24 [shape=none margin=0 width=6.8667 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="490" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">undecided items stay in the queue; their provisional links remain</FONT></TD></TR></TABLE>> pos="380.0,31.8!"];
+  p25 [shape=point width=0.001 height=0.001 style=invis pos="0.0,204.0!"];
+  p26 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+  p6 -> p7 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p8 -> p9 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p10 -> p11 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p12 -> p13 [dir=none color="#b4b1a5" penwidth=1.25];
+  p13 -> p14 [dir=none color="#b4b1a5" penwidth=1.25];
+  p14 -> p15 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+}
+```
 
 **Item types:** `merge-concept`, `new-entry`, `claim-match`, `contradiction`, `supersedes`, `relation-type`, `taxonomy-suggestion`, and `re-extraction-diff` (which links to a diff report).
 
@@ -452,6 +873,88 @@ Evaluation runs at the end of phases 2, 4 and 7, and after every prompt, model o
 ## Query answering
 
 Built in phase 7. A question goes through a fixed pipeline with one bounded loop. Every step is appended to `logs/queries.jsonl`.
+
+```dot
+digraph "query-pipeline" {
+  layout=neato; inputscale=72; notranslate=true; overlap=true; splines=line;
+  outputorder=nodesfirst; bgcolor=transparent; pad=0.1;
+  node [fontname="Helvetica"]; edge [arrowhead=none];
+  t1 [shape=none margin=0 width=6.7847 height=0.3889 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="484" HEIGHT="24" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="15" COLOR="#1f1f1f"><B>One fixed pipeline with a single bounded loop</B></FONT></TD></TR></TABLE>> pos="266.2,474.9!"];
+  b2 [shape=box style="rounded,filled" fillcolor="#efeeea" color="#b4b1a5" penwidth=1.25 width=2.7778 height=2.5556 fixedsize=true label="" pos="388.0,352.0!"];
+  b3 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.2778 height=0.6667 fixedsize=true label="" pos="66.0,352.0!"];
+  b4 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.7778 height=0.7778 fixedsize=true label="" pos="200.0,352.0!"];
+  b5 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=2.3333 height=0.3889 fixedsize=true label="" pos="388.0,394.0!"];
+  b6 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=2.3333 height=0.3889 fixedsize=true label="" pos="388.0,358.0!"];
+  b7 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=2.3333 height=0.3889 fixedsize=true label="" pos="388.0,322.0!"];
+  b8 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1 width=2.3333 height=0.3889 fixedsize=true label="" pos="388.0,286.0!"];
+  b9 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.6667 height=0.7778 fixedsize=true label="" pos="580.0,352.0!"];
+  b10 [shape=diamond style="solid" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.7778 height=1.1111 fixedsize=true label="" pos="580.0,180.0!"];
+  b11 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.6667 height=0.7778 fixedsize=true label="" pos="420.0,180.0!"];
+  b12 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=1.7778 height=0.7778 fixedsize=true label="" pos="272.0,180.0!"];
+  b13 [shape=box style="rounded,filled" fillcolor="#e5eefb" color="#2f6fd6" penwidth=2 width=1.6667 height=0.7778 fixedsize=true label="" pos="124.0,180.0!"];
+  b14 [shape=box style="rounded" fillcolor="white" color="#b4b1a5" penwidth=1.25 width=3.8889 height=1.0000 fixedsize=true label="" pos="500.0,64.0!"];
+  p15 [shape=point width=0.001 height=0.001 style=invis pos="112.0,352.0!"];
+  p16 [shape=point width=0.001 height=0.001 style=invis pos="136.0,352.0!"];
+  p17 [shape=point width=0.001 height=0.001 style=invis pos="264.0,352.0!"];
+  p18 [shape=point width=0.001 height=0.001 style=invis pos="288.0,352.0!"];
+  p19 [shape=point width=0.001 height=0.001 style=invis pos="488.0,352.0!"];
+  p20 [shape=point width=0.001 height=0.001 style=invis pos="520.0,352.0!"];
+  p21 [shape=point width=0.001 height=0.001 style=invis pos="580.0,324.0!"];
+  p22 [shape=point width=0.001 height=0.001 style=invis pos="580.0,220.0!"];
+  p23 [shape=point width=0.001 height=0.001 style=invis pos="516.0,180.0!"];
+  p24 [shape=point width=0.001 height=0.001 style=invis pos="480.0,180.0!"];
+  p25 [shape=point width=0.001 height=0.001 style=invis pos="360.0,180.0!"];
+  p26 [shape=point width=0.001 height=0.001 style=invis pos="336.0,180.0!"];
+  p27 [shape=point width=0.001 height=0.001 style=invis pos="208.0,180.0!"];
+  p28 [shape=point width=0.001 height=0.001 style=invis pos="184.0,180.0!"];
+  p29 [shape=point width=0.001 height=0.001 style=invis pos="580.0,140.0!"];
+  p30 [shape=point width=0.001 height=0.001 style=invis pos="580.0,100.0!"];
+  p31 [shape=point width=0.001 height=0.001 style=invis pos="640.0,64.0!"];
+  p32 [shape=point width=0.001 height=0.001 style=invis pos="688.0,64.0!"];
+  p33 [shape=point width=0.001 height=0.001 style=invis pos="688.0,352.0!"];
+  p34 [shape=point width=0.001 height=0.001 style=invis pos="640.0,352.0!"];
+  t35 [shape=none margin=0 width=1.2333 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="85" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Question</B></FONT></TD></TR></TABLE>> pos="66.0,352.3!"];
+  t36 [shape=none margin=0 width=1.7389 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="121" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>1  Decompose</B></FONT></TD></TR></TABLE>> pos="200.0,360.3!"];
+  t37 [shape=none margin=0 width=1.8578 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">P9 sub-questions</FONT></TD></TR></TABLE>> pos="200.0,341.8!"];
+  t38 [shape=none margin=0 width=1.6125 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="112" HEIGHT="21" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>2  Retrieve</B></FONT></TD></TR></TABLE>> pos="360.1,426.3!"];
+  t39 [shape=none margin=0 width=1.7556 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="122" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Passage vectors</FONT></TD></TR></TABLE>> pos="388.0,393.8!"];
+  t40 [shape=none margin=0 width=1.5511 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="108" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">BM25 keywords</FONT></TD></TR></TABLE>> pos="388.0,357.8!"];
+  t41 [shape=none margin=0 width=1.5511 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="108" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Claim vectors</FONT></TD></TR></TABLE>> pos="388.0,321.8!"];
+  t42 [shape=none margin=0 width=1.7556 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="122" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">Graph expansion</FONT></TD></TR></TABLE>> pos="388.0,285.8!"];
+  t43 [shape=none margin=0 width=1.1069 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="76" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>3  Fuse</B></FONT></TD></TR></TABLE>> pos="580.0,360.3!"];
+  t44 [shape=none margin=0 width=1.8578 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">RRF k=60, top 30</FONT></TD></TR></TABLE>> pos="580.0,341.8!"];
+  t45 [shape=none margin=0 width=1.5056 height=0.3222 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="104" HEIGHT="19" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="12" COLOR="#1f1f1f"><B>4  Covered?</B></FONT></TD></TR></TABLE>> pos="580.0,186.0!"];
+  t46 [shape=none margin=0 width=0.5289 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="34" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">P10</FONT></TD></TR></TABLE>> pos="580.0,169.8!"];
+  t47 [shape=none margin=0 width=1.6125 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="112" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>5  Validate</B></FONT></TD></TR></TABLE>> pos="420.0,188.3!"];
+  t48 [shape=none margin=0 width=1.5511 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="108" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">P11 citations</FONT></TD></TR></TABLE>> pos="420.0,169.8!"];
+  t49 [shape=none margin=0 width=1.8653 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>6  Synthesise</B></FONT></TD></TR></TABLE>> pos="272.0,188.3!"];
+  t50 [shape=none margin=0 width=1.7556 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="122" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">P12, 12k tokens</FONT></TD></TR></TABLE>> pos="272.0,169.8!"];
+  t51 [shape=none margin=0 width=0.9806 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="67" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Answer</B></FONT></TD></TR></TABLE>> pos="124.0,188.3!"];
+  t52 [shape=none margin=0 width=1.8578 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="130" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#1f1f1f">cited, with gaps</FONT></TD></TR></TABLE>> pos="124.0,169.8!"];
+  t53 [shape=none margin=0 width=3.6347 height=0.3444 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="258" HEIGHT="21" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="13" COLOR="#1f1f1f"><B>Call tools (up to 3 rounds)</B></FONT></TD></TR></TABLE>> pos="500.0,80.3!"];
+  t54 [shape=none margin=0 width=3.9022 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="277" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">search_text, resolve_entity, expand,</FONT></TD></TR></TABLE>> pos="500.0,61.8!"];
+  t55 [shape=none margin=0 width=2.5733 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="181" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">find_paths, read_source</FONT></TD></TR></TABLE>> pos="500.0,45.8!"];
+  t56 [shape=none margin=0 width=0.5289 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="34" HEIGHT="18" ALIGN="CENTER"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">yes</FONT></TD></TR></TABLE>> pos="498.0,192.8!"];
+  t57 [shape=none margin=0 width=1.1422 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="78" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">gap found</FONT></TD></TR></TABLE>> pos="627.1,118.8!"];
+  t58 [shape=none margin=0 width=0.9167 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="62" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">re-fuse</FONT></TD></TR></TABLE>> pos="727.0,207.8!"];
+  t59 [shape=none margin=0 width=4.9244 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="351" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Global sub-questions first pick communities by</FONT></TD></TR></TABLE>> pos="199.3,83.8!"];
+  t60 [shape=none margin=0 width=3.9022 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="277" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">summary, then take their top claims.</FONT></TD></TR></TABLE>> pos="162.5,67.8!"];
+  t61 [shape=none margin=0 width=4.6178 height=0.3111 fixedsize=true label=<<TABLE BORDER="0" CELLPADDING="0" CELLSPACING="0"><TR><TD FIXEDSIZE="TRUE" WIDTH="328" HEIGHT="18" ALIGN="LEFT"><FONT FACE="Helvetica" POINT-SIZE="11.5" COLOR="#6b6b6b">Every step is logged to logs/queries.jsonl.</FONT></TD></TR></TABLE>> pos="188.2,43.8!"];
+  p62 [shape=point width=0.001 height=0.001 style=invis pos="0.0,500.0!"];
+  p63 [shape=point width=0.001 height=0.001 style=invis pos="760.0,0.0!"];
+  p15 -> p16 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p17 -> p18 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p19 -> p20 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p21 -> p22 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p23 -> p24 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p25 -> p26 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p27 -> p28 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p29 -> p30 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+  p31 -> p32 [dir=none color="#b4b1a5" penwidth=1.25];
+  p32 -> p33 [dir=none color="#b4b1a5" penwidth=1.25];
+  p33 -> p34 [dir=forward arrowhead=normal arrowsize=0.55 color="#b4b1a5" penwidth=1.25];
+}
+```
 
 1. **Decompose (P9):** split the question into sub-questions. Tag each one with a question type and any time range.
 2. **Retrieve** candidates for each sub-question from four channels:
