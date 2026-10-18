@@ -1,0 +1,813 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Vault GraphRAG Atlas</title>
+</head><body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column of stacked "plates"; each plate pairs a short lead with a working visual. */
+:root{
+  --bg:#f3f5f8; --surface:#ffffff; --ink:#18202e; --muted:#5a6476; --line:#d8dee8;
+  --claim:#2c56c9; --claim-tint:#e6ecfb; --mark:#ffe36e; --mark-ink:#18202e;
+  --good:#2b7a4b; --bad:#b9443a; --warn:#a86a00;
+  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f131a; --surface:#161c26; --ink:#e5e9f0; --muted:#98a2b3; --line:#2a3242;
+  --claim:#86a6ff; --claim-tint:#1d2a4a; --mark:#8a7414; --mark-ink:#fdf6d8;
+  --good:#5cc08a; --bad:#ef7d72; --warn:#e2a740; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#0f131a; --surface:#161c26; --ink:#e5e9f0; --muted:#98a2b3; --line:#2a3242;
+  --claim:#86a6ff; --claim-tint:#1d2a4a; --mark:#8a7414; --mark-ink:#fdf6d8;
+  --good:#5cc08a; --bad:#ef7d72; --warn:#e2a740; color-scheme:dark;}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);padding:0 16px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 64px;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(30px,5vw,46px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(22px,3vw,28px);font-weight:700}
+h3{font-size:17px;font-weight:600}
+p{margin:0;max-width:68ch}
+.muted{color:var(--muted)}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+code,.mono{font-family:var(--f-mono);font-size:.88em}
+mark{background:var(--mark);color:var(--mark-ink);padding:0 .15em;border-radius:2px}
+.plate{display:flex;flex-direction:column;gap:18px}
+.plate header{display:flex;flex-direction:column;gap:8px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.note{font-size:13px;color:var(--muted)}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--claim);outline-offset:2px}
+
+/* nav */
+nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line);display:flex;gap:6px;flex-wrap:wrap}
+nav.toc a{font:500 12.5px var(--f-mono);color:var(--muted);text-decoration:none;padding:5px 9px;border-radius:6px;border:1px solid transparent}
+nav.toc a:hover{color:var(--ink);border-color:var(--line)}
+
+/* hero */
+.hero{display:flex;flex-direction:column;gap:14px}
+.hero p{font-size:17px}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.fact{font:500 12.5px var(--f-mono);padding:6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+
+/* ladder */
+.ladder{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;align-items:stretch}
+.rung{display:flex;flex-direction:column;align-items:stretch;gap:6px;position:relative}
+.node{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:2px;padding:12px;border:1.5px solid var(--line);border-radius:10px;background:var(--surface);min-height:74px;margin-right:26px}
+.node b{font:600 15px var(--f-display)}
+.node span{font-size:12.5px;color:var(--muted)}
+.node[aria-pressed="true"]{border-color:var(--claim);box-shadow:0 0 0 3px var(--claim-tint)}
+.node.core{background:var(--claim-tint);border-color:var(--claim)}
+.rung:not(:last-child)::after{content:"";position:absolute;right:4px;top:37px;width:18px;height:0;border-top:1.5px solid var(--muted)}
+.rung:not(:last-child)::before{content:"";position:absolute;right:2px;top:33px;border-left:7px solid var(--muted);border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
+.edge-lab{font:500 10.5px var(--f-mono);color:var(--muted);margin-right:26px;min-height:2.6em}
+.detail{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:18px;margin-top:16px}
+.detail dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
+.detail dt{font:500 12px var(--f-mono);color:var(--muted);padding-top:2px}
+.detail dd{margin:0}
+.sideline{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.tag{font:500 11.5px var(--f-mono);padding:3px 8px;border-radius:5px;border:1px solid var(--line);color:var(--muted)}
+@media (max-width:760px){
+  .ladder{grid-template-columns:1fr}
+  .node{margin-right:0}
+  .edge-lab{margin-right:0;min-height:0;padding-left:12px}
+  .rung:not(:last-child)::after,.rung:not(:last-child)::before{display:none}
+  .rung{padding-bottom:10px}
+  .detail{grid-template-columns:1fr}
+}
+
+/* stepper */
+.stepper{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px}
+.steps{display:flex;flex-direction:column;gap:4px;list-style:none;margin:0;padding:0}
+.steps button{all:unset;cursor:pointer;display:flex;gap:10px;align-items:baseline;padding:8px 10px;border-radius:8px;font-size:14px;color:var(--muted)}
+.steps button .n{font:500 12px var(--f-mono)}
+.steps button[aria-current="step"]{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
+.stage{min-height:300px;display:flex;flex-direction:column;gap:14px}
+.stage .ctrl{display:flex;gap:8px;margin-top:auto}
+.btn{cursor:pointer;padding:7px 14px;border-radius:8px;border:1px solid var(--line);background:var(--surface)}
+.btn.primary{background:var(--claim);border-color:var(--claim);color:var(--surface)}
+.btn:disabled{opacity:.4;cursor:default}
+.md{font:13px/1.65 var(--f-mono);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px 14px;white-space:pre-wrap;overflow-x:auto}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:14px}
+.kv span:nth-child(odd){font:500 12px var(--f-mono);color:var(--muted);padding-top:2px}
+.chips{display:flex;flex-direction:column;gap:8px}
+.res{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.3fr);gap:10px;align-items:center;font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.res .arrow{color:var(--muted)}
+.pill{font:500 11.5px var(--f-mono);padding:2px 8px;border-radius:999px;border:1px solid currentColor;white-space:nowrap}
+.pill.good{color:var(--good)} .pill.warn{color:var(--warn)} .pill.bad{color:var(--bad)} .pill.blue{color:var(--claim)}
+.claimcard{border:1.5px solid var(--claim);background:var(--claim-tint);border-radius:10px;padding:14px;display:flex;flex-direction:column;gap:8px}
+.claimcard q{font:500 16px/1.4 var(--f-display);quotes:none}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:center}
+.bigarrow{font:600 13px var(--f-mono);color:var(--good);text-align:center}
+.calc{font:13px/1.7 var(--f-mono)}
+.answer{border-left:3px solid var(--claim);padding:4px 0 4px 14px;display:flex;flex-direction:column;gap:8px}
+sup a{font:500 11px var(--f-mono);color:var(--claim);text-decoration:none}
+@media (max-width:760px){.stepper{grid-template-columns:1fr}.steps{flex-direction:row;overflow-x:auto}.steps button{white-space:nowrap}.res{grid-template-columns:1fr}.res .arrow{display:none}.vs{grid-template-columns:1fr}}
+
+/* two pipelines */
+.pipes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.pcol{display:flex;flex-direction:column;gap:10px}
+.pcol h3{display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pcol h3 small{font:500 12px var(--f-mono);color:var(--muted)}
+.plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.plist > li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;position:relative;padding-bottom:12px}
+.plist > li:not(:last-child)::after{content:"";position:absolute;left:14px;top:30px;bottom:2px;border-left:1.5px solid var(--line)}
+.plist .k{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:500 12px var(--f-mono);border:1.5px solid var(--line);background:var(--surface)}
+.plist > li.llm > .k{border-color:var(--claim);color:var(--claim)}
+.plist b{font-weight:600}
+.plist p{font-size:13.5px;color:var(--muted)}
+.pout{border:1.5px solid var(--claim);background:var(--claim-tint);border-radius:9px;padding:10px 12px;font-size:13.5px}
+@media (max-width:860px){.pipes{grid-template-columns:1fr}}
+
+.sub{list-style:none;margin:8px 0 2px;padding:0;display:flex;flex-direction:column;gap:7px}
+.sub li{display:grid;grid-template-columns:26px minmax(0,1fr);gap:8px;align-items:start}
+.sub .ks{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font:500 10.5px var(--f-mono);border:1.5px solid var(--line);background:var(--surface)}
+.sub li.llm .ks{border-color:var(--claim);color:var(--claim)}
+.sub p{font-size:13px}
+.legend-k{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted);align-items:center}
+.legend-k span{display:flex;gap:6px;align-items:center}
+.legend-k i{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);display:inline-block;background:var(--surface)}
+.legend-k i.b{border-color:var(--claim)}
+/* ideas */
+.ideas{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}
+.idea{display:flex;flex-direction:column;gap:10px}
+.idea.wide{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.idea svg{width:100%;height:auto;max-width:420px}
+.idea svg text{font:11px var(--f-body);fill:var(--ink)}
+.idea svg text.q{fill:var(--muted)}
+.idea ol,.idea ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:14px}
+.alias{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.1fr);gap:10px;align-items:center}
+.alias .forms{display:flex;flex-direction:column;gap:6px}
+.alias .forms span{font-size:13px;border:1px solid var(--line);border-radius:7px;padding:5px 8px;background:var(--surface)}
+.alias .forms small{color:var(--muted)}
+.alias .entry{border:1.5px solid var(--claim);background:var(--claim-tint);border-radius:9px;padding:10px;font-size:13px;display:flex;flex-direction:column;gap:4px}
+.kinds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.kind{border:1px solid var(--line);border-radius:9px;padding:10px;display:flex;flex-direction:column;gap:6px;font-size:13.5px}
+.kind b{font:600 14px var(--f-display)}
+.kind .ex{font-size:12.5px;color:var(--muted)}
+.callout{border-left:3px solid var(--warn);padding:6px 0 6px 12px;font-size:13.5px}
+.explain{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.explain > div{display:flex;flex-direction:column;gap:4px;font-size:14px}
+.explain h3{font-size:15px}
+.mini{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px;font-size:14px}
+.route{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 12px;font-size:13.5px;align-items:baseline}
+@media (max-width:760px){.ideas,.idea.wide,.explain,.kinds{grid-template-columns:1fr}.alias{grid-template-columns:1fr}.alias .arrow{display:none}}
+
+/* lab */
+.lab{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:18px}
+.grouprow{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr auto auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.grouprow.head{font:500 11.5px var(--f-mono);color:var(--muted);padding-top:0}
+.grouprow label{display:flex;flex-direction:column;gap:2px}
+.grouprow select,.grouprow input[type=range]{width:100%}
+select{font:inherit;padding:4px 6px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.wval{font:500 13px var(--f-mono);text-align:right;min-width:3.5em}
+.x{all:unset;cursor:pointer;color:var(--muted);padding:2px 6px;border-radius:5px}
+.x:hover{color:var(--bad)}
+.out{display:flex;flex-direction:column;gap:14px}
+.meter{display:flex;flex-direction:column;gap:4px}
+.meter .bar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}
+.meter .bar i{display:block;height:100%;border-radius:5px}
+.big{font:700 34px/1 var(--f-display);font-variant-numeric:tabular-nums}
+.row2{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-end}
+.ctrls{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center;font-size:13px}
+.ctrls output{font:500 13px var(--f-mono)}
+#satchart text{font:11px var(--f-mono);fill:var(--muted)}
+@media (max-width:860px){.lab{grid-template-columns:1fr}.grouprow{grid-template-columns:1fr 1fr;}.grouprow.head{display:none}}
+
+/* pathways */
+.path-wrap{display:grid;grid-template-columns:260px minmax(0,1fr);gap:18px}
+.cats{display:flex;flex-direction:column;gap:2px;max-height:520px;overflow:auto;padding-right:4px}
+.cats button{all:unset;cursor:pointer;padding:7px 10px;border-radius:7px;font-size:13.5px;display:flex;gap:8px}
+.cats button .n{font:500 11.5px var(--f-mono);color:var(--muted);min-width:1.6em}
+.cats button[aria-pressed="true"]{background:var(--surface);border:1px solid var(--line)}
+.pipe{display:flex;flex-direction:column;gap:12px}
+.pipe-row{display:flex;gap:8px;align-items:stretch;flex-wrap:wrap}
+.pnode{flex:1 1 120px;border:1.5px solid var(--line);border-radius:9px;padding:9px 10px;background:var(--surface);font-size:13px;display:flex;flex-direction:column;gap:2px;transition:border-color .2s,background .2s,opacity .2s}
+.pnode b{font:600 13.5px var(--f-display)}
+.pnode small{color:var(--muted);font-size:11.5px}
+.pnode.on{border-color:var(--claim);background:var(--claim-tint)}
+.pnode.off{opacity:.42}
+.pnode.always{border-style:solid}
+.flowlab{font:500 11px var(--f-mono);color:var(--muted)}
+.retrieve{border:1px dashed var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.why{border-top:1px solid var(--line);padding-top:12px;display:flex;flex-direction:column;gap:6px}
+@media (max-width:760px){.path-wrap{grid-template-columns:1fr}.cats{max-height:220px}}
+
+/* sync + review */
+.two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}
+.flow{display:flex;flex-direction:column;gap:8px;list-style:none;margin:0;padding:0;counter-reset:s}
+.flow li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;font-size:14px}
+.flow li::before{counter-increment:s;content:counter(s);font:500 12px var(--f-mono);width:24px;height:24px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;background:var(--surface)}
+.flow .branch{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:6px}
+.flow .branch div{border:1px solid var(--line);border-radius:7px;padding:6px 8px;font-size:12.5px;background:var(--surface)}
+.flow .branch b{display:block;font-weight:600}
+.rq{font:13px/1.7 var(--f-mono)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.seg button{all:unset;cursor:pointer;padding:6px 11px;font:500 12.5px var(--f-mono);color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--claim);color:var(--surface)}
+.effect{border-left:3px solid var(--claim);padding:6px 0 6px 12px;font-size:14px}
+@media (max-width:860px){.two{grid-template-columns:1fr}.flow .branch{grid-template-columns:1fr}}
+
+/* roadmap */
+.track{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:6px}
+.ph{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:6px;padding:10px 8px;border-radius:9px;border:1.5px solid var(--line);background:var(--surface);min-height:84px;position:relative}
+.ph .num{font:500 12px var(--f-mono);color:var(--muted)}
+.ph b{font:600 13px/1.25 var(--f-display)}
+.ph[aria-pressed="true"]{border-color:var(--claim);box-shadow:0 0 0 3px var(--claim-tint)}
+.ph .eval{position:absolute;top:8px;right:8px;font:500 10px var(--f-mono);color:var(--warn)}
+.phdetail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:16px}
+.phdetail h3{font-size:13px;font-family:var(--f-mono);font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+@media (max-width:860px){.track{grid-template-columns:repeat(3,minmax(0,1fr))}.phdetail{grid-template-columns:1fr}}
+
+/* tree */
+.tree{font:13px/1.8 var(--f-mono);overflow-x:auto;white-space:pre}
+.tree .t{color:var(--good)} .tree .i{color:var(--muted)} .tree .h{color:var(--claim)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+.legend span{display:flex;gap:6px;align-items:center}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Sections">
+    <a href="#shape">Shape</a><a href="#pipelines">Build vs ask</a><a href="#example">One highlight</a><a href="#scoring">Scoring</a><a href="#pathways">Questions</a><a href="#sync">Sync &amp; review</a><a href="#roadmap">Build</a><a href="#files">Files</a>
+  </nav>
+
+  <section class="hero">
+    <span class="eyebrow">Knowledge Vault · GraphRAG</span>
+    <h1>Every answer traces back to a passage you highlighted</h1>
+    <p>The graph turns roughly 360 notes into claims, scores each claim by how many independent sources back it, and answers questions with citations. It is a rebuildable index: it never edits your notes and only writes to <code>50 Graph/</code>.</p>
+    <div class="facts">
+      <span class="fact">4 question types: global · local · temporal · connective</span>
+      <span class="fact">7 node types</span>
+      <span class="fact">14 prompts, P1–P14</span>
+      <span class="fact">9 build phases</span>
+    </div>
+    <p class="note">A visual companion to the canonical <a href="https://claude.ai/code/artifact/3021e58d-e2be-4e4b-8c55-94c6ef089dfb" target="_blank" rel="noopener">design spec</a>. Where they differ, the spec wins.</p>
+  </section>
+
+  <section class="plate" id="shape">
+    <header>
+      <span class="eyebrow">The shape</span>
+      <h2>Evidence climbs a ladder, with claims in the middle</h2>
+      <p class="muted">Pick a rung to see what it holds, what makes it, and how it links to the next one.</p>
+    </header>
+    <div class="panel">
+      <div class="ladder" id="ladder"></div>
+      <div class="sideline">
+        <span class="tag">Book ← IN_BOOK ← Source</span>
+        <span class="tag">Source → AUTHORED_BY → person Entity</span>
+        <span class="tag">Entity → INSTANCE_OF → Concept</span>
+        <span class="tag">Claim → REFINES / SUPERSEDES → Claim</span>
+        <span class="tag">Concept ↔ CO_OCCURS ↔ Concept</span>
+      </div>
+      <div class="detail" id="ladder-detail"></div>
+    </div>
+    <div class="ideas">
+      <div class="panel idea">
+        <h3>Claims and passages are many-to-many</h3>
+        <svg viewBox="0 0 300 160" role="img" aria-label="Three passages from two notes linked to two claims">
+          <g fill="none" stroke-width="1.6">
+            <path d="M122 30 L180 46" stroke="var(--claim)"/>
+            <path d="M122 70 L180 116" stroke="var(--claim)"/>
+            <path d="M122 130 L180 50" stroke="var(--claim)"/>
+            <path d="M122 132 L180 120" stroke="var(--bad)" stroke-dasharray="5 4"/>
+          </g>
+          <g stroke="var(--line)" stroke-width="1.2" fill="var(--surface)">
+            <rect x="4" y="16" width="118" height="28" rx="7"/><rect x="4" y="56" width="118" height="28" rx="7"/><rect x="4" y="116" width="118" height="28" rx="7"/>
+          </g>
+          <g stroke="var(--claim)" stroke-width="1.6" fill="var(--claim-tint)">
+            <rect x="180" y="32" width="116" height="30" rx="7"/><rect x="180" y="102" width="116" height="30" rx="7"/>
+          </g>
+          <text x="63" y="34" text-anchor="middle">Note A · passage 1</text>
+          <text x="63" y="74" text-anchor="middle">Note A · passage 2</text>
+          <text x="63" y="134" text-anchor="middle">Note B · passage 1</text>
+          <text x="238" y="51" text-anchor="middle">Claim 1</text>
+          <text x="238" y="121" text-anchor="middle">Claim 2</text>
+        </svg>
+        <p class="note">Solid blue: SUPPORTS. Dashed red: CONTRADICTS.</p>
+        <p>A passage can back several claims, and one claim can be backed by passages from many notes. Claim 1 here has two independent notes behind it, so it is stronger than a claim found in one note. Note B supports Claim 1 and contradicts Claim 2, which gives Claim 2 some opposition.</p>
+      </div>
+      <div class="panel idea">
+        <h3>The Registry is the master list</h3>
+        <div class="alias">
+          <div class="forms">
+            <span>“LLM evaluators” <small>· Note A</small></span>
+            <span>“LLM-as-a-judge” <small>· Note B</small></span>
+            <span>“judge models” <small>· Paper C</small></span>
+          </div>
+          <span class="arrow muted">→</span>
+          <div class="entry"><code>reg:concept:llm-as-a-judge</code><b>LLM-as-a-Judge</b><span class="note">aliases: LLM evaluators, judge models</span></div>
+        </div>
+        <p>One entry per concept or entity for the whole vault. Every name in every note is resolved to an entry, so the graph counts one thing once, whatever it was called. Each entry is a file in <code>50 Graph/Registry/</code>; you can edit its aliases and definition there. New names start as <em>pending</em> and are usable straight away until you approve, merge or reject them.</p>
+      </div>
+      <div class="panel idea wide">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3>What is a concept?</h3>
+          <p>A concept is an idea that many sources can talk about: a method, a problem, a property or a pattern. It has a definition, not a maker. An entity is one particular named thing. A claim is a statement about them that you could agree or disagree with.</p>
+          <p class="note">Quick test: can you define it without naming one product, person or paper? Concept. Is it one specific thing that someone made or is? Entity. Could it be true or false? Claim.</p>
+        </div>
+        <div class="kinds">
+          <div class="kind"><b>Concept</b><span>An idea with a definition</span><span class="ex">LLM-as-a-Judge · context rot · error analysis · pairwise comparison · spaced repetition</span></div>
+          <div class="kind"><b>Entity</b><span>A named thing: person, organisation, tool, model, dataset or paper</span><span class="ex">Graphiti · GPT-4 · MT-Bench · the HippoRAG 2 paper</span></div>
+          <div class="kind"><b>Claim</b><span>An assertion about concepts or entities</span><span class="ex">“Pairwise comparisons are more reliable than Likert scales for LLM judges.”</span></div>
+        </div>
+      </div>
+      <div class="panel idea wide">
+        <svg viewBox="0 0 360 215" role="img" aria-label="Concepts linked by co-occurrence edges form two communities, with a hub node linked weakly to both">
+          <ellipse cx="88" cy="86" rx="84" ry="66" fill="var(--claim-tint)" stroke="var(--claim)" stroke-width="1" stroke-dasharray="4 4"/>
+          <ellipse cx="272" cy="90" rx="84" ry="66" fill="var(--bg)" stroke="var(--good)" stroke-width="1" stroke-dasharray="4 4"/>
+          <text class="q" x="88" y="13" text-anchor="middle">Community: evaluation</text>
+          <text class="q" x="272" y="17" text-anchor="middle">Community: retrieval and memory</text>
+          <g stroke="var(--muted)" stroke-width="0.9" stroke-dasharray="2 4" fill="none">
+            <path d="M180 185 L60 40"/><path d="M180 185 L40 115"/><path d="M180 185 L120 120"/><path d="M180 185 L240 45"/><path d="M180 185 L225 120"/><path d="M180 185 L300 125"/>
+          </g>
+          <g stroke="var(--ink)" stroke-width="2.6" fill="none" stroke-linecap="round">
+            <path d="M60 40 L135 55"/><path d="M60 40 L40 115"/><path d="M60 40 L120 120"/><path d="M40 115 L120 120"/><path d="M135 55 L120 120"/>
+            <path d="M240 45 L225 120"/><path d="M240 45 L300 125"/><path d="M225 120 L300 125"/><path d="M240 45 L320 55"/><path d="M320 55 L300 125"/>
+          </g>
+          <path d="M135 55 L240 45" stroke="var(--ink)" stroke-width="0.9" fill="none"/>
+          <g fill="var(--surface)" stroke="var(--ink)" stroke-width="1.4">
+            <circle cx="60" cy="40" r="6"/><circle cx="135" cy="55" r="6"/><circle cx="120" cy="120" r="6"/><circle cx="40" cy="115" r="6"/>
+            <circle cx="240" cy="45" r="6"/><circle cx="320" cy="55" r="6"/><circle cx="300" cy="125" r="6"/><circle cx="225" cy="120" r="6"/>
+            <circle cx="180" cy="185" r="8"/>
+          </g>
+          <text x="60" y="58" text-anchor="middle">LLM-as-a-Judge</text><text x="138" y="73" text-anchor="middle">traces</text><text x="120" y="138" text-anchor="middle">pairwise</text><text x="42" y="133" text-anchor="middle">error analysis</text>
+          <text x="240" y="63" text-anchor="middle">RAG</text><text x="320" y="73" text-anchor="middle">graph memory</text><text x="300" y="143" text-anchor="middle">context rot</text><text x="225" y="138" text-anchor="middle">chunking</text>
+          <text x="180" y="208" text-anchor="middle">LLM (hub)</text>
+        </svg>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <h3>Co-occurrence, and how it makes communities</h3>
+          <ol>
+            <li><b>Co-occur</b> means the same independence group (a note, or a whole Book) mentions both entries.</li>
+            <li>Counted across the whole vault, <b>NPMI</b> asks whether two entries appear together more often than chance, given how common each one is. More than chance gives an edge, weighted by how much more. A pair needs at least 2 groups in common.</li>
+            <li>A hub such as “LLM” appears with nearly everything, so appearing with it says little: its NPMI is near zero and its edges are weak (dotted).</li>
+            <li><b>Leiden clustering</b> then looks for sets of entries joined by many strong edges and few edges to the rest. Each set is a community, and P6 writes its summary from the community's best-supported claims.</li>
+          </ol>
+          <p><b>Why have communities?</b> For global questions (“what themes run through everything on X?”) they give coverage across every cluster, instead of the 30 passages most similar to the question, which tend to come from a few notes. They also stand in for a hand-built topic hierarchy and drive topic-tag suggestions. They steer retrieval but are never cited.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate" id="pipelines">
+    <header>
+      <span class="eyebrow">Two pipelines</span>
+      <h2>The graph is built ahead of time; questions only read it</h2>
+      <p class="muted">All the expensive LLM work (finding mentions, writing and matching claims) happens at build time, once per new or changed note. Asking a question reads the finished graph: several searches, a few LLM calls, then an answer. </p>
+      <div class="legend-k"><span><i class="b"></i>blue circle: the step calls an LLM (a numbered prompt)</span><span><i></i>grey circle: plain code, no LLM</span></div>
+    </header>
+    <div class="panel pipes">
+      <div class="pcol">
+        <h3>Build time <small>per new or changed note</small></h3>
+        <ol class="plist">
+          <li><span class="k">1</span><div><b>Parse and chunk</b><p>Read the frontmatter, then split on headings, then bullets, then sentences, so no passage exceeds 400 tokens.</p></div></li>
+          <li><span class="k">2</span><div><b>Annotate, embed and index each passage</b><p>Every passage gets all three, straight after chunking:</p>
+            <ul class="sub">
+              <li><span class="ks">2a</span><p><b>Annotate:</b> heading breadcrumb, position, token count, voice, highlight density.</p></li>
+              <li><span class="ks">2b</span><p><b>Embed:</b> one vector per passage, for semantic search.</p></li>
+              <li><span class="ks">2c</span><p><b>Index:</b> added to the BM25 keyword index, for exact-word search.</p></li>
+            </ul></div></li>
+          <li class="llm"><span class="k">3</span><div><b>Find and resolve mentions</b><p>Two linked steps: find the names, then map each one to the Registry.</p>
+            <ul class="sub">
+              <li class="llm"><span class="ks">3a</span><p><b>Find · P1:</b> spans of text that name a concept or entity.</p></li>
+              <li class="llm"><span class="ks">3b</span><p><b>Resolve · P2:</b> exact match against Registry names and aliases first (no LLM). Otherwise the 5 most similar entries by embedding, and P2 decides: auto-link (≥ 0.85), provisional link plus review (0.60–0.85 or unsure), or a new pending entry plus review (new, or below 0.60).</p></li>
+            </ul></div></li>
+          <li class="llm"><span class="k">4</span><div><b>Write claims · P3</b><p>Standalone claims with ABOUT targets, qualifiers, referenced time, volatility and a confidence; each claim is embedded.</p></div></li>
+          <li class="llm"><span class="k">5</span><div><b>Match claims · P4</b><p>Against the 10 most similar claims that share a target: same, refines, contradicts or different.</p></div></li>
+          <li><span class="k">6</span><div><b>Score</b><p>w per passage, the best w per independence group, ln(1 + sum): stored support and opposition.</p></div></li>
+          <li class="llm"><span class="k">7</span><div><b>Graph jobs · P6, P7</b><p>NPMI co-occurrence edges, Leiden communities and their summaries, concept pages.</p></div></li>
+          <li><span class="k">8</span><div><b>Review Queue</b><p>Uncertain merges, matches and contradictions wait for your decision.</p></div></li>
+        </ol>
+        <div class="pout">Result: a graph of passages, claims, concepts, entities and communities, stored locally, with the LLM outputs exported to JSONL in git.</div>
+      </div>
+      <div class="pcol">
+        <h3>Question time <small>per question</small></h3>
+        <ol class="plist">
+          <li class="llm"><span class="k">1</span><div><b>Decompose · P9</b><p>Sub-questions, each tagged global, local, temporal or connective, plus any time range.</p></div></li>
+          <li><span class="k">2</span><div><b>Retrieve from every channel</b><p>All of these run for each sub-question:</p>
+            <ul class="sub">
+              <li><span class="ks">2a</span><p><b>Passage vectors:</b> embedding similarity between the question and each passage.</p></li>
+              <li><span class="ks">2b</span><p><b>BM25 keywords:</b> exact-word search over the same passages.</p></li>
+              <li><span class="ks">2c</span><p><b>Claim vectors:</b> embedding similarity over claims.</p></li>
+              <li><span class="ks">2d</span><p><b>Graph expansion:</b> from the concepts and entities the question names, up to 2 hops.</p></li>
+              <li><span class="ks">2e</span><p><b>Community summaries:</b> global sub-questions only; pick communities, take their top claims.</p></li>
+            </ul></div></li>
+          <li><span class="k">3</span><div><b>Fuse with RRF</b><p>Each item scores the sum of 1 / (60 + rank) across channels; duplicates merged; top 30 kept. RRF uses ranks only: whether claim support should also rerank results is an open question.</p></div></li>
+          <li class="llm"><span class="k">4</span><div><b>Coverage loop · P10</b><p>Anything missing? Call tools (search, expand, find paths, read source) and fuse again, up to 3 rounds.</p></div></li>
+          <li class="llm"><span class="k">5</span><div><b>Validate citations · P11</b><p>Does each cited passage really support its claim? Drop the ones that don't.</p></div></li>
+          <li><span class="k">6</span><div><b>Apply time</b><p>Recency decay and the contested check, computed for today rather than stored.</p></div></li>
+          <li class="llm"><span class="k">7</span><div><b>Synthesise · P12</b><p>Answer within a 12,000-token context, following the answer rules.</p></div></li>
+        </ol>
+        <div class="pout">Result: an answer with citations to notes and passages, evidence labels (support, independent groups, contested or qualified, referenced time), and what the vault doesn't cover.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate" id="example">
+    <header>
+      <span class="eyebrow">Worked example</span>
+      <h2>Follow one highlight from note to answer</h2>
+      <p class="muted">Seven steps, using an illustrative highlight from an AI Evals note. The text, IDs and numbers are made up to show the mechanics; they are not read from the vault.</p>
+    </header>
+    <div class="panel stepper">
+      <ol class="steps" id="steps"></ol>
+      <div class="stage" id="stage"></div>
+    </div>
+  </section>
+
+  <section class="plate" id="scoring">
+    <header>
+      <span class="eyebrow">Scoring playground</span>
+      <h2>Ten sources saying the same thing add less than ten times one</h2>
+      <p class="muted">Each independent group counts once, at the weight of its best passage. Weights are summed, then saturated with ln(1 + x). Change the groups and watch support move.</p>
+    </header>
+    <div class="panel lab">
+      <div>
+        <div class="grouprow head"><span>Group</span><span>Quality</span><span>Highlight</span><span>Extraction conf.</span><span>Qualified (½)</span><span>w</span></div>
+        <div id="groups"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn" id="addg" type="button">Add a group</button>
+          <span class="note" style="align-self:center">Resolution confidence is fixed at 1.0 here.</span>
+        </div>
+        <div class="ctrls" style="margin-top:18px">
+          <label for="vol">Volatility</label>
+          <select id="vol"><option value="0">Durable (no decay)</option><option value="24" selected>Evolving (24-month half-life)</option><option value="6">Ephemeral (6-month half-life)</option></select><span></span>
+          <label for="age">Age of claim</label><input id="age" type="range" min="0" max="60" value="12"><output id="ageout">12 mo</output>
+          <label for="opp">Opposing weight</label><input id="opp" type="range" min="0" max="300" value="0"><output id="oppout">0.00</output>
+        </div>
+      </div>
+      <div class="out">
+        <div class="row2">
+          <div><div class="eyebrow">Stored support</div><div class="big" id="sup">0.00</div></div>
+          <div><div class="eyebrow">At query time</div><div class="big" id="supq">0.00</div></div>
+          <div id="contested"></div>
+        </div>
+        <div class="meter"><span class="note">Sum of group weights → ln(1 + sum)</span><div class="bar"><i id="supbar" style="background:var(--claim);width:0"></i></div></div>
+        <div class="meter"><span class="note">Opposition (never subtracted)</span><div class="bar"><i id="oppbar" style="background:var(--bad);width:0"></i></div></div>
+        <svg id="satchart" viewBox="0 0 320 170" role="img" aria-label="Support against number of equal groups"></svg>
+        <p class="note">The curve shows support for n groups that each match your average group weight. The dot is your current set.</p>
+        <div class="note" style="display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:10px">
+          <span><b style="color:var(--ink)">Stored support</b> is saved on the claim and changes only when its evidence changes. It feeds co-occurrence weights and anything that shouldn't drift day to day.</span>
+          <span><b style="color:var(--ink)">At query time</b> each w is multiplied by recency decay for today's date. Answers show this number and the contested check uses it, so nothing in the database goes stale between syncs.</span>
+          <span><b style="color:var(--ink)">Qualified</b> marks a passage that supports the claim only under a condition. It counts at half its w; it is an input, not a separate score.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate" id="weights">
+    <header>
+      <span class="eyebrow">Scoring, in detail</span>
+      <h2>What goes into each passage's weight</h2>
+      <p class="muted">w = quality × highlight × extraction confidence × resolution confidence, then × recency decay at query time.</p>
+    </header>
+    <div class="panel explain">
+      <div><h3>Quality</h3><p>Stars become a multiplier: unrated 1.0, ⭐️ 1.0, ⭐️⭐️ 1.5, ⭐️⭐️⭐️ 2.0. It raises claim support, not search rank directly.</p></div>
+      <div><h3>Highlight density</h3><p>The share of a passage’s characters inside &lt;mark&gt; tags; factor = 1 + density (1.0 to 2.0).</p><p class="callout">Vault check: 0 of 173 raw notes have &lt;mark&gt; tags, because a raw note is already your highlights. 54 of 106 structured and 2 of 40 distilled notes have any. The average share is about 1%, so the factor is about 1.0 everywhere. Proposal: drop it, and set voice by note status (raw = highlight, distilled = mine). Pending your decision.</p></div>
+      <div><h3>Extraction confidence</h3><p>How sure P3 is that the passage asserts the claim, reported by P3 itself. Self-reported LLM confidence is poorly calibrated: a weak signal, possibly better as high, medium or low.</p></div>
+      <div><h3>Resolution confidence</h3><p>How sure the merge into this claim is: P4’s confidence (or P2’s). 1.0 for an exact match, a brand-new claim or anything you reviewed. Fixed at 1.0 in the playground.</p></div>
+      <div><h3>Qualified (½)</h3><p>An input flag, not a score. A QUALIFIED_SUPPORT passage backs the claim only under a condition, so it counts at half its w. The condition is shown beside the claim in answers.</p></div>
+      <div><h3>Recency decay</h3><p>0.5^(age ÷ half-life), set by volatility. Age runs from the claim’s referenced time (when the claim is about), not from when you read the note. Applied only at query time.</p></div>
+      <div style="grid-column:1/-1"><h3>Two separate dampers</h3><p><b>Best passage per group</b> stops one note with many passages from counting many times. <b>ln(1 + sum) across groups</b> makes each extra independent group add less than the one before. It slows growth but never caps it.</p></div>
+    </div>
+  </section>
+
+  <section class="plate" id="pathways">
+    <header>
+      <span class="eyebrow">Question pathways</span>
+      <h2>Different questions light up different parts of the pipeline</h2>
+      <p class="muted">Pick a question category from the evaluation set. At run time every channel runs for every sub-question, and global ones also use community summaries: the categories are not a router. The highlight shows which channel usually carries the answer, which is what the evaluation set checks.</p>
+    </header>
+    <div class="panel path-wrap">
+      <div class="cats" id="cats" role="group" aria-label="Question categories"></div>
+      <div class="pipe">
+        <div class="pipe-row"><div class="pnode always on"><b>1 Decompose</b><small>P9 · sub-questions, type, time range</small></div></div>
+        <div class="retrieve">
+          <span class="flowlab">2 Retrieve · four channels, plus community summaries for global questions</span>
+          <div class="pipe-row" id="channels"></div>
+        </div>
+        <div class="pipe-row">
+          <div class="pnode always on"><b>3 Fuse</b><small>RRF k = 60 · top 30</small></div>
+          <div class="pnode" id="n-loop"><b>4 Coverage loop</b><small id="loopsub">P10 · up to 3 rounds of tools</small></div>
+          <div class="pnode always on"><b>5 Validate</b><small>P11 · drop unsupported citations</small></div>
+          <div class="pnode always on"><b>6 Synthesise</b><small>P12 · 12k-token context</small></div>
+        </div>
+        <div class="why" id="why"></div>
+      </div>
+    </div>
+    <div class="panel explain">
+      <div><h3>Passage vectors</h3><p>The question and every passage are embedded; the passages closest in meaning come back, even when the wording differs.</p></div>
+      <div><h3>BM25 keywords</h3><p>Classic keyword search over the same passages. It catches exact names, acronyms and rare terms that embeddings blur.</p></div>
+      <div><h3>Claim vectors</h3><p>Embedding search over claims instead of passages. More precise, and each hit brings its support, its contradictions and the passages behind it.</p></div>
+      <div><h3>Graph expansion</h3><p>Resolve the concepts and entities the question names, then walk outward up to 2 hops (at most 10 neighbours each) along co-occurrence, typed and INSTANCE_OF edges. It collects claims ABOUT what it reaches: up to 5 passages per concept and 3 per source. Hubs are damped by 1 / ln(e + degree). It finds related material that shares neither words nor meaning with the question.</p></div>
+      <div><h3>Community summaries</h3><p>Each community has an LLM-written summary with an embedding. For a global question, the summaries closest to it choose the communities; their best-supported claims and passages become the evidence. Summaries steer, and are never cited.</p></div>
+      <div><h3>Fuse (RRF)</h3><p>Each channel returns a ranked list. An item’s score is the sum of 1 / (k + its rank) over the channels that found it, with k = 60; duplicates are merged and the top 30 kept. Ranks, not raw scores, so the channels never need normalising.</p></div>
+      <div><h3>Coverage loop (P10)</h3><p>Runs every time, but simple questions usually stop after the first check. If a sub-question is unanswered or a link is missing, it calls tools (search_text, resolve_entity, expand, find_paths, read_source) and fuses again, up to 3 rounds. Multi-hop questions are the main case.</p></div>
+      <div><h3>Validate (P11)</h3><p>For each claim–passage pair about to be cited: does the passage really support the claim? It answers supports, partial or no, with a reason, and the no pairs are dropped. A faithfulness filter, not a reranker.</p></div>
+      <div style="grid-column:1/-1"><h3>Synthesise (P12)</h3><p>The final LLM call, with a 12,000-token budget. Rules: absence means “not in your vault”, never “false”; superseded claims are used only for history questions; summaries and concept pages are never cited. Possible simplification: P9, P10 and P12 could be left to whichever agent you ask from (Claude Code or an MCP client), so only the retrieval tools need building.</p></div>
+    </div>
+  </section>
+
+  <section class="plate" id="sync">
+    <header>
+      <span class="eyebrow">Keeping it current</span>
+      <h2>A sync touches only what changed, and your decisions go in through markdown</h2>
+      <p class="muted">The build pipeline runs once over the whole vault. After that, notes keep arriving, changing and moving, and a full rebuild would pay for every LLM call again. A sync (phase 6) compares the vault with the last commit it indexed and redoes only what changed. It also applies your Review Queue decisions, which is where entity merges and approvals get settled, and it regenerates anything built from data that changed. Entity resolution is one part of a sync, not all of it.</p>
+    </header>
+    <div class="two">
+      <div class="panel">
+        <h3 style="margin-bottom:12px">One sync run</h3>
+        <ol class="flow">
+          <li><span>Apply your decisions from <code>Review Queue.md</code></span></li>
+          <li><span>Diff in-scope notes from <code>last_indexed_commit</code> to HEAD
+            <div class="branch">
+              <div><b>Added or modified</b>Re-chunk; unchanged passages keep their IDs; new ones go through P1–P4</div>
+              <div><b>Deleted</b>Remove its passages and their edges</div>
+              <div><b>Frontmatter only</b>Recompute weights; no LLM calls</div>
+            </div></span></li>
+          <li><span>Mark claims left with no support as orphaned</span></li>
+          <li><span>Recompute support, opposition and CO_OCCURS where edges changed</span></li>
+          <li><span>Regenerate stale summaries, pages and caches</span></li>
+          <li><span>Write new review items and reports, export JSONL, advance the commit</span></li>
+        </ol>
+        <p class="note" style="margin-top:12px">Steps 3–5 of the spec are shown here as the three branches.</p>
+      </div>
+      <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+        <h3>Try a Review Queue decision</h3>
+        <div class="seg" id="rqtype" role="group" aria-label="Item type"></div>
+        <div class="md rq" id="rqitem"></div>
+        <div class="seg" id="rqdec" role="group" aria-label="Decision"></div>
+        <div class="effect" id="rqeffect"></div>
+        <p class="note">Ticking the box with no decision counts as approve. Undecided items stay, and their provisional links stay live.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="plate" id="roadmap">
+    <header>
+      <span class="eyebrow">Build</span>
+      <h2>Nine phases, each with an exit check before the next starts</h2>
+      <p class="muted">This is the implementation plan in one strip. Each phase builds one layer of the two pipelines, in dependency order: passages before mentions, mentions before claims, claims before communities, and the question pipeline last. Every phase ends with an exit check and a stop for your review. Pick a phase to see what it builds, what you do, and how it passes. Evaluation runs at the end of phases 2, 4 and 7.</p>
+    </header>
+    <div class="panel">
+      <div class="track" id="track"></div>
+      <div class="phdetail" id="phdetail"></div>
+    </div>
+  </section>
+
+  <section class="plate" id="files">
+    <header>
+      <span class="eyebrow">Where things live</span>
+      <h2>Everything lives under 50 Graph; only the rebuildable store stays out of git</h2>
+    </header>
+    <div class="panel" style="display:flex;flex-direction:column;gap:12px">
+      <div class="legend"><span><i class="dot" style="background:var(--good)"></i>tracked in git</span><span><i class="dot" style="background:var(--muted)"></i>gitignored</span><span><i class="dot" style="background:var(--claim)"></i>you edit it</span></div>
+<div class="tree">Knowledge Vault/
+├── 10 Sources/, 20 Books/          <span class="i">input: read only, never edited</span>
+└── <span class="t">50 Graph/</span>                       <span class="i">everything the graph writes</span>
+    ├── <span class="t">Knowledge Vault GraphRAG - Design Spec.md</span>
+    ├── <span class="t">Knowledge Vault GraphRAG - Implementation Plan.md</span>
+    ├── <span class="t">GraphRAG - Start Here.md</span>              <span class="i">read this first</span>
+    ├── <span class="h">Review Queue.md</span>             <span class="i">your decisions</span>
+    ├── <span class="t">Review Log.md</span>
+    ├── <span class="h">Registry/</span>                   <span class="i">you may edit aliases and definitions</span>
+    ├── <span class="t">Concepts/</span>                   <span class="i">generated MOC pages</span>
+    ├── <span class="t">Reports/&lt;date&gt;/</span>
+    └── <span class="t">.graphrag/</span>                  <span class="i">engine, hidden from Obsidian</span>
+        ├── <span class="t">docs/atlas.html</span>         <span class="i">this page, offline copy</span>
+        ├── <span class="t">config.yaml</span>             <span class="i">every tunable number</span>
+        ├── <span class="t">prompts/</span>                <span class="i">P1 … P14, versioned</span>
+        ├── <span class="t">src/  tests/  eval/</span>
+        ├── <span class="t">export/</span>                 <span class="i">JSONL of LLM outputs: rebuild without LLM calls</span>
+        └── <span class="i">store/  cache/  logs/  .env</span>   <span class="i">rebuildable or secret</span>
+</div>
+      <p class="note">Decided 2026-10-19: the engine lives in <code>50 Graph/.graphrag/</code>. It is a dot-folder, so Obsidian hides it and its prompt, Python and JSONL files stay out of search, the graph view and vault-lint. Shell commands need the path quoted because of the space in “50 Graph”.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- ladder ---------- */
+const rungs = [
+  {k:'source', name:'Source', sub:'note in 10 Sources or 20 Books', edge:'HAS_PASSAGE →',
+   what:'One in-scope note: an article, paper, book cover page or chapter.', id:'src: + note path (kept on rename)',
+   made:'Parser, from frontmatter: type, status, quality, topics, dates, author.', ex:'⭐️⭐️ AI Evals - Don’t Use Likert Scales for LLM-Judges.md'},
+  {k:'passage', name:'Passage', sub:'≤ 400-token chunk', edge:'SUPPORTS · CONTRADICTS →',
+   what:'A chunk that follows the note’s headings and bullets. Claims cite passages.', id:'psg: + hash(source, text, n)',
+   made:'Chunker, plus voice (highlight · mine · author) and highlight density.', ex:'Breadcrumb: AI Evals › 4. Scoring'},
+  {k:'claim', name:'Claim', sub:'one assertion + qualifiers', edge:'ABOUT →', core:true,
+   what:'The core unit. A standalone assertion of 40 words or fewer, with a support and an opposition score. Not tied to one passage: passages from many notes can support or contradict the same claim.', id:'clm: + UUID',
+   made:'P3 extracts it; P4 matches it against similar claims (same, refines, contradicts, different).', ex:'Binary pass/fail judgments are more reliable than 1–5 Likert scales for LLM judges.'},
+  {k:'registry', name:'Concept · Entity', sub:'the Registry: master list', edge:'← CONTAINS',
+   what:'The master list for the whole vault: one entry per idea (concept) or named thing (entity), each with its aliases. Every mention in every note resolves to one entry. Concepts and entities are never merged with each other.', id:'reg:kind:slug',
+   made:'P1 finds mentions; exact match or P2 resolves them; uncertain ones go to review.', ex:'reg:concept:llm-as-a-judge · Graphiti INSTANCE_OF temporal graph memory'},
+  {k:'community', name:'Community', sub:'cluster with a summary', edge:'',
+   what:'A cluster of concepts and entities found by Leiden clustering. Steers global questions; never cited.', id:'com: + UUID',
+   made:'Clustering over CO_OCCURS; P6 writes a summary from top claims.', ex:'A cluster around agent evaluation, judges and traces'}
+];
+let rungSel = 'claim';
+function drawLadder(){
+  $('#ladder').innerHTML = rungs.map(r => `<div class="rung"><button class="node${r.core?' core':''}" aria-pressed="${r.k===rungSel}" data-k="${r.k}"><b>${r.name}</b><span>${r.sub}</span></button><span class="edge-lab">${r.edge}</span></div>`).join('');
+  const r = rungs.find(x => x.k === rungSel);
+  $('#ladder-detail').innerHTML = `<dl><dt>What</dt><dd>${esc(r.what)}</dd><dt>Made by</dt><dd>${esc(r.made)}</dd><dt>ID</dt><dd><code>${esc(r.id)}</code></dd></dl><div class="md">${esc(r.ex)}</div>`;
+  document.querySelectorAll('#ladder .node').forEach(b => b.onclick = () => { rungSel = b.dataset.k; drawLadder(); });
+}
+drawLadder();
+
+/* ---------- worked example ---------- */
+const steps = [
+  {t:'The note', body:() => `<p>A highlighted bullet in a filed article note. Quality ⭐️⭐️ gives a 1.5 multiplier, which raises the support of any claim this note backs. It doesn’t change search rankings directly.</p>
+<div class="md">## 4. Scoring
+- Prefer binary pass/fail judgments over 1–5 scales
+	- <mark>Likert scores drift between annotators and are hard to act on</mark></div>`},
+  {t:'Passage', body:() => `<p>The chunker splits on headings, and only splits further (bullets, then sentences) if a section is over 400 tokens. This section is short, so the bullet stays with its child as one passage. It is then annotated, embedded and added to the BM25 index.</p>
+<div class="kv"><span>id</span><span><code>psg:9f3a1c</code></span><span>breadcrumb</span><span>AI Evals - Don’t Use Likert Scales › 4. Scoring</span><span>tokens</span><span>41</span><span>voice</span><span>highlight (most characters sit inside &lt;mark&gt;)</span><span>highlight density</span><span>0.58 → highlight factor 1.58</span></div>
+<p class="callout">Vault check: almost no notes use &lt;mark&gt; tags (raw notes are the highlights themselves), so in practice highlight density is about 0 everywhere. Dropping it is a pending decision.</p>`},
+  {t:'Mentions', body:() => `<p><b>Build time only.</b> P1 reads the passage and marks every span of text that names a concept or entity. Each span is then resolved against the Registry:</p>
+<ol class="mini"><li><b>Exact match:</b> if the lower-cased name equals an entry’s name or alias, it links straight away at confidence 1.0. No LLM call.</li>
+<li><b>Candidates:</b> otherwise the span is embedded with its passage around it, and the 5 most similar Registry entries are fetched.</li>
+<li><b>P2 decides:</b> it reads the span, its context and the 5 candidates, and answers match (naming which one), new or unsure, with a confidence from 0 to 1 that it reports itself.</li></ol>
+<div class="route"><span class="pill good">≥ 0.85 match</span><span>Auto-link. Logged, and reversible later.</span><span class="pill warn">0.60–0.85, or unsure</span><span>Provisional link, plus a Review Queue item.</span><span class="pill bad">new, or &lt; 0.60</span><span>New pending entry, plus a review item. Usable straight away.</span></div>
+<div class="chips">
+<div class="res"><span>“Likert scales”</span><span class="arrow">→</span><span><code>reg:concept:likert-scale</code> <span class="pill good">exact · 1.0</span></span></div>
+<div class="res"><span>“pass/fail judgments”</span><span class="arrow">→</span><span><code>reg:concept:binary-evaluation</code> <span class="pill good">P2 match · 0.91 · auto</span></span></div>
+<div class="res"><span>“annotators”</span><span class="arrow">→</span><span>new pending entry <span class="pill bad">P2: new · review item</span></span></div></div>
+<p class="note">At question time, the only resolution is the resolve_entity tool mapping names in your question onto the Registry.</p>`},
+  {t:'Claim', body:() => `<p>P3 sees the passage plus its resolved mentions and writes zero or more standalone claims of 40 words or fewer. Its ABOUT targets are chosen from those resolved mentions.</p><div class="claimcard"><q>Binary pass/fail judgments are more reliable than 1–5 Likert scales for LLM judges.</q>
+<div class="kv"><span>ABOUT</span><span>binary-evaluation · likert-scale · llm-as-a-judge</span><span>relation</span><span>“is more reliable than”</span><span>volatility</span><span>evolving: how fast a claim goes stale. Durable (principles) never decays, evolving (practices) halves every 24 months, ephemeral (tools, models, benchmarks) every 6 months.</span><span>referenced time</span><span>the period the claim is about. None stated here and the note has no published date, so no decay, and the answer flags it.</span><span>extraction conf.</span><span>0.90, reported by P3 itself in its output. LLM self-reports are poorly calibrated, so treat it as a weak signal.</span></div></div>`},
+  {t:'Match', body:() => `<p>P4 compares the new claim with the 10 most similar existing claims that share an ABOUT target, found by claim embedding.</p><div class="vs">
+<div class="panel" style="padding:12px"><span class="eyebrow">New</span><p style="margin-top:6px">Binary pass/fail judgments are more reliable than 1–5 Likert scales for LLM judges.</p></div>
+<div class="bigarrow">same<br>0.82</div>
+<div class="claimcard"><span class="eyebrow">Existing · clm:4e1b…</span><p>LLM judges should output pass/fail rather than numeric scores.</p></div></div>
+<div class="route"><span class="pill good">same</span><span>The passage gets a SUPPORTS edge to the existing claim; the new one is discarded. (This case.)</span><span class="pill blue">refines</span><span>Both kept, linked by REFINES; the narrower one gets full support.</span><span class="pill bad">contradicts</span><span>Both kept; the passage CONTRADICTS the existing claim, adding opposition.</span><span class="pill blue">different</span><span>Stored as a new claim.</span></div>
+<p><b>The score is P4’s own confidence (0–1).</b> It does two jobs: below 0.7, a same, contradicts or supersedes decision goes to the Review Queue; and it becomes the resolution-confidence factor in this passage’s weight w.</p>`},
+  {t:'Support', body:() => `<p>Support counts <b>independence groups</b>, the unit counted once: a Book (all its notes) or, otherwise, a single note, with a raw note and its distilled version counted as one. Each group contributes only its best passage’s w. The existing claim had one group behind it; this note adds a second.</p><div class="md calc">w(this passage) = 1.5 quality × 1.58 highlight × 0.90 extract × 0.82 resolve = 1.75
+w(other group)  = 1.0 × 1.20 × 0.85 × 1.0                                    = 1.02
+
+before: ln(1 + 1.02)        = 0.70
+after:  ln(1 + 1.75 + 1.02) = 1.33</div><p>A second passage from the same note would change nothing unless it scored higher than 1.75. A third group of the same weight would bring support to about 1.62: each extra group adds less.</p>`},
+  {t:'Answer', body:() => `<p>Asked “should my judges use Likert scores?”, the question-time pipeline (see Two pipelines) finds the claim, validates its citation and writes the answer with an evidence label.</p><div class="answer"><p>Your vault leans towards binary pass/fail over Likert scales for LLM judges, mainly because Likert scores drift between annotators.<sup><a href="#example">[clm:4e1b]</a></sup></p>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><span class="pill blue">support 1.33</span><span class="pill blue">2 independent groups</span><span class="pill warn">no date: decay not applied</span></div>
+<p class="note">Sources: AI Evals - Don’t Use Likert Scales › 4. Scoring (psg:9f3a1c), plus one other note.</p></div>`}
+];
+let stepI = 0;
+function drawSteps(){
+  $('#steps').innerHTML = steps.map((s,i) => `<li><button type="button" data-i="${i}" ${i===stepI?'aria-current="step"':''}><span class="n">${i+1}</span>${s.t}</button></li>`).join('');
+  $('#stage').innerHTML = `<h3>${stepI+1}. ${steps[stepI].t}</h3>${steps[stepI].body()}<div class="ctrl"><button class="btn" id="prev" type="button" ${stepI===0?'disabled':''}>Back</button><button class="btn primary" id="next" type="button" ${stepI===steps.length-1?'disabled':''}>Next step</button></div>`;
+  document.querySelectorAll('#steps button').forEach(b => b.onclick = () => { stepI = +b.dataset.i; drawSteps(); });
+  $('#prev').onclick = () => { stepI--; drawSteps(); };
+  $('#next').onclick = () => { stepI++; drawSteps(); };
+}
+drawSteps();
+
+/* ---------- scoring lab ---------- */
+const QUAL = [['Unrated',1],['⭐️',1],['⭐️⭐️',1.5],['⭐️⭐️⭐️',2]];
+let groups = [
+  {name:'AI Evals article', q:2, h:58, c:90, qual:false},
+  {name:'Another article', q:0, h:20, c:85, qual:false}
+];
+const names = ['Agentic GraphRAG (Book)','A paper','MindBranches summary','Distilled note pair','Another source'];
+const wOf = g => QUAL[g.q][1] * (1 + g.h/100) * (g.c/100) * (g.qual ? .5 : 1);
+function drawGroups(){
+  $('#groups').innerHTML = groups.map((g,i) => `<div class="grouprow" data-i="${i}">
+    <span>${esc(g.name)}</span>
+    <label><span class="note">Quality</span><select id="q${i}">${QUAL.map((q,j)=>`<option value="${j}" ${j===g.q?'selected':''}>${q[0]} · ${q[1]}</option>`).join('')}</select></label>
+    <label><span class="note" id="hl${i}">Highlight ${g.h}%</span><input id="h${i}" type="range" min="0" max="100" value="${g.h}"></label>
+    <label><span class="note" id="cl${i}">Conf. ${(g.c/100).toFixed(2)}</span><input id="c${i}" type="range" min="40" max="100" value="${g.c}"></label>
+    <label style="flex-direction:row;gap:6px;align-items:center"><input id="ql${i}" type="checkbox" ${g.qual?'checked':''}><span class="note">½</span></label>
+    <span style="display:flex;align-items:center;gap:4px"><span class="wval" id="w${i}">${wOf(g).toFixed(2)}</span>${groups.length>1?`<button class="x" type="button" aria-label="Remove group" data-x="${i}">×</button>`:''}</span>
+  </div>`).join('');
+  groups.forEach((g,i) => {
+    $('#q'+i).onchange = e => { g.q = +e.target.value; drawGroups(); };
+    $('#h'+i).oninput = e => { g.h = +e.target.value; $('#hl'+i).textContent = 'Highlight ' + g.h + '%'; $('#w'+i).textContent = wOf(g).toFixed(2); score(); };
+    $('#c'+i).oninput = e => { g.c = +e.target.value; $('#cl'+i).textContent = 'Conf. ' + (g.c/100).toFixed(2); $('#w'+i).textContent = wOf(g).toFixed(2); score(); };
+    $('#ql'+i).onchange = e => { g.qual = e.target.checked; drawGroups(); };
+  });
+  document.querySelectorAll('[data-x]').forEach(b => b.onclick = () => { groups.splice(+b.dataset.x,1); drawGroups(); });
+  $('#addg').disabled = groups.length >= 7;
+  score();
+}
+$('#addg').onclick = () => { groups.push({name:names[(groups.length-2+names.length)%names.length], q:1, h:30, c:80, qual:false}); drawGroups(); };
+['vol','age','opp'].forEach(id => $('#'+id).addEventListener('input', score));
+function score(){
+  const sum = groups.reduce((a,g)=>a+wOf(g),0);
+  const sup = Math.log(1+sum);
+  const half = +$('#vol').value, age = +$('#age').value;
+  const decay = half ? Math.pow(.5, age/half) : 1;
+  const supq = Math.log(1 + sum*decay);
+  const oppRaw = +$('#opp').value/100;
+  const opp = Math.log(1 + oppRaw);
+  const oppq = Math.log(1 + oppRaw*decay);
+  $('#ageout').textContent = age + ' mo';
+  $('#oppout').textContent = opp.toFixed(2);
+  $('#sup').textContent = sup.toFixed(2);
+  $('#supq').textContent = supq.toFixed(2);
+  const contested = oppq >= .3 && oppq >= .5*supq;
+  $('#contested').innerHTML = contested ? '<span class="pill bad">contested</span>' : (oppq>0 ? '<span class="pill good">not contested</span>' : '');
+  const max = Math.log(1+20);
+  $('#supbar').style.width = Math.min(100, sup/max*100) + '%';
+  $('#oppbar').style.width = Math.min(100, opp/max*100) + '%';
+  drawSat(sum/groups.length, groups.length, sup);
+}
+function drawSat(avg, n, sup){
+  const W=320,H=170,L=34,R=12,T=12,B=28, N=10, ymax=Math.max(2.5, Math.log(1+avg*N)*1.08);
+  const x = i => L + (i/N)*(W-L-R), y = v => T + (1 - v/ymax)*(H-T-B);
+  let pts=[]; for(let i=0;i<=N;i++) pts.push(`${x(i).toFixed(1)},${y(Math.log(1+avg*i)).toFixed(1)}`);
+  let lin=[]; for(let i=0;i<=N;i++){ const v=avg*i*(Math.log(1+avg)/Math.max(avg,1e-6)); lin.push(`${x(i).toFixed(1)},${y(Math.min(v,ymax)).toFixed(1)}`); }
+  const ticks=[0,1,2].concat(ymax>3.2?[3]:[]);
+  $('#satchart').innerHTML = `
+    ${ticks.map(t=>`<line x1="${L}" x2="${W-R}" y1="${y(t)}" y2="${y(t)}" stroke="var(--line)"/><text x="${L-6}" y="${y(t)+4}" text-anchor="end">${t}</text>`).join('')}
+    ${[0,2,4,6,8,10].map(i=>`<text x="${x(i)}" y="${H-10}" text-anchor="middle">${i}</text>`).join('')}
+    <text x="${W-R}" y="${H-10}" text-anchor="end" dy="-12">groups</text>
+    <polyline points="${lin.join(' ')}" fill="none" stroke="var(--muted)" stroke-dasharray="3 4" stroke-width="1.2"/>
+    <polyline points="${pts.join(' ')}" fill="none" stroke="var(--claim)" stroke-width="2.2"/>
+    <circle cx="${x(Math.min(n,N))}" cy="${y(sup)}" r="5" fill="var(--claim)" stroke="var(--surface)" stroke-width="2"/>
+    <text x="${x(N)-4}" y="${y(Math.min(avg*N*(Math.log(1+avg)/Math.max(avg,1e-6)),ymax))+14}" text-anchor="end">if each group counted fully</text>`;
+}
+drawGroups();
+
+/* ---------- pathways ---------- */
+const CH = [['pv','Passage vectors','semantic search over passages'],['bm','BM25 keywords','exact words and names'],['cv','Claim vectors','search over claims'],['gx','Graph expansion','2 hops from named concepts'],['cs','Community summaries','pick communities, take top claims']];
+const cats = [
+  [1,'Direct factual lookup','What should a judge rubric contain?',['pv','bm'],null,'Passage vector and keyword search find the exact text; no graph needed.'],
+  [2,'Source + passage attribution','Which source said pairwise beats Likert, and where?',['cv'],'read_source','Claim search finds the claim, its SUPPORTS edges name the passages, read_source fetches the exact text.'],
+  [3,'Unanswerable + partly unanswerable','What does my vault say about reward hacking in robotics?',['pv','bm','cv','gx'],'search_text','Every channel comes back thin. The answer says “your vault doesn’t cover this”, never “this isn’t true”.'],
+  [4,'Disagreement + counterevidence','Where do sources disagree on LLM judges for safety evals?',['cv','gx'],null,'CONTRADICTS edges, the opposition score and the contested flag carry this one.'],
+  [5,'False premise','A question that assumes a claim the vault contradicts',['cv'],null,'Claim matching surfaces the CONTRADICTS edge, so the answer corrects the premise first.'],
+  [6,'Focused synthesis','Summarise what the vault says about error analysis.',['gx','cv'],null,'The concept neighbourhood gives the top claims about one subject, ranked by support.'],
+  [7,'Conditional and scoped','When do code-based evals beat LLM judges?',['cv','pv'],null,'QUALIFIED_SUPPORT edges and claim qualifiers carry the conditions; REFINES links narrower claims.'],
+  [8,'Comparisons and trade-offs','Graphiti vs GraphRAG for incremental updates?',['gx','cv'],'resolve_entity','Two entity seeds, then claims ABOUT each and typed relations such as ALTERNATIVE_TO.'],
+  [9,'Multi-hop connections','What links context rot to agent evaluation?',['gx'],'find_paths','find_paths walks CO_OCCURS and typed edges; hub damping stops “LLM” from being the answer to everything.'],
+  [10,'Temporal: how claims changed','How has advice on eval metrics changed since 2023?',['cv','gx'],null,'The time range filters on referenced time; SUPERSEDES edges and superseded claims show the history.'],
+  [11,'Reinforcement + evidence distribution','How well supported is X, and by how many sources?',['cv'],null,'Support, opposition and the number of independent groups are read straight off the claim.'],
+  [12,'Global synthesis','What themes run through everything on agent evaluation?',['cs'],'expand','Community summaries pick the communities, then their top claims and passages become the evidence.'],
+  [14,'Alias and entity robustness','The same question, with a different name for the concept',['gx','cv'],'resolve_entity','resolve_entity maps the alias to the Registry entry, so retrieval doesn’t depend on wording.'],
+  [15,'Temporal: reading history','What did I read about RAG this summer, and what did I revisit?',['pv'],null,'Filters on created and updated dates: engagement time, not world time.'],
+  [16,'Filtered discovery + enumeration','List my ⭐️⭐️+ papers on evaluation since 2025.',['pv','bm'],null,'Metadata filters on quality, type, topics and published date, then a list rather than a synthesis.'],
+  [17,'Coverage and research planning','Where is my vault thin on agent memory?',['cs','gx'],null,'Low-support claims and sparse communities show where the vault is thin.']
+];
+let catSel = 4;
+function drawPath(){
+  const c = cats[catSel];
+  $('#cats').innerHTML = cats.map((x,i) => `<button type="button" aria-pressed="${i===catSel}" data-i="${i}"><span class="n">${x[0]}</span>${x[1]}</button>`).join('');
+  $('#channels').innerHTML = CH.map(([k,n,s]) => `<div class="pnode ${c[3].includes(k)?'on':'off'}"><b>${n}</b><small>${s}</small></div>`).join('');
+  const loop = $('#n-loop');
+  loop.className = 'pnode ' + (c[4] ? 'on' : 'off');
+  $('#loopsub').textContent = c[4] ? `P10 · likely tool: ${c[4]}` : 'P10 · runs, rarely needs tools here';
+  $('#why').innerHTML = `<span class="eyebrow">${esc(c[1])}</span><p style="font:500 16px/1.4 var(--f-display)">“${esc(c[2])}”</p><p>${esc(c[5])}</p>`;
+  document.querySelectorAll('#cats button').forEach(b => b.onclick = () => { catSel = +b.dataset.i; drawPath(); });
+}
+drawPath();
+
+/* ---------- review queue ---------- */
+const RQ = {
+  'merge-concept': {item:'- [ ] RQ-0042 · merge-concept · conf 0.72\n  proposal:: "LLM evaluators" → [[concept--llm-as-a-judge|LLM-as-a-Judge]]\n  evidence:: 3 mentions in 2 sources; example passage psg:9f3a1c\n  decision:: ',
+    approve:'Merged into LLM-as-a-Judge. The old ID becomes a redirect and its aliases move across.', reject:'Kept separate. The mention is re-resolved next sync with that target excluded.', edit:'Merged into the entry you name after edit: instead.', example:{approve:'approve',reject:'reject',edit:'edit: concept--llm-judges'}},
+  'new-entry': {item:'- [ ] RQ-0051 · new-entry · conf 0.55\n  proposal:: new concept "annotator drift"\n  evidence:: 2 mentions in 1 source\n  decision:: ',
+    approve:'The entry becomes approved.', reject:'The entry is rejected: its mentions are unlinked and its ABOUT edges removed. Claims left without a target are listed in the sync report.', edit:'Approved, with your value as the canonical name.', example:{approve:'approve',reject:'reject',edit:'edit: Inter-annotator drift'}},
+  'contradiction': {item:'- [ ] RQ-0060 · contradiction · conf 0.64\n  proposal:: psg:7d20aa CONTRADICTS clm:4e1b…\n  evidence:: "Likert scales work well with clear anchors"\n  decision:: ',
+    approve:'The CONTRADICTS edge stays and counts towards opposition.', reject:'The edge is removed and opposition recomputed.', edit:'Not available for this item type.', example:{approve:'approve',reject:'reject',edit:'(none)'}}
+};
+let rqT = 'merge-concept', rqD = 'approve';
+function drawRQ(){
+  $('#rqtype').innerHTML = Object.keys(RQ).map(k => `<button type="button" aria-pressed="${k===rqT}" data-k="${k}">${k}</button>`).join('');
+  $('#rqdec').innerHTML = ['approve','reject','edit'].map(k => `<button type="button" aria-pressed="${k===rqD}" data-k="${k}">${k}</button>`).join('');
+  const r = RQ[rqT];
+  $('#rqitem').textContent = r.item + r.example[rqD];
+  $('#rqeffect').textContent = 'Next sync: ' + r[rqD];
+  document.querySelectorAll('#rqtype button').forEach(b => b.onclick = () => { rqT = b.dataset.k; drawRQ(); });
+  document.querySelectorAll('#rqdec button').forEach(b => b.onclick = () => { rqD = b.dataset.k; drawRQ(); });
+}
+drawRQ();
+
+/* ---------- roadmap ---------- */
+const PH = [
+  ['Setup','Stack, repo layout, config.yaml, prompt template, logging, LLM client with spend cap, stub pipeline','Apply the housekeeping diffs; approve the stack; add API keys','One test note runs end to end through the stub',false],
+  ['Parse and chunk','Source, Book and Passage nodes; voice; highlight density; independence groups; stable IDs; embeddings','Spot-check passages from 10 notes','All notes parsed; nothing over 400 tokens except a lone code block or table; identical IDs on re-run',false],
+  ['Registry bootstrap','P1, P2, exact matching, candidate search, clustering, Registry files, Review Queue','Review the top 100–150 clusters and unsure items; label 50 auto-merges','Linking rate ≥ 75%; resolution audit ≥ 95%',true],
+  ['Concept graph','NPMI-weighted CO_OCCURS edges, rare-pair guard, hub audit report','Classify the top-20 hubs','Audit reviewed; no boilerplate in the top 20',false],
+  ['Claims','P3, P4, P5, P11, P14; support and opposition; post-write checks','Spot-check missed claims; decide whether to merge P1 and P3','Exhaustiveness ≥ 0.8; citation support ≥ 90%',true],
+  ['Communities, write-back','Leiden, P6 summaries, P7 concept pages, P8 taxonomy suggestions; draft evaluation sets','Check pages in Obsidian; edit the drafted evaluation sets','Pages render; vault-lint passes',false],
+  ['Incremental sync','Git-diff sync, passage reuse, staleness, retry list, shadow graph with diff','Approve a test re-extraction diff','Edit, rename and delete of a test note each update correctly',false],
+  ['Query pipeline','P9, P10, P12; four channels; RRF; coverage loop; query log','Read the answers to the 40 fixed queries','All 40 answered with valid citations',true],
+  ['Evaluation harness','P13 judge, calibration, metrics and per-run reports','Label 60 calibration pairs; spot-check 10 judgements','Held-out TPR and TNR ≥ 0.8; first scores recorded',false]
+];
+let phSel = 0;
+function drawPH(){
+  $('#track').innerHTML = PH.map((p,i) => `<button class="ph" type="button" aria-pressed="${i===phSel}" data-i="${i}"><span class="num">${i}</span><b>${p[0]}</b>${p[4]?'<span class="eval">eval</span>':''}</button>`).join('');
+  const p = PH[phSel];
+  $('#phdetail').innerHTML = `<div><h3>Builds</h3><p>${esc(p[1])}</p></div><div><h3>Your part</h3><p>${esc(p[2])}</p></div><div><h3>Exit check</h3><p>${esc(p[3])}</p></div>`;
+  document.querySelectorAll('#track .ph').forEach(b => b.onclick = () => { phSel = +b.dataset.i; drawPH(); });
+}
+drawPH();
+</script>
+</body></html>
