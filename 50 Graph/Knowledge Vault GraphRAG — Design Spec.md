@@ -40,13 +40,13 @@ Build a claim-centred GraphRAG over Dom's Knowledge Vault. It answers questions 
 | Source | One in-scope note: an article, a paper, a book cover page, or a book chapter. |
 | Book | A folder in `20 Books/` that contains at least one type: chapter note. Every note in that folder belongs to the Book. Notes in other book folders (e.g. the 23 separate notes in MindBranches) are standalone sources. |
 | Passage | A chunk of one source, at most 400 tokens, counted with the embedding model's tokenizer (tiktoken cl100k\_base until phase 0 picks one). Claims cite passages. |
-| Voice | Who wrote a passage's text: `highlight` (inside `<mark>`), `mine` (in a `status: distilled` note), or `author` (everything else). |
-| Highlight density | The share of a passage's characters inside `<mark>` tags, from 0 to 1. |
-| Concept | An abstract idea, e.g. LLM-as-a-Judge or context rot. |
-| Entity | A named thing: person, organisation, tool or library, model, benchmark or dataset, or paper. |
-| Registry | The list of canonical concepts and entities with their aliases, stored as files in `50 Graph/Registry/`. |
+| Voice | Who wrote a passage's text: `highlight` (inside `<mark>`), `mine` (in a `status: distilled` note), or `author` (everything else). The vault rarely uses `<mark>`, so a redefinition by note status is pending (see Open questions). |
+| Highlight density | The share of a passage's characters inside `<mark>` tags, from 0 to 1. Close to 0 for almost every passage in this vault (see Source vault facts). |
+| Concept | An idea that many sources can discuss: a method, problem, property or pattern, e.g. LLM-as-a-Judge, context rot, error analysis. It has a definition, not a maker. Test: if it can be defined without naming one product, person or paper, it is a concept. |
+| Entity | A named thing: person, organisation, tool or library, model, benchmark or dataset, or paper. One particular thing that someone made or is, e.g. Graphiti, GPT-4, MT-Bench. An entity can be INSTANCE\_OF a concept. |
+| Registry | The master list of canonical concepts and entities for the whole vault: one entry each, with its aliases. Every mention in every note resolves to exactly one entry, so the graph counts one thing once whatever it was called. Stored as files in `50 Graph/Registry/`. |
 | Mention | A span of passage text that names a concept or entity. |
-| Claim | One self-contained assertion plus its qualifiers, extracted from one or more passages. |
+| Claim | One self-contained assertion plus its qualifiers: something that could be true or false. Claims and passages are many-to-many: one passage can support several claims, and one claim can be supported or contradicted by passages from many notes. |
 | Qualifier | A condition that limits a claim, e.g. "only for pairwise comparisons". |
 | Referenced time | The date or period a claim is about, when the text states one. Otherwise, the source's `published` date. |
 | Volatility class | `durable`, `evolving` or `ephemeral`. Sets how fast a claim's support decays. |
@@ -58,7 +58,8 @@ Build a claim-centred GraphRAG over Dom's Knowledge Vault. It answers questions 
 | Orphaned | A claim with no remaining support. It is kept but hidden from retrieval. |
 | Concept neighbourhood | All claims that share at least one ABOUT target (concept or entity). |
 | NPMI | Normalised pointwise mutual information: how much more often two concepts appear in the same independence groups than chance predicts, scaled to −1 … 1. |
-| Community | A cluster of concepts and entities found by graph clustering, with an LLM-written summary. |
+| Co-occurrence | Two Registry entries co-occur when the same independence group mentions both. CO\_OCCURS edges weight this by NPMI. |
+| Community | A cluster of concepts and entities found by graph clustering, with an LLM-written summary. Formed by Leiden clustering over CO\_OCCURS and typed relation edges: a set of entries joined by many strong edges and few edges outward. |
 | RRF | Reciprocal rank fusion: merges ranked lists by summing 1 / (k + rank) for each item. |
 | Sync run | One run of the incremental pipeline. One sync run = one review batch. |
 | Shadow graph | A separate full copy of the graph built by a re-extraction. It replaces the live graph only after Dom approves its diff. |
@@ -82,7 +83,9 @@ The metadata is clean enough to use as weighting signals from day one. Note-to-n
 | `author`, `source` | Often empty (\~half of papers) | Creates author Entity nodes; shown in citations. Not used to merge independence groups |
 | `flashcards` | Always `none` today | Not used |
 
-**Body conventions:** numbered headings, deeply nested bullets, Readwise-style `<mark>` highlights, `> [!NOTE]` callouts, code blocks, tables, and screenshot embeds.
+**Body conventions:** numbered headings, deeply nested bullets, occasional `<mark>` highlights, `> [!NOTE]` callouts, code blocks, tables, and screenshot embeds.
+
+**Highlights:** a raw note *is* Dom's highlights, exported as plain bullets, so `<mark>` tags are rare. Checked 2026-10-19: none of 173 raw notes contain `<mark>`; 54 of 106 structured notes and 2 of 40 distilled notes contain any; the average share of marked characters is about 1%. Highlight density is therefore close to 0 almost everywhere (see Open questions).
 
 **Links:** about 1,150 wikilinks, nearly all `![[Screenshot…]]` embeds or same-note heading links. There are effectively no links between notes.
 
@@ -193,6 +196,8 @@ Evidence flows upward: Source → Passage → Claim → Concept or Entity → Co
 | AUTHORED\_BY | Source → Entity (person) | The person wrote the source | Parser + P2, from frontmatter author |
 
 **Entities and concepts are never merged.** An entity is linked to the concept it exemplifies by INSTANCE\_OF. For example, Graphiti INSTANCE\_OF temporal graph memory. Both are Registry entries.
+
+**Claims and passages are many-to-many.** A passage can support several claims, and a claim gathers passages from many notes. Support grows as more independent notes back the same claim.
 
 **Relation types are discovered, not designed up front.** For each pair of ABOUT targets, P3 also outputs a short relation phrase ("reduces", "is an alternative to"), stored on the claim. Once 200 new phrases have built up (or monthly), phrases are embedded and clustered. A cluster with at least 5 phrases from at least 3 independence groups is named by P5 and proposed in the Review Queue. Once approved, it becomes a typed relation edge. Until then, concepts are linked only by CO\_OCCURS.
 
@@ -378,7 +383,7 @@ digraph "preprocessing" {
    - ordinal (its position in the note) and token count
    - **voice**, by precedence: text inside `<mark>` is `highlight`; any other text in a `status: distilled` note is `mine`; everything else is `author`. A passage's voice is the voice of most of its characters.
    - **highlight density**, stored separately
-4. **Embed** each passage.
+4. **Embed and index** each passage: one vector for semantic search, and an entry in the BM25 keyword index for exact-word search. Annotation, embedding and indexing happen straight after chunking, as one step.
 5. **Books:** every note in a Book folder (see Glossary) gets an IN\_BOOK edge to its Book. Notes in other book folders are standalone sources. Every source's frontmatter author is resolved to a person Entity (via P2) and linked with AUTHORED\_BY.
 
 **Handled by the extraction prompt, not by preprocessing:**
@@ -390,6 +395,8 @@ digraph "preprocessing" {
 ## Resolution and claim matching
 
 Every mention is resolved to a Registry entry (a concept or an entity). Every new claim is matched against existing claims. Confident decisions apply automatically, and uncertain ones go to the Review Queue.
+
+All resolution and matching runs at build time. At question time, the only resolution is the `resolve_entity` tool mapping names in the question onto the Registry. The purpose of mention resolution is deduplication: "LLM evaluators" and "LLM-as-a-Judge" become one node, which is what makes counting support and co-occurrence possible.
 
 ### Mention resolution
 
@@ -489,6 +496,8 @@ P4 also returns a `supersedes` flag, which can accompany `contradicts` or `diffe
 
 A `same`, `contradicts` or `supersedes` decision with confidence below 0.7 is applied provisionally and added to the Review Queue.
 
+**About the confidences.** P2, P3 and P4 report their confidences themselves, in their JSON output. Self-reported LLM confidence is poorly calibrated, so it is a weak signal: thresholds are tuned against the evaluation checks, and coarse buckets (high, medium, low) are an option. P4's confidence has two jobs: it decides whether a decision goes to review (below 0.7), and it becomes the resolution-confidence factor in the passage's weight w.
+
 ## Reinforcement scoring
 
 A claim's strength is the saturated sum of weighted support from independent source groups. Opposing evidence is kept as a separate score, never subtracted. Concept–concept edges are scored by how surprising their co-occurrence is, so generic hubs don't dominate.
@@ -505,11 +514,13 @@ $w$ is the product of five factors, one per row below. Voice is not a factor: it
 
 **When decay is applied:** stored support and opposition leave out the decay factor. Decay is applied at query time, so scores never go stale between sync runs. Contested is also checked at query time. CO\_OCCURS weights use the stored, undecayed support.
 
+**Stored versus query-time support.** Stored support is saved on the claim and changes only when its evidence changes; it feeds CO\_OCCURS weights and anything that should not drift from day to day. Query-time support multiplies each w by today's decay factor; answers show it, and the contested check uses it.
+
 | Factor | Source | Notes |
 | --- | --- | --- |
-| Quality | `quality` stars | Unrated gets a neutral default (initially 1.0, the same as ⭐); ⭐⭐ 1.5, ⭐⭐⭐ 2.0 |
-| Highlight density | Passage annotation | More of the passage inside `<mark>` = more weight: factor = 1 + highlight density (1.0 to 2.0) |
-| Extraction confidence | Claim extractor | How sure the LLM is that the passage asserts the claim |
+| Quality | `quality` stars | Unrated gets a neutral default (initially 1.0, the same as ⭐); ⭐⭐ 1.5, ⭐⭐⭐ 2.0. Raises claim support; it does not change retrieval rank directly |
+| Highlight density | Passage annotation | More of the passage inside `<mark>` = more weight: factor = 1 + highlight density (1.0 to 2.0). Close to 1.0 for almost every passage in this vault (see Source vault facts) |
+| Extraction confidence | Claim extractor | How sure the LLM is that the passage asserts the claim. Reported by P3 itself, so a weak signal |
 | Resolution confidence | Concept and claim matcher | How sure the merge into this claim is; exact match, brand-new claim, or human-reviewed = 1.0; otherwise the P2 or P4 confidence |
 | Recency decay | Referenced time + volatility class | factor = 0.5^(age / half-life). Age = today minus the referenced time (start) |
 
@@ -517,6 +528,7 @@ $w$ is the product of five factors, one per row below. Voice is not a factor: it
 
 - **Group weight:** for each independence group, take the largest w among its passages that support the claim. A QUALIFIED\_SUPPORT passage counts at half its w.
 - **Support** = ln(1 + sum of group weights). The 10th group adds less than the 2nd.
+- **Two separate dampers:** taking the best passage per group stops one note with many passages from counting many times; ln(1 + sum) across groups makes each extra group add less. It slows growth but never caps it.
 - Sources by the same author stay separate groups. Author independence is not used. Notes in a series (e.g. the AI Evals articles) also stay separate groups, unless config.yaml groups them by hand. A raw note and its distilled sibling are one group, detected automatically from the distill skill's naming and provenance.
 
 ```dot
@@ -623,6 +635,8 @@ Concepts like "LLM" or "AI agents" co-occur with almost everything. Raw co-occur
 
 Communities come purely from graph structure. Topic tags are not used as input; they are only compared afterwards to suggest taxonomy changes.
 
+- **Why:** they make global questions answerable. Community summaries pick the clusters relevant to a question, so the evidence covers every relevant cluster instead of the 30 passages most similar to the question, which tend to come from a few notes. They also stand in for a hand-built topic hierarchy and drive topic-tag suggestions. Summaries steer retrieval and are never cited.
+- **How they form:** two entries co-occur when the same independence group mentions both. NPMI turns those counts into edge weights that favour surprising pairs and weaken hubs. Leiden then finds sets of entries with many strong edges among them and few edges outward.
 - **Algorithm:** hierarchical Leiden clustering over concepts and entities, using CO\_OCCURS and typed relation edges with their weights. Up to 3 levels.
 - **When to re-cluster:** after any sync run that changes at least 5% of total CO\_OCCURS weight, or monthly. Otherwise the existing communities are kept.
 - **Summaries (P6):** written only from the community's top claims (by support) and their passages. Each summary records the claim IDs it used in `built_from`, so it can be marked stale when those claims change.
@@ -756,6 +770,7 @@ The graph writes only into `50 Graph/`, which is tracked in git so every review 
 | `Review Log.md` | Decided items, appended by the sync. | Graph only. |
 | `Concepts/<kind>--<slug>.md` | Generated MOC page: definition, aliases, top 10 claims by support with citations, contested claims, community, sources. Frontmatter `generated: true`. | Graph only. Overwritten on regeneration. |
 | `Reports/<date>/` | Hub audit, quality metrics, and re-extraction diffs for each sync run. | Graph only. |
+| `.graphrag/` | The engine, in a hidden dot-folder. Tracked: code, `config.yaml`, `prompts/`, tests, evaluation sets and the JSONL export. Gitignored: the graph store, caches, `logs/` and `.env`. | Code changes only. Obsidian hides dot-folders, so none of it appears in search, the graph view or vault-lint. |
 
 **Review Queue item format:**
 
@@ -834,7 +849,7 @@ Evaluation runs at the end of phases 2, 4 and 7, and after every prompt, model o
 - **Evidence labels:** for 15 of those questions, Claude proposes the passages a complete answer needs, and Dom confirms or corrects them.
 - **Judge calibration set:** 60 query–answer pairs Dom labels good or bad. 40 are used to tune the judge prompt and 20 are held out.
 
-**Question categories, in rough priority order.** Categories 5, 13 and 14 are Claude's additions to Dom's list. Examples are illustrative and not checked against the vault.
+**Question categories, in rough priority order.** Categories 5 and 14 are Claude's additions to Dom's list. Category 13 (own voice versus authors) was removed; the other numbers are kept so references stay stable. Examples are illustrative and not checked against the vault.
 
 | # | Category | Example | Type | Main pathway exercised |
 | --- | --- | --- | --- | --- |
@@ -874,7 +889,7 @@ Evaluation runs at the end of phases 2, 4 and 7, and after every prompt, model o
 
 ## Query answering
 
-Built in phase 7. A question goes through a fixed pipeline with one bounded loop. Every step is appended to `logs/queries.jsonl`.
+Built in phase 7. A question goes through a fixed pipeline with one bounded loop. Every step is appended to `.graphrag/logs/queries.jsonl`.
 
 ```dot
 digraph "query-pipeline" {
@@ -971,6 +986,18 @@ digraph "query-pipeline" {
 5. **Validate citations (P11):** check each claim–passage pair that will be cited. Drop any that fail.
 6. **Synthesise (P12)** within a 12,000-token context.
 
+**Question types don't route.** P9 tags each sub-question with one of the four question types and any time range. Every retrieval channel runs for every sub-question. The evaluation categories describe which channel usually carries the answer; they are not a routing rule.
+
+**What each channel does:**
+
+- **Passage vectors:** embedding similarity between the sub-question and each passage. Finds passages close in meaning even when the wording differs.
+- **BM25 keywords:** keyword search over the same passages. Catches exact names, acronyms and rare terms that embeddings blur.
+- **Claim vectors:** embedding similarity over claims. More precise, and each hit brings its support, its contradictions and the passages behind it.
+- **Graph expansion:** resolve the concepts and entities the sub-question names, then walk outward up to 2 hops along CO\_OCCURS, typed relation and INSTANCE\_OF edges, within the expansion budget, collecting claims ABOUT what it reaches. Hub damping applies. Finds related material that shares neither words nor meaning with the question.
+- **Community summaries (global sub-questions only):** each community has a summary embedding; the closest summaries choose the communities, and their best-supported claims and passages become the evidence.
+
+**Fuse and validate, precisely:** RRF scores each item by the sum of 1 / (k + rank) over the channels that returned it, so channel scores never need normalising. It uses ranks only, so claim support does not affect the fused order (see Open questions). P11 is a faithfulness filter, not a reranker: for each claim–passage pair about to be cited, it answers `supports`, `partial` or `no` with a reason, and drops the `no` pairs. The coverage loop runs for every question, but simple ones usually stop after the first check.
+
 **Coverage-loop tools:**
 
 ```text
@@ -1050,8 +1077,8 @@ Phases run in order, and each one ends with an exit check. Work inside a phase c
 
 | Phase | Builds | Exit check |
 | --- | --- | --- |
-| 0. Setup | Choose storage, embedding model and LLMs (see Open questions). Repo layout, `config.yaml`, `prompts/`, logging | One test note runs end to end through a stub pipeline |
-| 1. Parse and chunk | Source, Book and Passage nodes; voice; highlight density; passage embeddings | All in-scope notes parsed (\~360, a rough estimate); no passage over 400 tokens except a single code block or table; re-running gives identical IDs |
+| 0. Setup | Choose storage, embedding model and LLMs (see Open questions). Repo layout in `50 Graph/.graphrag/`, `config.yaml`, `prompts/`, logging | One test note runs end to end through a stub pipeline |
+| 1. Parse and chunk | Source, Book and Passage nodes; voice; highlight density; passage embeddings and BM25 index | All in-scope notes parsed (\~360, a rough estimate); no passage over 400 tokens except a single code block or table; re-running gives identical IDs |
 | 2. Registry bootstrap | P1, P2, Registry files, Review Queue; Dom reviews the top clusters | Linking rate ≥ 75%; resolution audit ≥ 95% |
 | 3. Concept graph | CO\_OCCURS edges with NPMI; hub audit report | Dom has reviewed the hub audit; no boilerplate in the top 20 |
 | 4. Claims | P3, P4, P5, P11, P14; support and opposition; post-write checks | Exhaustiveness ≥ 0.8; citation support ≥ 90% |
@@ -1067,7 +1094,20 @@ After phase 8: choose the query interface, then add usage feedback.
 - [ ] **Phase 0 choices:** storage (embedded graph + vector store, Neo4j, or a GraphRAG library), the embedding model, and the extraction and judge models.
 - [ ] **Data egress:** can vault text be sent to external APIs? Decide separately for (a) the LLM prompts (P1–P14) and (b) the embeddings. The options for each are a hosted API or a local model. Local LLMs would noticeably lower extraction quality.
   - [ ] **Cost ceiling:** the budget for one full extraction run over all in-scope notes, across all phases and prompts. It decides model tiers: Haiku-class for bulk extraction with stronger models only for judging, Sonnet-class for extraction, or the strongest model wherever quality depends on it.
-- [ ] **Code and data location (decided 2026-10-04): hybrid.** The code, `config.yaml` and `prompts/` live in the vault and are tracked by git. The binary graph store, embeddings and `logs/` are gitignored, because Obsidian Git commits every 15 minutes and a changing binary store would bloat the repo. At the end of each sync run, the LLM outputs (registry, mentions, claims, edges) are exported as plain JSONL and committed. A fresh clone rebuilds the store from that JSONL without LLM calls, and re-embeds locally or through the API.
+- [x] **Code and data location (decided 2026-10-04; folder set 2026-10-19): hybrid, in `50 Graph/.graphrag/`.** The folder is a dot-folder, so Obsidian hides it: its prompt, Python and JSONL files stay out of search, the graph view and vault-lint. Shell paths need quoting because of the space in "50 Graph". The code, `config.yaml` and `prompts/` live there and are tracked by git. The binary graph store, embeddings and `logs/` are gitignored, because Obsidian Git commits every 15 minutes and a changing binary store would bloat the repo. At the end of each sync run, the LLM outputs (registry, mentions, claims, edges) are exported as plain JSONL and committed. A fresh clone rebuilds the store from that JSONL without LLM calls, and re-embeds locally or through the API.
+- [ ] **Highlight density and voice:** both assume `<mark>` tags, which this vault rarely uses (see Source vault facts). Proposal: drop highlight density from w, and set voice by note status (raw and structured = `highlight`, distilled = `mine`).
+- [ ] **Support in ranking:** RRF orders results by channel rank only. Should query-time support rerank the fused list, break ties, or appear only in evidence labels?
+- [ ] **Simplification review (2026-10-04):** ten candidate trims, none applied yet:
+  1. Leave P9, P10 and P12 to the calling agent and build only the retrieval tools.
+  2. Recompute every non-LLM step from scratch each sync instead of tracking dependencies.
+  3. Defer relation-type discovery (phrase clustering, P5, typed edges); keep the relation phrases.
+  4. Lighter evaluation: Dom grades the answers to the 40 fixed queries; build the P13 judge only when prompts or models change often.
+  5. Replace the shadow-graph swap with a new store file plus a stats diff.
+  6. One or two community levels, re-clustered every sync; defer P8.
+  7. Run the hub audit once in phase 3, then on request.
+  8. A `runs` table (model, prompt version, commit) referenced by `run_id`, instead of six lineage fields on every record.
+  9. Defer P7 concept pages until the query tools work.
+  10. Shorten Optional extensions to a few one-line ideas.
 - [ ] **Unrated weight:** should unrated sources weigh the same as ⭐ (the current default) or less?
 - [ ] **Expansion algorithm:** keep the budgets in Config and choose by evaluation, or fix one now: personalised PageRank from passage and claim seeds (HippoRAG 2), or path retrieval between seeds (PathRAG).
 - [ ] **Answer context and global questions:** options are (a) evidence paths plus original passages, never summaries alone; (b) rate community relevance before reading summaries; (c) global-then-local drill-down (DRIFT); (d) spread context across communities for global questions only.
