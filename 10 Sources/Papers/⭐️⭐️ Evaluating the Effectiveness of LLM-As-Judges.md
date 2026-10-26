@@ -2,21 +2,15 @@
 type: paper
 status: structured
 quality: 2
-topics: [llm-evaluation, llm-judges, evaluation-metrics]
+topics: [llm-evaluation, llm-judges, evaluation-metrics, model-calibration]
 source: https://eugeneyan.com/writing/llm-evaluators/
 created: 2025-07-19
 published: 2024-08-18
 author: Eugene Yan
 flashcards: none
-updated: 2025-12-28
+updated: 2026-10-26
 ---
-# 1 Metadata
-- Author: Eugene Yan
-- Category: article
-- Document Tags: very good 
-- URL: https://eugeneyan.com/writing/llm-evaluators/
-
-# 2 Intro to LLM Judges
+# Intro to LLM Judges
 - LLM-evaluator = large language model that grades another LLM’s response to an instruction or query
     - motivation = conventional n-gram or similarity metrics struggle to separate good and bad responses, and human or finetuned evaluators are costly to scale
     - baseline choice?
@@ -41,24 +35,24 @@ updated: 2025-12-28
 
 ![[Screenshot 2025-07-21 at 4.41.26 pm.png| center | 800]]
 
-# 3 Use cases for LLM-judges
+# Use cases for LLM-judges
 - LLM-evaluator use cases = research demonstrations of “LLM-as-a-Judge” across safety, summarization, QA, and hallucination detection
 - <span style="color:rgb(255, 0, 247)">Constitutional AI</span>: Harmlessness from AI Feedback (CAI) = applies LLM critic to reduce harmful responses
-	- workflow
-		- harmful response detected → LLM-evaluator critiques harmful content
-		- model regenerates a safer response guided by critique
-		- revised answer used for instruction-tuning
-		- preferred answer used for preference-tuning
+    - workflow
+        1. harmful response detected → LLM-evaluator critiques harmful content
+        2. model regenerates a safer response guided by critique
+        3. revised answer used for instruction-tuning
+        4. preferred answer used for preference-tuning
 - <span style="color:rgb(255, 0, 247)">Human-like Summarization Evaluation with ChatGPT</span> = assesses summarization quality with gpt-3.5-turbo
-	- scoring modes
-		- direct Likert scoring = article + summary → 4–5 dimension ratings
-		- pairwise comparison = choose better of two summaries
-		- pyramid method = mark presence of semantic content units (SCUs)
-		- binary factuality = sentence-level support check
-	- findings
-		- human-human correlation 0.8-0.9 > LLM-human 0.3-0.6
-		- gpt-3.5-turbo > ROUGE, BERTScore, MoverScore on correlation with humans
-		- better results when scoring one dimension per prompt rather than many
+    - scoring modes
+        - direct Likert scoring = article + summary → 4–5 dimension ratings
+        - pairwise comparison = choose better of two summaries
+        - pyramid method = mark presence of semantic content units (SCUs)
+        - binary factuality = sentence-level support check
+    - findings
+        - human-human correlation 0.8-0.9 > LLM-human 0.3-0.6
+        - gpt-3.5-turbo > ROUGE, BERTScore, MoverScore on correlation with humans
+        - better results when scoring one dimension per prompt rather than many
 
 ```
 %% Direct Scoring %%
@@ -94,54 +88,55 @@ n. {SCU_n}
 ```
 
 - <span style="color:rgb(255, 0, 247)">ChatGPT as a Factual Inconsistency Evaluator for Text Summarization</span> = measures gpt-3.5-turbo on factual consistency tasks
-	- tasks
-		- entailment inference = yes/no consistency
-		- summary ranking = pick consistent over inconsistent summary
-		- consistency rating = 1-10 scale
-	- outcomes
-		- matched or exceeded previous SOTA on entailment without task-specific training
-		- sensitivity + specificity still limited
-		- higher correlation with human judgment than prior metrics for consistency rating
+    - tasks
+        - entailment inference = yes/no consistency
+        - summary ranking = pick consistent over inconsistent summary
+        - consistency rating = 1-10 scale
+    - outcomes
+        - matched or exceeded previous SOTA on entailment without task-specific training
+        - sensitivity + specificity still limited
+        - higher correlation with human judgment than prior metrics for consistency rating
 - <span style="color:rgb(255, 0, 247)">HaluEval</span> = large-scale benchmark for hallucination detection in QA, dialogue, summarization
-	- dataset creation
-		- gpt-3.5-turbo generates 30k hallucinated samples via two-stage sampling
-		- second stage selects most plausible but incorrect answers to craft hard cases
-	- evaluation insights
-		- best model (gpt-3.5-turbo) reached 58.5 % accuracy distinguishing factual vs hallucinated summaries
-		- failures often due to hallucinations conflicting with provided context despite being factually correct globally
+    - dataset creation
+        - gpt-3.5-turbo generates 30k hallucinated samples via two-stage sampling
+        - second stage selects most plausible but incorrect answers to craft hard cases
+    - evaluation insights
+        - best model (gpt-3.5-turbo) reached 58.5 % accuracy distinguishing factual vs hallucinated summaries
+        - failures often due to hallucinations conflicting with provided context despite being factually correct globally
 - <span style="color:rgb(255, 0, 247)">Evaluating Correctness and Faithfulness of Instruction-Following Models for Question Answering</span> = explores metrics and evaluators for QA
-	- dimensions
-		- correctness = fulfils user informational need
-		- faithfulness = grounded in given context
-	- human annotations collected for 1.2 k responses across 3 QA datasets
-# 4 Techniques for prompting LLM-judges
+    - dimensions
+        - correctness = fulfils user informational need
+        - faithfulness = grounded in given context
+    - human annotations collected for 1.2 k responses across 3 QA datasets
+
+# Techniques for prompting LLM-judges
 - prompting techniques for llm-evaluators = strategies that shape how an evaluator llm judges another model’s output
 - cross examination = multi-turn dialogue where an examiner llm interrogates the examinee’s answer
-	- examiner asks follow-up questions, incorporates previous turns, and finally labels claim true/false
-	- single vs majority setting = 1 round or 3 rounds with majority vote
-		- majority recall 0.75-0.84, precision 0.82-0.87
-		- ablation without follow-ups → 6-10 % recall drop
+    - examiner asks follow-up questions, incorporates previous turns, and finally labels claim true/false
+    - single vs majority setting = 1 round or 3 rounds with majority vote
+        - majority recall 0.75-0.84, precision 0.82-0.87
+        - ablation without follow-ups → 6-10 % recall drop
 - <span style="color:rgb(255, 0, 247)">G-EVAL</span> = three-step chain-of-thought + form-filling framework with GPT-4
-	- step1 define evaluation task + criteria
-	- step2 generate explicit cot reasoning steps
-	- step3 fill evaluation form and normalise score via token probabilities
-	- spearman ρ ≈ 0.51, surpassing older metrics
+    1. define evaluation task + criteria
+    2. generate explicit cot reasoning steps
+    3. fill evaluation form and normalise score via token probabilities
+    - spearman ρ ≈ 0.51, surpassing older metrics
 - <span style="color:rgb(255, 0, 247)">SelfCheckGPT</span> = zero-resource hallucination detection via sample consistency
-	- generate N=20N=20 alternative answers then measure similarity to target answer
-	- higher agreement implies factuality; divergence signals hallucination
-	- pairwise comparison prompts outperform direct scoring + g-eval style
+    - generate $N=20$ alternative answers then measure similarity to target answer
+    - higher agreement implies factuality; divergence signals hallucination
+    - pairwise comparison prompts outperform direct scoring + g-eval style
 - preference-bias insight = llm-evaluator judgements sensitive to prompt wording; fairer preference elicitation improves alignment
 
 ![[Screenshot 2025-07-21 at 4.43.08 pm.png| center | 600]]
 
 - <span style="color:rgb(255, 0, 247)">UMBRELA</span> = open-source reproduction of bing relevance assessor using dna prompt
-	- query + passage → integer score 0-3
-		- 0 unrelated
-		- 1 tangential
-		- 2 partially answers with extra info
-		- 3 directly answers and dedicated to topic
-	- dna prompt guides assessor: descriptive, narrative, aspects
-	- output format ##final score: k with no reasoning
+    - query + passage → integer score 0-3
+        - 0 unrelated
+        - 1 tangential
+        - 2 partially answers with extra info
+        - 3 directly answers and dedicated to topic
+    - dna prompt guides assessor: descriptive, narrative, aspects
+    - output format ##final score: k with no reasoning
 
 ```
 Given a query and a passage, you must provide a score on an integer scale of 0 to 3 with
@@ -173,14 +168,13 @@ score without providing any reasoning.
 ```
 
 - <span style="color:rgb(255, 0, 247)">POLL</span> (panel of llms) = ensemble of smaller evaluators instead of single large judge
-	- models: command-r, gpt-3.5-turbo, haiku
-	- aggregation = max voting or average pooling
-	- yields higher human-correlation than single gpt-4, lowers cost and mitigates intra-model bias
+    - models: command-r, gpt-3.5-turbo, haiku
+    - aggregation = max voting or average pooling
+    - yields higher human-correlation than single gpt-4, lowers cost and mitigates intra-model bias
 
 ![[Screenshot 2025-07-21 at 4.45.05 pm.png| center | 500]]
 
-
-# 5 LLM-judge Alignment to Human Judgement
+# LLM-judge Alignment to Human Judgement
 - aligning llm-evaluators = approaches for tailoring evaluator prompts and criteria to domain-specific needs
     - <span style="color:rgb(255, 0, 247)">EvalLM</span> = interactive refinement loop for user-defined evaluation criteria
         - workflow
@@ -205,7 +199,8 @@ score without providing any reasoning.
             - users comfortable labeling outputs during llm-evaluator runtime and then reusing those labels to calibrate the evaluator
             - emergence of new error types → users add new criteria
             - llm-evaluator trust < code-based assertions because code can be directly inspected and edited
-# 6 Finetuning LLM-Judges
+
+# Finetuning LLM-Judges
 - <span style="color:rgb(255, 0, 247)">shepherd</span> = llama-2-7b-chat model finetuned as an llm critic for generation feedback
     - training data = community critiques + human annotations
     - performance
@@ -224,7 +219,8 @@ score without providing any reasoning.
 - <span style="color:rgb(255, 0, 247)">criticgpt</span> = llm critic specialised for code generation bugs
     - input = (question, code answer)
     - output = pinpointed critique highlighting potential errors
-# 7 Pros & Cons of LLM-Judges
+
+# Pros & Cons of LLM-Judges
 - empirical support for llm-evaluators
     - mt-bench results = gpt-4 evaluator with direct + pairwise scoring reached 85 % agreement with humans (ties excluded), surpassing human-human 81 %
         - humans considered gpt-4 judgments reasonable 75 % and switched their own choices ⅓ of the time
@@ -246,7 +242,8 @@ score without providing any reasoning.
     - factuality
     - instruction following
     - reasoning proficiency
-# 8 Summary 
+
+# Summary
 - applying llm-evaluators
     - task nature
         - objective tasks = factuality, toxicity, instruction-following
@@ -292,11 +289,3 @@ score without providing any reasoning.
     - reliability ceiling
         - gpt-4 evaluator cohen’s κ ≈ 0.84 < human-human 0.97 → human review still needed for high-stakes use
 - takeaway = llm-evaluators provide scalable, fast judgements but must be matched to task type, carefully prompted, bias-controlled, and regularly benchmarked against expert humans for trustworthiness
-
----
-
-
-
-
-
-

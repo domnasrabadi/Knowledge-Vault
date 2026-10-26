@@ -8,16 +8,11 @@ created: 2025-08-10
 published: 2025-05-15
 author: Ranjan Sapkota, Konstantinos I. Roumeliotis, Manoj Karkee
 flashcards: none
-updated: 2025-12-28
+updated: 2026-10-26
 ---
-## 0.1 Metadata
-- Author: arxiv.org
-- Category: article
-- Document Tags: ⭐️⭐️⭐️ great 
-- URL: https://arxiv.org/html/2505.10468v4
-## 0.2 Highlights
+## Highlights
 
-### 0.2.1 Definitions
+### Definitions
 - **AI Agent** = modular, autonomous software entity (often LLM/LIM-powered) for goal-directed, task-specific automation
     - perceives structured/unstructured inputs, reasons over context, initiates actions
     - uses tool invocation + result integration to extend capabilities beyond internal knowledge
@@ -33,7 +28,7 @@ updated: 2025-12-28
 
 ---
 
-### 0.2.2 Evolutionary context
+### Evolutionary context
 - **classical AI agents** (pre-modern expert systems, scripted NPCs)
     - predefined rules, limited autonomy, no generative reasoning, poor adaptability
 - **modern AI agents**
@@ -46,7 +41,7 @@ updated: 2025-12-28
 
 ---
 
-### 0.2.3 Structural differences (Table I summary)
+### Structural differences (Table I summary)
 - AI Agents = single-agent, tool-assisted, narrow task execution
 - Agentic AI = multi-agent, collaborative, handles complex multi-step workflows
 - Autonomy: task-bounded vs broad, multi-task
@@ -54,7 +49,7 @@ updated: 2025-12-28
 
 ---
 
-### 0.2.4 Conceptual taxonomy (Tables II–IX condensed)
+### Conceptual taxonomy (Tables II–IX condensed)
 
 - **Generative AI** = stateless, prompt-driven, content generation only
 - **AI Agent** = tool-based executor, medium autonomy, short-term continuity
@@ -70,35 +65,26 @@ updated: 2025-12-28
 
 ---
 
-### 0.2.5 Challenges & limitations
-#### 0.2.5.1 AI Agents
-- lack causal reasoning → cannot model cause–effect
-- inherit LLM weaknesses: hallucinations, brittleness
-- incomplete agentic properties (autonomy, proactivity, social ability)
-- poor long-horizon planning + recovery due to stateless prompt–response nature
-#### 0.2.5.2 Agentic AI
-- **amplified causality gaps** = inter-agent distributional shifts hinder coordination
-- **communication bottlenecks** = natural language protocols cause ambiguity + drift
-- **emergent behaviour risks** = instability from loops, deadlocks, contradictions
-- **scalability & debugging difficulty** = nested, opaque interactions across agents/tools/memory
-- **trust, explainability, verification** = compounded opacity, no formal verification methods
-- **security risks** = larger attack surface, single point of compromise
-- **ethical/governance** = accountability gaps, fairness, value alignment challenges
-- **immature foundations** = lack of standard architectures, evaluation frameworks
+### Challenges & limitations
+- **AI Agents**
+    - lack causal reasoning → cannot model cause–effect
+    - inherit LLM weaknesses: hallucinations, brittleness
+    - incomplete agentic properties (autonomy, proactivity, social ability)
+    - poor long-horizon planning + recovery due to stateless prompt–response nature
+- **Agentic AI**
+    - **amplified causality gaps** = inter-agent distributional shifts hinder coordination
+    - **communication bottlenecks** = natural language protocols cause ambiguity + drift
+    - **emergent behaviour risks** = instability from loops, deadlocks, contradictions
+    - **scalability & debugging difficulty** = nested, opaque interactions across agents/tools/memory
+    - **trust, explainability, verification** = compounded opacity, no formal verification methods
+    - **security risks** = larger attack surface, single point of compromise
+    - **ethical/governance** = accountability gaps, fairness, value alignment challenges
+    - **immature foundations** = lack of standard architectures, evaluation frameworks
 
 ---
 
-### 0.2.6 Key design implications
+### Key design implications
 
 - taxonomy clarifies **when to use AI Agents** (modular, tool-assisted tasks) vs **Agentic AI** (complex, coordinated workflows)
-- avoids misapplication of multi-agent design to single-agent contexts
-- supports targeted benchmarking, safety protocols, and resource allocation strategies
-
-
-
-
-
-
-
-
-
+    - avoids misapplication of multi-agent design to single-agent contexts
+    - supports targeted benchmarking, safety protocols, and resource allocation strategies

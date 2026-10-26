@@ -2,29 +2,16 @@
 type: paper
 status: structured
 quality: 2
-topics: [llm-evaluation, evaluation-metrics]
+topics: [llm-evaluation, evaluation-metrics, synthetic-data, human-in-the-loop]
 source: https://arxiv.org/abs/2506.13023
 created: 2025-07-05
 published: 2025-06-16
 author: Ethan M. Rudd, Christopher Andrews, Philip Tully
 flashcards: none
-updated: 2025-12-28
+updated: 2026-10-26
 ---
-1. [[#1 A Practical Guide for Evaluating LLMs and LLM-Reliant Systems|1 A Practical Guide for Evaluating LLMs and LLM-Reliant Systems]]
-	1. [[#1 A Practical Guide for Evaluating LLMs and LLM-Reliant Systems#1.1 Metadata|1.1 Metadata]]
-2. [[#2 Datasets|2 Datasets]]
-3. [[#3 Metrics|3 Metrics]]
-4. [[#4 Methodology|4 Methodology]]
-5. [[#5 Conclusion|5 Conclusion]]
+# A Practical Guide for Evaluating LLMs and LLM-Reliant Systems
 
-# 1 A Practical Guide for Evaluating LLMs and LLM-Reliant Systems
----
-## 1.1 Metadata
-- **Author**: Ethan M. Rudd; Christopher Andrews; Philip Tully
-- **Category**: pdf
-- **Document Tags**: great
-- **URL**: [https://arxiv.org/pdf/2506.13023](https://arxiv.org/pdf/2506.13023)
----
 - real-world evaluation challenges = synthetic benchmarks + de-facto metrics fail to capture practical needs
     - de-facto evaluation techniques = commonly used but lack a consistent strategy for real-world goals, system requirements, end-user experience
 - practical evaluation framework = proactive process ensuring evaluation aligns with real-world llm system requirements
@@ -37,7 +24,8 @@ updated: 2025-12-28
     - **methodology** = overall approach addressing non-determinism, prompt sensitivity, hallucination measurement
 
 ![[Screenshot 2025-07-05 at 3.22.33 pm.png| center | 700]]
-# 2 Datasets
+
+## Datasets
 - evaluation dataset formulation = blueprint for building test data that truly reflects llm production use
     - dataset = prompts + optional ground-truth responses
     - 5 D’s guiding principles
@@ -58,8 +46,8 @@ updated: 2025-12-28
                 - third-party vendors supply annotations
                 - user data + feedback harvested from live products
                 - UX research surveys gather fresh prompts
-                - clear labeling instructions essential for quality
-                - respect privacy constraints + negativity bias in user feedback
+            - clear labeling instructions essential for quality
+            - respect privacy constraints + negativity bias in user feedback
         - **synthetically-generated silver dataset** = scalable, cost-effective alternative created by models under human oversight
             - generation techniques
                 - frontier-model distillation produces prompt–response pairs
@@ -91,12 +79,12 @@ updated: 2025-12-28
         - audit, version-control, update, prune regularly
     - persistent high scores may signal dataset weakness → evolve both data + metrics
 - required evaluation set sample sizes
-    - sample size formula below 
-	    - where $n$ is rough estimate of minimal evat set size to estimate representative + statistically significant outcomes
-		    - $z$ = z-score chosen for confidence level
-		    - $\hat{m}$ = expected metric score e.g. 80% accuracy
-		    - $\epsilon$ = desired margin of error e.g. $z=1.96$ = 5% margin of error
-        - example = 95 % confidence (⁠$z = 1.96$⁠), 5 % margin (⁠$\epsilon=0.05$⁠), expected metric $\hat{m}=0.8$ ⇒ $n\approx246$ samples
+    - sample size formula below
+        - where $n$ is rough estimate of minimal evat set size to estimate representative + statistically significant outcomes
+            - $z$ = z-score chosen for confidence level
+            - $\hat{m}$ = expected metric score e.g. 80% accuracy
+            - $\epsilon$ = desired margin of error e.g. $z=1.96$ = 5% margin of error
+        - example = 95 % confidence ($z = 1.96$), 5 % margin ($\epsilon=0.05$), expected metric $\hat{m}=0.8$ ⇒ $n\approx246$ samples
     - tighter margin → rapidly growing sample requirement
 
 $$
@@ -109,10 +97,9 @@ $$
     - public benchmarks, golden human sets, and synthetic silver sets are complementary tools for achieving the 5 D’s
     - well-curated data aligned with defined scope forms the empirical bedrock for choosing meaningful metrics
 
-
 ![[Screenshot 2025-07-05 at 3.23.04 pm.png| center | 700]]
 
-# 3 Metrics
+## Metrics
 - metrics selection = chooses quantitative + qualitative measures aligned with evaluation scope + objectives
     - no single metric is a silver bullet → combine several for holistic view
     - datasets must be large enough to support metric computation without heavy compute or quota costs
@@ -132,11 +119,11 @@ $$
     - does not directly evaluate fluency or factual accuracy
 - **NLI / entailment metrics**
     - entailment model = fine-tuned classifier judges whether hypothesis follows from premise
-	    - useful for factuality checks; quality bound by underlying model
-	    - can handle nuance beyond simple metrics
+        - useful for factuality checks; quality bound by underlying model
+        - can handle nuance beyond simple metrics
     - combine with statistical tests to assess significance; report effect size for practical impact
-	    - i.e. when $p$-value less than chosen sig. level, but low-pval does not indicate magnitude of difference
-	    - so consider practical significance 
+        - i.e. when $p$-value less than chosen sig. level, but low-pval does not indicate magnitude of difference
+        - so consider practical significance
 - **LLM-as-judge/autorater metrics**
     - LLM-as-judge = scalable scoring of fluency, factuality, safety, etc.
         - advantages = quick, covers subjective dimensions humans rate
@@ -153,11 +140,11 @@ $$
     - does not need ground-truth references
 - metrics wrap-up
     - no single metric is a "silver bullet"
-	    - instead, a holistic understanding of system performance is formed by computing and tracking multiple different metrics
+        - instead, a holistic understanding of system performance is formed by computing and tracking multiple different metrics
     - balanced scorecard = use multiple metric types to capture multiple quality facets
-	    - metric selection = second evaluation pillar, built atop clear objectives + robust datasets
+        - metric selection = second evaluation pillar, built atop clear objectives + robust datasets
 
-# 4 Methodology 
+## Methodology
 - robust evaluation methodology & execution = framework for designing evaluation suites that confront real-world LLM challenges
     - confounding factors = inherent non-determinism, input sensitivity, entanglement of grounding data with model prior knowledge
 - handling non-determinism + sensitivity
@@ -165,7 +152,7 @@ $$
     - Self-Consistency = repeat-sampling strategy
         - sample multiple responses with temperature > 0
         - select modal answer to dampen randomness
-    - system noise estimation = quantify variability by repeating evaluation nn times (e.g. n≥10n\ge10)
+    - system noise estimation = quantify variability by repeating evaluation $n$ times (e.g. $n \ge 10$)
         - compute mean metric + variability band
         - maintain baseline with error bounds to judge future changes
     - prompt sensitivity = small wording, spelling, or spacing tweaks can flip results
@@ -202,7 +189,8 @@ $$
     - measurement procedure
         - build dataset of prompts about known entities
         - count “I don’t know/does not exist” replies via heuristic or classifier
-# 5 Conclusion
+
+## Conclusion
 - iterative process:
     1. Define clear objectives.
     2. Formulate representative datasets (5 D’s).

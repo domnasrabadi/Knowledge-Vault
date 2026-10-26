@@ -8,13 +8,10 @@ created: 2025-07-05
 published: 2024-10-16
 author: Anna Sokol et al.
 flashcards: none
-updated: 2025-12-28
+updated: 2026-10-26
 ---
 # BenchmarkCards: Large Language Model and Risk Reporting
 
-## Metadata
-- Author: Anna Sokol, Nuno Moniz, Elizabeth Daly, Michael Hind, Nitesh Chawla
-- URL: https://arxiv.org/pdf/2410.12974
 ## Highlights
 - benchmark = dataset + evaluation metrics + pre- and post-processing steps used to assess specific llm behaviour
     - lack of standard documentation makes comparison, selection, and result interpretation hard
@@ -52,5 +49,3 @@ updated: 2025-12-28
     - card template may be tailored per domain or stakeholder needs
     - optional additions include interpretability methods, stakeholder explanations, privacy techniques
 - outcome = benchmarkcards aim to standardise benchmark reporting, highlight biases and risks, and support informed llm evaluation
-
----

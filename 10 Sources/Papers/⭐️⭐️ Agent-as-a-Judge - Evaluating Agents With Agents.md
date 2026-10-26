@@ -2,37 +2,33 @@
 type: paper
 status: structured
 quality: 2
-topics: [agent-evaluation, llm-judges, llm-evaluation]
+topics: [agent-evaluation, llm-judges, llm-evaluation, human-in-the-loop]
 source: https://arxiv.org/abs/2410.10934
 created: 2025-07-13
 published: 2024-10-14
 author: Mingchen Zhuge et al.
 flashcards: none
-updated: 2025-12-28
+updated: 2026-10-26
 ---
-# 1 Metadata
-- Author: Mingchen Zhuge, Changsheng Zhao, Dylan Ashley, Wenyi Wang, Dmitrii Khizbullin, Yunyang Xiong, Zechun Liu, Ernie Chang, Raghuraman Krishnamoorthi, Yuandong Tian, Yangyang Shi, Vikas Chandra, Jürgen Schmidhuber
-- Category: pdf
-- URL: https://arxiv.org/pdf/2410.10934
-# 2 Intro & Methodology
+# Intro & Methodology
 - evaluation gap = traditional methods fail for agentic systems
     - focus only on final outcomes, ignoring step-by-step reasoning
     - require heavy manual labour
 - <mark style="background: #FFB8EBA6;">Agent-as-a-Judge</mark> = agentic evaluator for agentic systems
     - extends LLM-as-a-Judge by adding intermediate feedback across the full task trajectory
-	    - evaluates like a human, examining thought + action sequence rather than end product alone
-	    - cost-effective like llm-based judging, yet richer in signals
-	- human-style feedback = continuous, granular evaluation akin to grading coursework rather than multiple-choice tests
-	- DevAI dataset = 55 real-world AI-app development tasks
-	    - designed to benchmark multi-step code-generation agents
-	    - tasks follow standard ai/ml pipeline order
-	        - data processing precedes modelling
-	        - performance reporting occurs last
-	    - topology aids monitoring and signal extraction for agentic evaluation
-	- empirical results
-	    - alignment rate = Agent-as-a-Judge matches human consensus 90 % vs 70 % for LLM-as-a-Judge
-	    - surpasses average single human evaluator in agreement with consensus
-	    - cost savings = 97.7 % time and 97.6 % monetary cost compared with three human experts
+        - evaluates like a human, examining thought + action sequence rather than end product alone
+        - cost-effective like llm-based judging, yet richer in signals
+    - human-style feedback = continuous, granular evaluation akin to grading coursework rather than multiple-choice tests
+- DevAI dataset = 55 real-world AI-app development tasks
+    - designed to benchmark multi-step code-generation agents
+    - tasks follow standard ai/ml pipeline order
+        - data processing precedes modelling
+        - performance reporting occurs last
+    - topology aids monitoring and signal extraction for agentic evaluation
+- empirical results
+    - alignment rate = Agent-as-a-Judge matches human consensus 90 % vs 70 % for LLM-as-a-Judge
+    - surpasses average single human evaluator in agreement with consensus
+    - cost savings = 97.7 % time and 97.6 % monetary cost compared with three human experts
 
 ![[Screenshot 2025-07-13 at 6.07.59 pm.png| center | 500]]
 
@@ -43,27 +39,27 @@ updated: 2025-12-28
         - two rounds of review per requirement
             - round 1 = independent scoring under minimal instructions (58 h total)
             - round 2 = debate to reach consensus (28.5 h)
-	- disagreement analysis
-	    - pairwise disagreement rate = 10–30 % across evaluators
-	        - causes
-	            - missed environment feedback revealing subtle bugs
-	            - differing interpretations of ambiguous requirements
-	    - single human evaluation deemed unreliable
-	- error analysis
-	    - debate round = evaluators present evidence and correct personal errors
-	        - majority vote after debate better approximates ground truth than any individual score
-	        - ensemble classifier principle = aggregated judgment surpasses lone evaluator
-	- consensus evaluation
-	    - not absolute ground truth but closer approximation (Clemen 1989)
-	    - majority alignment with consensus > individual alignment
-	- bias mitigation guidelines
-	    - introduce debate round after each judgment ?
-	    - expand panel size > 5 experts when individual accuracy > 50 % ?
-	        - larger groups reduce variance (Grofman 1983; Hastie & Kameda 2005; Larrick & Soll 2006)
-	- conclusion
-	    - human judgment errors inevitable
-	    - combining debate and sizable expert panels lowers error risk and inductive bias
-# 3 Architecture
+    - disagreement analysis
+        - pairwise disagreement rate = 10–30 % across evaluators
+            - causes
+                - missed environment feedback revealing subtle bugs
+                - differing interpretations of ambiguous requirements
+        - single human evaluation deemed unreliable
+    - error analysis
+        - debate round = evaluators present evidence and correct personal errors
+            - majority vote after debate better approximates ground truth than any individual score
+            - ensemble classifier principle = aggregated judgment surpasses lone evaluator
+    - consensus evaluation
+        - not absolute ground truth but closer approximation
+        - majority alignment with consensus > individual alignment
+    - bias mitigation guidelines
+        - introduce debate round after each judgment ?
+        - expand panel size > 5 experts when individual accuracy > 50 % ?
+            - larger groups reduce variance
+    - conclusion
+        - human judgment errors inevitable
+        - combining debate and sizable expert panels lowers error risk and inductive bias
+# Architecture
 - Agent-as-a-Judge = agentic evaluation framework that replaces human judges with an autonomous agent
     - addresses manual-labour burden and preserves evaluation thoroughness
     - designed to mimic human step-by-step assessment rather than end-point scoring
@@ -78,8 +74,8 @@ updated: 2025-12-28
     - `planning` module = sequences future actions to meet project goals
 - ablation results
     - `ask` alone → 65.03 % alignment rate
-        - + `graph` → 75.95 %
-        - + `read` → 82.24 %
+        - \+ `graph` → 75.95 %
+        - \+ `read` → 82.24 %
     - adding `retrieve` produced negligible gains
     - `memory` inclusion degraded performance by cascading prior errors
 - evaluation metrics
@@ -96,13 +92,13 @@ updated: 2025-12-28
 
 ![[Screenshot 2025-07-13 at 6.07.28 pm.png| center | 400]]
 
-# 4 Discussion & Appendix
+# Discussion & Appendix
 - outlook 1 = intermediate feedback enables agentic self-improvement
     - Agent-as-a-Judge provides step-level signals so agents can detect + fix issues during multistage tasks
     - contrasts with delayed-feedback systems that only assess final outputs
 - outlook 2 = flywheel effect driven by Agent-as-a-Judge
     - continuous interaction between judge and developer agents yields iterative co-evolution
-        - resembles self-play systems (Zelikman 2022; Chen 2024e; Wang 2024b)
+        - resembles self-play systems
         - successive incremental improvements reinforce one another → compounding performance gains
 - experiment hierarchy
     - level 1
@@ -136,7 +132,3 @@ updated: 2025-12-28
 - key takeaway = Agent-as-a-Judge delivers crucial intermediate feedback, fosters a self-reinforcing improvement loop, and offers a scalable alternative to labour-intensive human evaluation
 
 ![[Screenshot 2025-07-13 at 6.08.26 pm.png| center | 700]]
-
-
----
-

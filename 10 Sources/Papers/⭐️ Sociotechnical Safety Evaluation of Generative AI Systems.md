@@ -2,20 +2,15 @@
 type: paper
 status: structured
 quality: 1
-topics: [llm-risks, human-in-the-loop, llm-evaluation]
+topics: [llm-risks, llm-evaluation, adversarial-testing, human-in-the-loop]
 source: https://arxiv.org/abs/2310.11986
 created: 2025-07-21
 published: 2023-10-18
-author: Laura Weidinger et al.
+author: Laura Weidinger, Maribeth Rauh, Nahema Marchal, Arianna Manzini, Lisa Anne Hendricks, Juan Mateos-Garcia, Stevie Bergman, Jackie Kay, Conor Griffin, Ben Bariach, Iason Gabriel, Verena Rieser, William Isaac
 flashcards: none
-updated: 2025-12-28
+updated: 2026-10-26
 ---
-## 0.1 Metadata
-- Author: Laura Weidinger, Maribeth Rauh, Nahema Marchal, Arianna Manzini, Lisa Anne Hendricks, Juan Mateos-Garcia, Stevie Bergman, Jackie Kay, Conor Griffin, Ben Bariach, Iason Gabriel, Verena Rieser, William Isaac
-- Category: pdf
-- Document Tags: good 
-- URL: https://arxiv.org/pdf/2310.11986
-## 0.2 Highlights
+## Highlights
 
 - evaluation = practice of measuring ai system performance or impact
     - safety evaluation = focuses on risks of harm or actualised impacts on people or broader systems
@@ -69,9 +64,9 @@ updated: 2025-12-28
 
 - current state of sociotechnical safety evaluation
     - multimodal gap = limited evaluations for audio, image, video, mixed modalities
+        - multimodal risk tools mainly exist at capability layer
     - coverage gap = several risk areas lack evaluations
     - context gap = few evaluations at human interaction and systemic layers; most cluster at capability layer
-    - multimodal risk tools mainly exist at capability layer
 - closing evaluation gaps
     - construct novel evaluations via operationalisation = translate rich harm concepts into measurable metrics
     - model-driven evaluation = use pre-trained generative models as flexible evaluators

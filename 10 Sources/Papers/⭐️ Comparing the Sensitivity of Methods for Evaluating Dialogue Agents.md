@@ -2,20 +2,15 @@
 type: paper
 status: structured
 quality: 1
-topics: [agent-evaluation, evaluation-metrics, human-in-the-loop]
+topics: [llm-evaluation, evaluation-metrics, human-in-the-loop]
 source: https://arxiv.org/abs/2201.04723
 created: 2025-08-10
 published: 2022-01-12
-author: Eric Michael Smith et al.
+author: Eric Michael Smith, Orion Hsu, Rebecca Qian, Stephen Roller, Y-Lan Boureau, Jason Weston
 flashcards: none
-updated: 2025-12-28
+updated: 2026-10-26
 ---
-# 1 Metadata
-- Author: 
-- Category: pdf
-- Document Tags: ⭐️⭐️ very good 
-- URL: https://arxiv.org/pdf/2201.04723
-# 2 Highlights
+# Highlights
 - challenge = finding reliable methods to evaluate conversations for conversational AI
 - evaluation dimensions
     - **per-turn evaluation** = rating after every model response
@@ -34,7 +29,7 @@ updated: 2025-12-28
     - **single-model** = annotator rates one model alone
         - better when direct comparison not needed
         - may underperform when differences are subtle or emerge over time
-### 2.1.1 Key findings
+## Key Findings
 - evaluations must cover multiple turns to detect faults like repetitiveness or contradictions
 - **pairwise per-turn** = best for spotting performance changes during conversation
 - **pairwise per-dialogue** = best for differences that appear only after several turns or in aggregate patterns (e.g., average length)
@@ -43,7 +38,7 @@ updated: 2025-12-28
 
 ---
 
-## 2.2 Evaluation Techniques
+## Evaluation Techniques
 - **single-model per-turn** (SM-Turn) = annotate each response on engagement, human-likeness, and interest
 - **single-model per-dialogue** (SM-Dialog) = end-of-conversation Likert ratings for same metrics
 - **pairwise per-turn** (PW-Turn) = choose best model response after each turn
@@ -52,7 +47,7 @@ updated: 2025-12-28
 
 ---
 
-## 2.3 Methodology Details
+## Methodology Details
 - conversations = between crowdworker (human speaker) and bot (model)
 - **PW-Turn** = after every human message, worker picks better of two model responses
 - **PW-Dialog** = worker reads two complete dialogues and selects better
@@ -68,7 +63,7 @@ updated: 2025-12-28
 
 ---
 
-## 2.4 Results Overview
+## Results Overview
 - **model win rates by turn** = PW-Turn can track win-rate changes over conversation length, unlike PW-Dialog
 - **fine-tuning comparison** = PW-Turn performs best (detects nonsensical replies during live conversation)
 - **length comparison** = pairwise methods outperform single-model
