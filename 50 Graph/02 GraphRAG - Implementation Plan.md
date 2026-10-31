@@ -12,11 +12,11 @@ updated: 2026-10-19
 ---
 # Knowledge Vault GraphRAG — Implementation Plan
 
-How and in what order to build what the [[Knowledge Vault GraphRAG - Design Spec|design spec]] describes. The spec says what the system is and why; this plan says what to do next. If they disagree, the spec wins. Status and orientation live in [[GraphRAG - Start Here]].
+How and in what order to build what the [[01 GraphRAG - Design Spec|design spec]] describes. The spec says what the system is and why; this plan says what to do next. If they disagree, the spec wins. Status and orientation live in [[00 GraphRAG - Start Here]].
 
 ## Where things stand
 
-As of 2026-10-19 the design is complete and nothing is built. The spec is at `50 Graph/Knowledge Vault GraphRAG - Design Spec.md`. No code exists yet, `50 Graph/.graphrag/` has not been created, and none of the housekeeping diffs below have been applied.
+As of 2026-10-19 the design is complete and nothing is built. The spec is at `50 Graph/01 GraphRAG - Design Spec.md`. No code exists yet, `50 Graph/.graphrag/` holds only `docs/atlas.html`, and none of the housekeeping diffs below have been applied.
 
 Next steps, in order:
 
@@ -31,9 +31,9 @@ Code goes in a dot-folder inside the graph's own folder: `50 Graph/.graphrag/` (
 ```text
 Knowledge Vault/
 └── 50 Graph/
-    ├── Knowledge Vault GraphRAG - Design Spec.md
-    ├── Knowledge Vault GraphRAG - Implementation Plan.md
-    ├── GraphRAG - Start Here.md
+    ├── 00 GraphRAG - Start Here.md
+    ├── 01 GraphRAG - Design Spec.md
+    ├── 02 GraphRAG - Implementation Plan.md
     ├── Review Queue.md, Review Log.md
     ├── Registry/                   <kind>--<slug>.md, generated: true
     ├── Concepts/                   MOC pages, generated: true
@@ -100,7 +100,7 @@ New section before "Other things to know":
 ```diff
 +## GraphRAG index
 +
-+A claim-centred graph over `10 Sources/` and `20 Books/`. Start at `50 Graph/GraphRAG - Start Here.md`. Spec: `50 Graph/Knowledge Vault GraphRAG - Design Spec.md`. Engine: `50 Graph/.graphrag/`.
++A claim-centred graph over `10 Sources/` and `20 Books/`. Start at `50 Graph/00 GraphRAG - Start Here.md`. Spec: `50 Graph/01 GraphRAG - Design Spec.md`. Engine: `50 Graph/.graphrag/`.
 +
 +- It never edits notes. It writes only to `50 Graph/`, and never reads `50 Graph/` as input.
 +- Uncertain decisions go to `50 Graph/Review Queue.md`. Dom writes `approve`, `reject` or `edit: …`; the next sync applies them.

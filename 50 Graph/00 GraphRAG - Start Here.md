@@ -19,8 +19,8 @@ The entry point for the Knowledge Vault GraphRAG project, for Dom and for any Cl
 | File | What it is | Use it when | It changes when |
 | --- | --- | --- | --- |
 | **This note** | Status, decisions so far, open decisions, working rules | Starting a session; checking where things are | After each session or phase |
-| [[Knowledge Vault GraphRAG - Design Spec\|Design Spec]] | **What** the system is and **why**: graph model, schema, resolution, scoring, query pipeline, every number, open questions. The source of truth | Deciding how something should behave, or checking a rule or a number | A design decision is made or changed |
-| [[Knowledge Vault GraphRAG - Implementation Plan\|Implementation Plan]] | **How and in what order** to build it: folder layout, housekeeping diffs, what to settle before code, phase-by-phase tasks, Dom's part, risks | Deciding what to do next, or working through a phase | Work progresses or a phase is finished |
+| [[01 GraphRAG - Design Spec\|Design Spec]] | **What** the system is and **why**: graph model, schema, resolution, scoring, query pipeline, every number, open questions. The source of truth | Deciding how something should behave, or checking a rule or a number | A design decision is made or changed |
+| [[02 GraphRAG - Implementation Plan\|Implementation Plan]] | **How and in what order** to build it: folder layout, housekeeping diffs, what to settle before code, phase-by-phase tasks, Dom's part, risks | Deciding what to do next, or working through a phase | Work progresses or a phase is finished |
 | `50 Graph/.graphrag/docs/atlas.html` | A visual, interactive explainer of the spec. Not authoritative and may lag behind the spec | Getting an intuition for the design; open it in a browser (Obsidian hides the folder) | Rarely; regenerate it if it drifts |
 
 **If the spec and the plan disagree, the spec wins.** Fix the plan.
