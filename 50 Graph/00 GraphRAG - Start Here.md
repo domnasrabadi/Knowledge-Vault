@@ -21,7 +21,7 @@ The entry point for the Knowledge Vault GraphRAG project, for Dom and for any Cl
 | **This note** | Status, decisions so far, open decisions, working rules | Starting a session; checking where things are | After each session or phase |
 | [[01 GraphRAG - Design Spec\|Design Spec]] | **What** the system is and **why**: graph model, schema, resolution, scoring, query pipeline, every number, open questions. The source of truth | Deciding how something should behave, or checking a rule or a number | A design decision is made or changed |
 | [[02 GraphRAG - Implementation Plan\|Implementation Plan]] | **How and in what order** to build it: folder layout, housekeeping diffs, what to settle before code, phase-by-phase tasks, Dom's part, risks | Deciding what to do next, or working through a phase | Work progresses or a phase is finished |
-| `50 Graph/.graphrag/docs/atlas.html` | A visual, interactive explainer of the spec. Not authoritative. It predates the 2026-11-15 revision | Getting an intuition for the design; open it in a browser (Obsidian hides the folder) | Rarely; regenerate it if it drifts |
+| `50 Graph/.graphrag/docs/atlas.html` | A visual, interactive explainer of the spec. Not authoritative and may lag behind the spec. Last updated 2026-11-15 | Getting an intuition for the design; open it in a browser (Obsidian hides the folder) | Rarely; regenerate it if it drifts |
 
 **If the spec and the plan disagree, the spec wins.** Fix the plan.
 
@@ -35,7 +35,7 @@ The entry point for the Knowledge Vault GraphRAG project, for Dom and for any Cl
 ## Status
 
 - **Done:** design spec; implementation plan; diagrams in the spec (Graphviz, rendered by the obsidian-graphviz plugin on desktop); a review against the vault's real numbers on 2026-11-15, applied to the spec and plan.
-- **Known lag:** the Atlas still shows the pre-revision design. The six affected spec diagrams were relabelled on 2026-11-15 and match the text.
+- **Up to date with the 2026-11-15 revision:** the six affected spec diagrams (relabelled) and the Atlas, both the offline copy and the published artifact.
 - **Not started:** the housekeeping diffs (plan, Proposed diffs); `50 Graph/.graphrag/` exists only for `docs/atlas.html`; no code, no store, no `.env`.
 - **Next:** Dom applies the housekeeping diffs, the cost estimate runs, then phase 0.
 
