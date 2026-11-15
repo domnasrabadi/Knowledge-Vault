@@ -35,7 +35,7 @@ The entry point for the Knowledge Vault GraphRAG project, for Dom and for any Cl
 ## Status
 
 - **Done:** design spec; implementation plan; diagrams in the spec (Graphviz, rendered by the obsidian-graphviz plugin on desktop); a review against the vault's real numbers on 2026-11-15, applied to the spec and plan.
-- **Known lag:** six spec diagrams and the Atlas still show the pre-revision design where it differs. The spec text wins.
+- **Known lag:** the Atlas still shows the pre-revision design. The six affected spec diagrams were relabelled on 2026-11-15 and match the text.
 - **Not started:** the housekeeping diffs (plan, Proposed diffs); `50 Graph/.graphrag/` exists only for `docs/atlas.html`; no code, no store, no `.env`.
 - **Next:** Dom applies the housekeeping diffs, the cost estimate runs, then phase 0.
 
