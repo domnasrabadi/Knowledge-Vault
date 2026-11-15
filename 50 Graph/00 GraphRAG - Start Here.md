@@ -36,7 +36,7 @@ The entry point for the Knowledge Vault GraphRAG project, for Dom and for any Cl
 
 - **Done:** design spec; implementation plan; diagrams in the spec (Graphviz, rendered by the obsidian-graphviz plugin on desktop); a review against the vault's real numbers on 2026-11-15, applied to the spec and plan.
 - **Up to date with the 2026-11-15 revision:** the six affected spec diagrams (relabelled) and the Atlas, both the offline copy and the published artifact.
-- **Drafted, untested:** two of the seven prompts, in `50 Graph/prompts/`: [[P3 - Claim Extraction]] and [[P11 - Citation Support Judge]] (2026-11-15). Their examples are invented and each lists open points for Dom. The plan's layout still puts prompts in `.graphrag/prompts/`; which folder the code loads from is not decided.
+- **Drafted, untested:** six of the seven prompts, in `50 Graph/prompts/`: [[P1 - Mention Extraction]], [[P2 - Mention Adjudication]], [[P3 - Claim Extraction]], [[P4 - Claim Matching]], [[P11 - Citation Support Judge]] and [[P14 - Exhaustiveness Check]] (2026-11-16). Their examples are invented and each lists open points for Dom. P6 (community summary) waits for phase 5. Planned next: a dry run of all six on three hand-picked notes. The code will load prompts from `.graphrag/prompts/`, as the plan says (decided 2026-11-16). The drafts stay in `50 Graph/prompts/` for review in Obsidian, which hides the dot-folder, and move across when phase 0 creates the code layout.
 - **Not started:** the housekeeping diffs (plan, Proposed diffs); `50 Graph/.graphrag/` exists only for `docs/atlas.html`; no code, no store, no `.env`.
 - **Next:** Dom applies the housekeeping diffs, the cost estimate runs, then phase 0.
 

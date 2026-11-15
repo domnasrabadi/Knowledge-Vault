@@ -115,8 +115,8 @@ These two examples illustrate the rules. They are short and invented; real notes
 <note_metadata>title: Why Your Judge Needs Checking | author: A. Writer | type: article | status: raw | published: 2025-03-10</note_metadata>
 <mentions>
 P-01: none
-P-02: reg-014 "LLM-as-a-judge"; reg-102 "human labels"
-P-03: reg-014 "LLM-as-a-judge"; reg-077 "pairwise comparison"
+P-02: reg:concept:llm-as-a-judge "LLM-as-a-judge"; reg:concept:human-labels "human labels"
+P-03: reg:concept:llm-as-a-judge "LLM-as-a-judge"; reg:concept:pairwise-comparison "pairwise comparison"
 </mentions>
 <note>
 <passage id="P-01" breadcrumb="Why Your Judge Needs Checking">Title: Why Your Judge Needs Checking. Author: A. Writer. Tags: evals. Saved from the web.</passage>
@@ -129,7 +129,7 @@ P-03: reg-014 "LLM-as-a-judge"; reg-077 "pairwise comparison"
   {"text": "An LLM-as-a-judge cannot be trusted without first being checked against human labels.",
    "qualifiers": [],
    "passage_ids": ["P-02"],
-   "about": [{"id": "reg-014", "new_name": null, "new_kind": null}, {"id": "reg-102", "new_name": null, "new_kind": null}],
+   "about": [{"id": "reg:concept:llm-as-a-judge", "new_name": null, "new_kind": null}, {"id": "reg:concept:human-labels", "new_name": null, "new_kind": null}],
    "relation_phrases": [{"from": 0, "to": 1, "phrase": "must be checked against"}],
    "referenced_time": null,
    "volatility": "evolving",
@@ -137,7 +137,7 @@ P-03: reg-014 "LLM-as-a-judge"; reg-077 "pairwise comparison"
   {"text": "In one team's projects, LLM-as-a-judge setups never compared with human labels disagreed with domain experts on roughly a third of cases.",
    "qualifiers": ["in one team's projects", "judges never compared with human labels"],
    "passage_ids": ["P-02"],
-   "about": [{"id": "reg-014", "new_name": null, "new_kind": null}, {"id": null, "new_name": "domain expert", "new_kind": "concept"}],
+   "about": [{"id": "reg:concept:llm-as-a-judge", "new_name": null, "new_kind": null}, {"id": null, "new_name": "domain expert", "new_kind": "concept"}],
    "relation_phrases": [{"from": 0, "to": 1, "phrase": "disagrees with"}],
    "referenced_time": null,
    "volatility": "evolving",
@@ -145,7 +145,7 @@ P-03: reg-014 "LLM-as-a-judge"; reg-077 "pairwise comparison"
   {"text": "An LLM-as-a-judge tends to be more reliable at pairwise comparison of two outputs than at assigning a 1-5 score.",
    "qualifiers": [],
    "passage_ids": ["P-03"],
-   "about": [{"id": "reg-014", "new_name": null, "new_kind": null}, {"id": "reg-077", "new_name": null, "new_kind": null}],
+   "about": [{"id": "reg:concept:llm-as-a-judge", "new_name": null, "new_kind": null}, {"id": "reg:concept:pairwise-comparison", "new_name": null, "new_kind": null}],
    "relation_phrases": [{"from": 0, "to": 1, "phrase": "is more reliable at"}],
    "referenced_time": null,
    "volatility": "evolving",
