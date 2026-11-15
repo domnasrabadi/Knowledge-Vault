@@ -8,7 +8,7 @@ created: 2026-10-19
 published:
 author: Dom Nasrabadi
 flashcards: none
-updated: 2026-10-19
+updated: 2026-11-15
 ---
 # Knowledge Vault GraphRAG — Implementation Plan
 
@@ -16,13 +16,20 @@ How and in what order to build what the [[01 GraphRAG - Design Spec|design spec]
 
 ## Where things stand
 
-As of 2026-10-19 the design is complete and nothing is built. The spec is at `50 Graph/01 GraphRAG - Design Spec.md`. No code exists yet, `50 Graph/.graphrag/` holds only `docs/atlas.html`, and none of the housekeeping diffs below have been applied.
+As of 2026-11-15 the design has been revised after a review against the vault's real numbers, and nothing is built. The spec is at `50 Graph/01 GraphRAG - Design Spec.md`. No code exists yet, `50 Graph/.graphrag/` holds only `docs/atlas.html`, and none of the housekeeping diffs below have been applied.
+
+What the review changed in this plan:
+
+- **A usable tool after phase 1.** Passage search plus an answering agent is both the first tool and the baseline every later layer must beat.
+- **The question set comes first**, written from Dom's real questions and the notes, not sampled from the built graph.
+- **Phases renumbered 0–6.** The pilot is its own phase and ends in a decision. The query-pipeline and evaluation-harness phases are gone.
+- **Simplification trims 1–9 are applied**, so P5, P7, P8, P9, P10, P12 and P13 are deferred.
 
 Next steps, in order:
 
 1. Dom reviews and applies the housekeeping diffs (`.gitignore`, `AGENTS.md`, vault-lint, vault-digest).
-2. Settle the open decisions that block code (see Before any code). Decide the simplification review first, because it shrinks phases 4–8. A local cost-estimate script gives real numbers for the budget decision.
-3. Build phases 0–8 in order, stopping at each exit check for Dom's review.
+2. Run the local cost estimate; Dom picks the model tier and the cost ceiling.
+3. Build phases 0–6 in order, stopping at each exit check for Dom's review.
 
 ## Proposed layout
 
@@ -35,26 +42,27 @@ Knowledge Vault/
     ├── 01 GraphRAG - Design Spec.md
     ├── 02 GraphRAG - Implementation Plan.md
     ├── Review Queue.md, Review Log.md
-    ├── Registry/                   <kind>--<slug>.md, generated: true
-    ├── Concepts/                   MOC pages, generated: true
-    ├── Reports/<date>/             hub audit, metrics, re-extraction diffs
+    ├── Reports/<date>/             hub audit, metrics, re-extraction stats diffs
+    ├── Concepts/                   MOC pages, generated: true (deferred)
     └── .graphrag/                  code home (hidden), tracked unless marked
         ├── docs/atlas.html         visual explainer; open in a browser
         ├── pyproject.toml, uv.lock
-        ├── config.yaml             every tunable number (spec: Config and defaults)
-        ├── prompts/                P1_mention_extraction.md … P14_exhaustiveness.md
+        ├── config.yaml             every tunable number, the exclude list, group overrides
+        ├── registry_overrides.yaml Dom's edits to aliases and definitions
+        ├── prompts/                P1, P2, P3, P4, P6, P11, P14
         ├── src/vault_graphrag/     parse, chunk, resolve, claims, score,
-        │                           communities, writeback, sync, query, eval
+        │                           communities, sync, tools, eval
         ├── tests/                  unit tests + fixture notes
-        ├── eval/                   query set, evidence labels, judge calibration
-        ├── export/                 JSONL snapshot of LLM outputs, committed each sync
-        ├── store/                  graph + vector store            (gitignored)
+        ├── eval/                   query set, evidence labels, Dom's grades
+        ├── export/                 registry.jsonl + one sorted JSONL per source note,
+        │                           committed each sync
+        ├── store/                  SQLite store + vectors          (gitignored)
         ├── cache/                  LLM response cache, embeddings  (gitignored)
         ├── logs/                   queries.jsonl, run logs         (gitignored)
         └── .env                    API keys                        (gitignored)
 ```
 
-The spec's query log is `.graphrag/logs/queries.jsonl`, under `50 Graph/`. A plain, non-dot subfolder would not work: its files would show up in Obsidian and fail vault-lint.
+The Registry is data in `export/registry.jsonl`, not a folder of notes (changed 2026-11-15). The spec's query log is `.graphrag/logs/queries.jsonl`. A plain, non-dot subfolder would not work: its files would show up in Obsidian and fail vault-lint.
 
 ## Proposed diffs (not applied)
 
@@ -79,13 +87,13 @@ Five files need changes before phase 0, so that `50 Graph/` and `50 Graph/.graph
 Layout table: add a row after `40 System/`.
 
 ```diff
-+| `50 Graph/` | Output of the GraphRAG index: its design spec, implementation plan, Registry, Review Queue and Log, generated concept pages, reports. Engine code lives in the hidden `50 Graph/.graphrag/`. | Written by the graph pipeline. Dom edits only Review Queue decisions and Registry aliases and definitions |
++| `50 Graph/` | Output of the GraphRAG index: its design spec, implementation plan, Review Queue and Log, reports, and (later) generated concept pages. Engine code and the Registry live in the hidden `50 Graph/.graphrag/`. | Written by the graph pipeline. Dom edits only Review Queue decisions |
 ```
 
 Frontmatter rules: add a bullet.
 
 ```diff
-+- **Generated notes** (`generated: true`, in `50 Graph/Registry/` and `50 Graph/Concepts/`) use the graph's own frontmatter, not this schema. Don't hand-edit them, except Registry aliases and definitions.
++- **Generated notes** (`generated: true`, in `50 Graph/Concepts/`) use the graph's own frontmatter, not this schema. Don't hand-edit them.
 ```
 
 Git section: extend "What git tracks".
@@ -117,7 +125,7 @@ New section before "Other things to know":
 ```diff
  ## Checks
 +
-+**Graph exemptions.** Notes with `generated: true` (`50 Graph/Registry/`, `50 Graph/Concepts/`) and `50 Graph/Review Queue.md` and `Review Log.md` skip checks 1–5 and 9. Their kebab-case `<kind>--<slug>.md` names are intended. Wikilinks in them are still checked (8).
++**Graph exemptions.** Notes with `generated: true` (`50 Graph/Concepts/`) and `50 Graph/Review Queue.md` and `Review Log.md` skip checks 1–5 and 9. Their kebab-case `<kind>--<slug>.md` names are intended. Wikilinks in them are still checked (8).
 ```
 
 ```diff
@@ -141,43 +149,53 @@ After Dom applies diffs 3 and 4, the other agent updates its adapted copies of `
 
 ## Before any code
 
-These open decisions block or reshape the build. They are listed in full under Open questions in the spec. A local cost estimate, which sends no vault text anywhere, gives the cost decision real numbers.
+Most of the decisions that blocked code were settled on 2026-11-15. The full list is under Open questions in the spec.
 
-| Open decision | Options | Claude's suggestion | Blocks |
-| --- | --- | --- | --- |
-| Simplification review (10 trims) | Apply some, all or none | Decide first: trims 1, 2, 3 and 5 alone remove P9, P10 and P12 and shrink phases 6–7 | Phases 4–8 |
-| Storage stack | Embedded (SQLite + a vector extension, igraph and leidenalg for clustering) · Neo4j server · a GraphRAG library | Embedded: one file, no server, easy to rebuild from JSONL. A library would fight the claim-centred model | Phase 0 |
-| Highlight density and voice | Keep as specified · drop highlight density and set voice by note status | Drop it: the vault rarely uses `<mark>`, so the factor is about 1.0 everywhere | Phase 1 |
-| Data egress: embeddings | Hosted embedding API · local model | Decide after the cost estimate. Local is free and private; hosted is usually stronger | Phase 1 |
-| Data egress: LLM prompts | Claude API · local LLM | Claude API: P2–P4 quality drives everything downstream | Phase 2 |
-| Cost ceiling | A budget for one full run | Set it from the estimate below | Phase 2 |
-| Support in ranking | Rerank fused results by query-time support · tie-break only · evidence labels only | Decide in phase 7 against the fixed queries | Phase 7 |
-| Expansion algorithm, answer context | See the spec | Leave open until phase 7 evaluation | Phase 7 |
-| Unrated weight | Same as ⭐, or less | Keep the default (1.0) and tune in evaluation | Nothing |
-| Query interface | MCP, skill, CLI, explorer | Leave until after phase 8, as the spec says | Nothing |
+| Decision | State | Blocks |
+| --- | --- | --- |
+| Simplification review | **Decided:** trims 1–9 applied | — |
+| Storage stack | **Decided:** embedded. SQLite with FTS5, vectors in a plain array, igraph and leidenalg | — |
+| Highlight density and voice | **Decided:** density dropped; voice set by note status | — |
+| Data egress | **Decided:** any hosted API is allowed. Embeddings still default to a local model | — |
+| Cost ceiling and model tier | Open. Set from the estimate below | Phase 2 |
+| Local embedding model | Open. Claude proposes one in phase 0 | Phase 1 |
+| MindBranches voice | Open. Are the 22 distilled MindBranches summaries Dom's own words? | Nothing until the worldview layer |
+| Backfilling `published` | Open. 157 of 326 notes have none; decay falls back to `created` meanwhile | Nothing; improves decay and temporal queries |
+| How much scoring to keep | Open. Decided at the phase 2 exit from the multi-group support share | Phase 4 |
+| Support in ranking | Open. Decide after the pilot | Phase 4 |
+| Expansion algorithm, answer context | Open. Leave until phase 5 evaluation | Phase 5 |
+| Unrated weight | Open. Keep the default (1.0) and tune in evaluation | Nothing |
+| Query interface | Open. Leave until after phase 6 | Nothing |
 
 **Cost estimate (step 0):**
 
 1. A script parses and chunks every in-scope note, using the phase 1 chunker in draft form. Nothing leaves the machine.
-2. It counts passages, tokens per passage, and expected calls per prompt: P1, P3 and P4 per passage; P2 per mention not matched exactly, at an assumed rate set in config and refined after the phase 2 pilot; P11 and P14 on their samples.
-3. It prices one full run at three model tiers, using current prices checked at the time, and adds re-extraction and evaluation runs.
+2. It counts notes, passages and tokens, and the expected calls per prompt:
+   - P1: one call per passage.
+   - P2: one call per mention that has no exact match. This is highest at the start, when the Registry is empty; the rate is an assumption in config, refined after the pilot.
+   - P3: one call per note, or per top-level section for long notes.
+   - P4: one call per claim cluster on the first build (per claim on incremental sync). Claims per note is an assumption in config, refined after the pilot.
+   - P6, P11 and P14 on their samples and communities.
+3. It prices one full run at three model tiers, using current prices checked at the time and batch pricing where the step can be batched, and adds one re-extraction.
 4. Dom picks the tier and sets the ceiling. The ceiling goes into `config.yaml` as a hard stop: a run halts when spend reaches it.
+
+The corpus is about 1M tokens, so the expectation is tens to low hundreds of dollars for a full run at a mid-tier model. That figure is a guess until the script runs.
 
 ## Step-by-step build
 
-Each phase ends at its spec exit check, and Claude stops there for Dom's review before starting the next. Phases 2 and 4 run on a 20-note pilot set first: prompts get tuned while runs are cheap, before the full corpus. If simplification trims are applied, remove the matching tasks below.
+Each phase ends at its spec exit check, and Claude stops there for Dom's review before starting the next. From phase 4 on, a layer must beat the previous one on the fixed queries. If it doesn't, Dom decides whether to fix it or drop it.
 
 | Phase | Tasks | Dom's part | Exit check |
 | --- | --- | --- | --- |
-| 0. Setup | `uv` project in `50 Graph/.graphrag/`; `config.yaml` with every spec default; prompt file template (version, JSON schema, examples); lineage and logging helpers; LLM client with retries, response cache and the spend cap; stub pipeline; pick the pilot set (20 notes covering all four types, a Book, raw and distilled notes, structured notes with `<mark>`, and unrated notes) | Apply the diffs; approve the stack; add API keys to `.env` | One test note runs end to end through the stub |
-| 1. Parse and chunk | Frontmatter parser; heading, bullet and sentence chunker that keeps code blocks and tables whole; voice and highlight density (as decided); Book detection and IN\_BOOK; independence groups (Book, raw + distilled pairs, config overrides); stable IDs; passage embeddings and BM25 index; JSONL export | Spot-check 10 notes' passages | All in-scope notes parsed; no passage over 400 tokens except a lone code block or table; re-runs give identical IDs |
-| 2. Registry bootstrap | P1 and P2 with vault examples; exact-match normaliser; candidate search; pilot run, tune, then full run; clustering and auto-merge; Registry files; Review Queue writer and reader; resolution audit sampler | Review the top 100–150 clusters and every `unsure` item; label 50 auto-merges | Linking rate ≥ 75%; resolution audit ≥ 95% |
-| 3. Concept graph | Weighted NPMI with the rare-pair guard; CO\_OCCURS edges; degree and degree-change tracking; hub audit report | Classify the top-20 hubs | Dom has reviewed the audit; no boilerplate in the top 20 |
-| 4. Claims | P3, P4, P5, P11 and P14; claim matching in neighbourhoods; supersession; support and opposition; post-write checks and rejection log; relation-phrase clustering; pilot first | Spot-check P14 misses; decide whether to merge P1 and P3 | Exhaustiveness ≥ 0.8; citation support ≥ 90% |
-| 5. Communities and write-back | Hierarchical Leiden; P6 summaries with `built_from`; P7 MOC pages; P8 taxonomy suggestions; Concepts pages; then draft the evaluation sets (40 queries, 15 evidence labels, calibration pairs) | Check pages in Obsidian; run vault-lint; edit the drafted evaluation sets | Pages render; vault-lint passes |
-| 6. Incremental sync | Git-diff sync (adds, edits, renames, deletes); passage reuse by `text_hash`; frontmatter-only reweighting; staleness tracking; retry list; shadow graph and diff report; one `sync` command | Approve a test re-extraction diff | Edit, rename and delete of a test note each update the graph correctly |
-| 7. Query pipeline | P9, P10 and P12; retrieval channels (passage vectors, BM25, claim vectors, graph expansion, community summaries); RRF; coverage loop with its five tools; P11 citation filter; answer format; query log | Read the answers to all 40 queries | All 40 answered with valid citations |
-| 8. Evaluation harness | P13 judge; calibration on 40 pairs and held-out check on 20; metrics and per-run reports; a regression gate for prompt or model changes | Label 60 calibration pairs; spot-check 10 judgements | Held-out TPR and TNR ≥ 0.8; first scores recorded |
+| 0. Setup | `uv` project in `50 Graph/.graphrag/`; `config.yaml` with every spec default; SQLite store with FTS5; local embedding model; prompt file template (version, JSON schema, examples); `runs` table and logging; LLM client with retries, response cache and the spend cap; stub pipeline | Apply the diffs; add API keys to `.env`; pick the tier and ceiling from the estimate | One test note runs end to end through the stub |
+| 1. Parse, chunk and baseline | Frontmatter parser; heading, bullet and sentence chunker that keeps code blocks and tables whole; voice by note status; exclude list; Book detection and IN\_BOOK; independence groups (Book, raw + distilled pairs, config overrides); stable IDs; passage embeddings and BM25; `search_text` and `read_source` as CLI tools; the fixed query set; baseline answers from an agent using only those two tools | Write 20–30 real questions; edit Claude's additions; spot-check 10 notes' passages; grade the baseline answers | All in-scope notes parsed; no passage over 400 tokens except a lone code block or table; re-runs give identical IDs; baseline graded |
+| 2. Pilot | Pick 20 notes from one topic cluster (e.g. LLM evaluation), so claims from different sources can overlap, covering raw, structured and distilled notes and at least one Book; P1 and P2 with vault examples; P3 per note; P4; tune prompts; P11 and P14 samples; measure the multi-group support share | Spot-check P14 misses; decide how much scoring to keep and whether support enters ranking | Exhaustiveness ≥ 0.8 and citation support ≥ 90% on the pilot; scoring decision made |
+| 3. Registry, full corpus | Exact-match normaliser; candidate search; full P1 and P2 run; clustering and auto-merge; Registry export; `registry_overrides.yaml` reader; Review Queue writer and reader; resolution audit sampler; `resolve_entity` tool | Review up to the review budget (100 items, biggest first); label 50 auto-merges | Linking rate ≥ 75%; resolution audit ≥ 95% |
+| 4. Claims, full corpus | P3 over every note; claim embeddings; cluster-then-adjudicate matching with P4; supersession; support and opposition; post-write checks and rejection log; claim search tool; rerun the fixed queries | Grade the answers against the baseline | Exhaustiveness ≥ 0.8; citation support ≥ 90%; beats the baseline |
+| 5. Concept graph and communities | Section-level co-occurrence; weighted NPMI with the rare-pair guard of 3; CO\_OCCURS edges; one hub audit; one-level Leiden; P6 summaries with `built_from`; `expand`, `find_paths` and community search tools; rerun the fixed queries | Classify the top-20 hubs; grade the connective and global answers | Hub audit reviewed; no boilerplate in the top 20; beats phase 4 on connective and global queries |
+| 6. Sync | Git-diff sync (adds, edits, renames, deletes); passage reuse by `text_hash`; sequential P4 for new claims; full recompute of non-LLM steps; retry list; rebuild into a new store file with a stats diff; per-source JSONL export; one `sync` command | Approve a test re-extraction diff | Edit, rename and delete of a test note each update the graph correctly |
+
+After phase 6: choose the query interface. Then, as needed, the deferred items: concept pages (P7), relation types (P5), taxonomy suggestions (P8), the P13 judge, standalone query prompts (P9, P10, P12) and usage feedback.
 
 ## Risks and mitigations
 
@@ -185,12 +203,14 @@ The biggest risk is Obsidian Git pushing whatever is on disk every 15 minutes, i
 
 | Risk | Mitigation |
 | --- | --- |
+| The graph layers don't beat plain search | The phase 1 baseline and the "beats the baseline" exit checks. A layer that fails is fixed or dropped before anything is built on it |
+| Support separates too few claims to matter | The multi-group support share is measured in the pilot, before the full run is paid for |
 | Auto-commit pushes half-finished code or broken JSONL | Write the JSONL export atomically (temp file, then rename) and only at the end of a successful sync. Code in progress is acceptable in a private repo |
 | API keys committed | `.env` gitignored before the first key exists; a check in the sync command refuses to run if `.env` is tracked |
-| Store or cache ends up in git | Ignore rules applied in step 1, before phase 0 creates any store; a size check in the sync command warns if a tracked file under `50 Graph/.graphrag/` exceeds 5 MB |
-| Extraction costs more than expected | Cost estimate first; spend cap in `config.yaml`; response cache so re-runs don't re-pay; pilot set before the full run |
-| Generated notes clutter Obsidian search and graph | `generated: true` on every page; optionally add `50 Graph/Registry` and `50 Graph/Reports` to Obsidian's Excluded files |
-| Review load is too heavy | Thresholds in config; the bootstrap review is capped at 100–150 clusters; the Review Queue is sorted by impact (mentions affected) |
+| Store or cache ends up in git | Ignore rules applied in step 1, before phase 0 creates any store; a size check in the sync command warns if a tracked file under `50 Graph/.graphrag/` exceeds 5 MB. The export is one file per source note, so no single file should come near that |
+| Extraction costs more than expected | Cost estimate first; spend cap in `config.yaml`; response cache so re-runs don't re-pay; pilot before the full run |
+| Generated notes clutter Obsidian search and graph | The Registry is data, not notes; concept pages are deferred and limited to entries with 3 or more groups; optionally add `50 Graph/Reports` to Obsidian's Excluded files |
+| Review load is too heavy | New entries are auto-approved; only merges and `unsure` links are queued; the bootstrap review is capped by the review budget; the Review Queue is sorted by impact (mentions affected) |
 | Two machines sync mid-run | Sync takes a lock file in `50 Graph/.graphrag/` and checks HEAD hasn't moved before writing |
 
 ## Extra proposals
@@ -198,9 +218,8 @@ The biggest risk is Obsidian Git pushing whatever is on disk every 15 minutes, i
 These are not in the spec. Each is small, and Dom can drop any of them.
 
 - **Cost estimate before phase 0** (see Before any code): turns the budget question into numbers without sending any vault text out.
-- **Pilot set of 20 notes:** prompt tuning on cheap runs before the full corpus.
 - **Spend cap and response cache** in the LLM client: re-runs after a crash or a config change cost nothing for unchanged inputs.
-- **One CLI entry point:** `uv run graphrag <estimate|build|sync|review|eval>`, so the later query interface (MCP or skill) wraps a single tool.
-- **Fixture notes in `tests/`:** small synthetic notes for each chunking edge case (nested bullets, a long code block, a table, `<mark>` across bullets), so phase 1 is tested without depending on real notes.
+- **One CLI entry point:** `uv run graphrag <estimate|build|sync|search|review|eval>`, so the later query interface (MCP or skill) wraps a single tool.
+- **Fixture notes in `tests/`:** small synthetic notes for each chunking edge case (nested bullets, a long code block, a table), so phase 1 is tested without depending on real notes.
 - **Review Queue counts in `vault-digest`** (diff 4): pending graph reviews appear in the weekly agenda.
-- **Spec housekeeping:** once phase 0 picks the tokenizer and store, and whenever an open decision is settled, update the spec so it stays the source of truth.
+- **Spec housekeeping:** whenever an open decision is settled, update the spec so it stays the source of truth.

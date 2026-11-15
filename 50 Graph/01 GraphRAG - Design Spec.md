@@ -27,11 +27,13 @@ Build a claim-centred GraphRAG over Dom's Knowledge Vault. It answers questions 
 - **Temporal:** how claims on a topic changed over time, and what Dom read when.
 - **Connective:** what links two concepts, entities or sources.
 
-**In scope:** notes in `10 Sources/` (Articles, Papers) and `20 Books/`, about 360 notes. This is a rough estimate, not a count; the real number changes as notes are filed. Build phases 0–8 (see Build phases), including the query pipeline.
+**In scope:** notes in `10 Sources/` (Articles, Papers) and `20 Books/`, about 360 notes. This is a rough estimate, not a count; the real number changes as notes are filed. Build phases 0–6 (see Build phases), including the retrieval tools.
 
 **Out of scope for now:** `30 Projects/`, `40 System/`, the separate local personal vault, how Dom invokes the system (MCP server, skill, CLI or UI), and anything that depends on that interface, such as capturing 👍/👎 feedback.
 
 **How to read this spec:** terms in the Glossary have exactly the meaning given there. Every number lives in Config and defaults. Prompt IDs (P1–P14) refer to the LLM prompt inventory.
+
+**Revision 2026-11-15:** a review against the vault's real numbers changed the design in these places: a baseline and the question set come before the graph; co-occurrence is counted within a heading section; decay falls back to `created` when `published` is missing; new Registry entries are auto-approved and the Review Queue is bounded; the Registry is data, not notes; claims are extracted per note and matched by cluster on the first build; w is reduced to quality × decay; simplification trims 1–9 are applied; the phases are renumbered 0–6. Changed passages carry the date. The diagrams were not redrawn: those under Data schema, Preprocessing, Mention resolution, Counting support, Maintenance and Query answering still show the earlier design where it differs. The text wins.
 
 ## Glossary
 
@@ -40,11 +42,11 @@ Build a claim-centred GraphRAG over Dom's Knowledge Vault. It answers questions 
 | Source | One in-scope note: an article, a paper, a book cover page, or a book chapter. |
 | Book | A folder in `20 Books/` that contains at least one type: chapter note. Every note in that folder belongs to the Book. Notes in other book folders (e.g. the 23 separate notes in MindBranches) are standalone sources. |
 | Passage | A chunk of one source, at most 400 tokens, counted with the embedding model's tokenizer (tiktoken cl100k\_base until phase 0 picks one). Claims cite passages. |
-| Voice | Who wrote a passage's text: `highlight` (inside `<mark>`), `mine` (in a `status: distilled` note), or `author` (everything else). The vault rarely uses `<mark>`, so a redefinition by note status is pending (see Open questions). |
-| Highlight density | The share of a passage's characters inside `<mark>` tags, from 0 to 1. Close to 0 for almost every passage in this vault (see Source vault facts). |
+| Voice | Who wrote a passage's text, set by note status: `highlight` (a `raw` or `structured` note: the source's words, selected by Dom) or `mine` (a `status: distilled` note). `<mark>` tags no longer set voice (decided 2026-11-15). Whether the distilled MindBranches summaries are `mine` is open (see Open questions). |
+| Highlight density | Dropped on 2026-11-15. It was the share of a passage's characters inside `<mark>` tags, which is close to 0 for almost every passage in this vault. It is not computed or used. |
 | Concept | An idea that many sources can discuss: a method, problem, property or pattern, e.g. LLM-as-a-Judge, context rot, error analysis. It has a definition, not a maker. Test: if it can be defined without naming one product, person or paper, it is a concept. |
 | Entity | A named thing: person, organisation, tool or library, model, benchmark or dataset, or paper. One particular thing that someone made or is, e.g. Graphiti, GPT-4, MT-Bench. An entity can be INSTANCE\_OF a concept. |
-| Registry | The master list of canonical concepts and entities for the whole vault: one entry each, with its aliases. Every mention in every note resolves to exactly one entry, so the graph counts one thing once whatever it was called. Stored as files in `50 Graph/Registry/`. |
+| Registry | The master list of canonical concepts and entities for the whole vault: one entry each, with its aliases. Every mention in every note resolves to exactly one entry, so the graph counts one thing once whatever it was called. Stored as data in `.graphrag/export/registry.jsonl`, not as notes. |
 | Mention | A span of passage text that names a concept or entity. |
 | Claim | One self-contained assertion plus its qualifiers: something that could be true or false. Claims and passages are many-to-many: one passage can support several claims, and one claim can be supported or contradicted by passages from many notes. |
 | Qualifier | A condition that limits a claim, e.g. "only for pairwise comparisons". |
@@ -57,14 +59,14 @@ Build a claim-centred GraphRAG over Dom's Knowledge Vault. It answers questions 
 | Superseded | A claim that a newer claim explicitly replaces. It is kept, with `valid_to` set. |
 | Orphaned | A claim with no remaining support. It is kept but hidden from retrieval. |
 | Concept neighbourhood | All claims that share at least one ABOUT target (concept or entity). |
-| NPMI | Normalised pointwise mutual information: how much more often two concepts appear in the same independence groups than chance predicts, scaled to −1 … 1. |
-| Co-occurrence | Two Registry entries co-occur when the same independence group mentions both. CO\_OCCURS edges weight this by NPMI. |
+| NPMI | Normalised pointwise mutual information: how much more often two concepts co-occur than chance predicts, scaled to −1 … 1. |
+| Co-occurrence | Two Registry entries co-occur in an independence group when at least one heading section in that group mentions both. Each group counts once. CO\_OCCURS edges weight this by NPMI. |
 | Community | A cluster of concepts and entities found by graph clustering, with an LLM-written summary. Formed by Leiden clustering over CO\_OCCURS and typed relation edges: a set of entries joined by many strong edges and few edges outward. |
 | RRF | Reciprocal rank fusion: merges ranked lists by summing 1 / (k + rank) for each item. |
 | Sync run | One run of the incremental pipeline. One sync run = one review batch. |
-| Shadow graph | A separate full copy of the graph built by a re-extraction. It replaces the live graph only after Dom approves its diff. |
+| Shadow graph | Replaced on 2026-11-15 (trim 5) by a new store file: a re-extraction builds into a separate file, which replaces the live store only after Dom approves a stats diff. |
 | Review Queue | The markdown file where Dom approves or rejects uncertain decisions. |
-| MOC | Map of content: an Obsidian hub note. Here, a generated page per concept or entity. |
+| MOC | Map of content: an Obsidian hub note. Here, a generated page for a concept or entity supported by 3 or more independence groups (deferred, trim 9). |
 | Lineage | Fields on every node and edge recording how, when and by what it was made. |
 | add-tag, vault-lint | Existing vault skills in `.claude/skills/`. add-tag gatekeeps the topic taxonomy; vault-lint validates note structure. |
 
@@ -88,6 +90,8 @@ The metadata is clean enough to use as weighting signals from day one. Note-to-n
 **Highlights:** a raw note *is* Dom's highlights, exported as plain bullets, so `<mark>` tags are rare. Checked 2026-10-19: none of 173 raw notes contain `<mark>`; 54 of 106 structured notes and 2 of 40 distilled notes contain any; the average share of marked characters is about 1%. Highlight density is therefore close to 0 almost everywhere (see Open questions).
 
 **Links:** about 1,150 wikilinks, nearly all `![[Screenshot…]]` embeds or same-note heading links. There are effectively no links between notes.
+
+**Checked 2026-11-15:** 326 in-scope notes, about 1M tokens (3.9M characters), so roughly 3,000 passages; the median note is about 1,500 tokens. 157 notes have no `published` date (45 of 48 books, 33 of 37 chapters, 55 of 187 articles, 24 of 54 papers). Of the 40 distilled notes, 22 are MindBranches summaries, 15 are AI Evals articles and 3 sit in book folders; only 2 have a raw sibling in the same folder.
 
 ## Graph model
 
@@ -199,7 +203,7 @@ Evidence flows upward: Source → Passage → Claim → Concept or Entity → Co
 
 **Claims and passages are many-to-many.** A passage can support several claims, and a claim gathers passages from many notes. Support grows as more independent notes back the same claim.
 
-**Relation types are discovered, not designed up front.** For each pair of ABOUT targets, P3 also outputs a short relation phrase ("reduces", "is an alternative to"), stored on the claim. Once 200 new phrases have built up (or monthly), phrases are embedded and clustered. A cluster with at least 5 phrases from at least 3 independence groups is named by P5 and proposed in the Review Queue. Once approved, it becomes a typed relation edge. Until then, concepts are linked only by CO\_OCCURS.
+**Relation types are discovered, not designed up front (deferred 2026-11-15, trim 3).** P3 still stores relation phrases, but phrase clustering, P5 and typed relation edges are not built yet. The design, kept for later: For each pair of ABOUT targets, P3 also outputs a short relation phrase ("reduces", "is an alternative to"), stored on the claim. Once 200 new phrases have built up (or monthly), phrases are embedded and clustered. A cluster with at least 5 phrases from at least 3 independence groups is named by P5 and proposed in the Review Queue. Once approved, it becomes a typed relation edge. Until then, concepts are linked only by CO\_OCCURS.
 
 **Hierarchy comes from communities.** No broader/narrower edges are curated. Nesting comes from community levels.
 
@@ -275,8 +279,8 @@ digraph "data-schema" {
 | --- | --- | --- |
 | Source | path, type, status, quality, topics, source URL, published, created, updated, author, book\_id | `src:` + note path when first seen. Kept on rename (git rename detection) |
 | Book | folder path, title, author, published | `book:` + folder path |
-| Passage | source\_id, heading breadcrumb, ordinal, text, text\_hash, token\_count, voice, highlight\_density, embedding | `psg:` + hash of (source\_id, text\_hash, n), where n counts earlier passages in the same source with identical text. Edits elsewhere in the note don't change it |
-| Concept / Entity | canonical\_name, aliases, definition, kind (`concept` or `entity`), entity\_type (person, org, tool, model, dataset, paper), status (`approved`, `pending`, `rejected`), embedding | `reg:` + kind + slug of the canonical name at creation, e.g. reg:concept:llm-as-a-judge. Renames keep the ID. On a merge, the absorbed entry's ID becomes a redirect to the survivor, its aliases move across, and its file is deleted |
+| Passage | source\_id, heading breadcrumb, ordinal, text, text\_hash, token\_count, voice, embedding | `psg:` + hash of (source\_id, text\_hash, n), where n counts earlier passages in the same source with identical text. Edits elsewhere in the note don't change it |
+| Concept / Entity | canonical\_name, aliases, definition, kind (`concept` or `entity`), entity\_type (person, org, tool, model, dataset, paper), status (`approved`, `pending`, `rejected`), embedding | `reg:` + kind + slug of the canonical name at creation, e.g. reg:concept:llm-as-a-judge. Renames keep the ID. On a merge, the absorbed entry's ID becomes a redirect to the survivor, its aliases move across, and its Registry record becomes a redirect |
 | Claim | text, qualifiers, referenced\_time (start, end), volatility, status (`active`, `superseded`, `orphaned`), valid\_to, relation\_phrases, support, opposition, contested, embedding | `clm:` + UUID. On a merge, the surviving claim keeps its ID and the other ID is stored as a redirect |
 | Community | level, member IDs, summary, summary\_embedding, built\_from, stale | `com:` + UUID |
 
@@ -295,9 +299,11 @@ Edges store `from`, `to`, `type` and `confidence`. Passage → Claim edges also 
 
 Source and Book nodes need only `source_commit` and `processed_at`.
 
+**Storage (2026-11-15, trim 8):** `source_commit`, `processed_at`, `model` and `prompt` are stored once per run in a `runs` table, and each record carries a `run_id`. `review_state` and `decided_by` stay on the record.
+
 ## Preprocessing
 
-Each source becomes passages of at most 400 tokens that follow the note's own structure. Claims are extracted from every passage.
+Each source becomes passages of at most 400 tokens that follow the note's own structure. Claims are extracted note by note and cite passages (see Claim extraction and matching).
 
 ```dot
 digraph "preprocessing" {
@@ -381,16 +387,16 @@ digraph "preprocessing" {
 3. **Annotate each passage:**
    - heading breadcrumb (e.g. Agentic GraphRAG › 3. Graph-Based Knowledge Modeling › Entity Resolution)
    - ordinal (its position in the note) and token count
-   - **voice**, by precedence: text inside `<mark>` is `highlight`; any other text in a `status: distilled` note is `mine`; everything else is `author`. A passage's voice is the voice of most of its characters.
-   - **highlight density**, stored separately
+   - **voice**, by note status: `highlight` in a `raw` or `structured` note, `mine` in a `status: distilled` note. `<mark>` tags stay in the text but no longer set voice (decided 2026-11-15).
 4. **Embed and index** each passage: one vector for semantic search, and an entry in the BM25 keyword index for exact-word search. Annotation, embedding and indexing happen straight after chunking, as one step.
 5. **Books:** every note in a Book folder (see Glossary) gets an IN\_BOOK edge to its Book. Notes in other book folders are standalone sources. Every source's frontmatter author is resolved to a person Entity (via P2) and linked with AUTHORED\_BY.
+6. **Exclusions:** `config.yaml` holds an exclude list of in-scope paths that are not source material, e.g. `20 Books/Powerful Python/Flashcard questions.md`. Excluded notes are not parsed.
 
 **Handled by the extraction prompt, not by preprocessing:**
 
 - Boilerplate such as Readwise metadata blocks and heading-link tables of contents. P1 and P3 are told to skip it. Revisit this if the hub audit finds boilerplate turning into hubs, because embeddings and co-occurrence counts don't go through the prompt.
 - Code blocks, tables and image embeds stay in the passage text as context. P3 is told not to extract claims from them.
-- Dom's inline commentary in raw notes is treated as author text. It is not tagged `mine`.
+- Dom's inline commentary in raw notes is treated as the source's text (voice `highlight`). It is not tagged `mine`.
 
 ## Resolution and claim matching
 
@@ -408,7 +414,7 @@ For each mention found by P1:
 4. **Apply:**
    - `match` at confidence 0.85 or above: link automatically, logged as reversible.
    - `match` between 0.60 and 0.85, or `unsure`: link provisionally and add a Review Queue item.
-   - `new`, or below 0.60: create a `pending` Registry entry and add a Review Queue item.
+   - `new`, or below 0.60: create the entry as `approved` with review\_state `auto`. No Review Queue item is added; duplicates are caught by the clustering pass below (changed 2026-11-15).
 
 ```dot
 digraph "mention-resolution" {
@@ -473,9 +479,9 @@ digraph "mention-resolution" {
 }
 ```
 
-Pending entries can be used straight away (claims can be ABOUT them). Dom later approves, merges or rejects them.
+New entries can be used straight away (claims can be ABOUT them). Only merges and `unsure` links go to the Review Queue, so the queue stays bounded. Before 2026-11-15 every new entry was `pending` with its own queue item, which meant thousands of items at bootstrap.
 
-**Bootstrap (phase 2, once):** run mention resolution over all notes, then embed the pending entries (name plus a one-line definition) and group them with agglomerative clustering at cosine distance 0.15 or less. In each cluster, the member with the most mentions becomes the candidate canonical entry, and P2 checks every other member against it. Members matched at 0.85 or above are merged automatically, and the entry becomes approved (review\_state auto). Dom reviews the 100–150 clusters with the most mentions, plus every `unsure` item.
+**Bootstrap (phase 3, once):** run mention resolution over all notes, then embed all new entries (name plus a one-line definition) and group them with agglomerative clustering at cosine distance 0.15 or less. In each cluster, the member with the most mentions becomes the candidate canonical entry, and P2 checks every other member against it. Members matched at 0.85 or above are merged automatically, and the entry becomes approved (review\_state auto). Review is capped by the review budget in Config (initially 100 items): the clusters and `unsure` items that affect the most mentions come first, and anything beyond the budget stays provisional.
 
 ### Claim extraction and matching
 
@@ -483,7 +489,9 @@ Pending entries can be used straight away (claims can be ABOUT them). Dom later 
 
 **Referenced time:** when the text states the period a claim is about ("in 2023", "with GPT-4"), P3 records it. Otherwise it falls back to the source's `published` date. Decay and supersession both use referenced time, so a 2026 article reporting 2023 results is dated 2023.
 
-**Matching (P4):** each new claim is compared with the 10 most similar claims in its concept neighbourhood. P4 returns one label plus a confidence:
+**Extraction unit (changed 2026-11-15):** P3 reads a whole note in one call when it fits (the median note is about 1,500 tokens), or one top-level section at a time for long notes. Its input marks each passage with its ID, and every claim it returns names the passage or passages that assert it. Passages stay the unit of citation; the wider input gives P3 the context to write claims that stand alone, in about a tenth of the calls.
+
+**Matching (P4):** each new claim is compared with the 10 most similar claims in its concept neighbourhood. P4 returns one label plus a confidence for each candidate, so a claim can be `same` as one candidate and `contradicts` another. At most one candidate may be `same`.
 
 | Label | What happens |
 | --- | --- |
@@ -496,7 +504,9 @@ P4 also returns a `supersedes` flag, which can accompany `contradicts` or `diffe
 
 A `same`, `contradicts` or `supersedes` decision with confidence below 0.7 is applied provisionally and added to the Review Queue.
 
-**About the confidences.** P2, P3 and P4 report their confidences themselves, in their JSON output. Self-reported LLM confidence is poorly calibrated, so it is a weak signal: thresholds are tuned against the evaluation checks, and coarse buckets (high, medium, low) are an option. P4's confidence has two jobs: it decides whether a decision goes to review (below 0.7), and it becomes the resolution-confidence factor in the passage's weight w.
+**First full build (changed 2026-11-15):** sequential matching depends on processing order and cannot be batched. For the first build, and for any full re-extraction, P3 runs over every note first. The claims are then embedded and clustered within each concept neighbourhood (agglomerative; threshold in Config), and P4 adjudicates each cluster in one call: which members are `same`, and which refine, contradict or supersede others. Within a group of `same` claims, the wording backed by the most independence groups survives. Sequential P4, as described above, is used only for incremental sync.
+
+**About the confidences.** P2, P3 and P4 report their confidences themselves, in their JSON output. Self-reported LLM confidence is poorly calibrated, so it is a weak signal: thresholds are tuned against the evaluation checks, and coarse buckets (high, medium, low) are an option. Since 2026-11-15 the confidences only route decisions to review (P4 below 0.7). They are stored on the edge but are not part of the passage's weight w.
 
 ## Reinforcement scoring
 
@@ -507,10 +517,12 @@ A claim's strength is the saturated sum of weighted support from independent sou
 
 $$
 \Large
-w = q_{\text{quality}} \cdot h_{\text{highlight}} \cdot c_{\text{extract}} \cdot c_{\text{resolve}} \cdot 0.5^{\,\text{age}/T_{1/2}}
+w = q_{\text{quality}} \cdot 0.5^{\,\text{age}/T_{1/2}}
 $$
 
-$w$ is the product of five factors, one per row below. Voice is not a factor: it is shown in answers, can filter retrieval, and seeds the core worldview layer (see Optional extensions). Initial values are in Config and defaults. A claim with no referenced time and a source with no `published` date gets a decay factor of 1.0 and is flagged in answers.
+$w$ is the product of two factors: source quality and recency decay. Highlight density and the two self-reported confidences were removed on 2026-11-15: highlight density is close to 0 everywhere in this vault, and self-reported confidence is too poorly calibrated to multiply into a weight. Support therefore reads as a quality-weighted count of independent sources. Voice is not a factor: it is shown in answers, can filter retrieval, and seeds the core worldview layer (see Optional extensions). Initial values are in Config and defaults.
+
+**Missing dates (changed 2026-11-15):** when a claim has no referenced time and its source has no `published` date, age is measured from the source's `created` date, and the claim is flagged in answers as approximately dated. A source cannot be published after Dom filed it, so its true age can only be greater: the claim is decayed too little, never too much. Before this change an undated source got a factor of 1.0, which let it outweigh every dated source on evolving and ephemeral claims, and 157 of 326 notes are undated.
 
 **When decay is applied:** stored support and opposition leave out the decay factor. Decay is applied at query time, so scores never go stale between sync runs. Contested is also checked at query time. CO\_OCCURS weights use the stored, undecayed support.
 
@@ -519,9 +531,6 @@ $w$ is the product of five factors, one per row below. Voice is not a factor: it
 | Factor | Source | Notes |
 | --- | --- | --- |
 | Quality | `quality` stars | Unrated gets a neutral default (initially 1.0, the same as ⭐); ⭐⭐ 1.5, ⭐⭐⭐ 2.0. Raises claim support; it does not change retrieval rank directly |
-| Highlight density | Passage annotation | More of the passage inside `<mark>` = more weight: factor = 1 + highlight density (1.0 to 2.0). Close to 1.0 for almost every passage in this vault (see Source vault facts) |
-| Extraction confidence | Claim extractor | How sure the LLM is that the passage asserts the claim. Reported by P3 itself, so a weak signal |
-| Resolution confidence | Concept and claim matcher | How sure the merge into this claim is; exact match, brand-new claim, or human-reviewed = 1.0; otherwise the P2 or P4 confidence |
 | Recency decay | Referenced time + volatility class | factor = 0.5^(age / half-life). Age = today minus the referenced time (start) |
 
 ### Counting support without double-counting
@@ -614,14 +623,14 @@ Concepts like "LLM" or "AI agents" co-occur with almost everything. Raw co-occur
 \mathrm{NPMI}(a,b) = \frac{\ln \dfrac{p(a,b)}{p(a)\,p(b)}}{-\ln p(a,b)} \in [-1, 1]
 ```
 
-- **Probabilities:** an independence group *mentions* a concept or entity if any of its passages has a MENTIONS edge to it. Each group has a weight g, the largest quality multiplier among its sources. p(a) = (sum of g over groups mentioning a) / (sum of g over all groups). p(a,b) is the same, over groups mentioning both.
-- **Rare-pair guard:** a pair needs at least 2 independence groups in common before a CO\_OCCURS edge is created.
-- **Edge weight before claims exist (phase 3):** max(0, NPMI).
-- **Edge weight once claims exist (phase 4 on):** max(0, NPMI) × (1 + ln(1 + sum of support of claims ABOUT both)). Surprising *and* well-supported links rank highest.
+- **Probabilities:** two entries co-occur in an independence group when at least one heading section (the passages under one heading) in that group mentions both. A group *mentions* an entry if any of its passages has a MENTIONS edge to it. Each group has a weight g, the largest quality multiplier among its sources. p(a) = (sum of g over groups mentioning a) / (sum of g over all groups). p(a,b) is the same, over groups where a and b co-occur. Changed 2026-11-15: before, any two entries mentioned anywhere in the same group co-occurred, so every pair of concepts in a whole book counted.
+- **Rare-pair guard:** a pair needs to co-occur in at least 3 independence groups before a CO\_OCCURS edge is created (raised from 2 on 2026-11-15: with about 290 groups, pairs seen twice are mostly noise).
+- **Edge weight without claims:** max(0, NPMI). Claims are now built before the concept graph, so this applies only to tests.
+- **Edge weight once claims exist:** max(0, NPMI) × (1 + ln(1 + sum of support of claims ABOUT both)). Surprising *and* well-supported links rank highest.
 - **Traversal damping:** at query time, the score of a path through a node is multiplied by 1 / ln(e + degree), where degree is its number of CO\_OCCURS edges.
 - Hubs stay in the graph and are fully retrievable when a query names them. They are only down-weighted as bridges.
 
-**Hub diagnosis audit (each sync).** List the 20 nodes with the highest degree, plus any node whose degree rose by more than 50% in one sync, then classify each and treat it accordingly. High degree is a diagnostic, never a deletion rule.
+**Hub diagnosis audit (once in phase 5, then on request; trim 7).** List the 20 nodes with the highest degree, plus any node whose degree rose by more than 50% in one sync, then classify each and treat it accordingly. High degree is a diagnostic, never a deletion rule.
 
 | Hub kind | Example | Treatment |
 | --- | --- | --- |
@@ -636,15 +645,15 @@ Concepts like "LLM" or "AI agents" co-occur with almost everything. Raw co-occur
 Communities come purely from graph structure. Topic tags are not used as input; they are only compared afterwards to suggest taxonomy changes.
 
 - **Why:** they make global questions answerable. Community summaries pick the clusters relevant to a question, so the evidence covers every relevant cluster instead of the 30 passages most similar to the question, which tend to come from a few notes. They also stand in for a hand-built topic hierarchy and drive topic-tag suggestions. Summaries steer retrieval and are never cited.
-- **How they form:** two entries co-occur when the same independence group mentions both. NPMI turns those counts into edge weights that favour surprising pairs and weaken hubs. Leiden then finds sets of entries with many strong edges among them and few edges outward.
-- **Algorithm:** hierarchical Leiden clustering over concepts and entities, using CO\_OCCURS and typed relation edges with their weights. Up to 3 levels.
-- **When to re-cluster:** after any sync run that changes at least 5% of total CO\_OCCURS weight, or monthly. Otherwise the existing communities are kept.
+- **How they form:** two entries co-occur when the same heading section mentions both, counted once per independence group. NPMI turns those counts into edge weights that favour surprising pairs and weaken hubs. Leiden then finds sets of entries with many strong edges among them and few edges outward.
+- **Algorithm:** Leiden clustering over concepts and entities, using CO\_OCCURS edges with their weights. One level to start (trim 6); add a second only if global questions need it.
+- **When to re-cluster:** every sync run (trim 6). It takes seconds at this corpus size.
 - **Summaries (P6):** written only from the community's top claims (by support) and their passages. Each summary records the claim IDs it used in `built_from`, so it can be marked stale when those claims change.
-- **Taxonomy suggestions (P8):** for each level-1 community, find the most common topic tag among its sources. If that tag covers less than 50% of the community's sources, P8 drafts a suggestion (new tag, split or merge) for the Review Queue. Approved suggestions are applied through add-tag.
+- **Taxonomy suggestions (P8; deferred 2026-11-15, trim 6):** for each level-1 community, find the most common topic tag among its sources. If that tag covers less than 50% of the community's sources, P8 drafts a suggestion (new tag, split or merge) for the Review Queue. Approved suggestions are applied through add-tag.
 
 ## Maintenance and lineage
 
-Each sync run processes only the notes that changed since the last indexed commit, and recomputes only what those changes affect.
+Each sync run sends only changed notes to the LLM, then recomputes every non-LLM step from scratch (changed 2026-11-15, trim 2). At about 3,000 passages the recompute takes seconds, so nothing tracks which derived values a change affects.
 
 ```dot
 digraph "sync-run" {
@@ -732,15 +741,15 @@ digraph "sync-run" {
 4. For each deleted note, delete its passages and their edges.
 5. If only frontmatter changed (e.g. `quality` or `status`), recompute weights. No LLM calls.
 6. Mark any claim left with no support as `orphaned`.
-7. Recompute support and opposition for claims whose edges changed, and CO\_OCCURS for pairs touched by changed mentions or claims.
-8. Mark every derived artifact whose inputs changed as stale (see below), and regenerate it.
-9. Write new Review Queue items and reports, export the JSONL snapshot (see Open questions: code and data location), then set `last_indexed_commit` to HEAD.
+7. Recompute support, opposition, CO\_OCCURS weights and communities for the whole graph. No LLM calls.
+8. Regenerate community summaries (and concept pages, once built). The LLM response cache is keyed by prompt version, model and input hash, so an artifact whose inputs did not change costs nothing.
+9. Write new Review Queue items and reports, export the JSONL snapshot (see Open questions: code and data location), then set `last_indexed_commit` to HEAD. The export is one file per source note with records sorted by ID, plus `registry.jsonl`, so git diffs stay local to the notes that changed.
 
 **Errors:** a failed LLM call is retried 3 times with backoff. If it still fails, the passage goes on a retry list and the run continues. The next sync run processes the retry list first.
 
-**Derived-artifact dependencies:** every derived artifact (embedding, community, community summary, MOC page, cache) records the IDs it was built from. When any of them changes, the artifact is marked stale and regenerated in step 8.
+**No dependency tracking (trim 2):** a community summary still records the claim IDs it used in `built_from`, for citation checks. Nothing is marked stale; step 8 regenerates through the cache.
 
-**Full rebuilds** are needed only after a schema change or a new prompt or model version. They can be limited by lineage, e.g. "every claim made with `P3@v1`". They always run into a shadow graph first (see Validation and re-extraction). Lineage fields are defined in Data schema.
+**Full rebuilds** are needed only after a schema change or a new prompt or model version. They can be limited by lineage, e.g. "every claim made with `P3@v1`". They always build into a new store file first (see Validation and re-extraction). Lineage fields are defined in Data schema.
 
 ## Validation and re-extraction
 
@@ -755,9 +764,9 @@ Nothing enters the graph without passing a shape check, and no re-extraction rep
 
 Every other edge must connect two existing nodes and carry complete lineage. Rejections are written to a log, never silently dropped.
 
-**Pre-retrieval checks.** Nodes with incomplete metadata stay retrievable but are flagged in answers. For example, about half the papers have no author or publish date. These nodes are excluded from the scoring that depends on the missing fields: for example, a source with no date gets no recency decay.
+**Pre-retrieval checks.** Nodes with incomplete metadata stay retrievable but are flagged in answers. For example, about half the papers have no author or publish date. These nodes are excluded from the scoring that depends on the missing fields: for example, a source with no `published` date is decayed from its `created` date and flagged.
 
-**Diff before apply.** A re-extraction (new model or prompt) is built as a shadow graph first, while the live graph keeps serving queries. Dom sees a diff (claims added, lost or changed, and support shifts) before it replaces the live graph. Human-reviewed merges and registry entries are never overwritten.
+**Diff before apply (simplified 2026-11-15, trim 5).** A re-extraction (new model or prompt) builds into a new store file, while the live store keeps serving queries. Dom sees a stats diff (counts of claims added, lost or changed, the largest support shifts, and a sample of each) before the new file replaces the live one. Human-reviewed decisions are replayed onto the new store from the Review Log and are never overwritten.
 
 ## Write-back and review
 
@@ -765,10 +774,10 @@ The graph writes only into `50 Graph/`, which is tracked in git so every review 
 
 | Path | Contents | Who edits it |
 | --- | --- | --- |
-| `Registry/<kind>--<slug>.md` (e.g. `concept--llm-as-a-judge.md`) | One file per concept or entity. Frontmatter: `id`, `kind`, `entity_type`, `canonical_name`, `aliases`, `status`, `generated: true`. Body: definition and a merge-history table. | Graph writes it. Dom may edit aliases and definition; the next sync reads edits as `manually_edited`. |
+| `.graphrag/export/registry.jsonl` | One record per concept or entity: `id`, `kind`, `entity_type`, `canonical_name`, `aliases`, `definition`, `status`, merge history. Kept as data, not as notes (changed 2026-11-15): several thousand generated files would swamp a vault of about 330 notes, and Registry and Concepts files shared a name, which made wikilinks ambiguous. | Graph writes it. Dom changes aliases and definitions, or rejects an entry, in `.graphrag/registry_overrides.yaml`; the next sync applies them as `manually_edited`. |
 | `Review Queue.md` | Pending decisions (format below). | Dom fills in decisions; the sync reads them. |
 | `Review Log.md` | Decided items, appended by the sync. | Graph only. |
-| `Concepts/<kind>--<slug>.md` | Generated MOC page: definition, aliases, top 10 claims by support with citations, contested claims, community, sources. Frontmatter `generated: true`. | Graph only. Overwritten on regeneration. |
+| `Concepts/<kind>--<slug>.md` (deferred, trim 9) | Generated MOC page, only for entries supported by 3 or more independence groups: definition, aliases, top 10 claims by support with citations, contested claims, community, sources. Frontmatter `generated: true`. | Graph only. Overwritten on regeneration. |
 | `Reports/<date>/` | Hub audit, quality metrics, and re-extraction diffs for each sync run. | Graph only. |
 | `.graphrag/` | The engine, in a hidden dot-folder. Tracked: code, `config.yaml`, `prompts/`, tests, evaluation sets and the JSONL export. Gitignored: the graph store, caches, `logs/` and `.env`. | Code changes only. Obsidian hides dot-folders, so none of it appears in search, the graph view or vault-lint. |
 
@@ -776,7 +785,7 @@ The graph writes only into `50 Graph/`, which is tracked in git so every review 
 
 ```markdown
 - [ ] RQ-0042 · merge-concept · conf 0.72
-  proposal:: "LLM evaluators" → [[concept--llm-as-a-judge|LLM-as-a-Judge]]
+  proposal:: "LLM evaluators" → LLM-as-a-Judge (reg:concept:llm-as-a-judge)
   evidence:: 3 mentions in 2 sources; example passage psg:9f3a1c
   decision::
 ```
@@ -823,7 +832,7 @@ digraph "review-cycle" {
 }
 ```
 
-**Item types:** `merge-concept`, `new-entry`, `claim-match`, `contradiction`, `supersedes`, `relation-type`, `taxonomy-suggestion`, and `re-extraction-diff` (which links to a diff report).
+**Item types:** `merge-concept`, `claim-match`, `contradiction`, `supersedes`, and `re-extraction-diff` (which links to a diff report). Since 2026-11-15, `new-entry` items are no longer created, because new entries are auto-approved. `relation-type` and `taxonomy-suggestion` are deferred with their features. Their rows below are kept for later.
 
 **What a decision does, by item type:**
 
@@ -835,19 +844,21 @@ digraph "review-cycle" {
 | contradiction, supersedes | Keep the edge and status change | Remove the edge and restore the old status | — |
 | relation-type | Create the typed relation | Don't propose this cluster again | Approve with `<value>` as the type name |
 | taxonomy-suggestion | Dom applies it via add-tag | Don't propose it again for 90 days | — |
-| re-extraction-diff | Swap the shadow graph in | Discard the shadow graph | — |
+| re-extraction-diff | Swap the new store file in | Discard the new store file | — |
 
 vault-lint must be updated to accept `50 Graph/` and notes with `generated: true`.
 
 ## Evaluation and quality over time
 
-Evaluation runs at the end of phases 2, 4 and 7, and after every prompt, model or schema change. No text-only retrieval baseline is used: the graph system is judged on its own.
+Evaluation runs at the end of phases 1 (the baseline), 2, 4 and 5, and after every prompt, model or schema change.
 
-**Datasets (Claude drafts, Dom edits):** drafted once the graph has claims (after phase 5, before phase 7). Claude samples the built graph so the sets cover many question categories and the retrieval pathways each one exercises. Dom rewrites, cuts and adds; nothing is used until Dom has edited it.
+**Baseline (added 2026-11-15):** phase 1 retrieval alone (passage vectors plus BM25, used by the same answering agent) is scored on the fixed queries first. Each later layer (claims, co-occurrence, communities) is kept only if it beats that baseline on these queries.
+
+**Datasets (changed 2026-11-15):** written at the end of phase 1, before the graph exists, so the questions don't favour what the graph happened to capture. Dom writes 20 to 30 questions he actually wants answered. Claude drafts the rest by reading notes directly, to cover the categories below. Dom rewrites, cuts and adds; nothing is used until Dom has edited it.
 
 - **Fixed query set:** 40 questions spread across the categories below, each tagged with one of the four question types. At least 5 have no answer in the vault, and at least 5 involve sources that disagree.
-- **Evidence labels:** for 15 of those questions, Claude proposes the passages a complete answer needs, and Dom confirms or corrects them.
-- **Judge calibration set:** 60 query–answer pairs Dom labels good or bad. 40 are used to tune the judge prompt and 20 are held out.
+- **Evidence labels:** for 15 of those questions, Claude proposes the passages a complete answer needs, found by reading the notes and not by querying the graph, and Dom confirms or corrects them.
+- **Grading (trim 4):** Dom grades the answers to the fixed queries pass or fail. The P13 judge and its calibration set (60 pairs: 40 to tune, 20 held out) are deferred until prompts or models change often enough that hand grading is the bottleneck. A 20-pair held-out set is also too small to establish a 0.8 bar.
 
 **Question categories, in rough priority order.** Categories 5 and 14 are Claude's additions to Dom's list. Category 13 (own voice versus authors) was removed; the other numbers are kept so references stay stable. Examples are illustrative and not checked against the vault.
 
@@ -872,16 +883,17 @@ Evaluation runs at the end of phases 2, 4 and 7, and after every prompt, model o
 
 | Check | What it measures | When | Pass bar (initial) |
 | --- | --- | --- | --- |
-| Regression judge (P13) | Answer quality on the fixed queries, compared with the previous build | Every change | Pass rate drops by no more than 5 points. The judge is trusted only once its true-positive and true-negative rates on the held-out set are both 0.8 or higher |
+| Answer quality | Dom's pass or fail grade on each fixed query, compared with the baseline and with the previous build | Every evaluation run | Beats the baseline; no more than 2 queries regress against the previous build. P13 automates this later |
+| Multi-group support share | Share of claims supported by 2 or more independence groups | Pilot (phase 2), then every full build | Tracked. If it is under about 10%, support separates few claims: keep scoring simple and keep support out of ranking |
 | Citation support (P11) | Whether each cited passage supports its claim, on 200 sampled support edges | Phase 4, and after prompt changes | 90% or more supported |
 | Resolution audit | Precision of 50 sampled auto-merges, labelled by Dom | After bootstrap, then monthly | 95% or more correct. If lower, raise the auto-link threshold |
 | Exhaustiveness (P14) | Claims missed in 30 sampled passages, found by a stronger model and spot-checked by Dom | Phase 4, and after prompt changes | Recall of 0.8 or more |
-| Linking rate | Share of mentions linked to approved Registry entries | Every sync run | 75% or more linked; 5% or fewer `unsure` |
+| Linking rate | Share of mentions linked by exact match, at confidence 0.85 or above, or by human review | Every sync run | 75% or more linked; 5% or fewer `unsure` |
 | Complete-evidence recall | Share of the labelled required passages that retrieval returned | Every evaluation run | Tracked, no bar yet |
 | Retrieval stats | Duplicate passages in context, context tokens, and hub contribution (share of context tokens reached through the top 1% of nodes by degree) | Every evaluation run | Tracked, no bar yet |
 | Absent and conflicting cases | Whether the answer says "not in the vault" or names the disagreement, instead of making something up | Every evaluation run | 90% or more |
 
-**Judge bias controls:** P13 grades each answer on its own (pass or fail), never pairwise. The order of the evidence shown to the judge is randomised, and Dom spot-checks 10 judgements per run.
+**Judge bias controls (once P13 is built):** P13 grades each answer on its own (pass or fail), never pairwise. The order of the evidence shown to the judge is randomised, and Dom spot-checks 10 judgements per run.
 
 **Optional, not committed:** a health dashboard (node growth, edge density, cluster balance, conflict rate, temporal consistency per sync run) and automatic maintenance when a metric crosses a threshold.
 
@@ -889,7 +901,9 @@ Evaluation runs at the end of phases 2, 4 and 7, and after every prompt, model o
 
 ## Query answering
 
-Built in phase 7. A question goes through a fixed pipeline with one bounded loop. Every step is appended to `.graphrag/logs/queries.jsonl`.
+**Changed 2026-11-15 (trim 1):** the engine builds the retrieval channels and tools only. The calling agent (for example Claude Code) decomposes the question, checks coverage and writes the answer, so P9, P10 and P12 are not built and the query interface stays open. The pipeline below is the behaviour the agent is told to follow, and the design to use if a standalone pipeline is built later. Each tool arrives with the layer it reads: passage search and `read_source` in phase 1, `resolve_entity` in phase 3, claim search in phase 4, `expand`, `find_paths` and community search in phase 5.
+
+A question goes through a fixed pipeline with one bounded loop. Every step is appended to `.graphrag/logs/queries.jsonl`.
 
 ```dot
 digraph "query-pipeline" {
@@ -1043,6 +1057,8 @@ The system needs 14 distinct prompts. Each one is a designed, versioned artifact
 
 P1 and P3 may be merged into a single call if extraction quality holds. Decide this in phase 4 by measuring.
 
+**Built now (2026-11-15):** P1, P2, P3, P4, P6, P11 and P14. **Deferred:** P5 (trim 3), P7 (trim 9), P8 (trim 6), P9, P10 and P12 (trim 1), and P13 (trim 4). P3's input is now a whole note or section with passage IDs marked. The Phase column above uses the old numbering; see Build phases.
+
 ## Config and defaults
 
 Every number lives in a versioned `config.yaml`. These values are starting guesses, to be tuned against the evaluation checks.
@@ -1051,25 +1067,28 @@ Every number lives in a versioned `config.yaml`. These values are starting guess
 | --- | --- |
 | Passage cap | 400 tokens |
 | Quality multiplier | unrated 1.0 · ⭐ 1.0 · ⭐⭐ 1.5 · ⭐⭐⭐ 2.0 |
-| Highlight factor | 1 + highlight density |
 | QUALIFIED\_SUPPORT weight | 0.5 × w |
 | Half-lives | durable: none · evolving: 24 months · ephemeral: 6 months |
 | Contested | opposition ≥ 0.3 and ≥ 0.5 × support |
 | Mention auto-link | confidence ≥ 0.85; review band 0.60–0.85 |
 | Claim-match review | confidence < 0.7 |
 | Claim-match candidates | 10 |
-| Rare-pair guard | 2 independence groups |
+| Rare-pair guard | 3 independence groups, co-occurring within a heading section |
 | Traversal damping | 1 / ln(e + degree) |
 | Expansion budget | 2 hops · 10 neighbours per node · 5 passages per concept · 3 passages per source |
 | Items after fusion | 30 |
 | RRF k | 60 |
 | Coverage-loop rounds | 3 |
 | Synthesis context | 12,000 tokens |
-| Community levels | 3 |
-| Re-cluster trigger | ≥ 5% of CO\_OCCURS weight changed, or monthly |
-| Relation-type promotion | ≥ 5 phrases from ≥ 3 independence groups |
-| Hub audit | top 20 by degree; degree rise > 50% in one sync |
+| Community levels | 1 |
+| Re-cluster trigger | every sync run |
+| Relation-type promotion (deferred) | ≥ 5 phrases from ≥ 3 independence groups |
+| Hub audit | top 20 by degree; once in phase 5, then on request |
 | LLM retries | 3, with backoff |
+| Missing `published` | decay from `created`; flag the claim |
+| Review budget | 100 items at bootstrap |
+| Claim cluster distance (first build) | cosine 0.20 |
+| Concept page threshold | 3 independence groups |
 
 ## Build phases
 
@@ -1077,27 +1096,31 @@ Phases run in order, and each one ends with an exit check. Work inside a phase c
 
 | Phase | Builds | Exit check |
 | --- | --- | --- |
-| 0. Setup | Choose storage, embedding model and LLMs (see Open questions). Repo layout in `50 Graph/.graphrag/`, `config.yaml`, `prompts/`, logging | One test note runs end to end through a stub pipeline |
-| 1. Parse and chunk | Source, Book and Passage nodes; voice; highlight density; passage embeddings and BM25 index | All in-scope notes parsed (\~360, a rough estimate); no passage over 400 tokens except a single code block or table; re-running gives identical IDs |
-| 2. Registry bootstrap | P1, P2, Registry files, Review Queue; Dom reviews the top clusters | Linking rate ≥ 75%; resolution audit ≥ 95% |
-| 3. Concept graph | CO\_OCCURS edges with NPMI; hub audit report | Dom has reviewed the hub audit; no boilerplate in the top 20 |
-| 4. Claims | P3, P4, P5, P11, P14; support and opposition; post-write checks | Exhaustiveness ≥ 0.8; citation support ≥ 90% |
-| 5. Communities and write-back | Leiden; P6, P7, P8; `Concepts/` pages | Pages render in Obsidian; vault-lint passes |
-| 6. Incremental sync | Git-diff sync, dependency tracking, retry list, shadow graph with diff | Editing, renaming and deleting a test note each update the graph correctly |
-| 7. Query pipeline | P9, P10, P12; retrieval channels; coverage loop; query log | All 40 fixed queries answered with valid citations |
-| 8. Evaluation harness | P13; judge calibration; metrics and reports | Judge held-out TPR and TNR ≥ 0.8; first scores recorded |
+| 0. Setup | Embedded store (SQLite with FTS5, vectors in a plain array), local embedding model, LLM client with response cache and spend cap, `config.yaml`, `prompts/`, logging | One test note runs end to end through a stub pipeline |
+| 1. Parse, chunk and baseline | Source, Book and Passage nodes; voice; exclude list; passage embeddings and BM25 index; the `search_text` and `read_source` tools; the fixed query set; baseline answers | All in-scope notes parsed; no passage over 400 tokens except a single code block or table; re-running gives identical IDs; Dom has graded the baseline answers |
+| 2. Pilot | P1–P4 on 20 notes from one topic cluster, so claims can overlap; prompt tuning; P11 and P14 samples; multi-group support share | Exhaustiveness ≥ 0.8 and citation support ≥ 90% on the pilot; Dom decides how much scoring to keep |
+| 3. Registry, full corpus | P1, P2, Registry export, clustering and auto-merge, Review Queue; `resolve_entity` | Linking rate ≥ 75%; resolution audit ≥ 95% |
+| 4. Claims, full corpus | P3 per note; cluster-then-adjudicate matching with P4; support and opposition; post-write checks; claim search | Exhaustiveness ≥ 0.8; citation support ≥ 90%; beats the baseline on the fixed queries |
+| 5. Concept graph and communities | Section-level CO\_OCCURS with NPMI; one hub audit; one-level Leiden; P6 summaries; `expand`, `find_paths` and community search | Dom has reviewed the hub audit; kept only if it beats phase 4 on connective and global queries |
+| 6. Sync | Git-diff sync; cached LLM steps; full recompute of non-LLM steps; retry list; rebuild into a new store file with a stats diff; one `sync` command | Editing, renaming and deleting a test note each update the graph correctly |
 
-After phase 8: choose the query interface, then add usage feedback.
+Renumbered on 2026-11-15. The old phases 7 (query pipeline) and 8 (evaluation harness) are gone: retrieval tools arrive with each layer, and evaluation starts with the phase 1 baseline. A layer that fails its "beats the baseline" check is not built on; Dom decides whether to fix or drop it.
+
+After phase 6: choose the query interface. Then, as needed, the deferred items: concept pages, relation types, taxonomy suggestions, the P13 judge, standalone query prompts and usage feedback.
 
 ## Open questions and deferred decisions
 
-- [ ] **Phase 0 choices:** storage (embedded graph + vector store, Neo4j, or a GraphRAG library), the embedding model, and the extraction and judge models.
-- [ ] **Data egress:** can vault text be sent to external APIs? Decide separately for (a) the LLM prompts (P1–P14) and (b) the embeddings. The options for each are a hosted API or a local model. Local LLMs would noticeably lower extraction quality.
-  - [ ] **Cost ceiling:** the budget for one full extraction run over all in-scope notes, across all phases and prompts. It decides model tiers: Haiku-class for bulk extraction with stronger models only for judging, Sonnet-class for extraction, or the strongest model wherever quality depends on it.
+- [x] **Phase 0 storage (decided 2026-11-15):** embedded. SQLite with FTS5 for BM25, vectors in a plain array (brute-force search is instant at about 3,000 passages), igraph and leidenalg for clustering. No server and no vector extension.
+- [ ] **Phase 0 models:** which local embedding model, and which model tier for extraction (set after the cost estimate).
+- [x] **Data egress (decided 2026-11-15):** vault text may go to any hosted API, for the LLM prompts and for embeddings. Embeddings still default to a local model, so a clone rebuilds without a key.
+  - [ ] **Cost ceiling:** the budget for one full extraction run over all in-scope notes, across all phases and prompts. The corpus is about 1M tokens, so a full run should cost tens to low hundreds of dollars at a mid-tier model (unverified until the estimate script runs), and Dom's review time is likely the scarcer budget. It decides model tiers: Haiku-class for bulk extraction with stronger models only for judging, Sonnet-class for extraction, or the strongest model wherever quality depends on it.
 - [x] **Code and data location (decided 2026-10-04; folder set 2026-10-19): hybrid, in `50 Graph/.graphrag/`.** The folder is a dot-folder, so Obsidian hides it: its prompt, Python and JSONL files stay out of search, the graph view and vault-lint. Shell paths need quoting because of the space in "50 Graph". The code, `config.yaml` and `prompts/` live there and are tracked by git. The binary graph store, embeddings and `logs/` are gitignored, because Obsidian Git commits every 15 minutes and a changing binary store would bloat the repo. At the end of each sync run, the LLM outputs (registry, mentions, claims, edges) are exported as plain JSONL and committed. A fresh clone rebuilds the store from that JSONL without LLM calls, and re-embeds locally or through the API.
-- [ ] **Highlight density and voice:** both assume `<mark>` tags, which this vault rarely uses (see Source vault facts). Proposal: drop highlight density from w, and set voice by note status (raw and structured = `highlight`, distilled = `mine`).
-- [ ] **Support in ranking:** RRF orders results by channel rank only. Should query-time support rerank the fused list, break ties, or appear only in evidence labels?
-- [ ] **Simplification review (2026-10-04):** ten candidate trims, none applied yet:
+- [x] **Highlight density and voice (decided 2026-11-15):** highlight density is dropped from w, and voice is set by note status (raw and structured = `highlight`, distilled = `mine`).
+- [ ] **MindBranches voice:** 22 of the 40 distilled notes are MindBranches book summaries. Are they Dom's own words? If not, they need a per-folder override to `highlight`, or `mine` would seed the worldview layer with someone else's summaries.
+- [ ] **Backfilling `published`:** 157 of 326 notes have none. The graph never edits notes, so either Dom or a vault skill fills the field in, or a dates file in `.graphrag/` supplies the values. Until then decay falls back to `created`.
+- [ ] **How much scoring to keep:** decided at the end of the pilot (phase 2), from the multi-group support share.
+- [ ] **Support in ranking:** RRF orders results by channel rank only. Should query-time support rerank the fused list, break ties, or appear only in evidence labels? Decide after the pilot.
+- [x] **Simplification review (2026-10-04; trims 1–9 applied 2026-11-15).** The sections above carry the changes, and deferred designs are kept in place and marked. Trim 10 was not needed: Optional extensions is already one line per idea.
   1. Leave P9, P10 and P12 to the calling agent and build only the retrieval tools.
   2. Recompute every non-LLM step from scratch each sync instead of tracking dependencies.
   3. Defer relation-type discovery (phrase clustering, P5, typed edges); keep the relation phrases.
