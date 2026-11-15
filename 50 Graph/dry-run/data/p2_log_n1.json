@@ -1,0 +1,114 @@
+[
+ {
+  "mention": "LLM judges",
+  "decision": "new",
+  "confidence": 0.93,
+  "target": "reg:concept:llm-as-a-judge",
+  "reason": "The passage is about language-model judges used inside an application, and the Registry has no similar entries, so no candidate exists to match."
+ },
+ {
+  "mention": "agent loop",
+  "decision": "new",
+  "confidence": 0.92,
+  "target": "reg:concept:agent-loop",
+  "reason": "The passage refers to the control loop of an LLM agent in which judges can sit; the Registry is empty so there is nothing to match."
+ },
+ {
+  "mention": "control flow",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:control-flow",
+  "reason": "The passage uses control flow in the software sense of an application's decision path, which a judge can now influence; no candidates exist."
+ },
+ {
+  "mention": "LLM-as-judge",
+  "decision": "new",
+  "confidence": 0.93,
+  "target": "reg:concept:llm-as-a-judge",
+  "reason": "The mention names the pattern of one model judging another's work, and the Registry has no entries to match against."
+ },
+ {
+  "mention": "rubric",
+  "decision": "new",
+  "confidence": 0.92,
+  "target": "reg:concept:rubric",
+  "reason": "The passage lists a rubric as an input given to a judge model alongside the request and result; no candidate exists."
+ },
+ {
+  "mention": "Pairwise judging",
+  "decision": "new",
+  "confidence": 0.93,
+  "target": "reg:concept:pairwise-judging",
+  "reason": "The passage defines pairwise judging as giving a judge two outputs for the same input and asking which is better; the Registry has no candidates."
+ },
+ {
+  "mention": "regression testing",
+  "decision": "new",
+  "confidence": 0.92,
+  "target": "reg:concept:regression-testing",
+  "reason": "The passage uses regression testing for checking that application changes do not make behaviour worse; no candidate exists."
+ },
+ {
+  "mention": "Phoenix",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:entity:phoenix",
+  "reason": "The linked Phoenix is an Arize evaluation tool with evaluators for retrieval and tool use, so it is a named tool; the Registry has no candidates."
+ },
+ {
+  "mention": "LangSmith",
+  "decision": "new",
+  "confidence": 0.93,
+  "target": "reg:entity:langsmith",
+  "reason": "LangSmith is named as a product that applies evaluators to runs, traces and threads, so it is a named tool; no candidate exists."
+ },
+ {
+  "mention": "panels of judges",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:panel-of-judges",
+  "reason": "The passage describes using several judges together as a panel, as research on model evaluation; the Registry has nothing to match."
+ },
+ {
+  "mention": "MAJ-EVAL",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:entity:maj-eval",
+  "reason": "MAJ-EVAL is cited as a specific ACL research work that creates multiple evaluator agents; it is a named work and no candidate exists."
+ },
+ {
+  "mention": "Anthropic",
+  "decision": "new",
+  "confidence": 0.97,
+  "target": "reg:entity:anthropic",
+  "reason": "Anthropic is named as the organisation that built and evaluated Bloom; it is a particular company and the Registry has no candidates."
+ },
+ {
+  "mention": "Bloom",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:entity:bloom",
+  "reason": "Bloom is presented as Anthropic's named evaluation pipeline with candidate judges and a meta-judge, so it is a specific tool; no candidate exists."
+ },
+ {
+  "mention": "meta-judge",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:meta-judge",
+  "reason": "The passage describes a meta-judge as a judge that looks across the broader evaluation results; the Registry has no candidates."
+ },
+ {
+  "mention": "OpenAI",
+  "decision": "new",
+  "confidence": 0.97,
+  "target": "reg:entity:openai",
+  "reason": "OpenAI is named as the organisation whose grader architecture is discussed; it is a specific company and no candidate exists."
+ },
+ {
+  "mention": "agent loops",
+  "decision": "new",
+  "confidence": 0.92,
+  "target": "reg:concept:agent-loop",
+  "reason": "The mention is the plural of the agent loop concept, used for the control cycles that judges move inside; the Registry has no candidates."
+ }
+]

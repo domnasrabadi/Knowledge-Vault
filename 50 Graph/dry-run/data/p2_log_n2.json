@@ -1,0 +1,345 @@
+[
+ {
+  "mention": "reference based evaluation",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:concept:reference-based-evaluation",
+  "reason": "Judging a response by comparing it with a known gold-standard answer; no candidate covers this evaluation mode."
+ },
+ {
+  "mention": "pointwise scoring",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:concept:pointwise-evaluation",
+  "reason": "Scoring a single response on its own, contrasted in the passage with pairwise comparison; pairwise judging is the opposite mode, not the same."
+ },
+ {
+  "mention": "pairwise comparisons",
+  "decision": "match",
+  "confidence": 0.9,
+  "target": "reg:concept:pairwise-judging",
+  "reason": "Pairwise comparisons here means a judge choosing between two responses, which is the definition of pairwise judging."
+ },
+ {
+  "mention": "position swapping",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:concept:position-swapping",
+  "reason": "Running a pairwise comparison twice with the order of responses swapped to debias; no candidate describes this technique."
+ },
+ {
+  "mention": "human judgements",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:human-evaluation",
+  "reason": "Judgements made by people, used to calibrate an LLM judge; no candidate is about human evaluation."
+ },
+ {
+  "mention": "ground truth",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:ground-truth",
+  "reason": "Ground truth means known correct answers or deterministic evaluation data; none of the candidates covers it."
+ },
+ {
+  "mention": "exact match",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:exact-match",
+  "reason": "Exact match is a string-equality metric for traditional evaluation; no candidate matches."
+ },
+ {
+  "mention": "BLEU",
+  "decision": "new",
+  "confidence": 0.92,
+  "target": "reg:concept:bleu",
+  "reason": "BLEU is a named n-gram overlap metric for machine translation; none of the candidates is it."
+ },
+ {
+  "mention": "ROUGE",
+  "decision": "new",
+  "confidence": 0.92,
+  "target": "reg:concept:rouge",
+  "reason": "ROUGE is a named overlap metric used for summarisation; no candidate is it."
+ },
+ {
+  "mention": "human evals",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:concept:human-evaluation",
+  "reason": "Human evals are described as the gold standard that is not scalable; this is human evaluation, which no candidate represents."
+ },
+ {
+  "mention": "agentic systems",
+  "decision": "new",
+  "confidence": 0.75,
+  "target": "reg:concept:agentic-system",
+  "reason": "Agentic systems are LLM systems that act autonomously; the agent loop candidate is a specific mechanism, not the same thing."
+ },
+ {
+  "mention": "pareto principle",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:pareto-principle",
+  "reason": "The Pareto principle is the general 80/20 rule, used here as an analogy; no candidate is related."
+ },
+ {
+  "mention": "Pointwise evaluation",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:pointwise-evaluation",
+  "reason": "Pointwise evaluation scores one response alone, as opposed to pairwise judging which compares two."
+ },
+ {
+  "mention": "likert scale",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:likert-scale",
+  "reason": "A Likert scale is a rating scale used for scoring; no candidate covers it."
+ },
+ {
+  "mention": "Pairwise evaluation",
+  "decision": "match",
+  "confidence": 0.95,
+  "target": "reg:concept:pairwise-judging",
+  "reason": "The passage defines pairwise evaluation as presenting two responses and asking the judge to pick the better one, matching pairwise judging."
+ },
+ {
+  "mention": "RLHF",
+  "decision": "new",
+  "confidence": 0.92,
+  "target": "reg:concept:reinforcement-learning-from-human-feedback",
+  "reason": "RLHF is reinforcement learning from human feedback, a training method; no candidate is it."
+ },
+ {
+  "mention": "A/B testing",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:a-b-testing",
+  "reason": "A/B testing is comparing two variants on live or sampled outputs; the candidates do not cover it."
+ },
+ {
+  "mention": "Chatbot Arena",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:entity:chatbot-arena",
+  "reason": "Chatbot Arena is a named platform for pairwise model comparison; none of the candidates is it."
+ },
+ {
+  "mention": "Listwise evaluation",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:listwise-evaluation",
+  "reason": "Listwise evaluation ranks several responses at once; it extends but is not pairwise judging."
+ },
+ {
+  "mention": "multi-dimensional rubrics",
+  "decision": "new",
+  "confidence": 0.7,
+  "target": "reg:concept:multi-dimensional-rubric",
+  "reason": "Multi-dimensional rubrics are a narrower variant of a rubric (scoring several aspects separately), so not the same as the general rubric entry."
+ },
+ {
+  "mention": "judge prompt",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:judge-prompt",
+  "reason": "The judge prompt is the prompt given to an LLM judge; no candidate covers prompt design."
+ },
+ {
+  "mention": "scoring rubric",
+  "decision": "match",
+  "confidence": 0.87,
+  "target": "reg:concept:rubric",
+  "reason": "The explicit scoring rubric defines what each score level means for the judge, matching the rubric candidate."
+ },
+ {
+  "mention": "few shot examples",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:few-shot-examples",
+  "reason": "Few-shot examples are demonstrations included in a prompt; no candidate covers this."
+ },
+ {
+  "mention": "likert scales",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:likert-scale",
+  "reason": "Likert scales are rating scales with discrete points; the same concept as Likert scale and not among the candidates."
+ },
+ {
+  "mention": "temperature",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:temperature",
+  "reason": "Temperature here is the sampling parameter controlling randomness of LLM output; no candidate matches."
+ },
+ {
+  "mention": "ensemble",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:ensembling",
+  "reason": "Ensemble refers to combining multiple models; none of the candidates is this general idea."
+ },
+ {
+  "mention": "position bias",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:position-bias",
+  "reason": "Position bias is a judge favouring a response because of its position; no candidate describes it."
+ },
+ {
+  "mention": "verbosity bias",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:verbosity-bias",
+  "reason": "Verbosity bias is a judge favouring longer answers; no candidate matches."
+ },
+ {
+  "mention": "self-enhancement bias",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:self-enhancement-bias",
+  "reason": "Self-enhancement bias is a judge favouring its own outputs; no candidate matches."
+ },
+ {
+  "mention": "authority bias",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:authority-bias",
+  "reason": "Authority bias is a judge favouring responses that sound authoritative or cite authority; no candidate matches."
+ },
+ {
+  "mention": "format bias",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:format-bias",
+  "reason": "Format bias is a judge being swayed by formatting; no candidate matches."
+ },
+ {
+  "mention": "tool call evals",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:concept:tool-call-evaluation",
+  "reason": "Deterministic evaluation of tool calls; no candidate covers it."
+ },
+ {
+  "mention": "structured output evals",
+  "decision": "new",
+  "confidence": 0.85,
+  "target": "reg:concept:structured-output-evaluation",
+  "reason": "Deterministic evaluation of structured output; no candidate covers it."
+ },
+ {
+  "mention": "tool input evals",
+  "decision": "new",
+  "confidence": 0.82,
+  "target": "reg:concept:tool-input-evaluation",
+  "reason": "Evaluating the inputs passed to tools; no candidate covers it."
+ },
+ {
+  "mention": "safety critical evals",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:safety-critical-evaluation",
+  "reason": "Evals in safety-critical settings where LLM judges are risky; no candidate covers it."
+ },
+ {
+  "mention": "content moderation",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:content-moderation",
+  "reason": "Content moderation is screening content for harmful material; no candidate matches."
+ },
+ {
+  "mention": "toxicity detection",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:toxicity-detection",
+  "reason": "Toxicity detection is identifying toxic language; no candidate matches."
+ },
+ {
+  "mention": "human review",
+  "decision": "new",
+  "confidence": 0.75,
+  "target": "reg:concept:human-review",
+  "reason": "Human review of flagged or sampled outputs for calibration; not the same as any candidate."
+ },
+ {
+  "mention": "LLM judge",
+  "decision": "match",
+  "confidence": 0.96,
+  "target": "reg:concept:llm-as-a-judge",
+  "reason": "LLM judge is the singular form of the alias LLM judges for LLM-as-a-judge, and the passage is about using LLMs to score responses."
+ },
+ {
+  "mention": "embedding similarity",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:embedding-similarity",
+  "reason": "Embedding similarity is measuring closeness of text embeddings; no candidate matches."
+ },
+ {
+  "mention": "human annotations",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:human-annotation",
+  "reason": "Human annotations are human-provided labels used to validate the judge; no candidate covers them."
+ },
+ {
+  "mention": "human labels",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:human-annotation",
+  "reason": "Human labels are people's ratings of responses used to compare with LLM scores; no candidate covers them."
+ },
+ {
+  "mention": "Cohen's Kappa",
+  "decision": "new",
+  "confidence": 0.93,
+  "target": "reg:concept:cohen-s-kappa",
+  "reason": "Cohen's Kappa is a named inter-rater agreement statistic; no candidate matches."
+ },
+ {
+  "mention": "ensembling judges",
+  "decision": "match",
+  "confidence": 0.86,
+  "target": "reg:concept:panel-of-judges",
+  "reason": "Ensembling judges means using several model judges and aggregating their scores, which fits the panel of judges definition."
+ },
+ {
+  "mention": "ensembling",
+  "decision": "new",
+  "confidence": 0.72,
+  "target": "reg:concept:ensembling",
+  "reason": "Here ensembling refers to the general technique of combining models; the panel of judges candidate is not listed and the general idea is broader."
+ },
+ {
+  "mention": "self-preference bias",
+  "decision": "new",
+  "confidence": 0.88,
+  "target": "reg:concept:self-preference-bias",
+  "reason": "Self-preference bias is a judge favouring outputs from its own model family; no candidate describes it."
+ },
+ {
+  "mention": "reference responses",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:reference-response",
+  "reason": "Reference responses are expected answers a judge compares against; no candidate covers them."
+ },
+ {
+  "mention": "human judgments",
+  "decision": "new",
+  "confidence": 0.8,
+  "target": "reg:concept:human-evaluation",
+  "reason": "Human judgments used to validate an LLM judge; this is human evaluation, which no candidate represents."
+ },
+ {
+  "mention": "human evaluation",
+  "decision": "new",
+  "confidence": 0.9,
+  "target": "reg:concept:human-evaluation",
+  "reason": "Human evaluation is people grading outputs; none of the candidates covers it."
+ }
+]

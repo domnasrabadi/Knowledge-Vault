@@ -1,0 +1,460 @@
+{
+ "n3-p01": [
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:agentic-system",
+   "name": "agentic system"
+  }
+ ],
+ "n3-p02": [
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:automated-evaluation",
+   "name": "automated evaluation"
+  },
+  {
+   "id": "reg:concept:single-turn-evaluation",
+   "name": "single-turn evaluation"
+  },
+  {
+   "id": "reg:concept:large-language-model",
+   "name": "large language model"
+  },
+  {
+   "id": "reg:concept:multi-turn-evaluation",
+   "name": "multi-turn evaluation"
+  },
+  {
+   "id": "reg:concept:agent-evaluation",
+   "name": "agent evaluation"
+  }
+ ],
+ "n3-p03": [
+  {
+   "id": "reg:concept:agent-evaluation",
+   "name": "agent evaluation"
+  },
+  {
+   "id": "reg:concept:evaluation-task",
+   "name": "evaluation task"
+  },
+  {
+   "id": "reg:concept:evaluation-trial",
+   "name": "evaluation trial"
+  },
+  {
+   "id": "reg:concept:grader",
+   "name": "grader"
+  },
+  {
+   "id": "reg:concept:transcript",
+   "name": "transcript"
+  },
+  {
+   "id": "reg:entity:anthropic-api",
+   "name": "Anthropic API"
+  },
+  {
+   "id": "reg:concept:evaluation-harness",
+   "name": "evaluation harness"
+  },
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:agent-harness",
+   "name": "agent harness"
+  },
+  {
+   "id": "reg:entity:claude-code",
+   "name": "Claude Code"
+  },
+  {
+   "id": "reg:entity:claude-agent-sdk",
+   "name": "Claude Agent SDK"
+  },
+  {
+   "id": "reg:concept:evaluation-suite",
+   "name": "evaluation suite"
+  }
+ ],
+ "n3-p04": [
+  {
+   "id": "reg:concept:dogfooding",
+   "name": "dogfooding"
+  },
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:entity:claude-code",
+   "name": "Claude Code"
+  },
+  {
+   "id": "reg:entity:anthropic",
+   "name": "Anthropic"
+  },
+  {
+   "id": "reg:concept:production-monitoring",
+   "name": "production monitoring"
+  },
+  {
+   "id": "reg:concept:a-b-testing",
+   "name": "A/B testing"
+  }
+ ],
+ "n3-p05": [
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:edge-case",
+   "name": "edge case"
+  },
+  {
+   "id": "reg:concept:evaluation-suite",
+   "name": "evaluation suite"
+  },
+  {
+   "id": "reg:concept:baseline",
+   "name": "baseline"
+  },
+  {
+   "id": "reg:concept:regression-testing",
+   "name": "regression testing"
+  }
+ ],
+ "n3-p07": [
+  {
+   "id": "reg:concept:agent-evaluation",
+   "name": "agent evaluation"
+  },
+  {
+   "id": "reg:concept:code-based-grader",
+   "name": "code-based grader"
+  }
+ ],
+ "n3-p09": [
+  {
+   "id": "reg:concept:model-based-grader",
+   "name": "model-based grader"
+  }
+ ],
+ "n3-p11": [
+  {
+   "id": "reg:concept:capability-evaluation",
+   "name": "capability evaluation"
+  },
+  {
+   "id": "reg:concept:regression-evaluation",
+   "name": "regression evaluation"
+  },
+  {
+   "id": "reg:concept:regression-suite",
+   "name": "regression suite"
+  }
+ ],
+ "n3-p12": [
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:coding-agent",
+   "name": "coding agent"
+  },
+  {
+   "id": "reg:concept:deterministic-grader",
+   "name": "deterministic grader"
+  },
+  {
+   "id": "reg:entity:swe-bench-verified",
+   "name": "SWE-bench Verified"
+  },
+  {
+   "id": "reg:entity:terminal-bench",
+   "name": "Terminal-Bench"
+  }
+ ],
+ "n3-p13": [
+  {
+   "id": "reg:concept:conversational-agent",
+   "name": "conversational agent"
+  },
+  {
+   "id": "reg:concept:rubric",
+   "name": "rubric"
+  },
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:large-language-model",
+   "name": "large language model"
+  },
+  {
+   "id": "reg:entity:bench",
+   "name": "τ-Bench"
+  },
+  {
+   "id": "reg:entity:2-bench",
+   "name": "τ2-Bench"
+  }
+ ],
+ "n3-p14": [
+  {
+   "id": "reg:concept:research-agent",
+   "name": "research agent"
+  },
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:ground-truth",
+   "name": "ground truth"
+  },
+  {
+   "id": "reg:concept:groundedness-check",
+   "name": "groundedness check"
+  },
+  {
+   "id": "reg:concept:coverage-check",
+   "name": "coverage check"
+  },
+  {
+   "id": "reg:concept:source-quality-check",
+   "name": "source quality check"
+  },
+  {
+   "id": "reg:concept:exact-match",
+   "name": "exact match"
+  },
+  {
+   "id": "reg:concept:large-language-model",
+   "name": "large language model"
+  },
+  {
+   "id": "reg:concept:llm-based-rubric",
+   "name": "LLM-based rubric"
+  }
+ ],
+ "n3-p15": [
+  {
+   "id": "reg:concept:pass-k",
+   "name": "pass@k"
+  },
+  {
+   "id": "reg:concept:pass-1",
+   "name": "pass@1"
+  }
+ ],
+ "n3-p17": [
+  {
+   "id": "reg:concept:eval-driven-development",
+   "name": "eval-driven development"
+  }
+ ],
+ "n3-p18": [
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:pareto-principle",
+   "name": "Pareto principle"
+  }
+ ],
+ "n3-p19": [
+  {
+   "id": "reg:concept:reference-response",
+   "name": "reference response"
+  },
+  {
+   "id": "reg:concept:model-based-grader",
+   "name": "model-based grader"
+  },
+  {
+   "id": "reg:concept:rubric",
+   "name": "rubric"
+  }
+ ],
+ "n3-p20": [
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:class-imbalance",
+   "name": "class imbalance"
+  },
+  {
+   "id": "reg:entity:claude-ai",
+   "name": "Claude.ai"
+  },
+  {
+   "id": "reg:concept:undertriggering",
+   "name": "undertriggering"
+  },
+  {
+   "id": "reg:concept:overtriggering",
+   "name": "overtriggering"
+  }
+ ],
+ "n3-p21": [
+  {
+   "id": "reg:concept:eval-harness",
+   "name": "eval harness"
+  }
+ ],
+ "n3-p22": [
+  {
+   "id": "reg:concept:deterministic-grader",
+   "name": "deterministic grader"
+  },
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:human-evaluation",
+   "name": "human evaluation"
+  },
+  {
+   "id": "reg:concept:partial-credit",
+   "name": "partial credit"
+  },
+  {
+   "id": "reg:concept:rubric",
+   "name": "rubric"
+  }
+ ],
+ "n3-p23": [
+  {
+   "id": "reg:concept:transcript",
+   "name": "transcript"
+  },
+  {
+   "id": "reg:entity:anthropic",
+   "name": "Anthropic"
+  },
+  {
+   "id": "reg:concept:eval-saturation",
+   "name": "eval saturation"
+  }
+ ],
+ "n3-p24": [
+  {
+   "id": "reg:concept:eval-suite",
+   "name": "eval suite"
+  },
+  {
+   "id": "reg:concept:evaluation-suite",
+   "name": "evaluation suite"
+  },
+  {
+   "id": "reg:entity:anthropic",
+   "name": "Anthropic"
+  },
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  },
+  {
+   "id": "reg:concept:unit-test",
+   "name": "unit test"
+  },
+  {
+   "id": "reg:concept:eval-driven-development",
+   "name": "eval-driven development"
+  },
+  {
+   "id": "reg:concept:capability-evaluation",
+   "name": "capability evaluation"
+  }
+ ],
+ "n3-p25": [
+  {
+   "id": "reg:concept:automated-evaluation",
+   "name": "automated evaluation"
+  },
+  {
+   "id": "reg:concept:production-monitoring",
+   "name": "production monitoring"
+  },
+  {
+   "id": "reg:concept:user-feedback",
+   "name": "user feedback"
+  },
+  {
+   "id": "reg:concept:a-b-testing",
+   "name": "A/B testing"
+  },
+  {
+   "id": "reg:concept:transcript-review",
+   "name": "transcript review"
+  },
+  {
+   "id": "reg:concept:human-evaluation",
+   "name": "human evaluation"
+  }
+ ],
+ "n3-p27": [
+  {
+   "id": "reg:concept:automated-evaluation",
+   "name": "automated evaluation"
+  },
+  {
+   "id": "reg:concept:ci-cd",
+   "name": "CI/CD"
+  },
+  {
+   "id": "reg:concept:production-monitoring",
+   "name": "production monitoring"
+  },
+  {
+   "id": "reg:concept:distribution-drift",
+   "name": "distribution drift"
+  },
+  {
+   "id": "reg:concept:a-b-testing",
+   "name": "A/B testing"
+  },
+  {
+   "id": "reg:concept:user-feedback",
+   "name": "user feedback"
+  },
+  {
+   "id": "reg:concept:transcript-review",
+   "name": "transcript review"
+  },
+  {
+   "id": "reg:concept:human-evaluation",
+   "name": "human evaluation"
+  },
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:swiss-cheese-model",
+   "name": "Swiss cheese model"
+  }
+ ],
+ "n3-p28": [
+  {
+   "id": "reg:concept:ai-evaluation",
+   "name": "AI evaluation"
+  }
+ ]
+}

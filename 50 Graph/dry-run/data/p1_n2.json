@@ -1,0 +1,1078 @@
+{
+ "stats": {
+  "returned": 76,
+  "bad_passage": 0,
+  "text_not_found": 1,
+  "offset_wrong": 22
+ },
+ "per_passage": [
+  {
+   "passage_id": "n2-p01",
+   "text": "LLM Judges",
+   "key": "llm judges"
+  },
+  {
+   "passage_id": "n2-p01",
+   "text": "reference based evaluation",
+   "key": "reference based evaluation"
+  },
+  {
+   "passage_id": "n2-p01",
+   "text": "pointwise scoring",
+   "key": "pointwise scoring"
+  },
+  {
+   "passage_id": "n2-p01",
+   "text": "pairwise comparisons",
+   "key": "pairwise comparisons"
+  },
+  {
+   "passage_id": "n2-p01",
+   "text": "position swapping",
+   "key": "position swapping"
+  },
+  {
+   "passage_id": "n2-p01",
+   "text": "human judgements",
+   "key": "human judgements"
+  },
+  {
+   "passage_id": "n2-p01",
+   "text": "ground truth",
+   "key": "ground truth"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "exact match",
+   "key": "exact match"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "BLEU",
+   "key": "bleu"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "ROUGE",
+   "key": "rouge"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "human evals",
+   "key": "human evals"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "LLM-as-Judge",
+   "key": "llm as judge"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "LLM Judges",
+   "key": "llm judges"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "agentic systems",
+   "key": "agentic systems"
+  },
+  {
+   "passage_id": "n2-p02",
+   "text": "pareto principle",
+   "key": "pareto principle"
+  },
+  {
+   "passage_id": "n2-p03",
+   "text": "Pointwise evaluation",
+   "key": "pointwise evaluation"
+  },
+  {
+   "passage_id": "n2-p03",
+   "text": "likert scale",
+   "key": "likert scale"
+  },
+  {
+   "passage_id": "n2-p03",
+   "text": "Reference based evaluation",
+   "key": "reference based evaluation"
+  },
+  {
+   "passage_id": "n2-p03",
+   "text": "ground truth",
+   "key": "ground truth"
+  },
+  {
+   "passage_id": "n2-p04",
+   "text": "Pairwise evaluation",
+   "key": "pairwise evaluation"
+  },
+  {
+   "passage_id": "n2-p04",
+   "text": "RLHF",
+   "key": "rlhf"
+  },
+  {
+   "passage_id": "n2-p04",
+   "text": "A/B testing",
+   "key": "a b testing"
+  },
+  {
+   "passage_id": "n2-p04",
+   "text": "Chatbot Arena",
+   "key": "chatbot arena"
+  },
+  {
+   "passage_id": "n2-p04",
+   "text": "Listwise evaluation",
+   "key": "listwise evaluation"
+  },
+  {
+   "passage_id": "n2-p04",
+   "text": "multi-dimensional rubrics",
+   "key": "multi dimensional rubrics"
+  },
+  {
+   "passage_id": "n2-p04",
+   "text": "pointwise scoring",
+   "key": "pointwise scoring"
+  },
+  {
+   "passage_id": "n2-p05",
+   "text": "judge prompt",
+   "key": "judge prompt"
+  },
+  {
+   "passage_id": "n2-p05",
+   "text": "scoring rubric",
+   "key": "scoring rubric"
+  },
+  {
+   "passage_id": "n2-p05",
+   "text": "likert scale",
+   "key": "likert scale"
+  },
+  {
+   "passage_id": "n2-p05",
+   "text": "few shot examples",
+   "key": "few shot examples"
+  },
+  {
+   "passage_id": "n2-p07",
+   "text": "likert scales",
+   "key": "likert scales"
+  },
+  {
+   "passage_id": "n2-p07",
+   "text": "temperature",
+   "key": "temperature"
+  },
+  {
+   "passage_id": "n2-p08",
+   "text": "ensemble",
+   "key": "ensemble"
+  },
+  {
+   "passage_id": "n2-p08",
+   "text": "position bias",
+   "key": "position bias"
+  },
+  {
+   "passage_id": "n2-p08",
+   "text": "verbosity bias",
+   "key": "verbosity bias"
+  },
+  {
+   "passage_id": "n2-p08",
+   "text": "self-enhancement bias",
+   "key": "self enhancement bias"
+  },
+  {
+   "passage_id": "n2-p08",
+   "text": "authority bias",
+   "key": "authority bias"
+  },
+  {
+   "passage_id": "n2-p08",
+   "text": "format bias",
+   "key": "format bias"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "LLM judges",
+   "key": "llm judges"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "ground truth",
+   "key": "ground truth"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "tool call evals",
+   "key": "tool call evals"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "structured output evals",
+   "key": "structured output evals"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "tool input evals",
+   "key": "tool input evals"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "safety critical evals",
+   "key": "safety critical evals"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "content moderation",
+   "key": "content moderation"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "toxicity detection",
+   "key": "toxicity detection"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "human review",
+   "key": "human review"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "human evals",
+   "key": "human evals"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "LLM judge",
+   "key": "llm judge"
+  },
+  {
+   "passage_id": "n2-p09",
+   "text": "embedding similarity",
+   "key": "embedding similarity"
+  },
+  {
+   "passage_id": "n2-p10",
+   "text": "human annotations",
+   "key": "human annotations"
+  },
+  {
+   "passage_id": "n2-p10",
+   "text": "human labels",
+   "key": "human labels"
+  },
+  {
+   "passage_id": "n2-p10",
+   "text": "Cohen's Kappa",
+   "key": "cohen s kappa"
+  },
+  {
+   "passage_id": "n2-p10",
+   "text": "LLM Judge",
+   "key": "llm judge"
+  },
+  {
+   "passage_id": "n2-p10",
+   "text": "ensembling judges",
+   "key": "ensembling judges"
+  },
+  {
+   "passage_id": "n2-p10",
+   "text": "ensembling",
+   "key": "ensembling"
+  },
+  {
+   "passage_id": "n2-p10",
+   "text": "self-preference bias",
+   "key": "self preference bias"
+  },
+  {
+   "passage_id": "n2-p11",
+   "text": "reference responses",
+   "key": "reference responses"
+  },
+  {
+   "passage_id": "n2-p11",
+   "text": "pointwise scoring",
+   "key": "pointwise scoring"
+  },
+  {
+   "passage_id": "n2-p11",
+   "text": "ground-truth",
+   "key": "ground truth"
+  },
+  {
+   "passage_id": "n2-p11",
+   "text": "pairwise comparisons",
+   "key": "pairwise comparisons"
+  },
+  {
+   "passage_id": "n2-p11",
+   "text": "position bias",
+   "key": "position bias"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "position bias",
+   "key": "position bias"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "self-enhancement bias",
+   "key": "self enhancement bias"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "pairwise comparisons",
+   "key": "pairwise comparisons"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "human judgments",
+   "key": "human judgments"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "Reference responses",
+   "key": "reference responses"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "Pointwise evaluation",
+   "key": "pointwise evaluation"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "ground truth",
+   "key": "ground truth"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "Reference based evaluation",
+   "key": "reference based evaluation"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "LLM judges",
+   "key": "llm judges"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "human review",
+   "key": "human review"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "LLM judge",
+   "key": "llm judge"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "LLM as a judge",
+   "key": "llm as a judge"
+  },
+  {
+   "passage_id": "n2-p13",
+   "text": "human evaluation",
+   "key": "human evaluation"
+  }
+ ],
+ "exact": {
+  "llm judges": "reg:concept:llm-as-a-judge",
+  "llm as judge": "reg:concept:llm-as-a-judge",
+  "llm as a judge": "reg:concept:llm-as-a-judge"
+ },
+ "todo": [
+  {
+   "item": 1,
+   "key": "reference based evaluation",
+   "text": "reference based evaluation",
+   "kind": "concept",
+   "passage_id": "n2-p01",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:entity:maj-eval",
+    "reg:concept:pairwise-judging",
+    "reg:concept:agent-loop",
+    "reg:entity:openai"
+   ]
+  },
+  {
+   "item": 2,
+   "key": "pointwise scoring",
+   "text": "pointwise scoring",
+   "kind": "concept",
+   "passage_id": "n2-p01",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:concept:regression-testing",
+    "reg:entity:anthropic",
+    "reg:concept:agent-loop",
+    "reg:concept:control-flow"
+   ]
+  },
+  {
+   "item": 3,
+   "key": "pairwise comparisons",
+   "text": "pairwise comparisons",
+   "kind": "concept",
+   "passage_id": "n2-p01",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:concept:panel-of-judges",
+    "reg:concept:control-flow",
+    "reg:concept:rubric",
+    "reg:entity:openai"
+   ]
+  },
+  {
+   "item": 4,
+   "key": "position swapping",
+   "text": "position swapping",
+   "kind": "concept",
+   "passage_id": "n2-p01",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:pairwise-judging",
+    "reg:concept:control-flow",
+    "reg:concept:llm-as-a-judge",
+    "reg:entity:phoenix"
+   ]
+  },
+  {
+   "item": 5,
+   "key": "human judgements",
+   "text": "human judgements",
+   "kind": "concept",
+   "passage_id": "n2-p01",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:meta-judge",
+    "reg:concept:panel-of-judges",
+    "reg:concept:agent-loop",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 6,
+   "key": "ground truth",
+   "text": "ground truth",
+   "kind": "concept",
+   "passage_id": "n2-p01",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:entity:langsmith",
+    "reg:concept:control-flow",
+    "reg:concept:rubric",
+    "reg:entity:openai"
+   ]
+  },
+  {
+   "item": 7,
+   "key": "exact match",
+   "text": "exact match",
+   "kind": "concept",
+   "passage_id": "n2-p02",
+   "candidates": [
+    "reg:entity:langsmith",
+    "reg:concept:agent-loop",
+    "reg:concept:meta-judge",
+    "reg:concept:control-flow",
+    "reg:entity:openai"
+   ]
+  },
+  {
+   "item": 8,
+   "key": "bleu",
+   "text": "BLEU",
+   "kind": "concept",
+   "passage_id": "n2-p02",
+   "candidates": [
+    "reg:entity:bloom",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:meta-judge",
+    "reg:concept:panel-of-judges",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 9,
+   "key": "rouge",
+   "text": "ROUGE",
+   "kind": "concept",
+   "passage_id": "n2-p02",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:panel-of-judges",
+    "reg:concept:meta-judge",
+    "reg:concept:rubric",
+    "reg:entity:openai"
+   ]
+  },
+  {
+   "item": 10,
+   "key": "human evals",
+   "text": "human evals",
+   "kind": "concept",
+   "passage_id": "n2-p02",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:agent-loop",
+    "reg:concept:panel-of-judges",
+    "reg:entity:langsmith",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 11,
+   "key": "agentic systems",
+   "text": "agentic systems",
+   "kind": "concept",
+   "passage_id": "n2-p02",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:entity:anthropic",
+    "reg:concept:regression-testing",
+    "reg:entity:openai",
+    "reg:entity:phoenix"
+   ]
+  },
+  {
+   "item": 12,
+   "key": "pareto principle",
+   "text": "pareto principle",
+   "kind": "concept",
+   "passage_id": "n2-p02",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:concept:panel-of-judges",
+    "reg:concept:rubric",
+    "reg:concept:meta-judge",
+    "reg:concept:regression-testing"
+   ]
+  },
+  {
+   "item": 13,
+   "key": "pointwise evaluation",
+   "text": "Pointwise evaluation",
+   "kind": "concept",
+   "passage_id": "n2-p03",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:entity:maj-eval",
+    "reg:concept:agent-loop",
+    "reg:concept:control-flow",
+    "reg:entity:phoenix"
+   ]
+  },
+  {
+   "item": 14,
+   "key": "likert scale",
+   "text": "likert scale",
+   "kind": "concept",
+   "passage_id": "n2-p03",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:concept:meta-judge",
+    "reg:entity:maj-eval",
+    "reg:entity:langsmith",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 15,
+   "key": "pairwise evaluation",
+   "text": "Pairwise evaluation",
+   "kind": "concept",
+   "passage_id": "n2-p04",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:entity:maj-eval",
+    "reg:concept:regression-testing",
+    "reg:entity:openai",
+    "reg:concept:panel-of-judges"
+   ]
+  },
+  {
+   "item": 16,
+   "key": "rlhf",
+   "text": "RLHF",
+   "kind": "concept",
+   "passage_id": "n2-p04",
+   "candidates": [
+    "reg:concept:control-flow",
+    "reg:entity:langsmith",
+    "reg:entity:bloom",
+    "reg:concept:panel-of-judges",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 17,
+   "key": "a b testing",
+   "text": "A/B testing",
+   "kind": "concept",
+   "passage_id": "n2-p04",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:panel-of-judges",
+    "reg:concept:pairwise-judging",
+    "reg:concept:llm-as-a-judge",
+    "reg:entity:maj-eval"
+   ]
+  },
+  {
+   "item": 18,
+   "key": "chatbot arena",
+   "text": "Chatbot Arena",
+   "kind": "entity",
+   "passage_id": "n2-p04",
+   "candidates": [
+    "reg:entity:openai",
+    "reg:entity:phoenix",
+    "reg:concept:control-flow",
+    "reg:concept:panel-of-judges",
+    "reg:entity:maj-eval"
+   ]
+  },
+  {
+   "item": 19,
+   "key": "listwise evaluation",
+   "text": "Listwise evaluation",
+   "kind": "concept",
+   "passage_id": "n2-p04",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:entity:maj-eval",
+    "reg:concept:regression-testing",
+    "reg:entity:langsmith",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 20,
+   "key": "multi dimensional rubrics",
+   "text": "multi-dimensional rubrics",
+   "kind": "concept",
+   "passage_id": "n2-p04",
+   "candidates": [
+    "reg:concept:rubric",
+    "reg:concept:regression-testing",
+    "reg:entity:maj-eval",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:meta-judge"
+   ]
+  },
+  {
+   "item": 21,
+   "key": "judge prompt",
+   "text": "judge prompt",
+   "kind": "concept",
+   "passage_id": "n2-p05",
+   "candidates": [
+    "reg:concept:meta-judge",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:panel-of-judges",
+    "reg:concept:agent-loop",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 22,
+   "key": "scoring rubric",
+   "text": "scoring rubric",
+   "kind": "concept",
+   "passage_id": "n2-p05",
+   "candidates": [
+    "reg:concept:rubric",
+    "reg:concept:regression-testing",
+    "reg:concept:control-flow",
+    "reg:concept:pairwise-judging",
+    "reg:entity:langsmith"
+   ]
+  },
+  {
+   "item": 23,
+   "key": "few shot examples",
+   "text": "few shot examples",
+   "kind": "concept",
+   "passage_id": "n2-p05",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:entity:phoenix",
+    "reg:entity:maj-eval",
+    "reg:concept:panel-of-judges",
+    "reg:entity:anthropic"
+   ]
+  },
+  {
+   "item": 24,
+   "key": "likert scales",
+   "text": "likert scales",
+   "kind": "concept",
+   "passage_id": "n2-p07",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:agent-loop",
+    "reg:concept:meta-judge",
+    "reg:concept:panel-of-judges",
+    "reg:entity:maj-eval"
+   ]
+  },
+  {
+   "item": 25,
+   "key": "temperature",
+   "text": "temperature",
+   "kind": "concept",
+   "passage_id": "n2-p07",
+   "candidates": [
+    "reg:concept:rubric",
+    "reg:entity:openai",
+    "reg:entity:maj-eval",
+    "reg:concept:regression-testing",
+    "reg:entity:anthropic"
+   ]
+  },
+  {
+   "item": 26,
+   "key": "ensemble",
+   "text": "ensemble",
+   "kind": "concept",
+   "passage_id": "n2-p08",
+   "candidates": [
+    "reg:entity:langsmith",
+    "reg:concept:agent-loop",
+    "reg:entity:bloom",
+    "reg:entity:openai",
+    "reg:entity:phoenix"
+   ]
+  },
+  {
+   "item": 27,
+   "key": "position bias",
+   "text": "position bias",
+   "kind": "concept",
+   "passage_id": "n2-p08",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:entity:phoenix",
+    "reg:concept:pairwise-judging",
+    "reg:entity:langsmith",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 28,
+   "key": "verbosity bias",
+   "text": "verbosity bias",
+   "kind": "concept",
+   "passage_id": "n2-p08",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:rubric",
+    "reg:entity:langsmith",
+    "reg:entity:anthropic",
+    "reg:concept:meta-judge"
+   ]
+  },
+  {
+   "item": 29,
+   "key": "self enhancement bias",
+   "text": "self-enhancement bias",
+   "kind": "concept",
+   "passage_id": "n2-p08",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:entity:langsmith",
+    "reg:concept:panel-of-judges",
+    "reg:entity:openai",
+    "reg:concept:meta-judge"
+   ]
+  },
+  {
+   "item": 30,
+   "key": "authority bias",
+   "text": "authority bias",
+   "kind": "concept",
+   "passage_id": "n2-p08",
+   "candidates": [
+    "reg:entity:anthropic",
+    "reg:concept:agent-loop",
+    "reg:concept:rubric",
+    "reg:entity:phoenix",
+    "reg:entity:maj-eval"
+   ]
+  },
+  {
+   "item": 31,
+   "key": "format bias",
+   "text": "format bias",
+   "kind": "concept",
+   "passage_id": "n2-p08",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:agent-loop",
+    "reg:concept:rubric",
+    "reg:entity:openai",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 32,
+   "key": "tool call evals",
+   "text": "tool call evals",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:control-flow",
+    "reg:concept:panel-of-judges",
+    "reg:concept:agent-loop"
+   ]
+  },
+  {
+   "item": 33,
+   "key": "structured output evals",
+   "text": "structured output evals",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:panel-of-judges",
+    "reg:concept:agent-loop",
+    "reg:concept:control-flow",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 34,
+   "key": "tool input evals",
+   "text": "tool input evals",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:agent-loop",
+    "reg:concept:control-flow",
+    "reg:concept:panel-of-judges"
+   ]
+  },
+  {
+   "item": 35,
+   "key": "safety critical evals",
+   "text": "safety critical evals",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:panel-of-judges",
+    "reg:entity:anthropic",
+    "reg:concept:agent-loop",
+    "reg:concept:control-flow"
+   ]
+  },
+  {
+   "item": 36,
+   "key": "content moderation",
+   "text": "content moderation",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:entity:openai",
+    "reg:concept:control-flow",
+    "reg:entity:phoenix",
+    "reg:entity:anthropic"
+   ]
+  },
+  {
+   "item": 37,
+   "key": "toxicity detection",
+   "text": "toxicity detection",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:entity:anthropic",
+    "reg:concept:regression-testing",
+    "reg:concept:panel-of-judges",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 38,
+   "key": "human review",
+   "text": "human review",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:entity:anthropic",
+    "reg:concept:rubric",
+    "reg:entity:phoenix",
+    "reg:concept:panel-of-judges"
+   ]
+  },
+  {
+   "item": 39,
+   "key": "llm judge",
+   "text": "LLM judge",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:meta-judge",
+    "reg:concept:panel-of-judges",
+    "reg:concept:pairwise-judging",
+    "reg:entity:bloom"
+   ]
+  },
+  {
+   "item": 40,
+   "key": "embedding similarity",
+   "text": "embedding similarity",
+   "kind": "concept",
+   "passage_id": "n2-p09",
+   "candidates": [
+    "reg:entity:langsmith",
+    "reg:concept:pairwise-judging",
+    "reg:concept:agent-loop",
+    "reg:concept:regression-testing",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 41,
+   "key": "human annotations",
+   "text": "human annotations",
+   "kind": "concept",
+   "passage_id": "n2-p10",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:entity:maj-eval",
+    "reg:concept:panel-of-judges",
+    "reg:entity:anthropic",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 42,
+   "key": "human labels",
+   "text": "human labels",
+   "kind": "concept",
+   "passage_id": "n2-p10",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:entity:maj-eval",
+    "reg:concept:panel-of-judges",
+    "reg:entity:langsmith",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 43,
+   "key": "cohen s kappa",
+   "text": "Cohen's Kappa",
+   "kind": "concept",
+   "passage_id": "n2-p10",
+   "candidates": [
+    "reg:entity:openai",
+    "reg:concept:agent-loop",
+    "reg:concept:control-flow",
+    "reg:entity:phoenix",
+    "reg:concept:llm-as-a-judge"
+   ]
+  },
+  {
+   "item": 44,
+   "key": "ensembling judges",
+   "text": "ensembling judges",
+   "kind": "concept",
+   "passage_id": "n2-p10",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:panel-of-judges",
+    "reg:concept:meta-judge",
+    "reg:concept:pairwise-judging",
+    "reg:concept:regression-testing"
+   ]
+  },
+  {
+   "item": 45,
+   "key": "ensembling",
+   "text": "ensembling",
+   "kind": "concept",
+   "passage_id": "n2-p10",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:pairwise-judging",
+    "reg:entity:openai",
+    "reg:entity:phoenix",
+    "reg:entity:langsmith"
+   ]
+  },
+  {
+   "item": 46,
+   "key": "self preference bias",
+   "text": "self-preference bias",
+   "kind": "concept",
+   "passage_id": "n2-p10",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:panel-of-judges",
+    "reg:entity:openai",
+    "reg:entity:phoenix",
+    "reg:concept:agent-loop"
+   ]
+  },
+  {
+   "item": 47,
+   "key": "reference responses",
+   "text": "reference responses",
+   "kind": "concept",
+   "passage_id": "n2-p11",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:panel-of-judges",
+    "reg:concept:agent-loop",
+    "reg:concept:rubric",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 48,
+   "key": "human judgments",
+   "text": "human judgments",
+   "kind": "concept",
+   "passage_id": "n2-p13",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:meta-judge",
+    "reg:concept:panel-of-judges",
+    "reg:concept:agent-loop",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 49,
+   "key": "human evaluation",
+   "text": "human evaluation",
+   "kind": "concept",
+   "passage_id": "n2-p13",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:agent-loop",
+    "reg:entity:anthropic",
+    "reg:entity:phoenix",
+    "reg:concept:panel-of-judges"
+   ]
+  }
+ ]
+}

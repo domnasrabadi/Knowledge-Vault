@@ -1,0 +1,94 @@
+{
+ "n1-p01": [
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:agent-loop",
+   "name": "agent loop"
+  },
+  {
+   "id": "reg:concept:control-flow",
+   "name": "control flow"
+  }
+ ],
+ "n1-p02": [
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:rubric",
+   "name": "rubric"
+  }
+ ],
+ "n1-p04": [
+  {
+   "id": "reg:concept:pairwise-judging",
+   "name": "pairwise judging"
+  },
+  {
+   "id": "reg:concept:regression-testing",
+   "name": "regression testing"
+  }
+ ],
+ "n1-p05": [
+  {
+   "id": "reg:entity:phoenix",
+   "name": "Phoenix"
+  },
+  {
+   "id": "reg:entity:langsmith",
+   "name": "LangSmith"
+  }
+ ],
+ "n1-p06": [
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:panel-of-judges",
+   "name": "panel of judges"
+  },
+  {
+   "id": "reg:entity:maj-eval",
+   "name": "MAJ-EVAL"
+  }
+ ],
+ "n1-p07": [
+  {
+   "id": "reg:entity:anthropic",
+   "name": "Anthropic"
+  },
+  {
+   "id": "reg:entity:bloom",
+   "name": "Bloom"
+  },
+  {
+   "id": "reg:concept:meta-judge",
+   "name": "meta-judge"
+  }
+ ],
+ "n1-p08": [
+  {
+   "id": "reg:entity:openai",
+   "name": "OpenAI"
+  }
+ ],
+ "n1-p09": [
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:agent-loop",
+   "name": "agent loop"
+  },
+  {
+   "id": "reg:concept:control-flow",
+   "name": "control flow"
+  }
+ ]
+}

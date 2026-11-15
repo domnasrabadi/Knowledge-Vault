@@ -1,0 +1,402 @@
+[
+ {
+  "id": "n1-p01",
+  "note": "n1",
+  "section": "n1-s01",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges)",
+  "text": "<div align=\"center\">\n  <img src=\"https://pbs.twimg.com/profile_images/1418279052805353474/zn_g71-U.jpg\" width=\"220\" />\n</div>\n\n- Increasingly, we are seeing products put LLM judges directly inside the agent loop rather than using them as an offline tool.\n    - The judge is no longer just evaluating the application. It’s participating in its control flow.\n- Here are some common patterns for LLM-as-judge that you should consider adopting as part of your product’s application architecture.",
+  "tokens_est": 122
+ },
+ {
+  "id": "n1-p02",
+  "note": "n1",
+  "section": "n1-s02",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Start With Another Model",
+  "text": "- This is the canonical LLM-as-judge approach.\n    - One model does the work and another model judges it.\n    - The judge gets some combination of the original request, the generated result, a rubric, reference material, and perhaps an expected answer. It returns a score, label, or explanation\n- For high-volume applications, the economics could matter quite a bit. Because cost is more noticeable when you're running these evals constantly at application runtime, a specialized model that is designed to be cheap for this use case is a good option.",
+  "tokens_est": 137
+ },
+ {
+  "id": "n1-p03",
+  "note": "n1",
+  "section": "n1-s03",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Break the Judgment Apart",
+  "text": "- A large amount of LLM judging boils down to one main question: was this output good?\n    - An answer can be correct but incomplete.\n    - It can be well written but unsupported by the source material.\n    - Or an agent can arrive at the right result after taking actions it should never have taken.\n- One upgrade to your judging architecture is to break the judgment into a set of smaller decisions.\n    - One judge checks whether the answer addresses the request.\n    - Another checks whether its claims are supported by the supplied evidence.\n    - Another looks at whether the agent completed the required work.",
+  "tokens_est": 154
+ },
+ {
+  "id": "n1-p04",
+  "note": "n1",
+  "section": "n1-s04",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Compare Instead of Score",
+  "text": "- Models are not always particularly good at telling you that something deserves a 7 rather than an 8.\n    - They can be much better at deciding which of two things is better.\n    - Pairwise judging is an approach that takes advantage of this. If you give the judge two outputs produced from the same input, you can ask which one better satisfies the criteria.\n- This is commonly useful for application regression testing. However, the same pattern could move into runtime architectures.\n    - An agent could generate several plans and use a judge to choose between them.\n    - Alternatively, two agents could independently perform a piece of analysis and another model could compare the results.\n    - In short, a proposed action could be compared against an alternative before the system commits to it and proceeds.",
+  "tokens_est": 204
+ },
+ {
+  "id": "n1-p05",
+  "note": "n1",
+  "section": "n1-s05",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Judge the Work Instead of the Answer",
+  "text": "- The final result might look completely reasonable even though the agent retrieved the wrong documents or ignored an important source. It may have called the wrong tool or wandered through a series of unnecessary steps before getting lucky at the end.\n- Application evaluation systems are already moving further into the trace.\n    - [Phoenix](https://arize.com/docs/phoenix/?utm_source=chatgpt.com) has evaluators for retrieval relevance, tool selection, tool invocation, tool responses, and overall agent performance.\n    - [LangSmith](https://docs.langchain.com/langsmith/evaluation-concepts?mode=ui&utm_source=chatgpt.com) can apply evaluators to individual runs as well as larger traces and threads.",
+  "tokens_est": 176
+ },
+ {
+  "id": "n1-p06",
+  "note": "n1",
+  "section": "n1-s06",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Use More Than One Judge",
+  "text": "- One uncomfortable fact about LLM-as-judge is that the judge is still an LLM.\n    - It can make mistakes for all the same reasons the model doing the work can.\n    - One way to handle this is to stop treating a single judge as authoritative.\n- Research on model evaluation has explored panels of judges, evaluator personas, voting, aggregation, and debate between evaluators\n    - [MAJ-EVAL](https://aclanthology.org/2026.acl-long.790/?utm_source=chatgpt.com), for example, creates multiple evaluator agents representing different dimensions of the evaluation and lets them deliberate over the result.\n- There is not a lot of evidence suggesting applications have adopted this approach in production yet.\n    - But the mechanism is interesting above the model layer for a different reason.\n    - Even if you don't care whether three judges vote 2–1 that an answer is good, you may care enormously that they disagree.\n    - Agreement between independent judgments can increase confidence whereas disagreement could be a reason to retry with a stronger model, collect more evidence, or send the work to a human. You could imagine building a retry or escalation mechanism in your app based on this principle.",
+  "tokens_est": 301
+ },
+ {
+  "id": "n1-p07",
+  "note": "n1",
+  "section": "n1-s07",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Judge the Judge",
+  "text": "- Once a judge can affect what happens in an application, its reliability matters a lot\n    - Anthropic’s [Bloom](https://www.anthropic.com/research/bloom?subjects=claude&utm_source=chatgpt.com) provides another useful pattern.\n        - Anthropic evaluated a collection of candidate judge models against human-labeled transcripts before choosing its judge.\n        - The resulting evaluation pipeline also includes a meta-judge that looks across the broader evaluation results.\n    - Application builders can use the simpler version of this idea today: periodically compare the judge against humans.\n        - If a judgment controls something important, collect examples of those decisions and have people independently evaluate them.\n        - Measure where the judge disagrees, and change the rubric, model, context, or decision boundary when the disagreement is unacceptable.",
+  "tokens_est": 219
+ },
+ {
+  "id": "n1-p08",
+  "note": "n1",
+  "section": "n1-s08",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Put Determinism Around the Judge",
+  "text": "- If something can be checked deterministically, check it deterministically with tests or schema checks or even a database check. You could also consider writing a policy engine for this type of validation.\n    - [OpenAI’s grader architecture](https://platform.openai.com/docs/api-reference/graders?api-mode=chat&utm_source=chatgpt.com) reflects this separation. It supports model-based graders alongside deterministic graders such as string checks and Python code, and multiple graders can be combined into a larger evaluation.\n- The same pattern makes sense inside applications.\n    - An LLM might judge whether the evidence is sufficient, whether a recommendation is well supported, or whether an agent appears to have completed the task.\n    - Deterministic code can decide what combination of those judgments and other facts is required before the workflow moves forward.\n- This sort of combined deterministic / non-deterministic logic is one of the biggest opportunities available at the application layer.",
+  "tokens_est": 253
+ },
+ {
+  "id": "n1-p09",
+  "note": "n1",
+  "section": "n1-s09",
+  "breadcrumb": "LLM-as-Judge Architectures (inc. runtime judges) > Implication: Put the Judge in the Loop",
+  "text": "- Many of the above patterns require that we move LLM judges inside the agent loops and put them in the critical path for our applications\n    - It means that judgment informs control flow.\n        - It can cause the application to continue, retry, route to another model, gather more information, or escalate to a person.\n        - This is a much bigger role for LLM-as-judge. The judge is no longer just telling you whether the application worked yesterday. It is helping determine what the application does next.\n    - It also means mistakes from the judge become application failures.\n        - A judge that is slightly noisy in an offline eval may be annoying.\n        - The same judge sitting in front of every important action can create loops, block good work, approve bad work, and add latency to every execution.",
+  "tokens_est": 205
+ },
+ {
+  "id": "n2-p01",
+  "note": "n2",
+  "section": "n2-s00",
+  "breadcrumb": "How to Use LLM-Judges Properly",
+  "text": ">[!abstract] TLDR\n> - LLM Judges work well when you:\n> \t1. use reference based evaluation instead of pointwise scoring\n> \t2. debias pairwise comparisons w position swapping\n> \t3. ensemble across multiple models\n> \t4. require reasoning before scores\n> \t5. calibrate against human judgements \n> - skip LLM Judges when ground truth exists or for safety/high-risk decisions",
+  "tokens_est": 92
+ },
+ {
+  "id": "n2-p02",
+  "note": "n2",
+  "section": "n2-s01",
+  "breadcrumb": "How to Use LLM-Judges Properly > Why traditional eval methods fail",
+  "text": "- exact match works great for classification + structured output \n\t- fails completely on open ended generation \n\t- e.g. \"The Capital of France is Paris\" vs \"Paris is France's capital city\" = 0% exact match\n- BLEU & ROUGE were designed for MT + summarisation\n\t- they penalise valid paraphrasing + reward surface level similarity \n- human evals = gold standard but not scalable \n\t- expensive, slow and surprisingly inconistent (IA often < 80%)\n\t- becomes bottleneck in development when needing to eval 1000s of responses\n- LLM-as-Judge is a good middle ground \n\t- nuanced understanding like humans at speed closer to automated metrics\n\t\t- LLM Judges are now de-facto eval for agentic systems\n\t- i.e. pareto principle → 80% of the bang for 1% of the buck",
+  "tokens_est": 187
+ },
+ {
+  "id": "n2-p03",
+  "note": "n2",
+  "section": "n2-s02",
+  "breadcrumb": "How to Use LLM-Judges Properly > Evaluation modes for LLM Judges",
+  "text": "1. **Pointwise evaluation** \n\t- scores a single response based on the question alone, without any reference to compare against\n\t- can be binary or using likert scale (quality, moderation)\n\n```text\nYou are an expert evaluator. Assess the following response based on the question asked.\n\n## Evaluation Criteria\n- Correctness: Is the information factually accurate?\n- Completeness: Does it fully address the question?\n- Helpfulness: Is it clear and actionable?\n\n## Scoring\nRate the response from 1-5 where:\n1 = Poor, 2 = Below Average, 3 = Average, 4 = Good, 5 = Excellent\n\nQuestion: {question}\nResponse: {response}\n\nProvide your reasoning first, then the final score.\n```\n\n2. **Reference based evaluation** \n\t- compares the generated response against a known good \"gold standard\" answer\n\t- particularly useful when you have ground truth data and want to measure how close your model's outputs are to the ideal answer (accuracy, regression)\n\n```text\nYou are an expert evaluator. Compare the following response against the reference answer.\n\n## Task\nEvaluate how well the response matches the reference in terms of:\n- Factual alignment: Does it convey the same information?\n- Completeness: Does it cover all key points from the reference?\n- Accuracy: Are there any contradictions or errors?\n\n## Scoring\nRate from 1-5 where:\n1 = Completely misaligned, 2 = Mostly incorrect, 3 = Partially correct,\n4 = Mostly correct, 5 = Fully aligned with reference\n\nQuestion: {question}\nReference Answer: {reference}\nResponse to Evaluate: {response}\n\nProvide your reasoning first, then the final score.\n```",
+  "tokens_est": 396
+ },
+ {
+  "id": "n2-p04",
+  "note": "n2",
+  "section": "n2-s02",
+  "breadcrumb": "How to Use LLM-Judges Properly > Evaluation modes for LLM Judges",
+  "text": "3. **Pairwise evaluation** \n\t- presents two responses side-by-side and asks the judge to pick the better one\n\t- widely used for model comparison, RLHF preference data collection, and A/B testing\n\t\t- Chatbot Arena uses this extensively\n\n```text\nYou are an expert evaluator. Compare the two responses below and determine which one better answers the question.\n\n## Evaluation Criteria\nConsider: accuracy, completeness, clarity, and helpfulness.\n\nQuestion: {question}\nResponse A: {response_a}\nResponse B: {response_b}\n\n## Instructions\n1. Analyze both responses against the criteria\n2. Explain the strengths and weaknesses of each\n3. Declare a winner: A, B, or Tie\n\nYour analysis:\n```\n\n4. **Listwise evaluation** \n\t- extends pairwise to multiple responses, asking the judge to rank them from best to worst\n\t- useful for leaderboard generation or selecting the best response from multiple candidates\n\n```text\nYou are an expert evaluator. Rank the following responses from best to worst.\n\nQuestion: {question}\nResponse 1: {response_1}\nResponse 2: {response_2}\nResponse 3: {response_3}\n\n## Instructions\nRank all responses from best (1st) to worst (last).\nProvide brief reasoning for your ranking.\n\nRanking:\n```\n\n5. Hybrid approaches\n\t- you can also create variations w multi-dimensional rubrics\n\t\t- e.g. pointwise scoring separately for various aspects + binary reference comparisons",
+  "tokens_est": 343
+ },
+ {
+  "id": "n2-p05",
+  "note": "n2",
+  "section": "n2-s03",
+  "breadcrumb": "How to Use LLM-Judges Properly > Crafting effective LLM Judge Prompts",
+  "text": "- quality of your judge prompt DIRECTLY impacts reliability of your evals \n\t- a well structured judge prompt has 4 key components (below)\n1. **clear task definition** \n\t- state exactly what model should evaluate \n\t- be specific not vague e.g. \n\t\t- *\"evaluate the factual accuracy of this response compared to the reference using ...\"*\n2. **detailed evaluation critieria** \n\t- define what *\"good\"* means\n\t- specify exactly what that aspect entails e.g.\n\t\t- *correctness = all factual claims are accurate and verifiable from source documents*\n\t\t- *completeness = addresses all atomic claims or parts of the question without omissions*\n\t\t- *clarity = well organised, easy to understand for a layman and free of jargon* \n3. **explicit scoring rubric** \n\t- provide clear definitions for each score level e.g. likert scale of 1-5\n\t- without this, a 3/5 can be highly variable between runs \n\n```text\n1 = Completely incorrect or irrelevant\n2 = Mostly incorrect with minor valid points\n3 = Partially correct but missing key information\n4 = Mostly correct with minor issues\n5 = Fully correct and comprehensive\n```\n\n4. **few shot examples**\n\t- include examples of scored responses → significantly boosts consistency \n\t- show examples of good and bad \n\t\t- e.g. show what a \"2\" looks like versus a \"4\" for your specific criteria\n- an example production grade judge prompt (below)\n\t- defines exactly what each score means, no ambiguity\n\t- shows concrete examples of high + low scores\n\t- forces reasoning before scoring\n\t- uses a structured output format for easy parsin ",
+  "tokens_est": 389
+ },
+ {
+  "id": "n2-p06",
+  "note": "n2",
+  "section": "n2-s03",
+  "breadcrumb": "How to Use LLM-Judges Properly > Crafting effective LLM Judge Prompts",
+  "text": "```markdown\nYou are an expert evaluator assessing the quality of an AI assistant's response.\n\n## Your Task\nEvaluate the response below against the reference answer. Your evaluation should be thorough, fair, and consistent.\n\n## Evaluation Criteria\n\n### Correctness (0-2 points)\n- 0: Contains factual errors or contradicts the reference\n- 1: Partially correct but missing key facts or contains minor inaccuracies\n- 2: Factually accurate and aligned with the reference\n\n### Completeness (0-2 points)\n- 0: Misses most key points from the reference\n- 1: Covers some key points but has significant gaps\n- 2: Addresses all major points from the reference\n\n### Clarity (0-1 point)\n- 0: Confusing, poorly organized, or difficult to understand\n- 1: Clear, well-structured, and easy to follow\n\n## Examples\n\n### Example 1: Score 5/5\nQuestion: What causes seasons on Earth?\nReference: Earth's axial tilt of 23.5 degrees causes seasons. As Earth orbits the Sun, different hemispheres receive more direct sunlight at different times, creating summer and winter.\nResponse: Seasons occur because Earth's axis is tilted at about 23.5 degrees. This means as our planet orbits the Sun throughout the year, the Northern and Southern hemispheres take turns being tilted toward the Sun, receiving more direct sunlight and experiencing summer.\nAnalysis: Fully correct (mentions axial tilt and its effect), complete (covers the mechanism), and clearly written.\n\n### Example 2: Score 2/5\nQuestion: What causes seasons on Earth?\nReference: [same as above]\nResponse: Seasons happen because Earth gets closer to and farther from the Sun during its orbit.\nAnalysis: Incorrect (this is a common misconception—Earth's distance from the Sun does not cause seasons), incomplete (does not mention axial tilt), though clearly written.\n\n## Input\nQuestion: {question}\nReference Answer: {reference}\nResponse to Evaluate: {response}\n\n## Instructions\n1. Carefully compare the response against the reference answer\n2. Score each criterion according to the rubric above\n3. Provide specific evidence for each score\n4. Calculate the total score (out of 5)\n\n## Output Format\n\n### Analysis\n[Your detailed analysis with specific quotes and comparisons]\n\n### Scores\n- Correctness: X/2 - [brief justification]\n- Completeness: X/2 - [brief justification]\n- Clarity: X/1 - [brief justification]\n\n### Total Score: X/5\n```",
+  "tokens_est": 592
+ },
+ {
+  "id": "n2-p07",
+  "note": "n2",
+  "section": "n2-s03",
+  "breadcrumb": "How to Use LLM-Judges Properly > Crafting effective LLM Judge Prompts",
+  "text": "- additional tips\n\t- prefer discrete scoring, not continuous \n\t\t- LLMs are better at classification than regression \n\t\t- use likert scales 1-5, not 0 to 100 or 0.0 to 1.0 → these tend to cluster around certain values\n\t- set temperature zero or near-zero (`0.1-0.2`)\n\t\t- you want close to deterministic outputs for evals \n\t- ask for reasoning before the score\n\t\t- this is crucial → autogressive LLMs need to think through the eval systematically \n\t\t- rather than jump to a score/number\n\t\t- this reduces arbitrary scoring + makes eval more repeatable + debuggable",
+  "tokens_est": 140
+ },
+ {
+  "id": "n2-p08",
+  "note": "n2",
+  "section": "n2-s04",
+  "breadcrumb": "How to Use LLM-Judges Properly > Limitations & Biases of LLM Judges",
+  "text": "- inconsistency \n\t- even with temp=0, can get different results (due to GPU batching, API side variations, machine epsilon)\n\t\t- a 3/5 can be 4/5 tomorrow\n\t- so beware when trying to detect small improvements between model versions\n\t\t- a 0.1 improvement likely can be noise rather than signal \n- criteria ambiguity \n\t- each model has its own implicit assumptions + definitions based on training data \n\t- so you need to concretely define what you mean by your eval aspect e.g. correctness\n\t- without this, different models can systematically disagree when you ensemble \n- known biases \n\t- position bias \n\t- verbosity bias \n\t- self-enhancement bias \n\t- authority bias \n\t- format bias \n- cost\n\t- frontier models can be expensive, reserve for highest priority evals or meta-evals\n\t- don't use for rapid iteration, can add up quickly \n\t- but beware cheaper models → quality degrades",
+  "tokens_est": 219
+ },
+ {
+  "id": "n2-p09",
+  "note": "n2",
+  "section": "n2-s05",
+  "breadcrumb": "How to Use LLM-Judges Properly > When not to use LLM Judges",
+  "text": "- situations to avoid using LLM judges (or relying on them completely)\n\t- **when ground truth exists** \n\t\t- if deterministic eval data exists, use that instead \n\t\t\t- e.g. tool call evals, structured output evals, tool input evals\n\t\t- cheaper, faster & 100% explainable + reliable\n\t- **safety critical evals** \n\t\t- e.g. content moderation, toxicity detection, anything w severe consequences\n\t\t- use judges as 1 signal among multiple + incorporate human review\n\t- **domain expertise requirements** \n\t\t- LLMs lack deep contextual/domain knowledge e.g. your company policies \n\t\t\t- they may confidently score incorrect responses highly \n\t\t- expert human evals remain necessary for at least validation + calibration here \n\t- **when explainability is needed**\n\t\t- e.g. regulated industries - need to know why response was scored what it was\n\t\t\t- LLM judge may not be defendable to regulators or in court\n\t\t- LLM responses not completely auditable like rule-based systems\n\t- **some low-stakes, very high volume scenarios** \n\t\t- e.g. for millions of responses & accuracy matters less than throughput \n\t\t- simpler heuristics could be more effective + fraction of cost\n\t\t\t- e.g. well tuned classifier or embedding similarity\n- best practice hybrid approach (combines multiple methods) \n\t- deterministic checks first → validate structure, format + any computable criteria \n\t- LLM as judge for subjectivity/nuance → use for subjective qualities \n\t- human review + calibration → sample 5-10% for expert eval + calibration\n\t- escalation for edge cases → flag low confidence or borderline scores for human review ",
+  "tokens_est": 399
+ },
+ {
+  "id": "n2-p10",
+  "note": "n2",
+  "section": "n2-s06",
+  "breadcrumb": "How to Use LLM-Judges Properly > LLM Judge Optimisations",
+  "text": "1. calibrate against humans/SMEs\n\t- before trusting the judge in production, validate it against human annotations\n\t- sample 100-200 responses, get human labels, compare to LLM scores\n\t- calculate metrics:\n\t\t- correlation - does LLM's ranking match human ranking?\n\t\t- Cohen's Kappa - how often does the Judge agree w humans beyond chance?\n\t\t- systematic bias - does LLM consistently score higher or lower than humans?\n\t- if LLM Judge disagrees w humans > 20-30% of the time, revisit the prompt or criteria\n2. ensembling judges \n\t- use multiple model families to eval each response + aggregate their score\n\t\t- can increase your cost but highly worth it for the reliability in high-stakes evals \n\t- reduces impact/bias of any single model + improves reliability & consistency \n\n```python\ndef ensemble_evaluate(question, response):\n    scores = {\n        'claude-opus': evaluate_with_claude_opus(question, response),\n        'gpt5_2': evaluate_with_gpt5_2(question, response),\n        'gemini': evaluate_with_gemini(question, response)\n    }\n    # Weighted average\n    weights = {'claude-opus': 0.4, 'gpt5.2': 0.4, 'gemini': 0.2}\n    return sum(scores[m] * weights[m] for m in scores)\n```\n\n3. down-weight the generator model (in ensembling)\n\t- due to self-preference bias, rely less in overall aggregated results when reviewing the same model family ",
+  "tokens_est": 336
+ },
+ {
+  "id": "n2-p11",
+  "note": "n2",
+  "section": "n2-s06",
+  "breadcrumb": "How to Use LLM-Judges Properly > LLM Judge Optimisations",
+  "text": "```python\ndef get_weights(generator_model):\n    base_weights = {'claude-opus': 0.33, 'gpt5_2': 0.33, 'gemini': 0.33}\n    if generator_model in base_weights:\n        # Reduce generator's weight, redistribute to others\n        base_weights[generator_model] = 0.15\n        others = [m for m in base_weights if m != generator_model]\n        for m in others:\n            base_weights[m] = 0.425\n    return base_weights\n```\n\n4. use reference responses where possible \n\t- pointwise scoring is often isolated + less reliable than reference-based\n\t- always use ground-truth or expected responses if you have them \n\t\t- gives the judge concrete standard to compare against rather than open to interpretation\n5. de-bias pairwise comparisons \n\t- position bias remains real + measureable \n\t- run all pairwise comparisons multiple times w swapped positions \n\n```python\ndef debiased_pairwise(question, response_a, response_b):\n    # Run A vs B\n    result_ab = judge(question, response_a, response_b)\n    # Run B vs A (swapped)\n    result_ba = judge(question, response_b, response_a)\n    \n    # Aggregate\n    if result_ab == \"A\" and result_ba == \"B\":\n        return \"A\"  # A wins in both positions\n    elif result_ab == \"B\" and result_ba == \"A\":\n        return \"B\"  # B wins in both positions\n    else:\n        return \"Tie\"  # Inconsistent results = no clear winner\n```\n\n6. require reasoning before scores \n\t- always structure your prompt to elicit reasoning before the final score \n\t- genuinely improves eval quality\n\t\t- forces model to systematically think throught the eval assessment",
+  "tokens_est": 392
+ },
+ {
+  "id": "n2-p12",
+  "note": "n2",
+  "section": "n2-s06",
+  "breadcrumb": "How to Use LLM-Judges Properly > LLM Judge Optimisations",
+  "text": "```text\n## Output Format\nFirst, provide your detailed analysis of the response.\nThen, based on your analysis, provide the final score.\n\nAnalysis: [Your reasoning here]\nScore: [X/5]\n```",
+  "tokens_est": 46
+ },
+ {
+  "id": "n2-p13",
+  "note": "n2",
+  "section": "n2-s07",
+  "breadcrumb": "How to Use LLM-Judges Properly > Summary/Conclusion of LLM Judges",
+  "text": "1. Never trust a single judge\n\t- Whether it is position bias, self-enhancement bias, or simple inconsistency, single-model evaluation is inherently unreliable. \n\t- Ensemble across models, de-bias pairwise comparisons, and always validate against human judgments.\n2. Reference responses are your anchor. \n\t- Pointwise evaluation (\"rate this response 1-5\") is the least reliable mode. \n\t- When you have ground truth, use it. \n\t- Reference based evaluation grounds the LLM in something concrete rather than its own subjective interpretation of \"good.\"\n3. Design for transparency\n\t- Require reasoning before scores. \n\t- Log everything. When an evaluation seems wrong, you need to understand why. \n\t- Black-box scores are useless for debugging.\n4. Build a hybrid pipeline. \n\t- Deterministic checks first, LLM judges for nuance, human review for calibration and edge cases. \n\t- No single method is sufficient.\n5. Calibrate continuously. \n\t- Your LLM judge will drift as models update and your use cases evolve. \n\t- Regular comparison against human judgments is not optional, it is the only way to know if your evaluations still mean anything.\n- LLM as a judge will not replace human evaluation entirely. But implemented correctly, it gets you 80% of the accuracy at 1% of the cost, which is often exactly the tradeoff you need during rapid development.\n- The teams that struggle with LLM as a judge are the ones who treat it as a black box. The teams that succeed are the ones who understand its failure modes and design around them.",
+  "tokens_est": 381
+ },
+ {
+  "id": "n3-p01",
+  "note": "n3",
+  "section": "n3-s01",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents",
+  "text": "<div align=\"center\">\n  <img src=\"https://cdn.sanity.io/images/4zrzovbb/website/412be842c5c6bae6b4bcd515c191b0aa5015e05f-2400x1260.png\" width=\"220\" />\n</div>\n\nSource: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents\n\nExported at: `2026-01-10T05:08:02Z`\n\n- Good evaluations help teams ship AI agents more confidently.\n- Evals make problems and behavioral changes visible before they affect users, and their value compounds over the lifecycle of an agent.",
+  "tokens_est": 118
+ },
+ {
+  "id": "n3-p02",
+  "note": "n3",
+  "section": "n3-s02",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > The structure of an evaluation",
+  "text": "- An **evaluation** (“eval”) is a test for an AI system: give an AI an input, then apply grading logic to its output to measure success.\n- we focus on **automated evals** that can be run during development without real users.\n- **Single-turn evaluations** are straightforward: a prompt, a response, and grading logic. For earlier LLMs, single-turn, non-agentic evals were the main evaluation method.\n- **multi-turn evaluations** have become increasingly common.\n\n![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fbd42e7b2f3e9bb5218142796d3ede4816588dec0-4584x2834.png&w=3840&q=75)\n\n- **Agent evaluations** are even more complex. Agents use tools across many turns, modifying state in the environment and adapting as they go—which means mistakes can propagate and compound.",
+  "tokens_est": 209
+ },
+ {
+  "id": "n3-p03",
+  "note": "n3",
+  "section": "n3-s02",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > The structure of an evaluation",
+  "text": "- When building agent evaluations, we use the following definitions: \n\t- A **task** (a.k.a **problem** or **test case**) is a single test with defined inputs and success criteria. \n\t- Each attempt at a task is a **trial**. Because model outputs vary between runs, we run multiple trials to produce more consistent results. \n\t- A **grader** is logic that scores some aspect of the agent’s performance. A task can have multiple graders, each containing multiple assertions (sometimes called **checks**)**.** \n\t- A **transcript** (also called a **trace** or **trajectory**) is the complete record of a trial, including outputs, tool calls, reasoning, intermediate results, and any other interactions. For the Anthropic API, this is the full messages array at the end of an eval run - containing all the calls to the API and all of the returned responses during the evaluation. \n\t- The **outcome** is the final state in the environment at the end of the trial. A flight-booking agent might say “Your flight has been booked” at the end of the transcript, but the outcome is whether a reservation exists in the environment’s SQL database. \n\t- An **evaluation harness** is the infrastructure that runs evals end-to-end. It provides instructions and tools, runs tasks concurrently, records all the steps, grades outputs, and aggregates results. •\n\t- an **agent harness** (or **scaffold**) is the system that enables a model to act as an agent: it processes inputs, orchestrates tool calls, and returns results. When we evaluate “an agent,” we’re evaluating the harness *and* the model working together. For example, [Claude Code](https://claude.com/product/claude-code) is a flexible agent harness, and we used its core primitives through the [Agent SDK](https://platform.claude.com/docs/en/agent-sdk/overview) to build our [long-running agent harness](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents). \n\t- An **evaluation suite** is a collection of tasks designed to measure specific capabilities or behaviors. Tasks in a suite typically share a broad goal. For instance, a customer support eval suite might test refunds, cancellations, and escalations.",
+  "tokens_est": 545
+ },
+ {
+  "id": "n3-p04",
+  "note": "n3",
+  "section": "n3-s03",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Why build evaluations?",
+  "text": "![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F0205b36f9639fc27f2f6566f73cb56b06f59d555-4584x2580.png&w=3840&q=75)\n\n- When teams first start building agents, they can get surprisingly far through a combination of manual testing, [dogfooding](https://en.wikipedia.org/wiki/Eating_your_own_dog_food), and intuition.\n\n- But after the early prototyping stages, once an agent is in production and has started scaling, building without evals starts to break down.\n\n- breaking point often comes when users report the agent feels worse after changes, and the team is ‘flying blind’ with no way to verify except to guess and check. Absent evals, debugging is reactive: wait for complaints, reproduce manually, fix the bug, and hope nothing else regressed.\n\n- Claude Code started with fast iteration based on feedback from Anthropic employees and external users. Later, we added evals—first for narrow areas like concision and file edits, and then for more complex behaviors like over-engineering. These evals helped identify issues, guide improvements, and focus research-product collaborations. Combined with production monitoring, A/B tests, user research, and more, evals provide signals to continue improving Claude Code as it scales.\n\n- Writing evals is useful at any stage in the agent lifecycle. Early on, evals force product teams to specify what success means for the agent, while later they help uphold a consistent quality bar.",
+  "tokens_est": 374
+ },
+ {
+  "id": "n3-p05",
+  "note": "n3",
+  "section": "n3-s03",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Why build evaluations?",
+  "text": "- Some teams create evals at the start of development; others add them once at scale when evals become a bottleneck for improving the agent. Evals are especially useful at the start of agent development to explicitly encode expected behavior.\n\n- Two engineers reading the same initial spec could come away with different interpretations on how the AI should handle edge cases. An eval suite resolves this ambiguity. Regardless of when they’re created, evals help accelerate development.\n\n- Evals also shape how quickly you can adopt new models.\n\n- Once evals exist, you get baselines and regression tests for free: latency, token usage, cost per task, and error rates can be tracked on a static bank of tasks. Evals can also become the highest-bandwidth communication channel between product and research teams, defining metrics researchers can optimize against.",
+  "tokens_est": 215
+ },
+ {
+  "id": "n3-p06",
+  "note": "n3",
+  "section": "n3-s04",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents",
+  "text": "- You don’t need to invent an evaluation from scratch. The sections below describe proven techniques for several agent types. Use these methods as a foundation, then extend them to your domain.",
+  "tokens_est": 48
+ },
+ {
+  "id": "n3-p07",
+  "note": "n3",
+  "section": "n3-s05",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Types of graders for agents",
+  "text": "- Agent evaluations typically combine three types of graders: code-based, model-based, and human.\n- Code based graders",
+  "tokens_est": 29
+ },
+ {
+  "id": "n3-p08",
+  "note": "n3",
+  "section": "n3-s05",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Types of graders for agents",
+  "text": "| **Methods**                                                                                                                                                                                                                                                                               | **Strengths**                                                                                                   | **Weaknesses**                                                                                                                                             |\n| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |\n| • String match checks (exact, regex, fuzzy, etc)  <br>• Binary tests (fail-to-pass, pass-to-pass)  <br>• Static analysis (lint, type, security)  <br>• Outcome verification  <br>• Tool calls verification (tools used, parameters)  <br>• Transcript analysis (turns taken, token usage) | • Fast  <br>• Cheap  <br>• Objective  <br>• Reproducible  <br>• Easy to debug  <br>• Verify specific conditions | • Brittle to valid variations that don’t match expected patterns exactly  <br>• Lacking in nuance  <br>• Limited for evaluating some more subjective tasks |\n|                                                                                                                                                                                                                                                                                           |                                                                                                                 |                                                                                                                                                            |",
+  "tokens_est": 556
+ },
+ {
+  "id": "n3-p09",
+  "note": "n3",
+  "section": "n3-s05",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Types of graders for agents",
+  "text": "- Model based graders\n\n| **Methods**                                                                                                                                 | **Strengths**                                                                                            | **Weaknesses**                                                                                              |\n| ------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |\n| - Rubric-based scoring<br>- Natural language assertions<br>- Pairwise comparison<br>- Reference-based evaluation<br>- Multi-judge consensus | - Flexible<br>- Scalable<br>- Captures nuance<br>- Handles open-ended tasks<br>- Handles freeform output | - Non-deterministic<br>- More expensive than code<br>- Requires calibration with human graders for accuracy |\n|                                                                                                                                             |                                                                                                          |                                                                                                             |\n\n- Human graders",
+  "tokens_est": 370
+ },
+ {
+  "id": "n3-p10",
+  "note": "n3",
+  "section": "n3-s05",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Types of graders for agents",
+  "text": "| **Methods**                                                                                                      | **Strengths**                                                                                        | **Weaknesses**                                                             |\n| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |\n| - SME review<br>- Crowdsourced judgment<br>- Spot-check sampling<br>- A/B testing<br>- Inter-annotator agreement | - Gold standard quality<br>- Matches expert user judgment<br>- Used to calibrate model-based graders | - Expensive<br>- Slow<br>- Often requires access to human experts at scale |\n\n- For each task, scoring can be: \n\t- weighted (combined grader scores must hit a threshold), \n\t- binary (all graders must pass), \n\t- or a hybrid.",
+  "tokens_est": 259
+ },
+ {
+  "id": "n3-p11",
+  "note": "n3",
+  "section": "n3-s06",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Capability vs. regression evals",
+  "text": "- **Capability or “quality” evals** ask “what can this agent do well?” They should start at a low pass rate, targeting tasks the agent struggles with and giving teams a hill to climb.\n- **Regression evals** ask “does the agent still handle all the tasks it used to?” and should have a nearly 100% pass rate. They protect against backsliding, as a decline in score signals that something is broken and needs to be improved. As teams hill-climb on capability evals, it’s important to also run regression evals to make sure changes don’t cause issues elsewhere.\n- After an agent is launched and optimized, capability evals with high pass rates can “graduate” to become a regression suite that is run continuously to catch any drift.",
+  "tokens_est": 182
+ },
+ {
+  "id": "n3-p12",
+  "note": "n3",
+  "section": "n3-s07",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Evaluating coding agents",
+  "text": "- Effective evals for modern coding agents usually rely on well-specified tasks, stable test environments, and thorough tests for the generated code.\n- Deterministic graders are natural for coding agents because software is generally straightforward to evaluate: Does the code run and do the tests pass? Two widely-used coding agent benchmarks, [SWE-bench Verified](https://www.swebench.com/SWE-bench/) and [Terminal-Bench](https://www.tbench.ai/), follow this approach.\n- Once you have a set of pass-or-fail tests for validating the key *outcomes* of a coding task, it’s often useful to also grade the transcript*.* For instance, heuristics-based code quality rules can evaluate the generated code based on more than passing tests, and model-based graders with clear rubrics can assess behaviors like how the agent calls tools or interacts with the user.",
+  "tokens_est": 213
+ },
+ {
+  "id": "n3-p13",
+  "note": "n3",
+  "section": "n3-s08",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Evaluating conversational agents",
+  "text": "- Unlike traditional chatbots, they maintain state, use tools, and take actions mid-conversation. While coding and research agents can also involve many turns of interaction with the user, conversational agents present a distinct challenge: the quality of the interaction itself is part of what you're evaluating.\n- Effective evals for conversational agents usually rely on verifiable end-state outcomes and rubrics that capture both task completion and interaction quality. Unlike most other evals, they often require a second LLM to simulate the user.\n- Success for conversational agents can be multidimensional: is the ticket resolved (state check), did it finish in <10 turns (transcript constraint), and was the tone appropriate (LLM rubric)? Two benchmarks that incorporate multidimensionality are [𝜏-Bench](https://arxiv.org/abs/2406.12045) and its successor, [τ2-Bench](https://arxiv.org/abs/2506.07982). These simulate multi-turn interactions across domains like retail support and airline booking, where one model plays a user persona while the agent navigates realistic scenarios.\n- In practice, conversational agent evaluations typically use model-based graders to assess both communication quality and goal completion, because many tasks—like answering a question—may have multiple “correct” solutions.",
+  "tokens_est": 328
+ },
+ {
+  "id": "n3-p14",
+  "note": "n3",
+  "section": "n3-s09",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > Evaluating research agents",
+  "text": "- **Research agents** gather, synthesize, and analyze information, then produce output like an answer or report. Unlike coding agents where unit tests provide binary pass/fail signals, research quality can only be judged relative to the task. What counts as “comprehensive,” “well-sourced,” or even “correct” depends on context: a market scan, due diligence for an acquisition, and a scientific report each require different standards.\n- Research evals face unique challenges: experts may disagree on whether a synthesis is comprehensive, ground truth shifts as reference content changes constantly, and longer, more open-ended outputs create more room for mistakes.\n- One strategy to build research agent evals is to combine grader types. Groundedness checks verify that claims are supported by retrieved sources, coverage checks define key facts a good answer must include, and source quality checks confirm the consulted sources are authoritative, rather than simply the first retrieved.\n- For tasks with objectively correct answers (“What was Company X’s Q3 revenue?”), exact match works.\n- An LLM can flag unsupported claims and gaps in coverage, but also verify the open-ended synthesis for coherence and completeness.\n- Given the subjective nature of research quality, LLM-based rubrics should be frequently calibrated against expert human judgment to grade these agents effectively.",
+  "tokens_est": 347
+ },
+ {
+  "id": "n3-p15",
+  "note": "n3",
+  "section": "n3-s10",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > How to think about non-determinism in evaluations for agents",
+  "text": "- Regardless of agent type, agent behavior varies between runs, which makes evaluation results harder to interpret than they first appear. Each task has its own success rate—maybe 90% on one task, 50% on another—and a task that passed on one eval run might fail on the next.\n- Sometimes, what we want to measure is how *often* (what proportion of the trials) an agent succeeds for a task.\n- Two metrics help capture this nuance:\n- [**pass@k**](https://proceedings.neurips.cc/paper/2019/file/7298332f04ac004a0ca44cc69ecf6f6b-Paper.pdf) measures the likelihood that an agent gets at least one correct solution in *k* attempts. As k increases, pass@k score rises - more ‘shots on goal’ means higher odds of at least 1 success. A score of 50% pass@1 means that a model succeeds at half the tasks in the eval on its first try. In coding, we’re often most interested in the agent finding the solution on the first try—pass@1. In other cases, proposing many solutions is valid as long as one works.\n- [**pass^k**](https://arxiv.org/abs/2406.12045) measures the probability that *all k* trials succeed. As *k* increases, pass^k falls since demanding consistency across more trials is a harder bar to clear. If your agent has a 75% per-trial success rate and you run 3 trials, the probability of passing all three is (0.75)³ ≈ 42%. This metric especially matters for customer-facing agents where users expect reliable behavior every time.",
+  "tokens_est": 357
+ },
+ {
+  "id": "n3-p16",
+  "note": "n3",
+  "section": "n3-s10",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How to evaluate AI agents > How to think about non-determinism in evaluations for agents",
+  "text": "![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F3ddac5be07a0773922ec9df06afec55922f8194a-4584x2580.png&w=3840&q=75)",
+  "tokens_est": 45
+ },
+ {
+  "id": "n3-p17",
+  "note": "n3",
+  "section": "n3-s11",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents",
+  "text": "- Think of this as a roadmap for eval-driven agent development: define success early, measure it clearly, and iterate continuously.",
+  "tokens_est": 32
+ },
+ {
+  "id": "n3-p18",
+  "note": "n3",
+  "section": "n3-s12",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents > Collect tasks for the initial eval dataset",
+  "text": "- Step 0. Start early\n\t- We see teams delay building evals because they think they need hundreds of tasks. In reality, 20-50 simple tasks drawn from real failures is a great start.\n\t- More mature agents may need larger, more difficult evals to detect smaller effects, but it’s best to take the 80/20 approach in the beginning.\n\t- Evals get harder to build the longer you wait. Early on, product requirements naturally translate into test cases. Wait too long and you're reverse-engineering success criteria from a live system.\n\n- Step 1. Start with what you already test manually\n\t- Begin with the manual checks you run during development—the behaviors you verify before each release and common tasks end users try.\n\t- Converting user-reported failures into test cases ensures your suite reflects actual usage; prioritizing by user impact helps you invest effort where it counts.",
+  "tokens_est": 219
+ },
+ {
+  "id": "n3-p19",
+  "note": "n3",
+  "section": "n3-s12",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents > Collect tasks for the initial eval dataset",
+  "text": "- Step 2: Write unambiguous tasks with reference solutions\n\t- Getting task quality right is harder than it seems. A good task is one where two domain experts would independently reach the same pass/fail verdict. Could they pass the task themselves? If not, the task needs refinement.\n\t- Ambiguity in task specifications becomes noise in metrics. The same applies to criteria for model-based graders: vague rubrics produce inconsistent judgments.\n\t- Each task should be passable by an agent that follows instructions correctly. This can be subtle.\n\t- Everything the grader checks should be clear from the task description; agents shouldn’t fail due to ambiguous specs.\n\t- .For each task, it’s useful to create a reference solution: a known-working output that passes all graders. This proves that the task is solvable and verifies graders are correctly configured.",
+  "tokens_est": 215
+ },
+ {
+  "id": "n3-p20",
+  "note": "n3",
+  "section": "n3-s12",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents > Collect tasks for the initial eval dataset",
+  "text": "- Step 3: Build balanced problem sets\n\t- Test both the cases where a behavior *should* occur and where it *shouldn't*. One-sided evals create one-sided optimization.\n\t- Try to avoid [class-imbalanced](https://developers.google.com/machine-learning/crash-course/overfitting/imbalanced-datasets) evals.\n\t- We learned this firsthand when building evals for web search in [Claude.ai](http://claude.ai/redirect/website.v1.9dfa5f1b-a70d-42f1-b8a9-f3cb25dc1101). The challenge was preventing the model from searching when it shouldn’t, while preserving its ability to do extensive research when appropriate.\n\t- The team built evals covering both directions: queries where the model should search (like finding the weather) and queries where it should answer from existing knowledge (like “who founded Apple?”).\n\t- Striking the right balance between undertriggering (not searching when it should) or overtriggering (searching when it shouldn’t) was difficult, and took many rounds of refinements to both the prompts and the eval. As more example problems come up, we continue to add to evals to improve our coverage.",
+  "tokens_est": 277
+ },
+ {
+  "id": "n3-p21",
+  "note": "n3",
+  "section": "n3-s13",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents > Design the eval harness and graders",
+  "text": "- Step 4: Build a robust eval harness with a stable environment\n\t- essential that the agent in the eval functions roughly the same as the agent used in production, and the environment itself doesn’t introduce further noise.\n\t- Each trial should be “isolated” by starting from a clean environment.",
+  "tokens_est": 74
+ },
+ {
+  "id": "n3-p22",
+  "note": "n3",
+  "section": "n3-s13",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents > Design the eval harness and graders",
+  "text": "- Step 5: Design graders thoughtfully\n\t- great eval design involves choosing the best graders for the agent and the tasks. We recommend choosing deterministic graders where possible, LLM graders where necessary or for additional flexibility, and using human graders judiciously for additional validation.\n\t- There is a common instinct to check that agents followed very specific steps like a sequence of tool calls in the right order. We’ve found this approach too rigid and results in overly brittle tests, as agents regularly find valid approaches that eval designers didn’t anticipate. So as not to unnecessarily punish creativity, it’s often better to grade what the agent produced, not the path it took.\n\t- For tasks with multiple components, build in partial credit**.** A support agent that correctly identifies the problem and verifies the customer but fails to process a refund is meaningfully better than one that fails immediately. It’s important to represent this continuum of success in results.\n\t- Model grading often takes careful iteration to validate accuracy. LLM-as-judge graders should be closely calibrated with human experts to gain confidence that there is little divergence between the human grading and model grading.\n\t- It can also help to create clear, structured rubrics to grade each dimension of a task, and then grade each dimension with an isolated LLM-as-judge rather than using one to grade all dimensions.\n\t- Once the system is robust, it’s sufficient to use human review only occasionally.\n\t- Make your graders resistant to bypasses or hacks. The agent shouldn’t be able to easily “cheat” the eval. Tasks and graders should be designed so that passing genuinely requires solving the problem rather than exploiting unintended loopholes.",
+  "tokens_est": 442
+ },
+ {
+  "id": "n3-p23",
+  "note": "n3",
+  "section": "n3-s14",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents > Maintain and use the eval long-term",
+  "text": "- Step 6: Check the transcripts\n\t- You won't know if your graders are working well unless you read the transcripts and grades from many trials.\n\t- At Anthropic, we invested in tooling for viewing eval transcripts and we regularly take the time to read them. When a task fails, the transcript tells you whether the agent made a genuine mistake or whether your graders rejected a valid solution. It also often surfaces key details about agent and eval behavior.\n\t- Failures should seem fair: it’s clear what the agent got wrong and why.\n\t- When scores don’t climb, we need confidence that it’s due to agent performance and not the eval.\n\t- Reading transcripts is how you verify that your eval is measuring what actually matters, and is a critical skill for agent development.\n\n- Step 7: Monitor for capability eval saturation\n\t- An eval at 100% tracks regressions but provides no signal for improvement. **Eval saturation** occurs when an agent passes all of the solvable tasks, leaving no room for improvement.\n\t- As a rule, we do not take eval scores at face value until someone digs into the details of the eval and reads some transcripts.",
+  "tokens_est": 285
+ },
+ {
+  "id": "n3-p24",
+  "note": "n3",
+  "section": "n3-s14",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Going from zero to one: a roadmap to great evals for agents > Maintain and use the eval long-term",
+  "text": "- Step 8: Keep evaluation suites healthy long-term through open contribution and maintenance\n\t- An eval suite is a living artifact which needs ongoing attention and clear ownership to remain useful.\n\t- At Anthropic, we experimented with various approaches to eval maintenance.\n\t- What proved most effective was establishing dedicated evals teams to own the core infrastructure, while domain experts and product teams contribute most eval tasks and run the evaluations themselves.\n\t- For AI product teams, owning and iterating on evaluations should be as routine as maintaining unit tests. Teams can waste weeks on AI features that “work” in early testing but fail to meet unstated expectations that a well-designed eval would have surfaced early.\n\n- We recommend practicing eval-driven development\n\t- build evals to define planned capabilities before agents can fulfill them, then iterate until the agent performs well.\n\t- Capability evals that start at a low pass rate make this visible.\n\t- The people closest to product requirements and users are best positioned to define success.\n\n![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2F0db40cc0e14402222a179fc6297b9c8818e97c8a-4584x2580.png&w=3840&q=75)",
+  "tokens_est": 316
+ },
+ {
+  "id": "n3-p25",
+  "note": "n3",
+  "section": "n3-s15",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How evals fit with other methods for a holistic understanding of agents",
+  "text": "- Automated evaluations can be run against an agent in thousands of tasks without deploying to production or affecting real users.\n- A complete picture includes production monitoring, user feedback, A/B testing, manual transcript review, and systematic human evaluation.\n- an overview of approaches for measuring AI Agents performance",
+  "tokens_est": 83
+ },
+ {
+  "id": "n3-p26",
+  "note": "n3",
+  "section": "n3-s15",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How evals fit with other methods for a holistic understanding of agents",
+  "text": "|Method|Pros|Cons|\n|---|---|---|\n|**Automated evals  <br>**_Running tests programmatically without real users_|- Faster iteration<br>- Fully reproducible<br>- No user impact<br>- Can run on every commit<br>- Tests scenarios at scale without requiring a prod deployment|- Requires more upfront investment to build<br>- Requires ongoing maintenance as product and model evolves to avoid drift<br>- Can create false confidence if it doesn’t match real usage patterns|\n|**Production monitoring  <br>**_Tracking metrics and errors in live systems_|- Reveals real user behavior at scale<br>- Catches issues that synthetic evals miss<br>- Provides ground truth on how agents actually perform|- Reactive, problems reach users before you know about them<br>- Signals can be noisy<br>- Requires investment in instrumentation<br>- Lacks ground truth for grading|\n|**A/B testing  <br>**_Comparing variants with real user traffic_|- Measures actual user outcomes (retention, task completion)<br>- Controls for confounds<br>- Scalable and systematic|- Slow, days or weeks to reach significance and requires sufficient traffic<br>- Only tests changes you deploy<br>- Less signal on the underlying “why” for changes in metrics without being able to thoroughly review the transcripts|\n|**User feedback  <br>**_Explicit signals like thumbs-down or bug reports_|- Surfaces problems you didn't anticipate<br>- Comes with real examples from actual human users<br>- The feedback often correlates with product goals|- Sparse and self-selected<br>- Skews toward severe issues<br>- Users rarely explain _why_ something failed<br>- Not automated<br>- Relying primarily on users to catch issues can have negative user impact|\n|**Manual transcript review  <br>**_Humans reading through agent conversations_|- Builds intuition for failure modes<br>- Catches subtle quality issues automated checks miss<br>- Helps calibrate what \"good\" looks like and grasp details|- Time-intensive<br>- Doesn't scale<br>- coverage is inconsistent<br>- Reviewer fatigue or different reviewers can affect the signal quality<br>- Typically only gives qualitative signal rather than clear quantitative grading|\n|**Systematic human studies  <br>**_Structured grading of agent outputs by trained raters_|- Gold-standard quality judgements from multiple human raters<br>- Handles subjective or ambiguous tasks<br>- Provides signal for improving model-based graders|- Relatively expensive and slow turnaround<br>- Hard to run frequently<br>- Inter-rater disagreement requires reconciliation<br>- Complex domains (legal, finance, healthcare) require human experts to conduct studies|",
+  "tokens_est": 657
+ },
+ {
+  "id": "n3-p27",
+  "note": "n3",
+  "section": "n3-s15",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > How evals fit with other methods for a holistic understanding of agents",
+  "text": "- These methods map to different stages of agent development.\n- Automated evals are especially useful pre-launch and in CI/CD, running on each agent change and model upgrade as the first line of defense against quality problems.\n- Production monitoring kicks in post-launch to detect distribution drift and unanticipated real-world failures.\n- A/B testing validates significant changes once you have sufficient traffic.\n- User feedback and transcript review are ongoing practices to fill the gaps - triage feedback constantly, sample transcripts to read weekly, and dig deeper as needed.\n- Reserve systematic human studies for calibrating LLM graders or evaluating subjective outputs where human consensus serves as the reference standard.\n\n![](https://www.anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Fb77b8dbb7c2e57f063fbc8a087a853d5809b74b0-4584x2580.png&w=3840&q=75)\n\n- Like the [Swiss Cheese Model](https://en.wikipedia.org/wiki/Swiss_cheese_model) from safety engineering, no single evaluation layer catches every issue. With multiple methods combined, failures that slip through one layer are caught by another.\n- The most effective teams combine these methods - automated evals for fast iteration, production monitoring for ground truth, and periodic human review for calibration.",
+  "tokens_est": 335
+ },
+ {
+  "id": "n3-p28",
+  "note": "n3",
+  "section": "n3-s16",
+  "breadcrumb": "Evals for AI Agents (Anthropic) > Demystifying evals for AI agents > Conclusion",
+  "text": "- Teams without evals get bogged down in reactive loops - fixing one failure, creating another, unable to distinguish real regressions from noise. Teams that invest early find the opposite: development accelerates as failures become test cases, test cases prevent regressions, and metrics replace guesswork. Evals give the whole team a clear hill to climb, turning “the agent feels worse” into something actionable. The value compounds, but only if you treat evals as a core component, not an afterthought.",
+  "tokens_est": 126
+ }
+]

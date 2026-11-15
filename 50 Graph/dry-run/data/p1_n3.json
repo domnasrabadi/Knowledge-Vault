@@ -1,0 +1,1705 @@
+{
+ "stats": {
+  "returned": 116,
+  "bad_passage": 0,
+  "text_not_found": 0,
+  "offset_wrong": 14
+ },
+ "per_passage": [
+  {
+   "passage_id": "n3-p01",
+   "text": "evaluations",
+   "key": "evaluations"
+  },
+  {
+   "passage_id": "n3-p01",
+   "text": "AI agents",
+   "key": "ai agents"
+  },
+  {
+   "passage_id": "n3-p01",
+   "text": "Evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p02",
+   "text": "evaluation",
+   "key": "evaluation"
+  },
+  {
+   "passage_id": "n3-p02",
+   "text": "eval",
+   "key": "eval"
+  },
+  {
+   "passage_id": "n3-p02",
+   "text": "automated evals",
+   "key": "automated evals"
+  },
+  {
+   "passage_id": "n3-p02",
+   "text": "Single-turn evaluations",
+   "key": "single turn evaluations"
+  },
+  {
+   "passage_id": "n3-p02",
+   "text": "LLMs",
+   "key": "llms"
+  },
+  {
+   "passage_id": "n3-p02",
+   "text": "multi-turn evaluations",
+   "key": "multi turn evaluations"
+  },
+  {
+   "passage_id": "n3-p02",
+   "text": "Agent evaluations",
+   "key": "agent evaluations"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "agent evaluations",
+   "key": "agent evaluations"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "task",
+   "key": "task"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "test case",
+   "key": "test case"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "trial",
+   "key": "trial"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "grader",
+   "key": "grader"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "transcript",
+   "key": "transcript"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "trace",
+   "key": "trace"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "trajectory",
+   "key": "trajectory"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "Anthropic API",
+   "key": "anthropic api"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "evaluation harness",
+   "key": "evaluation harness"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "agent harness",
+   "key": "agent harness"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "scaffold",
+   "key": "scaffold"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "Claude Code",
+   "key": "claude code"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "Agent SDK",
+   "key": "agent sdk"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "evaluation suite",
+   "key": "evaluation suite"
+  },
+  {
+   "passage_id": "n3-p03",
+   "text": "eval suite",
+   "key": "eval suite"
+  },
+  {
+   "passage_id": "n3-p04",
+   "text": "dogfooding",
+   "key": "dogfooding"
+  },
+  {
+   "passage_id": "n3-p04",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p04",
+   "text": "Claude Code",
+   "key": "claude code"
+  },
+  {
+   "passage_id": "n3-p04",
+   "text": "Anthropic",
+   "key": "anthropic"
+  },
+  {
+   "passage_id": "n3-p04",
+   "text": "production monitoring",
+   "key": "production monitoring"
+  },
+  {
+   "passage_id": "n3-p04",
+   "text": "A/B tests",
+   "key": "a b tests"
+  },
+  {
+   "passage_id": "n3-p05",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p05",
+   "text": "edge cases",
+   "key": "edge cases"
+  },
+  {
+   "passage_id": "n3-p05",
+   "text": "eval suite",
+   "key": "eval suite"
+  },
+  {
+   "passage_id": "n3-p05",
+   "text": "baselines",
+   "key": "baselines"
+  },
+  {
+   "passage_id": "n3-p05",
+   "text": "regression tests",
+   "key": "regression tests"
+  },
+  {
+   "passage_id": "n3-p07",
+   "text": "Agent evaluations",
+   "key": "agent evaluations"
+  },
+  {
+   "passage_id": "n3-p07",
+   "text": "Code based graders",
+   "key": "code based graders"
+  },
+  {
+   "passage_id": "n3-p09",
+   "text": "Model based graders",
+   "key": "model based graders"
+  },
+  {
+   "passage_id": "n3-p11",
+   "text": "Capability or “quality” evals",
+   "key": "capability or quality evals"
+  },
+  {
+   "passage_id": "n3-p11",
+   "text": "Regression evals",
+   "key": "regression evals"
+  },
+  {
+   "passage_id": "n3-p11",
+   "text": "capability evals",
+   "key": "capability evals"
+  },
+  {
+   "passage_id": "n3-p11",
+   "text": "regression evals",
+   "key": "regression evals"
+  },
+  {
+   "passage_id": "n3-p11",
+   "text": "regression suite",
+   "key": "regression suite"
+  },
+  {
+   "passage_id": "n3-p12",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p12",
+   "text": "coding agents",
+   "key": "coding agents"
+  },
+  {
+   "passage_id": "n3-p12",
+   "text": "Deterministic graders",
+   "key": "deterministic graders"
+  },
+  {
+   "passage_id": "n3-p12",
+   "text": "SWE-bench Verified",
+   "key": "swe bench verified"
+  },
+  {
+   "passage_id": "n3-p12",
+   "text": "Terminal-Bench",
+   "key": "terminal bench"
+  },
+  {
+   "passage_id": "n3-p13",
+   "text": "conversational agents",
+   "key": "conversational agents"
+  },
+  {
+   "passage_id": "n3-p13",
+   "text": "rubrics",
+   "key": "rubrics"
+  },
+  {
+   "passage_id": "n3-p13",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p13",
+   "text": "LLM",
+   "key": "llm"
+  },
+  {
+   "passage_id": "n3-p13",
+   "text": "𝜏-Bench",
+   "key": "𝜏 bench"
+  },
+  {
+   "passage_id": "n3-p13",
+   "text": "τ2-Bench",
+   "key": "τ2 bench"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "Research agents",
+   "key": "research agents"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "ground truth",
+   "key": "ground truth"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "Groundedness checks",
+   "key": "groundedness checks"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "coverage checks",
+   "key": "coverage checks"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "source quality checks",
+   "key": "source quality checks"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "exact match",
+   "key": "exact match"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "LLM",
+   "key": "llm"
+  },
+  {
+   "passage_id": "n3-p14",
+   "text": "LLM-based rubrics",
+   "key": "llm based rubrics"
+  },
+  {
+   "passage_id": "n3-p15",
+   "text": "pass@k",
+   "key": "pass k"
+  },
+  {
+   "passage_id": "n3-p15",
+   "text": "pass@1",
+   "key": "pass 1"
+  },
+  {
+   "passage_id": "n3-p15",
+   "text": "pass^k",
+   "key": "pass k"
+  },
+  {
+   "passage_id": "n3-p17",
+   "text": "eval-driven agent development",
+   "key": "eval driven agent development"
+  },
+  {
+   "passage_id": "n3-p18",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p18",
+   "text": "80/20 approach",
+   "key": "80 20 approach"
+  },
+  {
+   "passage_id": "n3-p19",
+   "text": "reference solutions",
+   "key": "reference solutions"
+  },
+  {
+   "passage_id": "n3-p19",
+   "text": "model-based graders",
+   "key": "model based graders"
+  },
+  {
+   "passage_id": "n3-p19",
+   "text": "rubrics",
+   "key": "rubrics"
+  },
+  {
+   "passage_id": "n3-p19",
+   "text": "reference solution",
+   "key": "reference solution"
+  },
+  {
+   "passage_id": "n3-p20",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p20",
+   "text": "class-imbalanced",
+   "key": "class imbalanced"
+  },
+  {
+   "passage_id": "n3-p20",
+   "text": "Claude.ai",
+   "key": "claude ai"
+  },
+  {
+   "passage_id": "n3-p20",
+   "text": "undertriggering",
+   "key": "undertriggering"
+  },
+  {
+   "passage_id": "n3-p20",
+   "text": "overtriggering",
+   "key": "overtriggering"
+  },
+  {
+   "passage_id": "n3-p21",
+   "text": "eval harness",
+   "key": "eval harness"
+  },
+  {
+   "passage_id": "n3-p22",
+   "text": "deterministic graders",
+   "key": "deterministic graders"
+  },
+  {
+   "passage_id": "n3-p22",
+   "text": "LLM graders",
+   "key": "llm graders"
+  },
+  {
+   "passage_id": "n3-p22",
+   "text": "human graders",
+   "key": "human graders"
+  },
+  {
+   "passage_id": "n3-p22",
+   "text": "partial credit",
+   "key": "partial credit"
+  },
+  {
+   "passage_id": "n3-p22",
+   "text": "LLM-as-judge",
+   "key": "llm as judge"
+  },
+  {
+   "passage_id": "n3-p22",
+   "text": "rubrics",
+   "key": "rubrics"
+  },
+  {
+   "passage_id": "n3-p23",
+   "text": "transcripts",
+   "key": "transcripts"
+  },
+  {
+   "passage_id": "n3-p23",
+   "text": "Anthropic",
+   "key": "anthropic"
+  },
+  {
+   "passage_id": "n3-p23",
+   "text": "eval saturation",
+   "key": "eval saturation"
+  },
+  {
+   "passage_id": "n3-p23",
+   "text": "Eval saturation",
+   "key": "eval saturation"
+  },
+  {
+   "passage_id": "n3-p24",
+   "text": "evaluation suites",
+   "key": "evaluation suites"
+  },
+  {
+   "passage_id": "n3-p24",
+   "text": "eval suite",
+   "key": "eval suite"
+  },
+  {
+   "passage_id": "n3-p24",
+   "text": "Anthropic",
+   "key": "anthropic"
+  },
+  {
+   "passage_id": "n3-p24",
+   "text": "evals",
+   "key": "evals"
+  },
+  {
+   "passage_id": "n3-p24",
+   "text": "unit tests",
+   "key": "unit tests"
+  },
+  {
+   "passage_id": "n3-p24",
+   "text": "eval-driven development",
+   "key": "eval driven development"
+  },
+  {
+   "passage_id": "n3-p24",
+   "text": "Capability evals",
+   "key": "capability evals"
+  },
+  {
+   "passage_id": "n3-p25",
+   "text": "Automated evaluations",
+   "key": "automated evaluations"
+  },
+  {
+   "passage_id": "n3-p25",
+   "text": "production monitoring",
+   "key": "production monitoring"
+  },
+  {
+   "passage_id": "n3-p25",
+   "text": "user feedback",
+   "key": "user feedback"
+  },
+  {
+   "passage_id": "n3-p25",
+   "text": "A/B testing",
+   "key": "a b testing"
+  },
+  {
+   "passage_id": "n3-p25",
+   "text": "manual transcript review",
+   "key": "manual transcript review"
+  },
+  {
+   "passage_id": "n3-p25",
+   "text": "systematic human evaluation",
+   "key": "systematic human evaluation"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "Automated evals",
+   "key": "automated evals"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "CI/CD",
+   "key": "ci cd"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "Production monitoring",
+   "key": "production monitoring"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "distribution drift",
+   "key": "distribution drift"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "A/B testing",
+   "key": "a b testing"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "User feedback",
+   "key": "user feedback"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "transcript review",
+   "key": "transcript review"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "systematic human studies",
+   "key": "systematic human studies"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "LLM graders",
+   "key": "llm graders"
+  },
+  {
+   "passage_id": "n3-p27",
+   "text": "Swiss Cheese Model",
+   "key": "swiss cheese model"
+  },
+  {
+   "passage_id": "n3-p28",
+   "text": "evals",
+   "key": "evals"
+  }
+ ],
+ "exact": {
+  "anthropic": "reg:entity:anthropic",
+  "ground truth": "reg:concept:ground-truth",
+  "exact match": "reg:concept:exact-match",
+  "llm as judge": "reg:concept:llm-as-a-judge",
+  "a b testing": "reg:concept:a-b-testing"
+ },
+ "todo": [
+  {
+   "item": 1,
+   "key": "evaluations",
+   "text": "evaluations",
+   "kind": "concept",
+   "passage_id": "n3-p01",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 2,
+   "key": "ai agents",
+   "text": "AI agents",
+   "kind": "concept",
+   "passage_id": "n3-p01",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:concept:human-evaluation",
+    "reg:concept:agentic-system",
+    "reg:concept:human-annotation",
+    "reg:entity:chatbot-arena"
+   ]
+  },
+  {
+   "item": 3,
+   "key": "evals",
+   "text": "Evals",
+   "kind": "concept",
+   "passage_id": "n3-p01",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-call-evaluation",
+    "reg:concept:tool-input-evaluation",
+    "reg:entity:maj-eval",
+    "reg:concept:safety-critical-evaluation"
+   ]
+  },
+  {
+   "item": 4,
+   "key": "evaluation",
+   "text": "evaluation",
+   "kind": "concept",
+   "passage_id": "n3-p02",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 5,
+   "key": "eval",
+   "text": "eval",
+   "kind": "concept",
+   "passage_id": "n3-p02",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-call-evaluation",
+    "reg:entity:openai",
+    "reg:concept:tool-input-evaluation"
+   ]
+  },
+  {
+   "item": 6,
+   "key": "automated evals",
+   "text": "automated evals",
+   "kind": "concept",
+   "passage_id": "n3-p02",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-call-evaluation",
+    "reg:concept:tool-input-evaluation",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:structured-output-evaluation"
+   ]
+  },
+  {
+   "item": 7,
+   "key": "single turn evaluations",
+   "text": "Single-turn evaluations",
+   "kind": "concept",
+   "passage_id": "n3-p02",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-input-evaluation",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 8,
+   "key": "llms",
+   "text": "LLMs",
+   "kind": "concept",
+   "passage_id": "n3-p02",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:entity:bloom",
+    "reg:concept:human-annotation",
+    "reg:concept:likert-scale",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 9,
+   "key": "multi turn evaluations",
+   "text": "multi-turn evaluations",
+   "kind": "concept",
+   "passage_id": "n3-p02",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 10,
+   "key": "agent evaluations",
+   "text": "Agent evaluations",
+   "kind": "concept",
+   "passage_id": "n3-p02",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:concept:human-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-input-evaluation"
+   ]
+  },
+  {
+   "item": 11,
+   "key": "task",
+   "text": "task",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:format-bias",
+    "reg:concept:likert-scale",
+    "reg:concept:position-bias",
+    "reg:concept:verbosity-bias",
+    "reg:concept:authority-bias"
+   ]
+  },
+  {
+   "item": 12,
+   "key": "test case",
+   "text": "test case",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:likert-scale",
+    "reg:entity:chatbot-arena",
+    "reg:concept:authority-bias",
+    "reg:concept:tool-call-evaluation",
+    "reg:concept:agent-loop"
+   ]
+  },
+  {
+   "item": 13,
+   "key": "trial",
+   "text": "trial",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:reinforcement-learning-from-human-feedback",
+    "reg:entity:anthropic",
+    "reg:concept:authority-bias",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:pareto-principle"
+   ]
+  },
+  {
+   "item": 14,
+   "key": "grader",
+   "text": "grader",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:ground-truth",
+    "reg:concept:rouge",
+    "reg:concept:temperature",
+    "reg:concept:rubric",
+    "reg:entity:maj-eval"
+   ]
+  },
+  {
+   "item": 15,
+   "key": "transcript",
+   "text": "transcript",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:entity:langsmith",
+    "reg:concept:temperature",
+    "reg:concept:rubric",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:human-review"
+   ]
+  },
+  {
+   "item": 16,
+   "key": "trace",
+   "text": "trace",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:temperature",
+    "reg:entity:anthropic",
+    "reg:concept:meta-judge",
+    "reg:concept:rouge",
+    "reg:concept:pareto-principle"
+   ]
+  },
+  {
+   "item": 17,
+   "key": "trajectory",
+   "text": "trajectory",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:meta-judge",
+    "reg:concept:pareto-principle",
+    "reg:concept:temperature",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:content-moderation"
+   ]
+  },
+  {
+   "item": 18,
+   "key": "anthropic api",
+   "text": "Anthropic API",
+   "kind": "entity",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:entity:anthropic",
+    "reg:concept:authority-bias",
+    "reg:concept:agentic-system",
+    "reg:concept:agent-loop",
+    "reg:concept:safety-critical-evaluation"
+   ]
+  },
+  {
+   "item": 19,
+   "key": "evaluation harness",
+   "text": "evaluation harness",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 20,
+   "key": "agent harness",
+   "text": "agent harness",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:concept:agentic-system",
+    "reg:concept:likert-scale",
+    "reg:entity:anthropic",
+    "reg:concept:reference-response"
+   ]
+  },
+  {
+   "item": 21,
+   "key": "scaffold",
+   "text": "scaffold",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:likert-scale",
+    "reg:concept:control-flow",
+    "reg:concept:pairwise-judging",
+    "reg:entity:chatbot-arena",
+    "reg:concept:safety-critical-evaluation"
+   ]
+  },
+  {
+   "item": 22,
+   "key": "claude code",
+   "text": "Claude Code",
+   "kind": "entity",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:judge-prompt",
+    "reg:concept:content-moderation",
+    "reg:concept:meta-judge",
+    "reg:concept:human-evaluation"
+   ]
+  },
+  {
+   "item": 23,
+   "key": "agent sdk",
+   "text": "Agent SDK",
+   "kind": "entity",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:concept:agentic-system",
+    "reg:concept:human-evaluation",
+    "reg:concept:cohen-s-kappa",
+    "reg:concept:self-enhancement-bias"
+   ]
+  },
+  {
+   "item": 24,
+   "key": "evaluation suite",
+   "text": "evaluation suite",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 25,
+   "key": "eval suite",
+   "text": "eval suite",
+   "kind": "concept",
+   "passage_id": "n3-p03",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:meta-judge",
+    "reg:concept:human-evaluation",
+    "reg:entity:langsmith",
+    "reg:concept:agentic-system"
+   ]
+  },
+  {
+   "item": 26,
+   "key": "dogfooding",
+   "text": "dogfooding",
+   "kind": "concept",
+   "passage_id": "n3-p04",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:position-swapping",
+    "reg:concept:content-moderation",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 27,
+   "key": "production monitoring",
+   "text": "production monitoring",
+   "kind": "concept",
+   "passage_id": "n3-p04",
+   "candidates": [
+    "reg:concept:position-swapping",
+    "reg:concept:position-bias",
+    "reg:concept:regression-testing",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:pareto-principle"
+   ]
+  },
+  {
+   "item": 28,
+   "key": "a b tests",
+   "text": "A/B tests",
+   "kind": "concept",
+   "passage_id": "n3-p04",
+   "candidates": [
+    "reg:concept:a-b-testing",
+    "reg:concept:human-annotation",
+    "reg:concept:panel-of-judges",
+    "reg:concept:human-evaluation",
+    "reg:concept:agentic-system"
+   ]
+  },
+  {
+   "item": 29,
+   "key": "edge cases",
+   "text": "edge cases",
+   "kind": "concept",
+   "passage_id": "n3-p05",
+   "candidates": [
+    "reg:concept:likert-scale",
+    "reg:concept:agentic-system",
+    "reg:concept:reference-response",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 30,
+   "key": "baselines",
+   "text": "baselines",
+   "kind": "concept",
+   "passage_id": "n3-p05",
+   "candidates": [
+    "reg:concept:panel-of-judges",
+    "reg:concept:ensembling",
+    "reg:concept:pairwise-judging",
+    "reg:concept:reference-based-evaluation",
+    "reg:concept:human-evaluation"
+   ]
+  },
+  {
+   "item": 31,
+   "key": "regression tests",
+   "text": "regression tests",
+   "kind": "concept",
+   "passage_id": "n3-p05",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:reference-response",
+    "reg:concept:ground-truth",
+    "reg:concept:position-bias",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 32,
+   "key": "code based graders",
+   "text": "Code based graders",
+   "kind": "concept",
+   "passage_id": "n3-p07",
+   "candidates": [
+    "reg:concept:reference-based-evaluation",
+    "reg:concept:panel-of-judges",
+    "reg:concept:cohen-s-kappa",
+    "reg:concept:temperature",
+    "reg:concept:format-bias"
+   ]
+  },
+  {
+   "item": 33,
+   "key": "model based graders",
+   "text": "Model based graders",
+   "kind": "concept",
+   "passage_id": "n3-p09",
+   "candidates": [
+    "reg:concept:reference-based-evaluation",
+    "reg:concept:panel-of-judges",
+    "reg:concept:temperature",
+    "reg:concept:format-bias",
+    "reg:concept:content-moderation"
+   ]
+  },
+  {
+   "item": 34,
+   "key": "capability or quality evals",
+   "text": "Capability or “quality” evals",
+   "kind": "concept",
+   "passage_id": "n3-p11",
+   "candidates": [
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:structured-output-evaluation",
+    "reg:concept:tool-call-evaluation",
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-input-evaluation"
+   ]
+  },
+  {
+   "item": 35,
+   "key": "regression evals",
+   "text": "Regression evals",
+   "kind": "concept",
+   "passage_id": "n3-p11",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-input-evaluation",
+    "reg:concept:structured-output-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 36,
+   "key": "capability evals",
+   "text": "capability evals",
+   "kind": "concept",
+   "passage_id": "n3-p11",
+   "candidates": [
+    "reg:concept:tool-call-evaluation",
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-input-evaluation",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:structured-output-evaluation"
+   ]
+  },
+  {
+   "item": 37,
+   "key": "regression suite",
+   "text": "regression suite",
+   "kind": "concept",
+   "passage_id": "n3-p11",
+   "candidates": [
+    "reg:concept:regression-testing",
+    "reg:concept:reference-response",
+    "reg:concept:ground-truth",
+    "reg:concept:position-swapping",
+    "reg:concept:position-bias"
+   ]
+  },
+  {
+   "item": 38,
+   "key": "coding agents",
+   "text": "coding agents",
+   "kind": "concept",
+   "passage_id": "n3-p12",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:concept:panel-of-judges",
+    "reg:entity:chatbot-arena",
+    "reg:concept:position-bias",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 39,
+   "key": "deterministic graders",
+   "text": "Deterministic graders",
+   "kind": "concept",
+   "passage_id": "n3-p12",
+   "candidates": [
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:agentic-system",
+    "reg:concept:likert-scale",
+    "reg:concept:ensembling",
+    "reg:concept:pareto-principle"
+   ]
+  },
+  {
+   "item": 40,
+   "key": "swe bench verified",
+   "text": "SWE-bench Verified",
+   "kind": "entity",
+   "passage_id": "n3-p12",
+   "candidates": [
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:reference-response",
+    "reg:concept:embedding-similarity",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:content-moderation"
+   ]
+  },
+  {
+   "item": 41,
+   "key": "terminal bench",
+   "text": "Terminal-Bench",
+   "kind": "entity",
+   "passage_id": "n3-p12",
+   "candidates": [
+    "reg:concept:multi-dimensional-rubric",
+    "reg:concept:rubric",
+    "reg:concept:exact-match",
+    "reg:concept:pareto-principle",
+    "reg:concept:temperature"
+   ]
+  },
+  {
+   "item": 42,
+   "key": "conversational agents",
+   "text": "conversational agents",
+   "kind": "concept",
+   "passage_id": "n3-p13",
+   "candidates": [
+    "reg:concept:content-moderation",
+    "reg:concept:position-bias",
+    "reg:concept:format-bias",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:control-flow"
+   ]
+  },
+  {
+   "item": 43,
+   "key": "rubrics",
+   "text": "rubrics",
+   "kind": "concept",
+   "passage_id": "n3-p13",
+   "candidates": [
+    "reg:concept:rubric",
+    "reg:concept:multi-dimensional-rubric",
+    "reg:concept:format-bias",
+    "reg:concept:verbosity-bias",
+    "reg:concept:authority-bias"
+   ]
+  },
+  {
+   "item": 44,
+   "key": "llm",
+   "text": "LLM",
+   "kind": "concept",
+   "passage_id": "n3-p13",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:entity:bloom",
+    "reg:entity:langsmith",
+    "reg:concept:bleu",
+    "reg:concept:reinforcement-learning-from-human-feedback"
+   ]
+  },
+  {
+   "item": 45,
+   "key": "𝜏 bench",
+   "text": "𝜏-Bench",
+   "kind": "entity",
+   "passage_id": "n3-p13",
+   "candidates": [
+    "reg:concept:a-b-testing",
+    "reg:concept:bleu",
+    "reg:concept:exact-match",
+    "reg:concept:human-annotation",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 46,
+   "key": "τ2 bench",
+   "text": "τ2-Bench",
+   "kind": "entity",
+   "passage_id": "n3-p13",
+   "candidates": [
+    "reg:concept:a-b-testing",
+    "reg:concept:bleu",
+    "reg:concept:exact-match",
+    "reg:concept:human-annotation",
+    "reg:concept:rubric"
+   ]
+  },
+  {
+   "item": 47,
+   "key": "research agents",
+   "text": "Research agents",
+   "kind": "concept",
+   "passage_id": "n3-p14",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:agent-loop",
+    "reg:concept:self-enhancement-bias",
+    "reg:concept:agentic-system",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 48,
+   "key": "groundedness checks",
+   "text": "Groundedness checks",
+   "kind": "concept",
+   "passage_id": "n3-p14",
+   "candidates": [
+    "reg:concept:ground-truth",
+    "reg:concept:regression-testing",
+    "reg:concept:reference-response",
+    "reg:concept:panel-of-judges",
+    "reg:concept:rouge"
+   ]
+  },
+  {
+   "item": 49,
+   "key": "coverage checks",
+   "text": "coverage checks",
+   "kind": "concept",
+   "passage_id": "n3-p14",
+   "candidates": [
+    "reg:concept:rubric",
+    "reg:concept:agentic-system",
+    "reg:concept:agent-loop",
+    "reg:concept:format-bias",
+    "reg:concept:reference-response"
+   ]
+  },
+  {
+   "item": 50,
+   "key": "source quality checks",
+   "text": "source quality checks",
+   "kind": "concept",
+   "passage_id": "n3-p14",
+   "candidates": [
+    "reg:concept:toxicity-detection",
+    "reg:concept:authority-bias",
+    "reg:concept:tool-call-evaluation",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:exact-match"
+   ]
+  },
+  {
+   "item": 51,
+   "key": "llm based rubrics",
+   "text": "LLM-based rubrics",
+   "kind": "concept",
+   "passage_id": "n3-p14",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:multi-dimensional-rubric",
+    "reg:concept:reference-based-evaluation",
+    "reg:concept:rubric",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 52,
+   "key": "pass k",
+   "text": "pass@k",
+   "kind": "concept",
+   "passage_id": "n3-p15",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:concept:panel-of-judges",
+    "reg:concept:llm-as-a-judge",
+    "reg:entity:openai",
+    "reg:concept:position-bias"
+   ]
+  },
+  {
+   "item": 53,
+   "key": "pass 1",
+   "text": "pass@1",
+   "kind": "concept",
+   "passage_id": "n3-p15",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:concept:panel-of-judges",
+    "reg:concept:llm-as-a-judge",
+    "reg:entity:openai",
+    "reg:concept:position-bias"
+   ]
+  },
+  {
+   "item": 54,
+   "key": "eval driven agent development",
+   "text": "eval-driven agent development",
+   "kind": "concept",
+   "passage_id": "n3-p17",
+   "candidates": [
+    "reg:concept:agent-loop",
+    "reg:concept:human-evaluation",
+    "reg:concept:self-enhancement-bias",
+    "reg:concept:content-moderation",
+    "reg:concept:agentic-system"
+   ]
+  },
+  {
+   "item": 55,
+   "key": "80 20 approach",
+   "text": "80/20 approach",
+   "kind": "concept",
+   "passage_id": "n3-p18",
+   "candidates": [
+    "reg:concept:cohen-s-kappa",
+    "reg:entity:anthropic",
+    "reg:concept:judge-prompt",
+    "reg:entity:chatbot-arena",
+    "reg:concept:pareto-principle"
+   ]
+  },
+  {
+   "item": 56,
+   "key": "reference solutions",
+   "text": "reference solutions",
+   "kind": "concept",
+   "passage_id": "n3-p19",
+   "candidates": [
+    "reg:concept:reference-response",
+    "reg:concept:reference-based-evaluation",
+    "reg:concept:self-preference-bias",
+    "reg:concept:regression-testing",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 57,
+   "key": "reference solution",
+   "text": "reference solution",
+   "kind": "concept",
+   "passage_id": "n3-p19",
+   "candidates": [
+    "reg:concept:reference-response",
+    "reg:concept:reference-based-evaluation",
+    "reg:concept:self-preference-bias",
+    "reg:concept:pairwise-judging",
+    "reg:concept:pointwise-evaluation"
+   ]
+  },
+  {
+   "item": 58,
+   "key": "class imbalanced",
+   "text": "class-imbalanced",
+   "kind": "concept",
+   "passage_id": "n3-p20",
+   "candidates": [
+    "reg:concept:listwise-evaluation",
+    "reg:concept:ensembling",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:pairwise-judging",
+    "reg:concept:tool-input-evaluation"
+   ]
+  },
+  {
+   "item": 59,
+   "key": "claude ai",
+   "text": "Claude.ai",
+   "kind": "entity",
+   "passage_id": "n3-p20",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:meta-judge",
+    "reg:concept:tool-call-evaluation",
+    "reg:entity:openai",
+    "reg:concept:judge-prompt"
+   ]
+  },
+  {
+   "item": 60,
+   "key": "undertriggering",
+   "text": "undertriggering",
+   "kind": "concept",
+   "passage_id": "n3-p20",
+   "candidates": [
+    "reg:concept:content-moderation",
+    "reg:concept:ensembling",
+    "reg:concept:pairwise-judging",
+    "reg:concept:human-evaluation",
+    "reg:concept:a-b-testing"
+   ]
+  },
+  {
+   "item": 61,
+   "key": "overtriggering",
+   "text": "overtriggering",
+   "kind": "concept",
+   "passage_id": "n3-p20",
+   "candidates": [
+    "reg:concept:ensembling",
+    "reg:concept:a-b-testing",
+    "reg:concept:temperature",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:position-swapping"
+   ]
+  },
+  {
+   "item": 62,
+   "key": "eval harness",
+   "text": "eval harness",
+   "kind": "concept",
+   "passage_id": "n3-p21",
+   "candidates": [
+    "reg:entity:maj-eval",
+    "reg:concept:self-enhancement-bias",
+    "reg:concept:human-evaluation",
+    "reg:concept:likert-scale",
+    "reg:concept:reference-response"
+   ]
+  },
+  {
+   "item": 63,
+   "key": "llm graders",
+   "text": "LLM graders",
+   "kind": "concept",
+   "passage_id": "n3-p22",
+   "candidates": [
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:self-preference-bias",
+    "reg:concept:panel-of-judges",
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 64,
+   "key": "human graders",
+   "text": "human graders",
+   "kind": "concept",
+   "passage_id": "n3-p22",
+   "candidates": [
+    "reg:concept:human-annotation",
+    "reg:concept:human-evaluation",
+    "reg:concept:human-review",
+    "reg:concept:panel-of-judges",
+    "reg:concept:format-bias"
+   ]
+  },
+  {
+   "item": 65,
+   "key": "partial credit",
+   "text": "partial credit",
+   "kind": "concept",
+   "passage_id": "n3-p22",
+   "candidates": [
+    "reg:concept:pairwise-judging",
+    "reg:concept:pareto-principle",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:temperature",
+    "reg:concept:likert-scale"
+   ]
+  },
+  {
+   "item": 66,
+   "key": "transcripts",
+   "text": "transcripts",
+   "kind": "concept",
+   "passage_id": "n3-p23",
+   "candidates": [
+    "reg:entity:langsmith",
+    "reg:concept:authority-bias",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:temperature",
+    "reg:concept:pointwise-evaluation"
+   ]
+  },
+  {
+   "item": 67,
+   "key": "eval saturation",
+   "text": "eval saturation",
+   "kind": "concept",
+   "passage_id": "n3-p23",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:human-annotation",
+    "reg:concept:pointwise-evaluation"
+   ]
+  },
+  {
+   "item": 68,
+   "key": "evaluation suites",
+   "text": "evaluation suites",
+   "kind": "concept",
+   "passage_id": "n3-p24",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pointwise-evaluation",
+    "reg:concept:tool-call-evaluation"
+   ]
+  },
+  {
+   "item": 69,
+   "key": "unit tests",
+   "text": "unit tests",
+   "kind": "concept",
+   "passage_id": "n3-p24",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:agentic-system",
+    "reg:concept:a-b-testing",
+    "reg:concept:ground-truth",
+    "reg:concept:human-annotation"
+   ]
+  },
+  {
+   "item": 70,
+   "key": "eval driven development",
+   "text": "eval-driven development",
+   "kind": "concept",
+   "passage_id": "n3-p24",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:self-enhancement-bias",
+    "reg:entity:maj-eval",
+    "reg:concept:judge-prompt",
+    "reg:concept:regression-testing"
+   ]
+  },
+  {
+   "item": 71,
+   "key": "automated evaluations",
+   "text": "Automated evaluations",
+   "kind": "concept",
+   "passage_id": "n3-p25",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:tool-call-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pointwise-evaluation"
+   ]
+  },
+  {
+   "item": 72,
+   "key": "user feedback",
+   "text": "user feedback",
+   "kind": "concept",
+   "passage_id": "n3-p25",
+   "candidates": [
+    "reg:concept:self-preference-bias",
+    "reg:concept:reinforcement-learning-from-human-feedback",
+    "reg:concept:self-enhancement-bias",
+    "reg:concept:verbosity-bias",
+    "reg:concept:likert-scale"
+   ]
+  },
+  {
+   "item": 73,
+   "key": "manual transcript review",
+   "text": "manual transcript review",
+   "kind": "concept",
+   "passage_id": "n3-p25",
+   "candidates": [
+    "reg:concept:human-review",
+    "reg:concept:authority-bias",
+    "reg:concept:rubric",
+    "reg:concept:human-evaluation",
+    "reg:concept:human-annotation"
+   ]
+  },
+  {
+   "item": 74,
+   "key": "systematic human evaluation",
+   "text": "systematic human evaluation",
+   "kind": "concept",
+   "passage_id": "n3-p25",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:human-annotation"
+   ]
+  },
+  {
+   "item": 75,
+   "key": "ci cd",
+   "text": "CI/CD",
+   "kind": "concept",
+   "passage_id": "n3-p27",
+   "candidates": [
+    "reg:concept:rubric",
+    "reg:concept:exact-match",
+    "reg:concept:toxicity-detection",
+    "reg:concept:llm-as-a-judge",
+    "reg:concept:pairwise-judging"
+   ]
+  },
+  {
+   "item": 76,
+   "key": "distribution drift",
+   "text": "distribution drift",
+   "kind": "concept",
+   "passage_id": "n3-p27",
+   "candidates": [
+    "reg:concept:listwise-evaluation",
+    "reg:concept:position-bias",
+    "reg:concept:multi-dimensional-rubric",
+    "reg:concept:safety-critical-evaluation",
+    "reg:concept:position-swapping"
+   ]
+  },
+  {
+   "item": 77,
+   "key": "transcript review",
+   "text": "transcript review",
+   "kind": "concept",
+   "passage_id": "n3-p27",
+   "candidates": [
+    "reg:concept:human-review",
+    "reg:concept:rubric",
+    "reg:concept:structured-output-evaluation",
+    "reg:concept:temperature",
+    "reg:concept:tool-input-evaluation"
+   ]
+  },
+  {
+   "item": 78,
+   "key": "systematic human studies",
+   "text": "systematic human studies",
+   "kind": "concept",
+   "passage_id": "n3-p27",
+   "candidates": [
+    "reg:concept:human-evaluation",
+    "reg:concept:human-review",
+    "reg:concept:human-annotation",
+    "reg:concept:reinforcement-learning-from-human-feedback",
+    "reg:concept:panel-of-judges"
+   ]
+  },
+  {
+   "item": 79,
+   "key": "swiss cheese model",
+   "text": "Swiss Cheese Model",
+   "kind": "concept",
+   "passage_id": "n3-p27",
+   "candidates": [
+    "reg:concept:content-moderation",
+    "reg:concept:ensembling",
+    "reg:concept:listwise-evaluation",
+    "reg:concept:pairwise-judging",
+    "reg:concept:pointwise-evaluation"
+   ]
+  }
+ ]
+}

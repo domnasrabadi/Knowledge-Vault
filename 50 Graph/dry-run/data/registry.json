@@ -1,0 +1,1476 @@
+[
+ {
+  "id": "reg:concept:llm-as-a-judge",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "LLM-as-a-judge",
+  "aliases": [
+   "LLM judges",
+   "LLM-as-judge",
+   "LLM judge",
+   "LLM graders"
+  ],
+  "definition": "Using a language model to grade or decide on the outputs of another model or system.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:agent-loop",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "agent loop",
+  "aliases": [
+   "agent loops"
+  ],
+  "definition": "The repeated cycle in which an LLM-based agent decides on an action, acts, observes the result and continues until done.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:control-flow",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "control flow",
+  "aliases": [],
+  "definition": "The order in which a program or application executes its steps, including branching, retrying and routing decisions.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:rubric",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "rubric",
+  "aliases": [
+   "scoring rubric",
+   "rubrics"
+  ],
+  "definition": "A set of criteria used to grade or score an output, given to a human or model judge.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:pairwise-judging",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "pairwise judging",
+  "aliases": [
+   "pairwise comparisons",
+   "Pairwise evaluation"
+  ],
+  "definition": "Evaluating outputs by having a judge choose the better of two candidates for the same input rather than assigning scores.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:regression-testing",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "regression testing",
+  "aliases": [
+   "regression tests"
+  ],
+  "definition": "Re-running tests after a change to check that previously working behaviour has not got worse.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:entity:phoenix",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "Phoenix",
+  "aliases": [],
+  "definition": "Arize's open-source tool for tracing, observing and evaluating LLM applications and agents.",
+  "instance_of": "LLM observability and evaluation platform",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:entity:langsmith",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "LangSmith",
+  "aliases": [],
+  "definition": "LangChain's platform for tracing, evaluating and monitoring LLM applications.",
+  "instance_of": "LLM observability and evaluation platform",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:panel-of-judges",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "panel of judges",
+  "aliases": [
+   "panels of judges",
+   "ensembling judges"
+  ],
+  "definition": "Using several independent model judges, with voting or deliberation, to reach a combined evaluation instead of relying on one judge.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:entity:maj-eval",
+  "kind": "entity",
+  "entity_type": "paper",
+  "canonical_name": "MAJ-EVAL",
+  "aliases": [],
+  "definition": "A research framework that creates multiple evaluator agents representing different evaluation dimensions and has them deliberate to produce a judgment.",
+  "instance_of": "multi-agent LLM evaluation",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:entity:anthropic",
+  "kind": "entity",
+  "entity_type": "org",
+  "canonical_name": "Anthropic",
+  "aliases": [],
+  "definition": "AI research and products company that develops the Claude family of language models.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:entity:bloom",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "Bloom",
+  "aliases": [],
+  "definition": "Anthropic's evaluation pipeline that uses judge models, validated against human-labeled transcripts, to assess model behaviour.",
+  "instance_of": "LLM evaluation framework",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:meta-judge",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "meta-judge",
+  "aliases": [],
+  "definition": "A judge that reviews or aggregates the results and judgments of other judges in an evaluation pipeline.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:entity:openai",
+  "kind": "entity",
+  "entity_type": "org",
+  "canonical_name": "OpenAI",
+  "aliases": [],
+  "definition": "AI research and products company that develops the GPT models and ChatGPT.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1"
+ },
+ {
+  "id": "reg:concept:reference-based-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "reference-based evaluation",
+  "aliases": [],
+  "definition": "Evaluating a model output by comparing it against a known good reference answer rather than judging it in isolation.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:pointwise-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "pointwise evaluation",
+  "aliases": [
+   "pointwise scoring"
+  ],
+  "definition": "Evaluating a single model output on its own, assigning it a score or label without comparison to other outputs.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:position-swapping",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "position swapping",
+  "aliases": [],
+  "definition": "Repeating a pairwise comparison with the order of the two candidates reversed to cancel out position bias in a judge.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:human-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "human evaluation",
+  "aliases": [
+   "human judgements",
+   "human evals",
+   "human judgments",
+   "systematic human evaluation"
+  ],
+  "definition": "Having people grade or judge the outputs of a model or system.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:ground-truth",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "ground truth",
+  "aliases": [],
+  "definition": "Known correct answers or labels against which a system's outputs can be checked.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:exact-match",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "exact match",
+  "aliases": [],
+  "definition": "An evaluation metric that counts an output as correct only if it is identical to the reference answer.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:bleu",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "BLEU",
+  "aliases": [],
+  "definition": "A metric that scores generated text by n-gram overlap with reference texts, originally for machine translation.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:rouge",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "ROUGE",
+  "aliases": [],
+  "definition": "A family of metrics that score generated text, especially summaries, by n-gram and sequence overlap with reference texts.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:agentic-system",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "agentic system",
+  "aliases": [
+   "agentic systems"
+  ],
+  "definition": "An LLM-based system that plans and takes actions, often using tools, to accomplish tasks with some autonomy.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:pareto-principle",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "Pareto principle",
+  "aliases": [],
+  "definition": "The rule of thumb that roughly 80% of effects come from 20% of causes.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:likert-scale",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "Likert scale",
+  "aliases": [
+   "likert scales"
+  ],
+  "definition": "A rating scale with ordered discrete points, such as 1 to 5, used to score or measure judgements.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:reinforcement-learning-from-human-feedback",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "reinforcement learning from human feedback",
+  "aliases": [
+   "RLHF"
+  ],
+  "definition": "A training method that tunes a model using a reward signal learned from human preference judgements.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:a-b-testing",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "A/B testing",
+  "aliases": [
+   "A/B tests"
+  ],
+  "definition": "Comparing two variants of a system or output on the same task to see which performs better.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:entity:chatbot-arena",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "Chatbot Arena",
+  "aliases": [],
+  "definition": "A crowdsourced platform where users compare pairs of model responses, producing preference votes and a model leaderboard.",
+  "instance_of": "LLM evaluation platform",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:listwise-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "listwise evaluation",
+  "aliases": [],
+  "definition": "Evaluating several outputs together by asking a judge to rank them from best to worst.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:multi-dimensional-rubric",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "multi-dimensional rubric",
+  "aliases": [
+   "multi-dimensional rubrics"
+  ],
+  "definition": "A grading rubric with several separately scored criteria or dimensions rather than a single overall score.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:judge-prompt",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "judge prompt",
+  "aliases": [],
+  "definition": "The prompt that instructs an LLM judge how to evaluate a response, including task, criteria, scoring and examples.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:few-shot-examples",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "few-shot examples",
+  "aliases": [],
+  "definition": "Example inputs and outputs included in a prompt to show a model the desired behaviour.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:temperature",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "temperature",
+  "aliases": [],
+  "definition": "A sampling parameter that controls how random a language model's output is, with lower values more deterministic.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:ensembling",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "ensembling",
+  "aliases": [
+   "ensemble"
+  ],
+  "definition": "Combining the outputs of multiple models to get a more reliable or accurate result than any single model.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:position-bias",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "position bias",
+  "aliases": [],
+  "definition": "A bias in which a judge favours a response because of its position in the prompt rather than its quality.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:verbosity-bias",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "verbosity bias",
+  "aliases": [],
+  "definition": "A bias in which a judge favours longer, more verbose responses regardless of quality.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:self-enhancement-bias",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "self-enhancement bias",
+  "aliases": [],
+  "definition": "A bias in which a model judge favours outputs written by itself or its own model family.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:authority-bias",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "authority bias",
+  "aliases": [],
+  "definition": "A bias in which a judge favours responses that appear authoritative or cite authorities, regardless of correctness.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:format-bias",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "format bias",
+  "aliases": [],
+  "definition": "A bias in which a judge is swayed by the formatting or style of a response rather than its content.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:tool-call-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "tool call evaluation",
+  "aliases": [
+   "tool call evals"
+  ],
+  "definition": "Evaluating whether an LLM agent chose and made the correct tool calls, usually with deterministic checks.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:structured-output-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "structured output evaluation",
+  "aliases": [
+   "structured output evals"
+  ],
+  "definition": "Evaluating whether a model's structured output, such as JSON, is valid and correct, usually with deterministic checks.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:tool-input-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "tool input evaluation",
+  "aliases": [
+   "tool input evals"
+  ],
+  "definition": "Evaluating whether the arguments an LLM agent passes to a tool are correct, usually with deterministic checks.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:safety-critical-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "safety-critical evaluation",
+  "aliases": [
+   "safety critical evals"
+  ],
+  "definition": "Evaluation of behaviour where failures have severe consequences, such as content moderation or toxicity detection.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:content-moderation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "content moderation",
+  "aliases": [],
+  "definition": "Screening and filtering user or model-generated content for harmful or policy-violating material.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:toxicity-detection",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "toxicity detection",
+  "aliases": [],
+  "definition": "Identifying toxic, abusive or hateful language in text.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:human-review",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "human review",
+  "aliases": [],
+  "definition": "Having people inspect and judge sampled or flagged outputs, for example to validate or calibrate automated evaluation.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:embedding-similarity",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "embedding similarity",
+  "aliases": [],
+  "definition": "A measure of how close two texts are, computed from the similarity of their vector embeddings.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:human-annotation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "human annotation",
+  "aliases": [
+   "human annotations",
+   "human labels"
+  ],
+  "definition": "Labels or judgements supplied by people on data or model outputs, used for training or validation.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:cohen-s-kappa",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "Cohen's kappa",
+  "aliases": [],
+  "definition": "A statistic measuring agreement between two raters beyond what would be expected by chance.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:self-preference-bias",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "self-preference bias",
+  "aliases": [],
+  "definition": "A bias in which a model judge favours outputs generated by itself or its own model family.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:reference-response",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "reference response",
+  "aliases": [
+   "reference responses"
+  ],
+  "definition": "A known good or expected answer used as the standard against which a model's response is compared.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n2"
+ },
+ {
+  "id": "reg:concept:ai-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "AI evaluation",
+  "aliases": [
+   "evaluations",
+   "Evals",
+   "evaluation",
+   "eval"
+  ],
+  "definition": "A test of an AI system that gives it an input and applies grading logic to its output to measure success.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:automated-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "automated evaluation",
+  "aliases": [
+   "automated evals",
+   "Automated evaluations"
+  ],
+  "definition": "Evaluation run automatically, without real users or manual review, typically during development.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:single-turn-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "single-turn evaluation",
+  "aliases": [
+   "Single-turn evaluations"
+  ],
+  "definition": "Evaluation of a single prompt and response exchange using grading logic, without multi-step interaction.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:large-language-model",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "large language model",
+  "aliases": [
+   "LLMs",
+   "LLM"
+  ],
+  "definition": "A neural language model trained on large text corpora to generate and understand natural language.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:multi-turn-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "multi-turn evaluation",
+  "aliases": [
+   "multi-turn evaluations"
+  ],
+  "definition": "Evaluation of a system across a multi-turn interaction rather than a single prompt and response.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:agent-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "agent evaluation",
+  "aliases": [
+   "Agent evaluations"
+  ],
+  "definition": "Evaluation of AI agents that use tools across many turns and change environment state.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:evaluation-task",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "evaluation task",
+  "aliases": [
+   "task",
+   "test case"
+  ],
+  "definition": "A single test in an evaluation, with defined inputs and success criteria.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:evaluation-trial",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "evaluation trial",
+  "aliases": [
+   "trial"
+  ],
+  "definition": "One attempt at an evaluation task; multiple trials are run because model outputs vary between runs.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:grader",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "grader",
+  "aliases": [],
+  "definition": "Logic that scores some aspect of an AI system's output or behaviour in an evaluation.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:transcript",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "transcript",
+  "aliases": [
+   "trace",
+   "trajectory",
+   "transcripts"
+  ],
+  "definition": "The complete record of an evaluation trial or agent run, including outputs, tool calls and reasoning.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:anthropic-api",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "Anthropic API",
+  "aliases": [],
+  "definition": "Anthropic's programming interface for accessing its Claude language models.",
+  "instance_of": "LLM API",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:evaluation-harness",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "evaluation harness",
+  "aliases": [],
+  "definition": "Infrastructure that runs evaluations end-to-end: provides instructions and tools, runs tasks, records steps, grades outputs and aggregates results.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:agent-harness",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "agent harness",
+  "aliases": [
+   "scaffold"
+  ],
+  "definition": "The system around a model that processes inputs, orchestrates tool calls and returns results so the model can act as an agent.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:claude-code",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "Claude Code",
+  "aliases": [],
+  "definition": "Anthropic's agentic coding tool that runs Claude in a terminal or IDE to read, edit and run code.",
+  "instance_of": "agent harness",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:claude-agent-sdk",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "Claude Agent SDK",
+  "aliases": [
+   "Agent SDK"
+  ],
+  "definition": "Anthropic's software development kit for building custom agents using the primitives behind Claude Code.",
+  "instance_of": "agent framework",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:evaluation-suite",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "evaluation suite",
+  "aliases": [
+   "eval suite"
+  ],
+  "definition": "A collection of evaluation tasks designed to measure specific capabilities or behaviours, typically sharing a broad goal.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:dogfooding",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "dogfooding",
+  "aliases": [],
+  "definition": "A team using its own product internally to find problems and gather feedback before or alongside release.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:production-monitoring",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "production monitoring",
+  "aliases": [],
+  "definition": "Observing a deployed system's behaviour and quality in live use to detect problems.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:edge-case",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "edge case",
+  "aliases": [
+   "edge cases"
+  ],
+  "definition": "An unusual or extreme input or situation at the boundary of expected behaviour, often not covered by a specification.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:baseline",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "baseline",
+  "aliases": [
+   "baselines"
+  ],
+  "definition": "A reference measurement of a system's performance against which later results or changes are compared.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:code-based-grader",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "code-based grader",
+  "aliases": [
+   "Code based graders"
+  ],
+  "definition": "A grader implemented as deterministic code, such as string matching or test execution, that scores an output.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:model-based-grader",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "model-based grader",
+  "aliases": [
+   "Model based graders"
+  ],
+  "definition": "A grader that uses a language model to score outputs, for example with rubrics, assertions or comparisons.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:capability-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "capability evaluation",
+  "aliases": [
+   "Capability or “quality” evals",
+   "capability evals"
+  ],
+  "definition": "Evaluation of what a system can do well, targeting hard tasks with an initially low pass rate to hill-climb on.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:regression-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "regression evaluation",
+  "aliases": [
+   "Regression evals"
+  ],
+  "definition": "Evaluation that checks a system still handles previously solved tasks, expected to pass nearly all and flag backsliding.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:regression-suite",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "regression suite",
+  "aliases": [],
+  "definition": "A collection of tests or evals run repeatedly to catch regressions or drift after changes.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:coding-agent",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "coding agent",
+  "aliases": [
+   "coding agents"
+  ],
+  "definition": "An LLM-based agent that writes, edits and runs code to complete software tasks.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:deterministic-grader",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "deterministic grader",
+  "aliases": [
+   "Deterministic graders"
+  ],
+  "definition": "A grader whose scoring follows fixed rules, such as running tests, so the same output always gets the same result.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:swe-bench-verified",
+  "kind": "entity",
+  "entity_type": "dataset",
+  "canonical_name": "SWE-bench Verified",
+  "aliases": [],
+  "definition": "A human-verified subset of SWE-bench, a benchmark of real GitHub software issues used to evaluate coding agents.",
+  "instance_of": "coding agent benchmark",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:terminal-bench",
+  "kind": "entity",
+  "entity_type": "dataset",
+  "canonical_name": "Terminal-Bench",
+  "aliases": [],
+  "definition": "A benchmark that evaluates coding agents on tasks in terminal environments, graded by deterministic tests.",
+  "instance_of": "coding agent benchmark",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:conversational-agent",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "conversational agent",
+  "aliases": [
+   "conversational agents"
+  ],
+  "definition": "An LLM-based agent that interacts with users over multiple turns, maintaining state, using tools and taking actions mid-conversation.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:bench",
+  "kind": "entity",
+  "entity_type": "dataset",
+  "canonical_name": "τ-Bench",
+  "aliases": [
+   "𝜏-Bench"
+  ],
+  "definition": "A benchmark that simulates multi-turn interactions between a user persona and a tool-using agent in domains like retail support and airline booking.",
+  "instance_of": "conversational agent benchmark",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:2-bench",
+  "kind": "entity",
+  "entity_type": "dataset",
+  "canonical_name": "τ2-Bench",
+  "aliases": [],
+  "definition": "The successor to τ-Bench, a benchmark simulating multi-turn user-agent interactions across domains such as retail support and airline booking.",
+  "instance_of": "conversational agent benchmark",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:research-agent",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "research agent",
+  "aliases": [
+   "Research agents"
+  ],
+  "definition": "An LLM-based agent that gathers, synthesizes and analyzes information to produce an answer or report.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:groundedness-check",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "groundedness check",
+  "aliases": [
+   "Groundedness checks"
+  ],
+  "definition": "An evaluation check that verifies the claims in an output are supported by the sources it draws on.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:coverage-check",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "coverage check",
+  "aliases": [
+   "coverage checks"
+  ],
+  "definition": "An evaluation check that tests whether an output includes the key facts a good answer must contain.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:source-quality-check",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "source quality check",
+  "aliases": [
+   "source quality checks"
+  ],
+  "definition": "An evaluation check that confirms the sources an agent consulted are authoritative rather than simply the first retrieved.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:llm-based-rubric",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "LLM-based rubric",
+  "aliases": [
+   "LLM-based rubrics"
+  ],
+  "definition": "A grading rubric applied by a language model grader to score open-ended outputs against stated criteria.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:pass-k",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "pass@k",
+  "aliases": [],
+  "definition": "A metric giving the probability that at least one of k attempts at a task produces a correct solution.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:pass-1",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "pass@1",
+  "aliases": [],
+  "definition": "The pass@k metric with k equal to 1: the proportion of tasks solved correctly on the first attempt.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:eval-driven-development",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "eval-driven development",
+  "aliases": [
+   "eval-driven agent development"
+  ],
+  "definition": "A development practice of building evals to define target capabilities before they exist, then iterating until the system performs well.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:class-imbalance",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "class imbalance",
+  "aliases": [
+   "class-imbalanced"
+  ],
+  "definition": "A dataset condition in which some classes or outcomes are far more represented than others, which can skew evaluation or training.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:entity:claude-ai",
+  "kind": "entity",
+  "entity_type": "tool",
+  "canonical_name": "Claude.ai",
+  "aliases": [],
+  "definition": "Anthropic's web chat application for interacting with Claude models, including features such as web search.",
+  "instance_of": "AI chat assistant",
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:undertriggering",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "undertriggering",
+  "aliases": [],
+  "definition": "A failure in which a model or agent does not perform a behaviour, such as using a tool, when it should.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:overtriggering",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "overtriggering",
+  "aliases": [],
+  "definition": "A failure in which a model or agent performs a behaviour, such as using a tool, when it should not.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:eval-harness",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "eval harness",
+  "aliases": [],
+  "definition": "The infrastructure that runs an agent on eval tasks in controlled environments and records and grades the results.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:partial-credit",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "partial credit",
+  "aliases": [],
+  "definition": "Grading a multi-component task with a score reflecting how many components succeeded rather than a single pass or fail.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:eval-saturation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "eval saturation",
+  "aliases": [],
+  "definition": "The state in which a system passes all solvable tasks in an eval, so the eval no longer signals improvement.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:eval-suite",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "eval suite",
+  "aliases": [
+   "evaluation suites"
+  ],
+  "definition": "A maintained collection of evaluation tasks and graders used to test a system repeatedly over time.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:unit-test",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "unit test",
+  "aliases": [
+   "unit tests"
+  ],
+  "definition": "An automated test that checks a small unit of code, such as a function, behaves as expected.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:user-feedback",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "user feedback",
+  "aliases": [],
+  "definition": "Reports, ratings or complaints from real users about a product, used to find problems and guide improvement.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:transcript-review",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "transcript review",
+  "aliases": [
+   "manual transcript review"
+  ],
+  "definition": "Reading sampled agent transcripts by hand to find failures, check grader behaviour and understand agent behaviour.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:ci-cd",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "CI/CD",
+  "aliases": [],
+  "definition": "Continuous integration and continuous delivery: automatically building, testing and releasing software on every change.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:distribution-drift",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "distribution drift",
+  "aliases": [],
+  "definition": "A change over time in the distribution of inputs a deployed system sees, compared with what it was built or tested on.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:swiss-cheese-model",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "Swiss cheese model",
+  "aliases": [],
+  "definition": "A safety-engineering model in which each layer of defence has holes, so failures are caught only by combining several layers.",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3"
+ },
+ {
+  "id": "reg:concept:specialized-judge-model",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "specialized judge model",
+  "aliases": [],
+  "definition": "",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1",
+  "from": "P3 new target (not sent to P2 in the dry run)"
+ },
+ {
+  "id": "reg:concept:decomposed-judgment",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "decomposed judgment",
+  "aliases": [],
+  "definition": "",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1",
+  "from": "P3 new target (not sent to P2 in the dry run)"
+ },
+ {
+  "id": "reg:concept:agent-trace-evaluation",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "agent trace evaluation",
+  "aliases": [],
+  "definition": "",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1",
+  "from": "P3 new target (not sent to P2 in the dry run)"
+ },
+ {
+  "id": "reg:concept:deterministic-checks",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "deterministic checks",
+  "aliases": [],
+  "definition": "",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1",
+  "from": "P3 new target (not sent to P2 in the dry run)"
+ },
+ {
+  "id": "reg:entity:openai-graders",
+  "kind": "entity",
+  "entity_type": null,
+  "canonical_name": "OpenAI graders",
+  "aliases": [],
+  "definition": "",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1",
+  "from": "P3 new target (not sent to P2 in the dry run)"
+ },
+ {
+  "id": "reg:concept:combined-deterministic-and-non-deterministic-logic",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "combined deterministic and non-deterministic logic",
+  "aliases": [],
+  "definition": "",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n1",
+  "from": "P3 new target (not sent to P2 in the dry run)"
+ },
+ {
+  "id": "reg:concept:outcome",
+  "kind": "concept",
+  "entity_type": null,
+  "canonical_name": "outcome",
+  "aliases": [],
+  "definition": "",
+  "instance_of": null,
+  "status": "approved",
+  "review_state": "auto",
+  "first_note": "n3",
+  "from": "P3 new target (not sent to P2 in the dry run)"
+ }
+]

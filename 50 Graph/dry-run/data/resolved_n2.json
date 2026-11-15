@@ -1,0 +1,300 @@
+{
+ "n2-p01": [
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:reference-based-evaluation",
+   "name": "reference-based evaluation"
+  },
+  {
+   "id": "reg:concept:pointwise-evaluation",
+   "name": "pointwise evaluation"
+  },
+  {
+   "id": "reg:concept:pairwise-judging",
+   "name": "pairwise judging"
+  },
+  {
+   "id": "reg:concept:position-swapping",
+   "name": "position swapping"
+  },
+  {
+   "id": "reg:concept:human-evaluation",
+   "name": "human evaluation"
+  },
+  {
+   "id": "reg:concept:ground-truth",
+   "name": "ground truth"
+  }
+ ],
+ "n2-p02": [
+  {
+   "id": "reg:concept:exact-match",
+   "name": "exact match"
+  },
+  {
+   "id": "reg:concept:bleu",
+   "name": "BLEU"
+  },
+  {
+   "id": "reg:concept:rouge",
+   "name": "ROUGE"
+  },
+  {
+   "id": "reg:concept:human-evaluation",
+   "name": "human evaluation"
+  },
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:agentic-system",
+   "name": "agentic system"
+  },
+  {
+   "id": "reg:concept:pareto-principle",
+   "name": "Pareto principle"
+  }
+ ],
+ "n2-p03": [
+  {
+   "id": "reg:concept:pointwise-evaluation",
+   "name": "pointwise evaluation"
+  },
+  {
+   "id": "reg:concept:likert-scale",
+   "name": "Likert scale"
+  },
+  {
+   "id": "reg:concept:reference-based-evaluation",
+   "name": "reference-based evaluation"
+  },
+  {
+   "id": "reg:concept:ground-truth",
+   "name": "ground truth"
+  }
+ ],
+ "n2-p04": [
+  {
+   "id": "reg:concept:pairwise-judging",
+   "name": "pairwise judging"
+  },
+  {
+   "id": "reg:concept:reinforcement-learning-from-human-feedback",
+   "name": "reinforcement learning from human feedback"
+  },
+  {
+   "id": "reg:concept:a-b-testing",
+   "name": "A/B testing"
+  },
+  {
+   "id": "reg:entity:chatbot-arena",
+   "name": "Chatbot Arena"
+  },
+  {
+   "id": "reg:concept:listwise-evaluation",
+   "name": "listwise evaluation"
+  },
+  {
+   "id": "reg:concept:multi-dimensional-rubric",
+   "name": "multi-dimensional rubric"
+  },
+  {
+   "id": "reg:concept:pointwise-evaluation",
+   "name": "pointwise evaluation"
+  }
+ ],
+ "n2-p05": [
+  {
+   "id": "reg:concept:judge-prompt",
+   "name": "judge prompt"
+  },
+  {
+   "id": "reg:concept:rubric",
+   "name": "rubric"
+  },
+  {
+   "id": "reg:concept:likert-scale",
+   "name": "Likert scale"
+  },
+  {
+   "id": "reg:concept:few-shot-examples",
+   "name": "few-shot examples"
+  }
+ ],
+ "n2-p07": [
+  {
+   "id": "reg:concept:likert-scale",
+   "name": "Likert scale"
+  },
+  {
+   "id": "reg:concept:temperature",
+   "name": "temperature"
+  }
+ ],
+ "n2-p08": [
+  {
+   "id": "reg:concept:ensembling",
+   "name": "ensembling"
+  },
+  {
+   "id": "reg:concept:position-bias",
+   "name": "position bias"
+  },
+  {
+   "id": "reg:concept:verbosity-bias",
+   "name": "verbosity bias"
+  },
+  {
+   "id": "reg:concept:self-enhancement-bias",
+   "name": "self-enhancement bias"
+  },
+  {
+   "id": "reg:concept:authority-bias",
+   "name": "authority bias"
+  },
+  {
+   "id": "reg:concept:format-bias",
+   "name": "format bias"
+  }
+ ],
+ "n2-p09": [
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:ground-truth",
+   "name": "ground truth"
+  },
+  {
+   "id": "reg:concept:tool-call-evaluation",
+   "name": "tool call evaluation"
+  },
+  {
+   "id": "reg:concept:structured-output-evaluation",
+   "name": "structured output evaluation"
+  },
+  {
+   "id": "reg:concept:tool-input-evaluation",
+   "name": "tool input evaluation"
+  },
+  {
+   "id": "reg:concept:safety-critical-evaluation",
+   "name": "safety-critical evaluation"
+  },
+  {
+   "id": "reg:concept:content-moderation",
+   "name": "content moderation"
+  },
+  {
+   "id": "reg:concept:toxicity-detection",
+   "name": "toxicity detection"
+  },
+  {
+   "id": "reg:concept:human-review",
+   "name": "human review"
+  },
+  {
+   "id": "reg:concept:human-evaluation",
+   "name": "human evaluation"
+  },
+  {
+   "id": "reg:concept:embedding-similarity",
+   "name": "embedding similarity"
+  }
+ ],
+ "n2-p10": [
+  {
+   "id": "reg:concept:human-annotation",
+   "name": "human annotation"
+  },
+  {
+   "id": "reg:concept:cohen-s-kappa",
+   "name": "Cohen's kappa"
+  },
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:panel-of-judges",
+   "name": "panel of judges"
+  },
+  {
+   "id": "reg:concept:ensembling",
+   "name": "ensembling"
+  },
+  {
+   "id": "reg:concept:self-preference-bias",
+   "name": "self-preference bias"
+  }
+ ],
+ "n2-p11": [
+  {
+   "id": "reg:concept:reference-response",
+   "name": "reference response"
+  },
+  {
+   "id": "reg:concept:pointwise-evaluation",
+   "name": "pointwise evaluation"
+  },
+  {
+   "id": "reg:concept:ground-truth",
+   "name": "ground truth"
+  },
+  {
+   "id": "reg:concept:pairwise-judging",
+   "name": "pairwise judging"
+  },
+  {
+   "id": "reg:concept:position-bias",
+   "name": "position bias"
+  }
+ ],
+ "n2-p13": [
+  {
+   "id": "reg:concept:position-bias",
+   "name": "position bias"
+  },
+  {
+   "id": "reg:concept:self-enhancement-bias",
+   "name": "self-enhancement bias"
+  },
+  {
+   "id": "reg:concept:pairwise-judging",
+   "name": "pairwise judging"
+  },
+  {
+   "id": "reg:concept:human-evaluation",
+   "name": "human evaluation"
+  },
+  {
+   "id": "reg:concept:reference-response",
+   "name": "reference response"
+  },
+  {
+   "id": "reg:concept:pointwise-evaluation",
+   "name": "pointwise evaluation"
+  },
+  {
+   "id": "reg:concept:ground-truth",
+   "name": "ground truth"
+  },
+  {
+   "id": "reg:concept:reference-based-evaluation",
+   "name": "reference-based evaluation"
+  },
+  {
+   "id": "reg:concept:llm-as-a-judge",
+   "name": "LLM-as-a-judge"
+  },
+  {
+   "id": "reg:concept:human-review",
+   "name": "human review"
+  }
+ ]
+}

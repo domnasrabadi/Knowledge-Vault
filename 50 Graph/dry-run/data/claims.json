@@ -1,0 +1,5913 @@
+[
+ {
+  "id": "c001",
+  "note": "n1",
+  "text": "Increasingly, products place LLM-as-a-judge directly inside the agent loop rather than using it only as an offline tool.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p01"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:agent-loop"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-loop",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is increasingly placed inside"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c002",
+  "note": "n1",
+  "text": "An LLM-as-a-judge placed inside the agent loop participates in the application's control flow instead of only evaluating the application.",
+  "qualifiers": [
+   "when the judge is placed inside the agent loop"
+  ],
+  "passage_ids": [
+   "n1-p01",
+   "n1-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:control-flow"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:control-flow",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "participates in"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.88
+ },
+ {
+  "id": "c003",
+  "note": "n1",
+  "text": "In the canonical LLM-as-a-judge approach, one model does the work and a different model judges it.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p02"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.92
+ },
+ {
+  "id": "c004",
+  "note": "n1",
+  "text": "An LLM-as-a-judge receives some combination of the original request, the generated result, a rubric, reference material and perhaps an expected answer, and returns a score, label or explanation.",
+  "qualifiers": [
+   "some combination of inputs"
+  ],
+  "passage_ids": [
+   "n1-p02"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:rubric"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "may be given"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c005",
+  "note": "n1",
+  "text": "For high-volume applications that run evals constantly at application runtime, judging cost matters, so a specialized model designed to be cheap for this use is a good option for the judge.",
+  "qualifiers": [
+   "for high-volume applications",
+   "when evals run constantly at application runtime"
+  ],
+  "passage_ids": [
+   "n1-p02"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:specialized-judge-model"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": null,
+    "new_name": "specialized judge model",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "can use a cheap"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c006",
+  "note": "n1",
+  "text": "A single question of whether an output was good can hide distinct failures: an answer can be correct but incomplete, well written but unsupported by the source, or reach the right result through actions it should not have taken.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p03"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.82
+ },
+ {
+  "id": "c007",
+  "note": "n1",
+  "text": "An LLM-as-a-judge architecture can be upgraded by breaking the judgment into smaller decisions, such as whether the answer addresses the request, whether its claims are supported by the evidence, and whether the agent completed the required work.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p03"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:decomposed-judgment"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": null,
+    "new_name": "decomposed judgment",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is improved by"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c008",
+  "note": "n1",
+  "text": "Models are not always good at judging that an output deserves a 7 rather than an 8, but can be much better at deciding which of two outputs is better.",
+  "qualifiers": [
+   "models are not always good at fine-grained scores"
+  ],
+  "passage_ids": [
+   "n1-p04"
+  ],
+  "about": [
+   "reg:concept:pairwise-judging",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c009",
+  "note": "n1",
+  "text": "Pairwise judging gives the judge two outputs produced from the same input and asks which one better satisfies the criteria.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p04"
+  ],
+  "about": [
+   "reg:concept:pairwise-judging"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.93
+ },
+ {
+  "id": "c010",
+  "note": "n1",
+  "text": "Pairwise judging is commonly useful for application regression testing.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p04"
+  ],
+  "about": [
+   "reg:concept:pairwise-judging",
+   "reg:concept:regression-testing"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:regression-testing",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is commonly useful for"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c011",
+  "note": "n1",
+  "text": "Pairwise judging could also be used in runtime architectures, for example by having a judge choose between several plans generated by an agent, or compare a proposed action with an alternative before the system commits to it.",
+  "qualifiers": [
+   "could be used at runtime"
+  ],
+  "passage_ids": [
+   "n1-p04"
+  ],
+  "about": [
+   "reg:concept:pairwise-judging",
+   "reg:concept:agent-loop"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-loop",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "could be used inside"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c012",
+  "note": "n1",
+  "text": "An agent's final result can look completely reasonable even though the agent retrieved the wrong documents, ignored an important source, called the wrong tool or took unnecessary steps, so the work should be judged and not only the answer.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p05"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:agent-trace-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": null,
+    "new_name": "agent trace evaluation",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c013",
+  "note": "n1",
+  "text": "Application evaluation systems are already moving further into the trace.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p05"
+  ],
+  "about": [
+   "reg:concept:agent-trace-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": null,
+    "new_name": "agent trace evaluation",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c014",
+  "note": "n1",
+  "text": "Phoenix has evaluators for retrieval relevance, tool selection, tool invocation, tool responses and overall agent performance.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p05"
+  ],
+  "about": [
+   "reg:entity:phoenix"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:phoenix",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.93
+ },
+ {
+  "id": "c015",
+  "note": "n1",
+  "text": "LangSmith can apply evaluators to individual runs as well as to larger traces and threads.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p05"
+  ],
+  "about": [
+   "reg:entity:langsmith"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:langsmith",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.93
+ },
+ {
+  "id": "c016",
+  "note": "n1",
+  "text": "An LLM-as-a-judge is still an LLM and can make mistakes for all the same reasons the model doing the work can, so a single judge should not be treated as authoritative.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p06"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c017",
+  "note": "n1",
+  "text": "Research on model evaluation has explored panels of judges, evaluator personas, voting, aggregation and debate between evaluators.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p06"
+  ],
+  "about": [
+   "reg:concept:panel-of-judges"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:panel-of-judges",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.88
+ },
+ {
+  "id": "c018",
+  "note": "n1",
+  "text": "MAJ-EVAL creates multiple evaluator agents representing different dimensions of the evaluation and lets them deliberate over the result.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p06"
+  ],
+  "about": [
+   "reg:entity:maj-eval",
+   "reg:concept:panel-of-judges"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:maj-eval",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:panel-of-judges",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is an example of"
+   }
+  ],
+  "referenced_time": "2026",
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c019",
+  "note": "n1",
+  "text": "There is not a lot of evidence suggesting that applications have adopted panels of judges in production yet.",
+  "qualifiers": [
+   "in production"
+  ],
+  "passage_ids": [
+   "n1-p06"
+  ],
+  "about": [
+   "reg:concept:panel-of-judges"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:panel-of-judges",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c020",
+  "note": "n1",
+  "text": "Agreement between independent judgments can increase confidence, whereas disagreement between judges could be a reason to retry with a stronger model, collect more evidence or send the work to a human.",
+  "qualifiers": [
+   "between independent judges"
+  ],
+  "passage_ids": [
+   "n1-p06"
+  ],
+  "about": [
+   "reg:concept:panel-of-judges",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:panel-of-judges",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.88
+ },
+ {
+  "id": "c021",
+  "note": "n1",
+  "text": "Once an LLM-as-a-judge can affect what happens in an application, its reliability matters a lot.",
+  "qualifiers": [
+   "when the judge can affect application behaviour"
+  ],
+  "passage_ids": [
+   "n1-p07"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c022",
+  "note": "n1",
+  "text": "Anthropic evaluated a collection of candidate judge models against human-labeled transcripts before choosing the judge for its Bloom evaluation pipeline.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p07"
+  ],
+  "about": [
+   "reg:entity:anthropic",
+   "reg:entity:bloom"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:anthropic",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:entity:bloom",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "built and validated the judge for"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c023",
+  "note": "n1",
+  "text": "The Bloom evaluation pipeline includes a meta-judge that looks across the broader evaluation results.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p07"
+  ],
+  "about": [
+   "reg:entity:bloom",
+   "reg:concept:meta-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:bloom",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:meta-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "includes"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.9
+ },
+ {
+  "id": "c024",
+  "note": "n1",
+  "text": "Application builders can periodically compare an LLM-as-a-judge against humans, collecting examples of important decisions for independent human evaluation.",
+  "qualifiers": [
+   "when a judgment controls something important"
+  ],
+  "passage_ids": [
+   "n1-p07"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": null,
+    "new_name": "human evaluation",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "should be periodically compared against"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.88
+ },
+ {
+  "id": "c025",
+  "note": "n1",
+  "text": "Builders should measure where an LLM-as-a-judge disagrees with humans and change the rubric, model, context or decision boundary when the disagreement is unacceptable.",
+  "qualifiers": [
+   "when the disagreement is unacceptable"
+  ],
+  "passage_ids": [
+   "n1-p07"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:rubric"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.88
+ },
+ {
+  "id": "c026",
+  "note": "n1",
+  "text": "If something can be checked deterministically, it should be checked deterministically with tests, schema checks or a database check, and a policy engine could be written for this kind of validation.",
+  "qualifiers": [
+   "when the check can be done deterministically"
+  ],
+  "passage_ids": [
+   "n1-p08"
+  ],
+  "about": [
+   "reg:concept:deterministic-checks",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": null,
+    "new_name": "deterministic checks",
+    "new_kind": "concept"
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "should be preferred over"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.88
+ },
+ {
+  "id": "c027",
+  "note": "n1",
+  "text": "OpenAI's grader architecture supports model-based graders alongside deterministic graders such as string checks and Python code, and multiple graders can be combined into a larger evaluation.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n1-p08"
+  ],
+  "about": [
+   "reg:entity:openai",
+   "reg:entity:openai-graders"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:openai",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": null,
+    "new_name": "OpenAI graders",
+    "new_kind": "entity"
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "provides"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.9
+ },
+ {
+  "id": "c028",
+  "note": "n1",
+  "text": "Inside applications, an LLM can judge whether evidence is sufficient, a recommendation is well supported or a task is complete, while deterministic code decides what combination of judgments and other facts is required before the workflow moves forward.",
+  "qualifiers": [
+   "inside applications"
+  ],
+  "passage_ids": [
+   "n1-p08"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:deterministic-checks"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": null,
+    "new_name": "deterministic checks",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 1,
+    "to": 0,
+    "phrase": "gates the outputs of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.88
+ },
+ {
+  "id": "c029",
+  "note": "n1",
+  "text": "Combined deterministic and non-deterministic logic is one of the biggest opportunities available at the application layer.",
+  "qualifiers": [
+   "at the application layer"
+  ],
+  "passage_ids": [
+   "n1-p08"
+  ],
+  "about": [
+   "reg:concept:combined-deterministic-and-non-deterministic-logic"
+  ],
+  "about_raw": [
+   {
+    "id": null,
+    "new_name": "combined deterministic and non-deterministic logic",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c030",
+  "note": "n1",
+  "text": "Many LLM-as-a-judge patterns require moving judges inside agent loops and putting them in the critical path of applications.",
+  "qualifiers": [
+   "for many of the patterns described"
+  ],
+  "passage_ids": [
+   "n1-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:agent-loop"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-loop",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "must be moved inside"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.88
+ },
+ {
+  "id": "c031",
+  "note": "n1",
+  "text": "When an LLM-as-a-judge informs control flow, its judgment can cause the application to continue, retry, route to another model, gather more information or escalate to a person.",
+  "qualifiers": [
+   "when the judge is in the agent loop"
+  ],
+  "passage_ids": [
+   "n1-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:control-flow"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:control-flow",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "determines"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c032",
+  "note": "n1",
+  "text": "When an LLM-as-a-judge sits inside the agent loop, its mistakes become application failures.",
+  "qualifiers": [
+   "when the judge is inside the agent loop"
+  ],
+  "passage_ids": [
+   "n1-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:agent-loop"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-loop",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c033",
+  "note": "n1",
+  "text": "A judge that is slightly noisy in an offline eval may be only annoying, but the same judge in front of every important action can create loops, block good work, approve bad work and add latency to every execution.",
+  "qualifiers": [
+   "for a slightly noisy judge",
+   "when placed in front of every important action"
+  ],
+  "passage_ids": [
+   "n1-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:agent-loop"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-loop",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c034",
+  "note": "n2",
+  "text": "An LLM-as-a-judge works better with reference-based evaluation than with pointwise scoring.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p01",
+   "n2-p11",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:reference-based-evaluation",
+   "reg:concept:pointwise-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:reference-based-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:pointwise-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is more reliable than"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c035",
+  "note": "n2",
+  "text": "Pairwise comparisons by an LLM-as-a-judge should be debiased by position swapping.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p01",
+   "n2-p11",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:pairwise-judging",
+   "reg:concept:position-swapping"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:position-swapping",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 1,
+    "to": 0,
+    "phrase": "debiases"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c036",
+  "note": "n2",
+  "text": "An LLM-as-a-judge works well when scores are ensembled across multiple models.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p01",
+   "n2-p10",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:ensembling",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ensembling",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "improves the reliability of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c037",
+  "note": "n2",
+  "text": "A judge prompt should require the LLM-as-a-judge to give reasoning before the score.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p01",
+   "n2-p07",
+   "n2-p11",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:judge-prompt",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:judge-prompt",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c038",
+  "note": "n2",
+  "text": "An LLM-as-a-judge should be calibrated against human judgments before it is trusted.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p01",
+   "n2-p10",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "should be calibrated against"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c039",
+  "note": "n2",
+  "text": "An LLM-as-a-judge should be skipped when ground truth exists, because deterministic evaluation against it is cheaper, faster, fully explainable and reliable.",
+  "qualifiers": [
+   "when ground truth exists"
+  ],
+  "passage_ids": [
+   "n2-p01",
+   "n2-p09",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:ground-truth"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ground-truth",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 1,
+    "to": 0,
+    "phrase": "makes unnecessary"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c040",
+  "note": "n2",
+  "text": "An LLM-as-a-judge should not be the sole basis for safety-critical or high-risk decisions.",
+  "qualifiers": [
+   "safety-critical or high-risk decisions"
+  ],
+  "passage_ids": [
+   "n2-p01",
+   "n2-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:safety-critical-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:safety-critical-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c041",
+  "note": "n2",
+  "text": "Exact match works well for classification and structured output but fails completely on open-ended generation.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p02"
+  ],
+  "about": [
+   "reg:concept:exact-match"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:exact-match",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c042",
+  "note": "n2",
+  "text": "BLEU and ROUGE were designed for machine translation and summarisation, and they penalise valid paraphrasing while rewarding surface-level similarity.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p02"
+  ],
+  "about": [
+   "reg:concept:bleu",
+   "reg:concept:rouge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:bleu",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rouge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c043",
+  "note": "n2",
+  "text": "Human evaluation is the gold standard but does not scale: it is expensive, slow and surprisingly inconsistent, with inter-annotator agreement often below 80%.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p02"
+  ],
+  "about": [
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c044",
+  "note": "n2",
+  "text": "Human evaluation becomes a bottleneck in development when thousands of responses need to be evaluated.",
+  "qualifiers": [
+   "when thousands of responses need evaluating"
+  ],
+  "passage_ids": [
+   "n2-p02"
+  ],
+  "about": [
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c045",
+  "note": "n2",
+  "text": "An LLM-as-a-judge is a good middle ground between human evaluation and automated metrics, combining nuanced understanding like humans with speed closer to automated metrics.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p02"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is a middle ground with"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c046",
+  "note": "n2",
+  "text": "LLM-as-a-judge is now the de facto evaluation method for agentic systems.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p02"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:agentic-system"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agentic-system",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is the standard evaluation for"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c047",
+  "note": "n2",
+  "text": "An LLM-as-a-judge gets about 80% of the accuracy of human evaluation at about 1% of the cost.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p02",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "approximates the accuracy of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.75
+ },
+ {
+  "id": "c048",
+  "note": "n2",
+  "text": "Pointwise evaluation scores a single response based on the question alone, without a reference to compare against, and can be binary or use a Likert scale.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p03"
+  ],
+  "about": [
+   "reg:concept:pointwise-evaluation",
+   "reg:concept:likert-scale"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pointwise-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:likert-scale",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c049",
+  "note": "n2",
+  "text": "Reference-based evaluation compares a generated response against a known good gold-standard answer, and is particularly useful for measuring how close model outputs are to the ideal answer when ground truth data exists.",
+  "qualifiers": [
+   "when ground truth data exists"
+  ],
+  "passage_ids": [
+   "n2-p03"
+  ],
+  "about": [
+   "reg:concept:reference-based-evaluation",
+   "reg:concept:ground-truth"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:reference-based-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ground-truth",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "uses"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c050",
+  "note": "n2",
+  "text": "Pairwise evaluation presents two responses side by side and asks the judge to pick the better one, and is widely used for model comparison, RLHF preference data collection and A/B testing.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p04"
+  ],
+  "about": [
+   "reg:concept:pairwise-judging",
+   "reg:concept:reinforcement-learning-from-human-feedback",
+   "reg:concept:a-b-testing"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:reinforcement-learning-from-human-feedback",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:a-b-testing",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c051",
+  "note": "n2",
+  "text": "Chatbot Arena uses pairwise evaluation extensively.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p04"
+  ],
+  "about": [
+   "reg:entity:chatbot-arena",
+   "reg:concept:pairwise-judging"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:chatbot-arena",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "uses"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c052",
+  "note": "n2",
+  "text": "Listwise evaluation extends pairwise evaluation by asking the judge to rank multiple responses from best to worst, and is useful for leaderboard generation or selecting the best of several candidates.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p04"
+  ],
+  "about": [
+   "reg:concept:listwise-evaluation",
+   "reg:concept:pairwise-judging"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:listwise-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "extends"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c053",
+  "note": "n2",
+  "text": "Hybrid judging approaches can use multi-dimensional rubrics, such as pointwise scoring of separate aspects combined with binary reference comparisons.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p04"
+  ],
+  "about": [
+   "reg:concept:multi-dimensional-rubric",
+   "reg:concept:pointwise-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:multi-dimensional-rubric",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:pointwise-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c054",
+  "note": "n2",
+  "text": "The quality of a judge prompt directly impacts the reliability of evaluations.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p05"
+  ],
+  "about": [
+   "reg:concept:judge-prompt"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:judge-prompt",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c055",
+  "note": "n2",
+  "text": "A well-structured judge prompt has four key components: a clear task definition, detailed evaluation criteria, an explicit scoring rubric and few-shot examples.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p05"
+  ],
+  "about": [
+   "reg:concept:judge-prompt",
+   "reg:concept:rubric",
+   "reg:concept:few-shot-examples"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:judge-prompt",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:few-shot-examples",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c056",
+  "note": "n2",
+  "text": "A judge prompt without an explicit scoring rubric defining each score level gives scores such as 3/5 that can vary highly between runs.",
+  "qualifiers": [
+   "without an explicit scoring rubric"
+  ],
+  "passage_ids": [
+   "n2-p05"
+  ],
+  "about": [
+   "reg:concept:rubric",
+   "reg:concept:likert-scale"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:likert-scale",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c057",
+  "note": "n2",
+  "text": "Including examples of scored responses in a judge prompt significantly boosts consistency.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p05"
+  ],
+  "about": [
+   "reg:concept:few-shot-examples",
+   "reg:concept:judge-prompt"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:few-shot-examples",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:judge-prompt",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "improves consistency of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c058",
+  "note": "n2",
+  "text": "LLM judges should use discrete scoring such as a 1-5 Likert scale rather than continuous scores, because LLMs are better at classification than regression and continuous scores tend to cluster around certain values.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p07"
+  ],
+  "about": [
+   "reg:concept:likert-scale",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:likert-scale",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c059",
+  "note": "n2",
+  "text": "Judge temperature should be set to zero or near-zero (0.1-0.2) so that evaluation outputs are close to deterministic.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p07"
+  ],
+  "about": [
+   "reg:concept:temperature",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:temperature",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c060",
+  "note": "n2",
+  "text": "Asking an LLM judge for reasoning before the score reduces arbitrary scoring and makes evaluation more repeatable and debuggable, because autoregressive LLMs need to think through the evaluation systematically.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p07",
+   "n2-p11"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:judge-prompt"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:judge-prompt",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c061",
+  "note": "n2",
+  "text": "An LLM-as-a-judge can give different results even at temperature zero, due to GPU batching, API-side variations and machine epsilon, so a 3/5 can become 4/5 on another day.",
+  "qualifiers": [
+   "even at temperature zero"
+  ],
+  "passage_ids": [
+   "n2-p08"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:temperature"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:temperature",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c062",
+  "note": "n2",
+  "text": "A small improvement of about 0.1 between model versions measured by an LLM-as-a-judge is likely noise rather than signal.",
+  "qualifiers": [
+   "small improvements between model versions"
+  ],
+  "passage_ids": [
+   "n2-p08"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c063",
+  "note": "n2",
+  "text": "Each model has its own implicit assumptions and definitions from training data, so an evaluation aspect such as correctness must be defined concretely or different models can systematically disagree when ensembled.",
+  "qualifiers": [
+   "when ensembling models"
+  ],
+  "passage_ids": [
+   "n2-p08"
+  ],
+  "about": [
+   "reg:concept:ensembling",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ensembling",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c064",
+  "note": "n2",
+  "text": "Known biases of LLM judges include position bias, verbosity bias, self-enhancement bias, authority bias and format bias.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p08"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:position-bias",
+   "reg:concept:verbosity-bias",
+   "reg:concept:self-enhancement-bias"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:position-bias",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:verbosity-bias",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:self-enhancement-bias",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c065",
+  "note": "n2",
+  "text": "Frontier models used as LLM judges can be expensive, so they should be reserved for highest-priority evaluations or meta-evaluations and not used for rapid iteration.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p08"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c066",
+  "note": "n2",
+  "text": "Cheaper models used as LLM judges degrade in quality.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p08"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.8
+ },
+ {
+  "id": "c067",
+  "note": "n2",
+  "text": "Where deterministic evaluation data exists, such as for tool call, structured output and tool input evaluations, it should be used instead of an LLM judge.",
+  "qualifiers": [
+   "when deterministic evaluation data exists"
+  ],
+  "passage_ids": [
+   "n2-p09"
+  ],
+  "about": [
+   "reg:concept:tool-call-evaluation",
+   "reg:concept:structured-output-evaluation",
+   "reg:concept:tool-input-evaluation",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:tool-call-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:structured-output-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:tool-input-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c068",
+  "note": "n2",
+  "text": "In safety-critical evaluations such as content moderation and toxicity detection, LLM judges should be used as one signal among several together with human review.",
+  "qualifiers": [
+   "safety-critical evaluations"
+  ],
+  "passage_ids": [
+   "n2-p09"
+  ],
+  "about": [
+   "reg:concept:safety-critical-evaluation",
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-review"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:safety-critical-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-review",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c069",
+  "note": "n2",
+  "text": "LLMs lack deep contextual and domain knowledge such as company policies, and may confidently score incorrect responses highly, so expert human evaluation remains necessary for validation and calibration in such domains.",
+  "qualifiers": [
+   "domains requiring expertise"
+  ],
+  "passage_ids": [
+   "n2-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c070",
+  "note": "n2",
+  "text": "An LLM judge may not be defendable to regulators or in court, because LLM responses are not completely auditable like rule-based systems.",
+  "qualifiers": [
+   "when explainability is needed, such as in regulated industries"
+  ],
+  "passage_ids": [
+   "n2-p09"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c071",
+  "note": "n2",
+  "text": "For low-stakes, very high-volume scenarios where throughput matters more than accuracy, simpler heuristics such as a well-tuned classifier or embedding similarity can be more effective than an LLM judge at a fraction of the cost.",
+  "qualifiers": [
+   "low-stakes, very high-volume scenarios"
+  ],
+  "passage_ids": [
+   "n2-p09"
+  ],
+  "about": [
+   "reg:concept:embedding-similarity",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:embedding-similarity",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "can be more cost-effective than"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c072",
+  "note": "n2",
+  "text": "A best-practice hybrid evaluation approach runs deterministic checks first, uses an LLM judge for subjectivity and nuance, applies human review and calibration on a 5-10% sample, and escalates low-confidence or borderline scores to humans.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p09",
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-review"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-review",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c073",
+  "note": "n2",
+  "text": "Before an LLM judge is trusted in production, it should be validated by sampling 100-200 responses, collecting human labels and comparing them with the LLM scores using correlation, Cohen's kappa and systematic bias.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p10"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-annotation",
+   "reg:concept:cohen-s-kappa"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-annotation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:cohen-s-kappa",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "should be validated against"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c074",
+  "note": "n2",
+  "text": "If an LLM judge disagrees with humans more than 20-30% of the time, the judge prompt or criteria should be revisited.",
+  "qualifiers": [
+   "disagreement above 20-30%"
+  ],
+  "passage_ids": [
+   "n2-p10"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:judge-prompt"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:judge-prompt",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c075",
+  "note": "n2",
+  "text": "Ensembling judges from multiple model families increases cost but is worth it for reliability in high-stakes evaluations, and reduces the bias of any single model while improving reliability and consistency.",
+  "qualifiers": [
+   "worth the cost in high-stakes evaluations"
+  ],
+  "passage_ids": [
+   "n2-p10"
+  ],
+  "about": [
+   "reg:concept:ensembling",
+   "reg:concept:panel-of-judges"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ensembling",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:panel-of-judges",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c076",
+  "note": "n2",
+  "text": "In an ensemble of judges, the generator model's family should be down-weighted in the aggregate because of self-preference bias.",
+  "qualifiers": [
+   "when judging outputs of the same model family"
+  ],
+  "passage_ids": [
+   "n2-p10"
+  ],
+  "about": [
+   "reg:concept:ensembling",
+   "reg:concept:self-preference-bias"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ensembling",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:self-preference-bias",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 1,
+    "to": 0,
+    "phrase": "motivates down-weighting in"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c077",
+  "note": "n2",
+  "text": "Pointwise scoring is often isolated, and reference responses give the judge a concrete standard to compare against rather than leaving evaluation open to interpretation, so ground-truth or expected responses should always be used when available.",
+  "qualifiers": [
+   "when ground-truth or expected responses are available"
+  ],
+  "passage_ids": [
+   "n2-p11"
+  ],
+  "about": [
+   "reg:concept:reference-response",
+   "reg:concept:pointwise-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:reference-response",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:pointwise-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c078",
+  "note": "n2",
+  "text": "Position bias in pairwise comparisons remains real and measurable.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p11"
+  ],
+  "about": [
+   "reg:concept:position-bias",
+   "reg:concept:pairwise-judging"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:position-bias",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:pairwise-judging",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c079",
+  "note": "n2",
+  "text": "A single-model LLM judge is inherently unreliable because of position bias, self-enhancement bias and simple inconsistency, so a single judge should never be trusted.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:position-bias",
+   "reg:concept:self-enhancement-bias"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:position-bias",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:self-enhancement-bias",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c080",
+  "note": "n2",
+  "text": "Pointwise evaluation, such as rating a response 1-5, is the least reliable evaluation mode for an LLM-as-a-judge.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:pointwise-evaluation",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pointwise-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c081",
+  "note": "n2",
+  "text": "Reference-based evaluation grounds an LLM judge in something concrete rather than its own subjective interpretation of what counts as good.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:reference-based-evaluation",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:reference-based-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c082",
+  "note": "n2",
+  "text": "LLM judge evaluations should be designed for transparency by logging everything, because black-box scores are useless for debugging when an evaluation seems wrong.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c083",
+  "note": "n2",
+  "text": "An LLM judge drifts as models update and use cases evolve, so regular comparison against human judgments is the only way to know whether its evaluations still mean anything.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "must be continually compared against"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c084",
+  "note": "n2",
+  "text": "LLM-as-a-judge will not replace human evaluation entirely.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "does not fully replace"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c085",
+  "note": "n2",
+  "text": "Teams that succeed with LLM-as-a-judge understand its failure modes and design around them, while teams that struggle treat it as a black box.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n2-p13"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c086",
+  "note": "n3",
+  "text": "Good AI evaluations help teams ship AI agents more confidently.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p01"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:agentic-system"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agentic-system",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "helps teams ship more confidently"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c087",
+  "note": "n3",
+  "text": "AI evaluations make problems and behavioral changes in an AI agent visible before they affect users.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p01"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:agentic-system"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agentic-system",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c088",
+  "note": "n3",
+  "text": "The value of AI evaluations compounds over the lifecycle of an AI agent.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p01",
+   "n3-p28"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:agentic-system"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agentic-system",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c089",
+  "note": "n3",
+  "text": "An AI evaluation is a test for an AI system: give the AI an input, then apply grading logic to its output to measure success.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p02"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.95
+ },
+ {
+  "id": "c090",
+  "note": "n3",
+  "text": "A single-turn evaluation consists of a prompt, a response and grading logic.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p02"
+  ],
+  "about": [
+   "reg:concept:single-turn-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:single-turn-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c091",
+  "note": "n3",
+  "text": "For earlier large language models, single-turn, non-agentic evaluations were the main evaluation method.",
+  "qualifiers": [
+   "for earlier LLMs"
+  ],
+  "passage_ids": [
+   "n3-p02"
+  ],
+  "about": [
+   "reg:concept:single-turn-evaluation",
+   "reg:concept:large-language-model"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:single-turn-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:large-language-model",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c092",
+  "note": "n3",
+  "text": "Multi-turn evaluations have become increasingly common.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p02"
+  ],
+  "about": [
+   "reg:concept:multi-turn-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:multi-turn-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.8
+ },
+ {
+  "id": "c093",
+  "note": "n3",
+  "text": "Agent evaluations are more complex than single-turn evaluations because agents use tools across many turns, modify environment state and adapt as they go, so mistakes can propagate and compound.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p02"
+  ],
+  "about": [
+   "reg:concept:agent-evaluation",
+   "reg:concept:single-turn-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:agent-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:single-turn-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is more complex than"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c094",
+  "note": "n3",
+  "text": "Anthropic's article focuses on automated evaluations that can be run during development without real users.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p02"
+  ],
+  "about": [
+   "reg:concept:automated-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:automated-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.6
+ },
+ {
+  "id": "c095",
+  "note": "n3",
+  "text": "In agent evaluation, an evaluation task is a single test with defined inputs and success criteria.",
+  "qualifiers": [
+   "in agent evaluation"
+  ],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:evaluation-task",
+   "reg:concept:agent-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c096",
+  "note": "n3",
+  "text": "Each attempt at an evaluation task is a trial, and because model outputs vary between runs, multiple trials are run to produce more consistent results.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:evaluation-trial",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-trial",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is an attempt at"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c097",
+  "note": "n3",
+  "text": "A grader is logic that scores some aspect of an agent's performance, and a task can have multiple graders, each containing multiple assertions (checks).",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:grader",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:grader",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c098",
+  "note": "n3",
+  "text": "A transcript (also called a trace or trajectory) is the complete record of an evaluation trial, including outputs, tool calls, reasoning, intermediate results and any other interactions.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:transcript",
+   "reg:concept:evaluation-trial"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-trial",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is the complete record of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c099",
+  "note": "n3",
+  "text": "For the Anthropic API, a transcript is the full messages array at the end of an evaluation run, containing all API calls and returned responses.",
+  "qualifiers": [
+   "for the Anthropic API"
+  ],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:transcript",
+   "reg:entity:anthropic-api"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:entity:anthropic-api",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c100",
+  "note": "n3",
+  "text": "The outcome of an evaluation trial is the final state in the environment, which can differ from what the agent says in its transcript; a booking agent's outcome is whether a reservation exists in the database.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:outcome",
+   "reg:concept:transcript"
+  ],
+  "about_raw": [
+   {
+    "id": null,
+    "new_name": "outcome",
+    "new_kind": "concept"
+   },
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c101",
+  "note": "n3",
+  "text": "An evaluation harness is the infrastructure that runs evaluations end-to-end: it provides instructions and tools, runs tasks concurrently, records all steps, grades outputs and aggregates results.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:evaluation-harness"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-harness",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c102",
+  "note": "n3",
+  "text": "An agent harness (or scaffold) is the system that enables a model to act as an agent by processing inputs, orchestrating tool calls and returning results.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:agent-harness"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:agent-harness",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c103",
+  "note": "n3",
+  "text": "When an agent is evaluated, the agent harness and the model working together are what is being evaluated.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:agent-evaluation",
+   "reg:concept:agent-harness"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:agent-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-harness",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "evaluates the model together with"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c104",
+  "note": "n3",
+  "text": "Claude Code is a flexible agent harness, and Anthropic used its core primitives through the Claude Agent SDK to build a long-running agent harness.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:entity:claude-code",
+   "reg:entity:claude-agent-sdk",
+   "reg:concept:agent-harness"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:claude-code",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:entity:claude-agent-sdk",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-harness",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 2,
+    "phrase": "is an example of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c105",
+  "note": "n3",
+  "text": "An evaluation suite is a collection of tasks designed to measure specific capabilities or behaviors, and its tasks typically share a broad goal.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p03"
+  ],
+  "about": [
+   "reg:concept:evaluation-suite",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-suite",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is a collection of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c106",
+  "note": "n3",
+  "text": "When teams first start building agents, they can get surprisingly far through a combination of manual testing, dogfooding and intuition.",
+  "qualifiers": [
+   "when teams first start building agents"
+  ],
+  "passage_ids": [
+   "n3-p04"
+  ],
+  "about": [
+   "reg:concept:dogfooding",
+   "reg:concept:agentic-system"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:dogfooding",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agentic-system",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c107",
+  "note": "n3",
+  "text": "Once an agent is in production and scaling, building without evaluations starts to break down.",
+  "qualifiers": [
+   "after early prototyping",
+   "once in production and scaling"
+  ],
+  "passage_ids": [
+   "n3-p04"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:agentic-system"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agentic-system",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c108",
+  "note": "n3",
+  "text": "Without evaluations, debugging an agent is reactive: teams wait for complaints, reproduce issues manually, fix the bug and hope nothing else regressed.",
+  "qualifiers": [
+   "absent evaluations"
+  ],
+  "passage_ids": [
+   "n3-p04",
+   "n3-p28"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c109",
+  "note": "n3",
+  "text": "Anthropic's Claude Code started with fast iteration on feedback from employees and external users, and evaluations were added later, first for narrow areas like concision and file edits, then for complex behaviors like over-engineering.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p04"
+  ],
+  "about": [
+   "reg:entity:claude-code",
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:claude-code",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.85
+ },
+ {
+  "id": "c110",
+  "note": "n3",
+  "text": "Combined with production monitoring, A/B tests and user research, evaluations provide signals for continuing to improve Claude Code as it scales.",
+  "qualifiers": [
+   "combined with other methods"
+  ],
+  "passage_ids": [
+   "n3-p04"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:entity:claude-code"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:entity:claude-code",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.8
+ },
+ {
+  "id": "c111",
+  "note": "n3",
+  "text": "Writing evaluations is useful at any stage of the agent lifecycle: early on they force product teams to specify what success means, and later they help uphold a consistent quality bar.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p04",
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:agentic-system"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agentic-system",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c112",
+  "note": "n3",
+  "text": "Some teams create evaluations at the start of development, while others add them once at scale when evaluations become a bottleneck for improving the agent.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c113",
+  "note": "n3",
+  "text": "Evaluations are especially useful at the start of agent development to explicitly encode expected behavior.",
+  "qualifiers": [
+   "at the start of agent development"
+  ],
+  "passage_ids": [
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c114",
+  "note": "n3",
+  "text": "An evaluation suite resolves ambiguity when two engineers reading the same initial spec might interpret differently how the AI should handle edge cases.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:evaluation-suite",
+   "reg:concept:edge-case"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-suite",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:edge-case",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "clarifies handling of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c115",
+  "note": "n3",
+  "text": "Evaluations help accelerate development regardless of when they are created.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c116",
+  "note": "n3",
+  "text": "Evaluations shape how quickly teams can adopt new models.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c117",
+  "note": "n3",
+  "text": "Once evaluations exist, baselines and regression tests come for free: latency, token usage, cost per task and error rates can be tracked on a static bank of tasks.",
+  "qualifiers": [
+   "once evaluations exist"
+  ],
+  "passage_ids": [
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:baseline",
+   "reg:concept:regression-testing"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:baseline",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:regression-testing",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "provides"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c118",
+  "note": "n3",
+  "text": "Evaluations can become the highest-bandwidth communication channel between product and research teams by defining metrics that researchers can optimize against.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p05"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c119",
+  "note": "n3",
+  "text": "Agent evaluations typically combine three types of graders: code-based, model-based and human.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p07"
+  ],
+  "about": [
+   "reg:concept:agent-evaluation",
+   "reg:concept:code-based-grader",
+   "reg:concept:model-based-grader"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:agent-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:code-based-grader",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:model-based-grader",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c120",
+  "note": "n3",
+  "text": "Per-task scoring in an agent evaluation can be weighted (combined grader scores must hit a threshold), binary (all graders must pass) or a hybrid.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p10"
+  ],
+  "about": [
+   "reg:concept:grader",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:grader",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c121",
+  "note": "n3",
+  "text": "Capability evaluations ask what an agent can do well, and should start at a low pass rate by targeting tasks the agent struggles with, giving teams a hill to climb.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p11",
+   "n3-p24"
+  ],
+  "about": [
+   "reg:concept:capability-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:capability-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c122",
+  "note": "n3",
+  "text": "Regression evaluations ask whether the agent still handles all tasks it used to, should have a nearly 100% pass rate, and a decline in score signals something is broken.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p11"
+  ],
+  "about": [
+   "reg:concept:regression-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:regression-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c123",
+  "note": "n3",
+  "text": "While teams hill-climb on capability evaluations, they should also run regression evaluations to make sure changes do not cause issues elsewhere.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p11"
+  ],
+  "about": [
+   "reg:concept:capability-evaluation",
+   "reg:concept:regression-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:capability-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:regression-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "should be accompanied by"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c124",
+  "note": "n3",
+  "text": "After an agent is launched and optimized, capability evaluations with high pass rates can graduate to become a regression suite run continuously to catch drift.",
+  "qualifiers": [
+   "after launch and optimization",
+   "for capability evaluations with high pass rates"
+  ],
+  "passage_ids": [
+   "n3-p11"
+  ],
+  "about": [
+   "reg:concept:capability-evaluation",
+   "reg:concept:regression-suite"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:capability-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:regression-suite",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "can graduate to"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c125",
+  "note": "n3",
+  "text": "Effective evaluations for modern coding agents usually rely on well-specified tasks, stable test environments and thorough tests for the generated code.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p12"
+  ],
+  "about": [
+   "reg:concept:coding-agent",
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:coding-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c126",
+  "note": "n3",
+  "text": "Deterministic graders are natural for coding agents because software is generally straightforward to evaluate: the code either runs and passes tests or it does not.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p12"
+  ],
+  "about": [
+   "reg:concept:deterministic-grader",
+   "reg:concept:coding-agent"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:deterministic-grader",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:coding-agent",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "suits"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c127",
+  "note": "n3",
+  "text": "SWE-bench Verified and Terminal-Bench are two widely-used coding agent benchmarks that rely on deterministic graders.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p12"
+  ],
+  "about": [
+   "reg:entity:swe-bench-verified",
+   "reg:entity:terminal-bench",
+   "reg:concept:deterministic-grader"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:swe-bench-verified",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:entity:terminal-bench",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:deterministic-grader",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.9
+ },
+ {
+  "id": "c128",
+  "note": "n3",
+  "text": "Once pass-or-fail tests validate the key outcomes of a coding task, it is often useful to also grade the transcript, using heuristic code quality rules and model-based graders with clear rubrics.",
+  "qualifiers": [
+   "once pass-or-fail outcome tests exist"
+  ],
+  "passage_ids": [
+   "n3-p12"
+  ],
+  "about": [
+   "reg:concept:coding-agent",
+   "reg:concept:transcript",
+   "reg:concept:rubric"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:coding-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c129",
+  "note": "n3",
+  "text": "For conversational agents, the quality of the interaction itself is part of what is being evaluated, unlike for coding and research agents.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p13"
+  ],
+  "about": [
+   "reg:concept:conversational-agent",
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:conversational-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c130",
+  "note": "n3",
+  "text": "Effective evaluations for conversational agents usually rely on verifiable end-state outcomes and rubrics that capture both task completion and interaction quality.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p13"
+  ],
+  "about": [
+   "reg:concept:conversational-agent",
+   "reg:concept:rubric"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:conversational-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c131",
+  "note": "n3",
+  "text": "Conversational agent evaluations often require a second large language model to simulate the user, unlike most other evaluations.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p13"
+  ],
+  "about": [
+   "reg:concept:conversational-agent",
+   "reg:concept:large-language-model"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:conversational-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:large-language-model",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "often requires a second, user-simulating"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c132",
+  "note": "n3",
+  "text": "Success for conversational agents can be multidimensional, for example ticket resolved (state check), finished in under 10 turns (transcript constraint) and appropriate tone (LLM rubric).",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p13"
+  ],
+  "about": [
+   "reg:concept:conversational-agent",
+   "reg:concept:rubric"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:conversational-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c133",
+  "note": "n3",
+  "text": "τ-Bench and its successor τ2-Bench incorporate multidimensional success, simulating multi-turn interactions in domains like retail support and airline booking where one model plays a user persona.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p13"
+  ],
+  "about": [
+   "reg:entity:bench",
+   "reg:entity:2-bench"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:bench",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:entity:2-bench",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 1,
+    "to": 0,
+    "phrase": "is the successor of"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.9
+ },
+ {
+  "id": "c134",
+  "note": "n3",
+  "text": "Conversational agent evaluations typically use model-based graders to assess communication quality and goal completion, because many tasks may have multiple correct solutions.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p13"
+  ],
+  "about": [
+   "reg:concept:conversational-agent",
+   "reg:concept:model-based-grader"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:conversational-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:model-based-grader",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "typically uses"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c135",
+  "note": "n3",
+  "text": "Unlike coding agents, where unit tests give binary pass/fail signals, research agent quality can only be judged relative to the task, since standards for comprehensive, well-sourced or correct output depend on context.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p14"
+  ],
+  "about": [
+   "reg:concept:research-agent",
+   "reg:concept:coding-agent"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:research-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:coding-agent",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c136",
+  "note": "n3",
+  "text": "Research agent evaluations face unique challenges: experts may disagree on whether a synthesis is comprehensive, ground truth shifts as reference content changes, and longer open-ended outputs leave more room for mistakes.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p14"
+  ],
+  "about": [
+   "reg:concept:research-agent",
+   "reg:concept:ground-truth"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:research-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ground-truth",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c137",
+  "note": "n3",
+  "text": "One strategy for building research agent evaluations is to combine grader types: groundedness checks, coverage checks and source quality checks.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p14"
+  ],
+  "about": [
+   "reg:concept:research-agent",
+   "reg:concept:groundedness-check",
+   "reg:concept:coverage-check",
+   "reg:concept:source-quality-check"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:research-agent",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:groundedness-check",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:coverage-check",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:source-quality-check",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c138",
+  "note": "n3",
+  "text": "Groundedness checks verify that claims are supported by retrieved sources, coverage checks define key facts a good answer must include, and source quality checks confirm consulted sources are authoritative rather than simply first retrieved.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p14"
+  ],
+  "about": [
+   "reg:concept:groundedness-check",
+   "reg:concept:coverage-check",
+   "reg:concept:source-quality-check"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:groundedness-check",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:coverage-check",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:source-quality-check",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c139",
+  "note": "n3",
+  "text": "For research tasks with objectively correct answers, exact match works as a grading method.",
+  "qualifiers": [
+   "for tasks with objectively correct answers"
+  ],
+  "passage_ids": [
+   "n3-p14"
+  ],
+  "about": [
+   "reg:concept:exact-match",
+   "reg:concept:research-agent"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:exact-match",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:research-agent",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c140",
+  "note": "n3",
+  "text": "A large language model can flag unsupported claims and gaps in coverage in research outputs, and can also verify open-ended synthesis for coherence and completeness.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p14"
+  ],
+  "about": [
+   "reg:concept:large-language-model",
+   "reg:concept:research-agent"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:large-language-model",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:research-agent",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c141",
+  "note": "n3",
+  "text": "Because research quality is subjective, LLM-based rubrics should be frequently calibrated against expert human judgment to grade research agents effectively.",
+  "qualifiers": [
+   "given the subjective nature of research quality"
+  ],
+  "passage_ids": [
+   "n3-p14"
+  ],
+  "about": [
+   "reg:concept:llm-based-rubric",
+   "reg:concept:research-agent"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-based-rubric",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:research-agent",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c142",
+  "note": "n3",
+  "text": "Agent behavior varies between runs, which makes evaluation results harder to interpret than they first appear, since each task has its own success rate and a task that passed on one run might fail on the next.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p15"
+  ],
+  "about": [
+   "reg:concept:agent-evaluation",
+   "reg:concept:evaluation-trial"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:agent-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-trial",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c143",
+  "note": "n3",
+  "text": "pass@k measures the likelihood that an agent gets at least one correct solution in k attempts, and the score rises as k increases.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p15"
+  ],
+  "about": [
+   "reg:concept:pass-k"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pass-k",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.95
+ },
+ {
+  "id": "c144",
+  "note": "n3",
+  "text": "pass@1 is the proportion of tasks an agent solves on its first try, and in coding the first-try solution is often what matters most.",
+  "qualifiers": [
+   "in coding"
+  ],
+  "passage_ids": [
+   "n3-p15"
+  ],
+  "about": [
+   "reg:concept:pass-1",
+   "reg:concept:coding-agent"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:pass-1",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:coding-agent",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c145",
+  "note": "n3",
+  "text": "pass^k measures the probability that all k trials succeed, and the score falls as k increases because demanding consistency across more trials is a harder bar.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p15"
+  ],
+  "about": [
+   "reg:concept:pass-k",
+   "reg:concept:pass-k"
+  ],
+  "about_raw": [
+   {
+    "id": null,
+    "new_name": "pass^k",
+    "new_kind": "concept"
+   },
+   {
+    "id": "reg:concept:pass-k",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is a stricter counterpart to"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.95
+ },
+ {
+  "id": "c146",
+  "note": "n3",
+  "text": "pass^k especially matters for customer-facing agents, where users expect reliable behavior every time.",
+  "qualifiers": [
+   "for customer-facing agents"
+  ],
+  "passage_ids": [
+   "n3-p15"
+  ],
+  "about": [
+   "reg:concept:pass-k"
+  ],
+  "about_raw": [
+   {
+    "id": null,
+    "new_name": "pass^k",
+    "new_kind": "concept"
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c147",
+  "note": "n3",
+  "text": "Eval-driven agent development means defining success early, measuring it clearly and iterating continuously, by building evaluations for planned capabilities before agents can fulfill them.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p17",
+   "n3-p24"
+  ],
+  "about": [
+   "reg:concept:eval-driven-development"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:eval-driven-development",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c148",
+  "note": "n3",
+  "text": "Twenty to fifty simple tasks drawn from real failures is a great start for an agent evaluation dataset, and teams do not need hundreds of tasks to begin.",
+  "qualifiers": [
+   "at the beginning"
+  ],
+  "passage_ids": [
+   "n3-p18"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:pareto-principle"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:pareto-principle",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c149",
+  "note": "n3",
+  "text": "More mature agents may need larger, more difficult evaluations to detect smaller effects.",
+  "qualifiers": [
+   "for more mature agents"
+  ],
+  "passage_ids": [
+   "n3-p18"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c150",
+  "note": "n3",
+  "text": "Evaluations get harder to build the longer a team waits, because early product requirements translate naturally into test cases, whereas later success criteria must be reverse-engineered from a live system.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p18"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c151",
+  "note": "n3",
+  "text": "Teams should build initial evaluation tasks from the manual checks they already run during development, the behaviors verified before each release and common end-user tasks.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p18"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c152",
+  "note": "n3",
+  "text": "Converting user-reported failures into test cases ensures an evaluation suite reflects actual usage, and prioritizing by user impact focuses effort where it counts.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p18"
+  ],
+  "about": [
+   "reg:concept:evaluation-suite",
+   "reg:concept:user-feedback"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-suite",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:user-feedback",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c153",
+  "note": "n3",
+  "text": "A good evaluation task is one where two domain experts would independently reach the same pass/fail verdict; if they could not pass the task themselves, it needs refinement.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p19"
+  ],
+  "about": [
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c154",
+  "note": "n3",
+  "text": "Ambiguity in task specifications becomes noise in metrics, and vague rubrics for model-based graders produce inconsistent judgments.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p19"
+  ],
+  "about": [
+   "reg:concept:evaluation-task",
+   "reg:concept:rubric",
+   "reg:concept:model-based-grader"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:model-based-grader",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c155",
+  "note": "n3",
+  "text": "Everything a grader checks should be clear from the task description, so that agents do not fail because of ambiguous specifications.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p19"
+  ],
+  "about": [
+   "reg:concept:evaluation-task",
+   "reg:concept:grader"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:grader",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c156",
+  "note": "n3",
+  "text": "Creating a reference solution, a known-working output that passes all graders, for each task proves the task is solvable and verifies that graders are correctly configured.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p19"
+  ],
+  "about": [
+   "reg:concept:reference-response",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:reference-response",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c157",
+  "note": "n3",
+  "text": "Evaluations should test both cases where a behavior should occur and where it should not, because one-sided evaluations create one-sided optimization.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p20"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:class-imbalance"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:class-imbalance",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c158",
+  "note": "n3",
+  "text": "Teams should try to avoid class-imbalanced evaluations.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p20"
+  ],
+  "about": [
+   "reg:concept:class-imbalance",
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:class-imbalance",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c159",
+  "note": "n3",
+  "text": "Anthropic found that balancing undertriggering and overtriggering web search in Claude.ai was difficult, took many rounds of refinement to prompts and evaluation, and its evaluations covered queries where the model should and should not search.",
+  "qualifiers": [
+   "in Anthropic's web search evaluations for Claude.ai"
+  ],
+  "passage_ids": [
+   "n3-p20"
+  ],
+  "about": [
+   "reg:entity:claude-ai",
+   "reg:concept:undertriggering",
+   "reg:concept:overtriggering"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:claude-ai",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:undertriggering",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:overtriggering",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "ephemeral",
+  "confidence": 0.8
+ },
+ {
+  "id": "c160",
+  "note": "n3",
+  "text": "It is essential that the agent in an evaluation functions roughly the same as the production agent and that the evaluation environment does not introduce additional noise.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p21"
+  ],
+  "about": [
+   "reg:concept:eval-harness"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:eval-harness",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c161",
+  "note": "n3",
+  "text": "Each evaluation trial should be isolated by starting from a clean environment.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p21"
+  ],
+  "about": [
+   "reg:concept:eval-harness",
+   "reg:concept:evaluation-trial"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:eval-harness",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-trial",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c162",
+  "note": "n3",
+  "text": "Anthropic recommends choosing deterministic graders where possible, LLM graders where necessary or for additional flexibility, and using human graders judiciously for additional validation.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p22"
+  ],
+  "about": [
+   "reg:concept:deterministic-grader",
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:deterministic-grader",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c163",
+  "note": "n3",
+  "text": "Checking that agents followed specific steps, such as a sequence of tool calls in order, is too rigid and makes tests brittle, so it is often better to grade what the agent produced, not the path it took.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p22"
+  ],
+  "about": [
+   "reg:concept:grader",
+   "reg:concept:agent-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:grader",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:agent-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c164",
+  "note": "n3",
+  "text": "For tasks with multiple components, evaluations should build in partial credit to represent the continuum of success in results.",
+  "qualifiers": [
+   "for tasks with multiple components"
+  ],
+  "passage_ids": [
+   "n3-p22"
+  ],
+  "about": [
+   "reg:concept:partial-credit",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:partial-credit",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c165",
+  "note": "n3",
+  "text": "LLM-as-judge graders should be closely calibrated with human experts to confidence that there is little divergence between human grading and model grading, which takes careful iteration to validate.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p22"
+  ],
+  "about": [
+   "reg:concept:llm-as-a-judge",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "should be calibrated against"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c166",
+  "note": "n3",
+  "text": "It can help to create clear, structured rubrics for each dimension of a task and grade each dimension with an isolated LLM-as-judge rather than one judge for all dimensions.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p22"
+  ],
+  "about": [
+   "reg:concept:rubric",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:rubric",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c167",
+  "note": "n3",
+  "text": "Once an evaluation system is robust, it is sufficient to use human review only occasionally.",
+  "qualifiers": [
+   "once the system is robust"
+  ],
+  "passage_ids": [
+   "n3-p22"
+  ],
+  "about": [
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c168",
+  "note": "n3",
+  "text": "Graders should be resistant to bypasses and hacks, so that passing an evaluation genuinely requires solving the problem rather than exploiting unintended loopholes.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p22"
+  ],
+  "about": [
+   "reg:concept:grader",
+   "reg:concept:evaluation-task"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:grader",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:evaluation-task",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c169",
+  "note": "n3",
+  "text": "Teams cannot know whether graders are working well unless they read the transcripts and grades from many trials.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p23"
+  ],
+  "about": [
+   "reg:concept:transcript",
+   "reg:concept:grader"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:grader",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "must be read to validate"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c170",
+  "note": "n3",
+  "text": "When a task fails, the transcript shows whether the agent made a genuine mistake or the graders rejected a valid solution.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p23"
+  ],
+  "about": [
+   "reg:concept:transcript",
+   "reg:concept:grader"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:grader",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c171",
+  "note": "n3",
+  "text": "Evaluation failures should seem fair, so that it is clear what the agent got wrong and why, and when scores do not climb it should be due to agent performance and not the evaluation.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p23"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:transcript"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c172",
+  "note": "n3",
+  "text": "Reading transcripts is how teams verify that an evaluation measures what actually matters, and is a critical skill for agent development.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p23"
+  ],
+  "about": [
+   "reg:concept:transcript",
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c173",
+  "note": "n3",
+  "text": "Anthropic does not take evaluation scores at face value until someone digs into the details of the evaluation and reads some transcripts.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p23"
+  ],
+  "about": [
+   "reg:entity:anthropic",
+   "reg:concept:transcript"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:anthropic",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:transcript",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c174",
+  "note": "n3",
+  "text": "An evaluation at 100% pass rate tracks regressions but provides no signal for improvement.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p23"
+  ],
+  "about": [
+   "reg:concept:eval-saturation",
+   "reg:concept:regression-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:eval-saturation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:regression-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c175",
+  "note": "n3",
+  "text": "Eval saturation occurs when an agent passes all of the solvable tasks, leaving no room for improvement.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p23"
+  ],
+  "about": [
+   "reg:concept:eval-saturation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:eval-saturation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.95
+ },
+ {
+  "id": "c176",
+  "note": "n3",
+  "text": "An evaluation suite is a living artifact that needs ongoing attention and clear ownership to remain useful.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p24"
+  ],
+  "about": [
+   "reg:concept:eval-suite"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:eval-suite",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c177",
+  "note": "n3",
+  "text": "At Anthropic, the most effective approach to evaluation maintenance was dedicated evals teams owning core infrastructure while domain experts and product teams contribute most tasks and run the evaluations themselves.",
+  "qualifiers": [
+   "at Anthropic"
+  ],
+  "passage_ids": [
+   "n3-p24"
+  ],
+  "about": [
+   "reg:entity:anthropic",
+   "reg:concept:eval-suite"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:entity:anthropic",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:eval-suite",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c178",
+  "note": "n3",
+  "text": "For AI product teams, owning and iterating on evaluations should be as routine as maintaining unit tests.",
+  "qualifiers": [
+   "for AI product teams"
+  ],
+  "passage_ids": [
+   "n3-p24"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation",
+   "reg:concept:unit-test"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:unit-test",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "should be as routine as"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c179",
+  "note": "n3",
+  "text": "Teams can waste weeks on AI features that work in early testing but fail to meet unstated expectations that a well-designed evaluation would have surfaced early.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p24"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c180",
+  "note": "n3",
+  "text": "The people closest to product requirements and users are best positioned to define success for an AI evaluation.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p24"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c181",
+  "note": "n3",
+  "text": "Capability evaluations that start at a low pass rate make planned capabilities that the agent cannot yet fulfill visible in eval-driven development.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p24"
+  ],
+  "about": [
+   "reg:concept:capability-evaluation",
+   "reg:concept:eval-driven-development"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:capability-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:eval-driven-development",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "supports"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.8
+ },
+ {
+  "id": "c182",
+  "note": "n3",
+  "text": "Automated evaluations can be run against an agent on thousands of tasks without deploying to production or affecting real users.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p25"
+  ],
+  "about": [
+   "reg:concept:automated-evaluation",
+   "reg:concept:production-monitoring"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:automated-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:production-monitoring",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c183",
+  "note": "n3",
+  "text": "A complete picture of agent performance includes production monitoring, user feedback, A/B testing, manual transcript review and systematic human evaluation, not only automated evaluations.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p25",
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:production-monitoring",
+   "reg:concept:user-feedback",
+   "reg:concept:a-b-testing",
+   "reg:concept:transcript-review"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:production-monitoring",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:user-feedback",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:a-b-testing",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:transcript-review",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c184",
+  "note": "n3",
+  "text": "Automated evaluations are especially useful pre-launch and in CI/CD, running on each agent change and model upgrade as the first line of defense against quality problems.",
+  "qualifiers": [
+   "pre-launch and in CI/CD"
+  ],
+  "passage_ids": [
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:automated-evaluation",
+   "reg:concept:ci-cd"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:automated-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ci-cd",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c185",
+  "note": "n3",
+  "text": "Production monitoring kicks in post-launch to detect distribution drift and unanticipated real-world failures.",
+  "qualifiers": [
+   "post-launch"
+  ],
+  "passage_ids": [
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:production-monitoring",
+   "reg:concept:distribution-drift"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:production-monitoring",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:distribution-drift",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "detects"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c186",
+  "note": "n3",
+  "text": "A/B testing validates significant changes once there is sufficient traffic.",
+  "qualifiers": [
+   "once there is sufficient traffic"
+  ],
+  "passage_ids": [
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:a-b-testing"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:a-b-testing",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c187",
+  "note": "n3",
+  "text": "User feedback and transcript review are ongoing practices that fill gaps: triage feedback constantly, sample transcripts to read weekly and dig deeper as needed.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:user-feedback",
+   "reg:concept:transcript-review"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:user-feedback",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:transcript-review",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c188",
+  "note": "n3",
+  "text": "Systematic human studies should be reserved for calibrating LLM graders or evaluating subjective outputs where human consensus serves as the reference standard.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:human-evaluation",
+   "reg:concept:llm-as-a-judge"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:llm-as-a-judge",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [
+   {
+    "from": 0,
+    "to": 1,
+    "phrase": "is used to calibrate"
+   }
+  ],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.9
+ },
+ {
+  "id": "c189",
+  "note": "n3",
+  "text": "Like the Swiss cheese model from safety engineering, no single evaluation layer catches every issue, and failures that slip through one layer are caught by another when methods are combined.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:swiss-cheese-model",
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:swiss-cheese-model",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.9
+ },
+ {
+  "id": "c190",
+  "note": "n3",
+  "text": "The most effective teams combine automated evaluations for fast iteration, production monitoring for ground truth and periodic human review for calibration.",
+  "qualifiers": [],
+  "passage_ids": [
+   "n3-p27"
+  ],
+  "about": [
+   "reg:concept:automated-evaluation",
+   "reg:concept:production-monitoring",
+   "reg:concept:human-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:automated-evaluation",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:production-monitoring",
+    "new_name": null,
+    "new_kind": null
+   },
+   {
+    "id": "reg:concept:human-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "evolving",
+  "confidence": 0.85
+ },
+ {
+  "id": "c191",
+  "note": "n3",
+  "text": "Teams that invest early in evaluations find development accelerates, because failures become test cases, test cases prevent regressions and metrics replace guesswork.",
+  "qualifiers": [
+   "for teams that invest early"
+  ],
+  "passage_ids": [
+   "n3-p28"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c192",
+  "note": "n3",
+  "text": "Teams without evaluations get bogged down in reactive loops, fixing one failure and creating another, unable to distinguish real regressions from noise.",
+  "qualifiers": [
+   "for teams without evaluations"
+  ],
+  "passage_ids": [
+   "n3-p28"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ },
+ {
+  "id": "c193",
+  "note": "n3",
+  "text": "The value of evaluations compounds only if teams treat evaluations as a core component rather than an afterthought.",
+  "qualifiers": [
+   "only if treated as a core component"
+  ],
+  "passage_ids": [
+   "n3-p28"
+  ],
+  "about": [
+   "reg:concept:ai-evaluation"
+  ],
+  "about_raw": [
+   {
+    "id": "reg:concept:ai-evaluation",
+    "new_name": null,
+    "new_kind": null
+   }
+  ],
+  "relation_phrases": [],
+  "referenced_time": null,
+  "volatility": "durable",
+  "confidence": 0.85
+ }
+]

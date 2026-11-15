@@ -1,0 +1,56 @@
+[
+ {
+  "type": "mention-link",
+  "note": "n3",
+  "mention": "AI agents",
+  "target": "reg:concept:agentic-system",
+  "decision": "match",
+  "confidence": 0.75,
+  "reason": "'AI agents' here means LLM-based systems that use tools and act over many turns, which is the agentic system candidate's definition; agent loop is only the cycle they run."
+ },
+ {
+  "type": "mention-link",
+  "note": "n3",
+  "mention": "80/20 approach",
+  "target": "reg:concept:pareto-principle",
+  "decision": "match",
+  "confidence": 0.8,
+  "reason": "The 80/20 approach is the Pareto principle applied to starting with a small set of tasks for most of the value."
+ },
+ {
+  "type": "mention-link",
+  "note": "n3",
+  "mention": "reference solutions",
+  "target": "reg:concept:reference-response",
+  "decision": "unsure",
+  "confidence": 0.5,
+  "reason": "A reference solution is a known-working output proving a task is solvable and graders are configured; it resembles reference response but serves a different purpose, and the passage does not settle it."
+ },
+ {
+  "type": "mention-link",
+  "note": "n3",
+  "mention": "reference solution",
+  "target": "reg:concept:reference-response",
+  "decision": "unsure",
+  "confidence": 0.5,
+  "reason": "A reference solution is a known-working output proving a task is solvable and graders are configured; it resembles reference response but serves a different purpose, and the passage does not settle it."
+ },
+ {
+  "type": "mention-link",
+  "note": "n3",
+  "mention": "human graders",
+  "target": "reg:concept:human-evaluation",
+  "decision": "unsure",
+  "confidence": 0.5,
+  "reason": "Human graders are people grading for validation, close to both human evaluation and human review, and the passage does not choose between them."
+ },
+ {
+  "type": "mention-link",
+  "note": "n3",
+  "mention": "systematic human studies",
+  "target": "reg:concept:human-evaluation",
+  "decision": "match",
+  "confidence": 0.75,
+  "reason": "Systematic human studies used to calibrate graders with human consensus as the reference are human evaluation."
+ }
+]

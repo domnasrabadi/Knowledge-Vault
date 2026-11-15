@@ -1,0 +1,23 @@
+{"mentions": [
+  {"passage_id": "n1-p01", "text": "LLM judges", "start": 170, "end": 180, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p01", "text": "agent loop", "start": 201, "end": 211, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p01", "text": "control flow", "start": 343, "end": 355, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p01", "text": "LLM-as-judge", "start": 393, "end": 405, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p02", "text": "LLM-as-judge", "start": 24, "end": 36, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p02", "text": "rubric", "start": 193, "end": 199, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p04", "text": "Pairwise judging", "start": 182, "end": 198, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p04", "text": "regression testing", "start": 403, "end": 421, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p05", "text": "Phoenix", "start": 336, "end": 343, "kind": "entity", "entity_type": "tool"},
+  {"passage_id": "n1-p05", "text": "LangSmith", "start": 528, "end": 537, "kind": "entity", "entity_type": "tool"},
+  {"passage_id": "n1-p06", "text": "LLM-as-judge", "start": 31, "end": 43, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p06", "text": "panels of judges", "start": 287, "end": 303, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p06", "text": "MAJ-EVAL", "start": 383, "end": 391, "kind": "entity", "entity_type": "paper"},
+  {"passage_id": "n1-p07", "text": "Anthropic", "start": 94, "end": 103, "kind": "entity", "entity_type": "org"},
+  {"passage_id": "n1-p07", "text": "Bloom", "start": 107, "end": 112, "kind": "entity", "entity_type": "tool"},
+  {"passage_id": "n1-p07", "text": "meta-judge", "start": 418, "end": 428, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p08", "text": "OpenAI", "start": 213, "end": 219, "kind": "entity", "entity_type": "org"},
+  {"passage_id": "n1-p09", "text": "LLM judges", "start": 50, "end": 60, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p09", "text": "agent loops", "start": 72, "end": 83, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p09", "text": "control flow", "start": 176, "end": 188, "kind": "concept", "entity_type": null},
+  {"passage_id": "n1-p09", "text": "LLM-as-judge", "start": 364, "end": 376, "kind": "concept", "entity_type": null}
+]}

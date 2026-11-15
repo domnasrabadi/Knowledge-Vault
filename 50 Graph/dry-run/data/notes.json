@@ -1,0 +1,35 @@
+[
+ {
+  "id": "n1",
+  "path": "10 Sources/Articles/⭐️ LLM-as-Judge Architectures (inc. runtime judges).md",
+  "title": "LLM-as-Judge Architectures (inc. runtime judges)",
+  "type": "article",
+  "status": "raw",
+  "quality": "1",
+  "published": "2026-09-08",
+  "created": "2026-09-13",
+  "author": "Josh Rosen"
+ },
+ {
+  "id": "n2",
+  "path": "10 Sources/Articles/⭐️ How to Use LLM-Judges Properly.md",
+  "title": "How to Use LLM-Judges Properly",
+  "type": "article",
+  "status": "structured",
+  "quality": "1",
+  "published": "",
+  "created": "2026-01-01",
+  "author": "Manthan Gupta"
+ },
+ {
+  "id": "n3",
+  "path": "10 Sources/Articles/⭐️⭐️ Evals for AI Agents (Anthropic).md",
+  "title": "Evals for AI Agents (Anthropic)",
+  "type": "article",
+  "status": "raw",
+  "quality": "2",
+  "published": "2026-01-09",
+  "created": "2026-01-10",
+  "author": "anthropic.com"
+ }
+]
