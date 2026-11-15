@@ -1,0 +1,6 @@
+{"missed": [
+  {"quote": "two agents could independently perform a piece of analysis and another model could compare the results",
+   "text": "In a runtime architecture, two agents could independently perform the same piece of analysis and another model could compare their results.",
+   "importance": "minor",
+   "reason": "The nearest extracted claim covers only choosing between several plans and comparing a proposed action with an alternative, not comparing two agents' independent analyses."}
+]}

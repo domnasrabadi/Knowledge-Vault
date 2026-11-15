@@ -1,0 +1,10 @@
+{"missed": [
+  {"quote": "breaking point often comes when users report the agent feels worse after changes, and the team is ‘flying blind’ with no way to verify except to guess and check.",
+   "text": "The breaking point for building agents without evals often comes when users report the agent feels worse after changes and the team, flying blind, can only guess and check.",
+   "importance": "core",
+   "reason": "The nearest extracted claim covers reactive debugging without evaluations, but none says the breaking point is users reporting the agent feels worse while the team has no way to verify."},
+  {"quote": "These evals helped identify issues, guide improvements, and focus research-product collaborations.",
+   "text": "At Anthropic, evals added to Claude Code helped identify issues, guide improvements, and focus research-product collaborations.",
+   "importance": "minor",
+   "reason": "The nearest claims cover when the Claude Code evals were added and that they combine with other signals, but not what the evals helped with."}
+]}

@@ -1,0 +1,56 @@
+[
+ {
+  "note": "n1",
+  "k": 1,
+  "passage": "n1-p04",
+  "claims_citing": 4
+ },
+ {
+  "note": "n1",
+  "k": 2,
+  "passage": "n1-p09",
+  "claims_citing": 5
+ },
+ {
+  "note": "n1",
+  "k": 3,
+  "passage": "n1-p06",
+  "claims_citing": 5
+ },
+ {
+  "note": "n2",
+  "k": 1,
+  "passage": "n2-p07",
+  "claims_citing": 4
+ },
+ {
+  "note": "n2",
+  "k": 2,
+  "passage": "n2-p10",
+  "claims_citing": 6
+ },
+ {
+  "note": "n2",
+  "k": 3,
+  "passage": "n2-p02",
+  "claims_citing": 7
+ },
+ {
+  "note": "n3",
+  "k": 1,
+  "passage": "n3-p04",
+  "claims_citing": 6
+ },
+ {
+  "note": "n3",
+  "k": 2,
+  "passage": "n3-p23",
+  "claims_citing": 7
+ },
+ {
+  "note": "n3",
+  "k": 3,
+  "passage": "n3-p14",
+  "claims_citing": 7
+ }
+]

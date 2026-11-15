@@ -1,0 +1,6 @@
+{"groups": [], "relations": [
+  {"from": "c074", "to": "c025", "label": "refines", "supersedes": false, "qualifier": "when disagreement exceeds 20-30%, revisit the judge prompt or criteria", "reason": "c074 gives a specific threshold and one specific remedy for the general disagreement-driven change c025 describes.", "confidence": 0.7},
+  {"from": "c141", "to": "c038", "label": "refines", "supersedes": false, "qualifier": "for LLM-based rubrics grading research agents, calibrated frequently against expert judgment", "reason": "c141 applies calibration against humans to research-agent grading with a frequency requirement.", "confidence": 0.7},
+  {"from": "c165", "to": "c038", "label": "refines", "supersedes": false, "qualifier": "calibrated closely against human experts until little divergence remains, with careful iteration", "reason": "c165 specifies how close and how thorough the calibration must be, beyond the general requirement in c038.", "confidence": 0.65},
+  {"from": "c167", "to": "c083", "label": "contradicts", "supersedes": false, "qualifier": null, "reason": "c167 says occasional human review suffices once an evaluation system is robust, while c083 says regular comparison against humans is the only way to know the judge still works.", "confidence": 0.55}
+ ]}

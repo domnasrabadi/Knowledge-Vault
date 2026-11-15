@@ -1,0 +1,6 @@
+{"missed": [
+  {"quote": "It also often surfaces key details about agent and eval behavior.",
+   "text": "Reading eval transcripts often surfaces key details about agent behavior and eval behavior.",
+   "importance": "minor",
+   "reason": "The nearest extracted claim says the transcript shows whether a failure was a genuine agent mistake or a grader rejecting a valid solution, but not this broader benefit."}
+]}

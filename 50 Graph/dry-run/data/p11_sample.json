@@ -1,0 +1,272 @@
+[
+ {
+  "note": "n1",
+  "item": 1,
+  "claim": "c028",
+  "passage": "n1-p08"
+ },
+ {
+  "note": "n1",
+  "item": 2,
+  "claim": "c029",
+  "passage": "n1-p08"
+ },
+ {
+  "note": "n1",
+  "item": 3,
+  "claim": "c033",
+  "passage": "n1-p09"
+ },
+ {
+  "note": "n1",
+  "item": 4,
+  "claim": "c016",
+  "passage": "n1-p06"
+ },
+ {
+  "note": "n1",
+  "item": 5,
+  "claim": "c027",
+  "passage": "n1-p08"
+ },
+ {
+  "note": "n1",
+  "item": 6,
+  "claim": "c018",
+  "passage": "n1-p06"
+ },
+ {
+  "note": "n1",
+  "item": 7,
+  "claim": "c006",
+  "passage": "n1-p03"
+ },
+ {
+  "note": "n1",
+  "item": 8,
+  "claim": "c005",
+  "passage": "n1-p02"
+ },
+ {
+  "note": "n1",
+  "item": 9,
+  "claim": "c025",
+  "passage": "n1-p07"
+ },
+ {
+  "note": "n1",
+  "item": 10,
+  "claim": "c030",
+  "passage": "n1-p09"
+ },
+ {
+  "note": "n1",
+  "item": 11,
+  "claim": "c015",
+  "passage": "n1-p05"
+ },
+ {
+  "note": "n1",
+  "item": 12,
+  "claim": "c020",
+  "passage": "n1-p06"
+ },
+ {
+  "note": "n1",
+  "item": 13,
+  "claim": "c019",
+  "passage": "n1-p06"
+ },
+ {
+  "note": "n1",
+  "item": 14,
+  "claim": "c026",
+  "passage": "n1-p08"
+ },
+ {
+  "note": "n1",
+  "item": 15,
+  "claim": "c003",
+  "passage": "n1-p02"
+ },
+ {
+  "note": "n2",
+  "item": 1,
+  "claim": "c074",
+  "passage": "n2-p10"
+ },
+ {
+  "note": "n2",
+  "item": 2,
+  "claim": "c057",
+  "passage": "n2-p05"
+ },
+ {
+  "note": "n2",
+  "item": 3,
+  "claim": "c039",
+  "passage": "n2-p13"
+ },
+ {
+  "note": "n2",
+  "item": 4,
+  "claim": "c037",
+  "passage": "n2-p11"
+ },
+ {
+  "note": "n2",
+  "item": 5,
+  "claim": "c035",
+  "passage": "n2-p13"
+ },
+ {
+  "note": "n2",
+  "item": 6,
+  "claim": "c068",
+  "passage": "n2-p09"
+ },
+ {
+  "note": "n2",
+  "item": 7,
+  "claim": "c078",
+  "passage": "n2-p11"
+ },
+ {
+  "note": "n2",
+  "item": 8,
+  "claim": "c047",
+  "passage": "n2-p13"
+ },
+ {
+  "note": "n2",
+  "item": 9,
+  "claim": "c060",
+  "passage": "n2-p07"
+ },
+ {
+  "note": "n2",
+  "item": 10,
+  "claim": "c065",
+  "passage": "n2-p08"
+ },
+ {
+  "note": "n2",
+  "item": 11,
+  "claim": "c058",
+  "passage": "n2-p07"
+ },
+ {
+  "note": "n2",
+  "item": 12,
+  "claim": "c077",
+  "passage": "n2-p11"
+ },
+ {
+  "note": "n2",
+  "item": 13,
+  "claim": "c037",
+  "passage": "n2-p07"
+ },
+ {
+  "note": "n2",
+  "item": 14,
+  "claim": "c075",
+  "passage": "n2-p10"
+ },
+ {
+  "note": "n2",
+  "item": 15,
+  "claim": "c034",
+  "passage": "n2-p01"
+ },
+ {
+  "note": "n3",
+  "item": 1,
+  "claim": "c186",
+  "passage": "n3-p27"
+ },
+ {
+  "note": "n3",
+  "item": 2,
+  "claim": "c148",
+  "passage": "n3-p18"
+ },
+ {
+  "note": "n3",
+  "item": 3,
+  "claim": "c093",
+  "passage": "n3-p02"
+ },
+ {
+  "note": "n3",
+  "item": 4,
+  "claim": "c092",
+  "passage": "n3-p02"
+ },
+ {
+  "note": "n3",
+  "item": 5,
+  "claim": "c089",
+  "passage": "n3-p02"
+ },
+ {
+  "note": "n3",
+  "item": 6,
+  "claim": "c108",
+  "passage": "n3-p28"
+ },
+ {
+  "note": "n3",
+  "item": 7,
+  "claim": "c192",
+  "passage": "n3-p28"
+ },
+ {
+  "note": "n3",
+  "item": 8,
+  "claim": "c113",
+  "passage": "n3-p05"
+ },
+ {
+  "note": "n3",
+  "item": 9,
+  "claim": "c157",
+  "passage": "n3-p20"
+ },
+ {
+  "note": "n3",
+  "item": 10,
+  "claim": "c088",
+  "passage": "n3-p28"
+ },
+ {
+  "note": "n3",
+  "item": 11,
+  "claim": "c180",
+  "passage": "n3-p24"
+ },
+ {
+  "note": "n3",
+  "item": 12,
+  "claim": "c141",
+  "passage": "n3-p14"
+ },
+ {
+  "note": "n3",
+  "item": 13,
+  "claim": "c123",
+  "passage": "n3-p11"
+ },
+ {
+  "note": "n3",
+  "item": 14,
+  "claim": "c138",
+  "passage": "n3-p14"
+ },
+ {
+  "note": "n3",
+  "item": 15,
+  "claim": "c156",
+  "passage": "n3-p19"
+ }
+]

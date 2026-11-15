@@ -1,0 +1,4 @@
+{"groups": [], "relations": [
+  {"from": "c166", "to": "c007", "label": "refines", "supersedes": false, "qualifier": "using clear structured rubrics per task dimension, each graded by its own isolated judge", "reason": "c166 is one specific way of breaking judgment into smaller decisions, with per-dimension rubrics and separate judges.", "confidence": 0.6},
+  {"from": "c075", "to": "c036", "label": "refines", "supersedes": false, "qualifier": "ensembling judges from multiple model families, costlier but worthwhile in high-stakes evaluations", "reason": "c075 adds the model-family and high-stakes conditions and a cost trade-off to the general claim that ensembling works well.", "confidence": 0.65}
+ ]}

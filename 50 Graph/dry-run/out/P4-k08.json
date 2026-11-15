@@ -1,0 +1,4 @@
+{"groups": [], "relations": [
+  {"from": "c165", "to": "c038", "label": "refines", "supersedes": false, "qualifier": "calibrated against human experts closely enough that little divergence remains, validated through careful iteration", "reason": "c165 is the calibrate-before-trusting requirement with a specific standard of agreement and process.", "confidence": 0.62},
+  {"from": "c141", "to": "c038", "label": "refines", "supersedes": false, "qualifier": "for LLM-based rubrics grading research agents, calibrated frequently against expert judgment", "reason": "c141 applies the calibration requirement to a narrower setting (research-agent rubrics) and adds a frequency.", "confidence": 0.6}
+]}

@@ -1,0 +1,46 @@
+[
+ {
+  "note": "n1",
+  "k": 1,
+  "passage": "n1-p04",
+  "claims_citing": 4,
+  "quote": "two agents could independently perform a piece of analysis and another model could compare the results",
+  "text": "In a runtime architecture, two agents could independently perform the same piece of analysis and another model could compare their results.",
+  "importance": "minor",
+  "reason": "The nearest extracted claim covers only choosing between several plans and comparing a proposed action with an alternative, not comparing two agents' independent analyses.",
+  "quote_found": true
+ },
+ {
+  "note": "n3",
+  "k": 1,
+  "passage": "n3-p04",
+  "claims_citing": 6,
+  "quote": "breaking point often comes when users report the agent feels worse after changes, and the team is ‘flying blind’ with no way to verify except to guess and check.",
+  "text": "The breaking point for building agents without evals often comes when users report the agent feels worse after changes and the team, flying blind, can only guess and check.",
+  "importance": "core",
+  "reason": "The nearest extracted claim covers reactive debugging without evaluations, but none says the breaking point is users reporting the agent feels worse while the team has no way to verify.",
+  "quote_found": true
+ },
+ {
+  "note": "n3",
+  "k": 1,
+  "passage": "n3-p04",
+  "claims_citing": 6,
+  "quote": "These evals helped identify issues, guide improvements, and focus research-product collaborations.",
+  "text": "At Anthropic, evals added to Claude Code helped identify issues, guide improvements, and focus research-product collaborations.",
+  "importance": "minor",
+  "reason": "The nearest claims cover when the Claude Code evals were added and that they combine with other signals, but not what the evals helped with.",
+  "quote_found": true
+ },
+ {
+  "note": "n3",
+  "k": 2,
+  "passage": "n3-p23",
+  "claims_citing": 7,
+  "quote": "It also often surfaces key details about agent and eval behavior.",
+  "text": "Reading eval transcripts often surfaces key details about agent behavior and eval behavior.",
+  "importance": "minor",
+  "reason": "The nearest extracted claim says the transcript shows whether a failure was a genuine agent mistake or a grader rejecting a valid solution, but not this broader benefit.",
+  "quote_found": true
+ }
+]
